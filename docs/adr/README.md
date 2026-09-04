@@ -14,3 +14,4 @@ was expensive to reach, and reversing it would cost more than reading it.
 | [0003](./0003-skill-body-shape.md) | 140-line ceiling, no `MUST`/`NEVER` block |
 | [0004](./0004-contracts-earn-their-place.md) | A contract survives only if it is read in-body |
 | [0005](./0005-warm-and-cold-session-boundaries.md) | Two session boundaries, warm and cold; no slash commands |
+| [0006](./0006-the-slice-loop-composes.md) | The slice loop is four skills that compose global ones |
