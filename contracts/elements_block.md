@@ -14,9 +14,9 @@
 This contract defines the optional `elements:` block on screen frontmatter
 files at `experience/screens/<group>/<screen>.md`. It is consumed by:
 
-- **Walkthrough renderers** (`mockup-walkthrough-*`) — emit stable HTML
+- **The walkthrough renderers** (`mockup-walkthrough`) — emit stable HTML
   attributes per element so annotations can survive regenerations.
-- **The mockup-feedback cluster** (`mockup-feedback-*`) — anchors annotations
+- **The feedback skills** (`mockup-annotate`, `mockup-feedback`) — anchors annotations
   to specific elements and promotes auto-slugged IDs to explicit ones.
 
 The `elements:` block is **optional** for hand-written screens. Absence (or
@@ -172,7 +172,7 @@ promote to explicit on first annotation):
 
 1. **Initial render.** Walkthrough auto-slugs IDs from labels/text. Marks
    all IDs `provisional`.
-2. **First annotation on a provisional element.** `mockup-feedback-triage`
+2. **First annotation on a provisional element.** `mockup-feedback`
    prompts to promote the ID to explicit. The promoted ID gets written
    into the screen's `elements:` frontmatter via patch.
 3. **Subsequent renders.** Use the promoted ID, no longer provisional.
@@ -359,7 +359,7 @@ auto-slugs from the visible label and emits:
 </button>
 ```
 
-On the first annotation, `mockup-feedback-triage` prompts the user to
+On the first annotation, `mockup-feedback` prompts the user to
 promote `sign-in` to an explicit entry; the patch writes it into
 frontmatter and subsequent renders drop `data-spec-provisional`.
 

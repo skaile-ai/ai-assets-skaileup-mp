@@ -1,19 +1,21 @@
 # Walkthrough Renderer Contract
 
-**schema_version: "1.2"** · Owner of everything shared by the four
-`mockup-walkthrough-*` renderers: `static-html` (reference implementation),
-`astro`, `lit`, `framework`. Each renderer's SKILL.md owns ONLY its
-technology-specific scaffold (build setup, templates, config) and cites this
-file for the behaviour below. The `mockup-feedback-*` cluster resolves clicks
-identically across renderers because of this contract.
+**schema_version: "1.2"** · Owner of everything shared by the two walkthrough
+renderers: `static-html` (reference implementation) and `astro`. Both live in
+one skill — `mockup-walkthrough` — which sequences this contract; each
+renderer's `references/<renderer>/RENDERER.md` owns ONLY its
+technology-specific scaffold (build setup, templates, config) and the handful
+of places it reads this file differently. `mockup-annotate` and
+`mockup-feedback` resolve clicks identically across renderers because of this
+contract.
 
 **Change policy.** Pinned. Do not change any table, field name, or warning
-kind without a coordinated update to `mockup-feedback-annotate` and a
+kind without a coordinated update to `mockup-annotate` and a
 `schema_version` bump. `"1.0"` → `"1.2"` (this revision) is a direct,
 additive-only bump — no table, field, or warning kind was renamed or
 removed, only added (target resolution, app-shell nav, content synthesis,
 narrowed auto-slug, spec panel); no intermediate minor revision was ever
-published. `mockup-feedback-annotate` pins `^1.0` and was verified
+published. `mockup-annotate` pins `^1.0` and was verified
 compatible with this revision (see Task 9,
 `docs/devlog/2026-07-05-mockup-merged-execution-plan.md`).
 
@@ -162,7 +164,37 @@ a partial one, the renderer MUST:
   4. Append a `warnings[]` entry of `kind: "auto_slugged"` to
      `manifest.json` for each auto-slugged element.
   5. **Never** mutate the source `experience/screens/<group>/<name>.md`
-     file. Promotion of provisional ids is `mockup-feedback-triage`'s job.
+     file. Promotion of provisional ids is `mockup-feedback`'s job.
+
+## `items[]` id derivation
+
+Applies to the entries of a `nav`, `tabs` or `list` element, and to the
+shell-authoritative app nav above. `elements_block.md` leaves `id` optional on
+`nav` and `tabs` items and defines no `id` field on `list` items at all, so an
+id-less entry is the normal case, not an edge case — every renderer needs this
+rule and every renderer has to agree on it, because feedback resolves a click
+on a list item by the id the renderer wrote.
+
+  1. **An entry that declares `id:`** uses it verbatim: no
+     `data-spec-provisional`, no warning.
+  2. **An entry without `id:`** gets one derived by the § Auto-slug fallback
+     kebab-slug algorithm (lowercase the label, non-alphanumeric runs → `-`,
+     trim and collapse dashes, `<kind>-<n>` when the label slugs to empty),
+     **scoped to that element's own `items[]`**. A collision suffix
+     (`-2`, `-3`, …) disambiguates only within the same element's items, never
+     across the whole screen.
+  3. Render the item's node — the `<li>` for `list`, the `<a>` or
+     `<span class="tab">` for `tabs`, the `<a>` for `nav` — with
+     `data-spec-element="<derived-id>"` **and** `data-spec-provisional="true"`.
+  4. Append one `warnings[]` entry of `kind: "auto_slugged"` per id-less item
+     (`element_id` = the derived item id, `screen_path` = that screen's path),
+     the same shape as any other `auto_slugged` warning.
+
+This follows from the § data-spec-* attribute table, which names "list items,
+nav items" as `data-spec-provisional`-eligible whenever no explicit `elements:`
+entry exists for them: an id-less `items[]` entry establishes no identity of
+its own — it is derived from `label` — exactly like a top-level auto-slugged
+widget.
 
 ## Spec reference panel
 
@@ -189,10 +221,9 @@ element, placed after the synthesized UI and before the page footer.
 
 ## Manifest schema
 
-The contract handed to `mockup-feedback-annotate`. Field names pinned exactly.
-`<variant>` is the renderer's short name (`static-html`, `astro`, `lit`,
-`framework`); `renderer_version` is the renderer SKILL.md's
-`metadata.version`.
+The contract handed to `mockup-annotate`. Field names pinned exactly.
+`<variant>` is the renderer's short name (`static-html` or `astro`);
+`renderer_version` is `mockup-walkthrough`'s `version`.
 
 ```json
 {
@@ -316,8 +347,8 @@ The contract handed to `mockup-feedback-annotate`. Field names pinned exactly.
     raw `screen_id`. This is NOT the same form as `screens[].elements[].target`,
     which is the declared/verbatim value (see below) — the two fields look
     similar but carry opposite kinds of value. The resolved href is also
-    renderer-scheme-specific: static-html and lit emit a relative `.html`
-    path (e.g. `"../20_tasks/task_list.html"`), astro and framework emit a
+    renderer-scheme-specific: static-html emits a relative `.html`
+    path (e.g. `"../20_tasks/task_list.html"`), astro emits a
     root-relative extension-less path (e.g. `"/screen/20_tasks/task_list"`);
     a consumer reading only the manifest should not assume one portable
     scheme across renderers.
@@ -361,7 +392,7 @@ The contract handed to `mockup-feedback-annotate`. Field names pinned exactly.
 `unknown_element_kind`, `missing_screen`, `missing_screen_sequence`,
 `no_journeys`, `unresolved_target`, `no_explicit_elements`.
 Renderer-specific additions are allowed and documented in that
-renderer's SKILL.md (e.g. astro's `stale_tailwind_config`). Extend cautiously
+renderer's `RENDERER.md` (e.g. astro's `stale_tailwind_config`). Extend cautiously
 — the feedback cluster switches on this field.
 
 ## Shared error handling
