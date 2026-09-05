@@ -9,7 +9,16 @@ Every skill node (or its group container) declares `data.phase` —
 fallback in forge-concept's `phaseForNode`, which is why the domain names were free to
 change.
 
-Machine form of the contract: [`../contracts/flow.schema.json`](../contracts/flow.schema.json).
+The contract has no schema file — it is enforced by [`../scripts/check.py`](../scripts/check.py),
+which is the only thing that reads a flow besides the hosts.
 
-**Empty on purpose.** The flow set is being decided; flows are authored once the domains
-they order exist.
+**Four flows, and a flow *is* the tier.** `appbuilder-mvp` and `appbuilder-standard` build
+an app; `skaileup-concept-only` stops at a specified product; `skaileup-concept-reverse`
+starts from an existing repository instead of from scope. There are no sub-flows and no
+shared building blocks — every flow the loader finds becomes a card in the onboarding
+wizard, so a flow that is not a way to start a project has no business being one.
+
+Each flow carries three group nodes and repeats their `data.phase` on every skill node.
+The per-feature loops are **not** in the graph: the host orders nodes only along
+`type: flow` edges, so `spec-feature`, `build-plan` and `build-implement` state their own
+iteration and the graph shows one pass, marked by a comment at the loop's first node.

@@ -1,0 +1,147 @@
+id: skaileup-concept-reverse
+version: "0.1.0"
+name: Reverse Engineer a Codebase
+description: >-
+  Builds a concept out of an existing repository. Discovers the stack and grades its
+  own confidence, reads the codebase's standards, then reconstructs journeys,
+  featuresets, the shell and every feature spec from what the code actually does,
+  finishing with the system and data-model blueprint and a concept review.
+  The one flow that does not start at scope — the repository is the input.
+meta:
+  icon: i-heroicons-arrow-path
+  onboarding:
+    input_style: repo
+    fields:
+      - repo_url
+      - branch
+      - context
+requires:
+  # Exact and self-contained: every skill this flow's own nodes run, plus every
+  # contract those skills read. No inheritance, no extras.
+  - contract:@skaile-ai/acceptance_criteria
+  - contract:@skaile-ai/agent_patterns
+  - contract:@skaile-ai/artifact_frontmatter
+  - contract:@skaile-ai/concept_structure
+  - contract:@skaile-ai/domain_model
+  - contract:@skaile-ai/elements_block
+  - contract:@skaile-ai/evaluator
+  - contract:@skaile-ai/feedback_loop
+  - contract:@skaile-ai/golden_principles
+  - contract:@skaile-ai/seed_data
+  - contract:@skaile-ai/semantic_types
+  - contract:@skaile-ai/slice_loop
+  - contract:@skaile-ai/walkthrough_renderer
+  - skill:@skaile-ai/concept-reverse
+  - skill:@skaile-ai/quality-standards
+  - skill:@skaile-ai/experience-journeys
+  - skill:@skaile-ai/spec-featuresets
+  - skill:@skaile-ai/experience-shell
+  - skill:@skaile-ai/spec-feature
+  - skill:@skaile-ai/architecture-system
+  - skill:@skaile-ai/architecture-datamodel
+  - skill:@skaile-ai/ops-review
+globals:
+  research_depth: light
+entry: reverse
+nodes:
+  # Phase containers. They carry the swimlane geometry and the phase every child
+  # repeats on its own node — the group's phase wins where the two are read together
+  # (forge-concept `flow-layout.ts`), so both come from one table. This flow builds
+  # nothing, so the implementation container stays empty.
+  - id: g-conceptualization
+    type: group
+    position: { x: 0, y: 0 }
+    style: { width: 1680, height: 240 }
+    data:
+      label: Conceptualization
+      phase: conceptualization
+  - id: g-implementation
+    type: group
+    position: { x: 1720, y: 0 }
+    style: { width: 280, height: 240 }
+    data:
+      label: Implementation
+      phase: implementation
+  - id: g-review
+    type: group
+    position: { x: 2040, y: 0 }
+    style: { width: 280, height: 240 }
+    data:
+      label: Review
+      phase: review
+
+  - id: reverse
+    type: skill
+    parentNode: g-conceptualization
+    data:
+      skill: concept-reverse
+      label: Reverse Engineer
+      phase: conceptualization
+  - id: standards
+    type: skill
+    parentNode: g-conceptualization
+    data:
+      skill: quality-standards
+      label: Standards
+      phase: conceptualization
+  - id: journeys
+    type: skill
+    parentNode: g-conceptualization
+    data:
+      skill: experience-journeys
+      label: Journeys
+      phase: conceptualization
+  - id: featuresets
+    type: skill
+    parentNode: g-conceptualization
+    data:
+      skill: spec-featuresets
+      label: Featuresets
+      phase: conceptualization
+  - id: shell
+    type: skill
+    parentNode: g-conceptualization
+    data:
+      skill: experience-shell
+      label: App Shell
+      phase: conceptualization
+  # spec-feature runs once per feature and writes that feature's screens; the graph
+  # below shows one iteration. The loop lives in the skill body.
+  - id: feature
+    type: skill
+    parentNode: g-conceptualization
+    data:
+      skill: spec-feature
+      label: Feature Spec
+      phase: conceptualization
+  - id: system
+    type: skill
+    parentNode: g-conceptualization
+    data:
+      skill: architecture-system
+      label: System
+      phase: conceptualization
+  - id: datamodel
+    type: skill
+    parentNode: g-conceptualization
+    data:
+      skill: architecture-datamodel
+      label: Data Model
+      phase: conceptualization
+
+  - id: ops-review
+    type: skill
+    parentNode: g-review
+    data:
+      skill: ops-review
+      label: Concept Review
+      phase: review
+edges:
+  - { id: e-reverse-standards, source: reverse, target: standards, type: flow }
+  - { id: e-standards-journeys, source: standards, target: journeys, type: flow }
+  - { id: e-journeys-featuresets, source: journeys, target: featuresets, type: flow }
+  - { id: e-featuresets-shell, source: featuresets, target: shell, type: flow }
+  - { id: e-shell-feature, source: shell, target: feature, type: flow }
+  - { id: e-feature-system, source: feature, target: system, type: flow }
+  - { id: e-system-datamodel, source: system, target: datamodel, type: flow }
+  - { id: e-datamodel-ops-review, source: datamodel, target: ops-review, type: flow }
