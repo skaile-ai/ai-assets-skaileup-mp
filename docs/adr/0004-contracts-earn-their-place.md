@@ -37,3 +37,11 @@ would.
 - `iron_laws` and `golden_principles` are **not** in tension with ADR 0003 — that ADR removed
   `MUST`/`NEVER` prose from skill bodies, while these document machine-enforced gates, which
   is exactly the "check behind a named failure" it asks for.
+
+---
+
+**Superseded in part by [ADR 0008](0008-gates-live-at-the-step-they-bind.md)** (2026-09-05).
+The `iron_laws` half of the final consequence no longer holds: `contracts/iron_laws.md` is
+deleted, and gates are declared in `prerequisites.files[]` at the skill they bind and stated
+at the step they bind. The `golden_principles` half is left standing but undecided — 0008
+rules on gate registers only. The bar in **Decision** is unchanged; 0008 applies it.

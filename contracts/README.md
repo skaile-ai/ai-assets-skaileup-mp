@@ -19,8 +19,7 @@ documents that described the collection to itself.
 | `domain_model.md` | Any skill that pins a term or records a decision — glossary format, the ADR format, and the three-test gate that decides whether a decision is worth recording |
 | `semantic_types.md` | The data-model skills — stack-independent types and the translation table |
 | `seed_data.md` | The data-model skills — scenario-based seed conventions |
-| `golden_principles.md` | The mechanical rules for `_concept/` artifacts: entity naming, enums, cross-references |
-| `iron_laws.md` | The gates that decide whether a skill may run at all, expressed in each skill's `prerequisites.files[].gate` |
+| `golden_principles.md` | The mechanical rules for `_concept/` artifacts: entity naming, enums, cross-references. **No reader in this repo yet** — `lint_concept.py`, the machine ADR 0004 kept it for, was deleted by ticket 16 and had inverted its rules anyway; it is kept against the datamodel writer and the `ops` audit skill, and dies with them if they do not arrive |
 | `agent_patterns.md` | Any skill that dispatches a subagent — dispatch shape, standalone mode, research mode |
 | `evaluator.md` | The shared stance and deduction mechanics every evaluator skill cites. **No reader in this repo yet** — the `quality` and `ops` skills that read it are not written; it is kept against them, and dies with them if they do not arrive |
 
