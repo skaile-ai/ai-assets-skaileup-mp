@@ -3,6 +3,8 @@ name: build-plan
 description: "Use when a frozen feature spec needs breaking into buildable work — cuts the feature into vertical slices, gives each its blocking edges, and writes one slice dossier per slice. Triggers on 'plan this feature', 'break it into slices', 'what do we build first'."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: features }

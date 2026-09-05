@@ -3,6 +3,8 @@ name: ops-review
 description: "Use when _concept/ needs a health check, its cross-references have drifted, or you want to know whether every feature is actually built and shipped. Produces the review verdict and the feature-to-code trace matrix, each finding naming the skill that fixes it. Triggers on 'audit the concept', 'check for issues', 'fix the links', 'is every feature done', 'what code belongs to no feature'."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: brief }

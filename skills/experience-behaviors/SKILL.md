@@ -3,6 +3,8 @@ name: experience-behaviors
 description: "Use when the featuresets are settled and an entity's lifecycle has enough states that prose stops being precise about it. Writes the state machines and rules the data model and the screens are built against. Triggers on 'state machine', 'behavioral rules', 'formalize the lifecycle', 'what states can this be in'."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: featuresets }

@@ -1,13 +1,21 @@
 # contracts/
 
-The shared reference layer. A contract is here because a skill **reads it at a step in
-its body** — naming a file is a citation, not a reading, and citations do not earn a
-contract. Nothing here is invocable.
+The shared reference layer. A **contract file** is here because a skill **reads it at a
+step in its body** — naming a file is a citation, not a reading, and citations do not
+earn one. Nothing here is invocable.
 
 Thirteen files. The old collection had twenty-eight; the difference is almost entirely
 documents that described the collection to itself.
 
-| File | What reads it, and for what |
+All thirteen install as **one asset**: `CONTRACT.md` beside them declares
+`name: shared-contracts`, and `contract` is a dir-scoped kind, so the directory deploys
+whole to `.claude/contracts/shared-contracts/`. Without that manifest, discovery finds
+nothing here and every `contract:` reference in a flow or a skill names an asset that
+does not exist. A skill that cites any file below declares
+`contract:@skaile-ai/shared-contracts` in its `metadata.requires`; `scripts/check.py`
+gates both directions.
+
+| Contract file | What reads it, and for what |
 |---|---|
 | `concept_structure.md` | Every skill that writes an artifact — the canonical `_concept/` tree. The only place the tree is stated; `scripts/check.py` parses this file's fenced block to decide whether a declared path exists |
 | `artifact_frontmatter.md` | Every skill that writes a `_concept/` markdown file — the YAML fields per artifact type |

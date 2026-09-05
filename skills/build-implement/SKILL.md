@@ -3,6 +3,8 @@ name: build-implement
 description: "Use when a planned vertical slice is ready to build — implements it test-first, reviews it against its spec, then commits it and freezes its dossier. Triggers on 'build this slice', 'implement the next slice', 'land it'."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: slice-plan }

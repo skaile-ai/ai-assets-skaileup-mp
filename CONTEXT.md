@@ -10,8 +10,23 @@ a thing lives is `contracts/concept_structure.md`'s job; what it *is* is this fi
 ## The collection
 
 **Asset**:
-A versioned thing this repo ships — a skill, a flow, a contract, or a reference file.
+A versioned thing this repo ships and a workspace installs — a skill, a flow, or a
+contract. The unit of identity and of install; a file that is not part of one reaches
+no workspace.
 _Avoid_: resource, module, package
+
+**Contract**:
+The collection's shared reference layer, as an asset: one dir-scoped thing named
+`shared-contracts`, installed whole. Singular because the directory installs as one —
+what a skill actually cites is a contract file inside it.
+_Avoid_: reference file, shared docs
+
+**Contract file**:
+One document in the contract — the canonical `_concept/` tree, the EARS grammar, the
+walkthrough renderer spec. A file earns its place by being **read at a step in a skill's
+body**; naming it is a citation, not a reading. Cited by repo-relative path, which is the
+path that resolves where the gate reads it and not where the skill runs.
+_Avoid_: contract (bare, for a single document)
 
 **Skill**:
 One unit of agent work with a `name:` that is its whole identity — install path, flow
@@ -25,7 +40,7 @@ _Avoid_: pipeline, workflow, chain, tier
 
 **Phase**:
 The lane a flow node belongs to — conceptualization, implementation, or review. A
-machine-read contract with forge-concept; never used loosely for "stage of work".
+machine-read interface with forge-concept; never used loosely for "stage of work".
 _Avoid_: stage, step, lane
 
 **Session boundary**:

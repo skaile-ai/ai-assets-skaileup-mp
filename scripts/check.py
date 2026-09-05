@@ -225,7 +225,17 @@ def check_tree_names(repo: Path, rep: Report) -> None:
 # citations — every asset kind cites contracts, and contracts are pruned hard
 # --------------------------------------------------------------------------
 
-CONTRACT_REF_RE = re.compile(r"`?contracts/([A-Za-z0-9_./-]+)`?")
+# The lookbehind keeps a *deployed* path out of the citation set: a skill cites
+# `contracts/x.md` repo-relatively, while `.claude/contracts/shared-contracts/` names
+# where the asset lands and is not a file in this repo.
+CONTRACT_REF_RE = re.compile(r"(?<![A-Za-z0-9_./-])`?contracts/([A-Za-z0-9_./-]+)`?")
+
+# The whole reference layer installs as one dir-scoped asset: `contracts/CONTRACT.md`
+# names it, and `contract` is a dir-scoped kind, so the directory deploys whole. A
+# per-file `contract:` ref could never resolve — `_` is not a legal asset-name
+# character, so `acceptance_criteria` would index as `acceptance-criteria` even with a
+# manifest of its own.
+CONTRACT_ASSET = "shared-contracts"
 
 
 def _cited_contracts(text: str) -> list[str]:
@@ -258,6 +268,38 @@ def _contract_names(text: str) -> set[str]:
 # skills
 # --------------------------------------------------------------------------
 
+def _declared_contract_assets(fm: dict) -> set[str]:
+    """The contract assets this skill's `metadata.requires` names."""
+    metadata = fm.get("metadata")
+    if not isinstance(metadata, dict):
+        return set()
+    requires = metadata.get("requires")
+    if not isinstance(requires, list):
+        return set()
+    out: set[str] = set()
+    for ref in requires:
+        m = REF_RE.match(str(ref))
+        if m and m.group(1) == "contract":
+            out.add(m.group(3))
+    return out
+
+
+def _check_skill_contract_dep(fm: dict, cited: set[str], where: str, rep: Report) -> None:
+    """Cite a contract file and you declare the contract asset — and vice versa."""
+    declared = _declared_contract_assets(fm)
+    for wrong in sorted(declared - {CONTRACT_ASSET}):
+        rep.error(where, f"declares contract {wrong!r}, but the only contract asset is {CONTRACT_ASSET!r}")
+    if cited and CONTRACT_ASSET not in declared:
+        rep.error(
+            where,
+            f"cites {len(cited)} contract file(s) but does not declare "
+            f"`contract:@skaile-ai/{CONTRACT_ASSET}` in `metadata.requires` — "
+            "nothing would install what it reads",
+        )
+    if not cited and CONTRACT_ASSET in declared:
+        rep.error(where, f"declares {CONTRACT_ASSET!r} but cites no contract file")
+
+
 def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]]:
     """Check every skill.
 
@@ -286,6 +328,12 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
         if not fm:
             rep.error(where, "SKILL.md has no parseable YAML frontmatter")
             continue
+
+        # The reader declares its own dependency. A skill's `metadata.requires` is the
+        # one list with a live reader in the shipped installer — `AssetManager.doctor()`
+        # walks it to report a dependency that reached no workspace — while a flow's
+        # `requires:` provisions nothing (`bundleDeps` handles bundles only).
+        _check_skill_contract_dep(fm, contracts[directory], where, rep)
 
         # 1. identity. Three of the four roles a skill name plays resolve
         #    through the directory, and forge-concept never reads `name:` for
@@ -366,6 +414,29 @@ def _prerequisite_paths(fm: dict) -> list[str]:
 # --------------------------------------------------------------------------
 # contracts
 # --------------------------------------------------------------------------
+
+def check_contract_manifest(repo: Path, rep: Report) -> None:
+    """Without `contracts/CONTRACT.md`, discovery finds no contract at all.
+
+    Same failure ticket 29 gated for flows, from the other side: the installer indexes
+    the asset under its slugified `name:`, so a name that does not slugify to what every
+    `contract:` ref says leaves those refs naming nothing.
+    """
+    where = "contracts/CONTRACT.md"
+    manifest = repo / "contracts" / "CONTRACT.md"
+    if not manifest.is_file():
+        rep.error("contracts/", "has no `CONTRACT.md` — discovery finds no contract asset and every `contract:` ref names nothing")
+        return
+    fm, _body = split_frontmatter(manifest.read_text())
+    if not fm:
+        rep.error(where, "has no parseable YAML frontmatter — the manifest is the frontmatter")
+        return
+    name = fm.get("name")
+    if not name:
+        rep.error(where, "frontmatter has no `name:`")
+    elif _slugify_asset_name(str(name)) != CONTRACT_ASSET:
+        rep.error(where, f"`name:` {name!r} installs as {_slugify_asset_name(str(name))!r}, but every `contract:` ref names {CONTRACT_ASSET!r}")
+
 
 def check_contracts(repo: Path, rep: Report) -> None:
     """Contracts cite each other too, and are pruned aggressively."""
@@ -762,27 +833,26 @@ def _check_requires(
             rep.error(where, f"`requires:` lists flow {name!r}, but `-mp` ships no `sub-flow` nodes — nothing can delegate to it")
         elif kind == "contract":
             declared_contracts.add(name)
-            if not (repo / "contracts" / f"{name}.md").is_file():
+            if name != CONTRACT_ASSET:
                 unresolvable_contracts.add(name)
-                rep.error(where, f"`requires:` names contract {name!r}, but `contracts/{name}.md` does not exist")
+                rep.error(where, f"`requires:` names contract {name!r}, but the only contract asset is {CONTRACT_ASSET!r} — a per-file ref resolves to nothing")
 
     for missing in sorted(node_skills - declared_skills):
         rep.error(where, f"runs skill {missing!r} but does not list it in `requires:` — it would not be installed")
     for extra in sorted(declared_skills - node_skills):
         rep.error(where, f"`requires:` lists skill {extra!r}, which no node in this flow runs")
 
-    # `contract:` refs are exact too, not merely resolvable. The set is the union of what
-    # this flow's own node skills cite: a contract left out is not installed and the skill
-    # reads a file that is not there, and a contract listed but uncited is an install the
-    # flow does not need — the same "no inheritance, no extras" rule the `skill:` refs obey.
+    # The reference layer is one asset, so a flow's contract manifest is one ref or none:
+    # present when any of its own node skills reads a contract file, absent when none
+    # does. Per-file exactness is not expressible here and is gated on the skills, which
+    # is where the reading happens — `skill:` refs keep the "no inheritance, no extras"
+    # rule because a skill really is per-node.
     if node_skills and all(s in skill_contracts for s in node_skills):
-        cited: set[str] = set()
-        for skill in node_skills:
-            cited |= skill_contracts[skill]
-        for missing in sorted(cited - declared_contracts):
-            rep.error(where, f"its skills cite `contracts/{missing}.md`, which `requires:` does not list — it would not be installed")
-        for extra in sorted(declared_contracts - cited - unresolvable_contracts):
-            rep.error(where, f"`requires:` lists contract {extra!r}, which none of this flow's skills cite")
+        needed = any(skill_contracts[skill] for skill in node_skills)
+        if needed and CONTRACT_ASSET not in declared_contracts:
+            rep.error(where, f"its skills read contract files, but `requires:` does not list `contract:@skaile-ai/{CONTRACT_ASSET}` — the reference layer would not be installed")
+        if not needed and CONTRACT_ASSET in declared_contracts:
+            rep.error(where, f"`requires:` lists {CONTRACT_ASSET!r}, which none of this flow's skills read")
 
 
 # --------------------------------------------------------------------------
@@ -791,6 +861,7 @@ def run(repo: Path) -> Report:
     rep = Report()
     skill_names, skill_contracts = check_skills(repo, rep)
     check_contracts(repo, rep)
+    check_contract_manifest(repo, rep)
     check_tree_names(repo, rep)
     check_flows(repo, skill_names, skill_contracts, rep)
     return rep

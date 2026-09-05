@@ -3,6 +3,8 @@ name: experience-shell
 description: "Use when the featuresets are settled and the app needs its frame before individual screens are specified — navigation, layout areas, breakpoints, and the patterns every screen reuses. Triggers on 'app shell', 'navigation structure', 'what does the layout look like', 'design the frame'."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: brief }

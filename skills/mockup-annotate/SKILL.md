@@ -3,6 +3,8 @@ name: mockup-annotate
 description: "Use when a built walkthrough is ready for stakeholders to comment on. Injects the annotation overlay so a reader can click any element and leave a note, and prepares the session directory their notes come back to. Run mockup-feedback once the notes are in."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: walkthrough }

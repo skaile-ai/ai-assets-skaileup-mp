@@ -3,6 +3,8 @@ name: mockup-walkthrough
 description: "Use when stakeholders need a clickable walkthrough of the application — one page per screen and per journey, openable in a browser, plus the manifest.json mockup-annotate reads. Renders zero-build static HTML or a built Astro site; the renderer comes from the project, not from you."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: screens }

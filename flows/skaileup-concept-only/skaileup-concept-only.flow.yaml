@@ -16,19 +16,11 @@ meta:
       - audience
       - notes
 requires:
-  # Exact and self-contained: every skill this flow's own nodes run, plus every
-  # contract those skills read. No inheritance, no extras.
-  - contract:@skaile-ai/acceptance_criteria
-  - contract:@skaile-ai/agent_patterns
-  - contract:@skaile-ai/artifact_frontmatter
-  - contract:@skaile-ai/concept_structure
-  - contract:@skaile-ai/domain_model
-  - contract:@skaile-ai/elements_block
-  - contract:@skaile-ai/evaluator
-  - contract:@skaile-ai/feedback_loop
-  - contract:@skaile-ai/golden_principles
-  - contract:@skaile-ai/slice_loop
-  - contract:@skaile-ai/walkthrough_renderer
+  # Exact and self-contained: every skill this flow's own nodes run, plus the
+  # shared-contracts asset when any of them reads a contract file. No inheritance,
+  # no extras. The reference layer is one dir-scoped asset, so it is one ref —
+  # the per-file exactness lives on the skills, which is where the reading happens.
+  - contract:@skaile-ai/shared-contracts
   - skill:@skaile-ai/concept-scope
   - skill:@skaile-ai/concept-onboard
   - skill:@skaile-ai/concept-brief

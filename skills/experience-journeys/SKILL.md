@@ -3,6 +3,8 @@ name: experience-journeys
 description: "Use when the brief is approved and nothing has mapped what users actually do yet. Defines the personas and the staged story map that features are derived from. Triggers on 'map the journeys', 'user stories', 'what do users do', 'story map'."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: brief }

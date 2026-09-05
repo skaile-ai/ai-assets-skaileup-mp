@@ -3,6 +3,8 @@ name: spec-feature
 description: "Use when one feature needs its permanent spec — grills the user, draws the in/out line, then writes the feature spec and every screen it needs. Triggers on 'spec this feature', 'design a new feature', 'lock down acceptance criteria', 'what is in vs out'."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: scope }

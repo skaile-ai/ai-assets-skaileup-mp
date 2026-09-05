@@ -3,6 +3,8 @@ name: quality-review
 description: "Use when a feature's slices are frozen and its code needs an adversarial review before it ships — resolves the fixed point and the spec from the feature's own back-links, runs `code-review`, and adds the security, accessibility and acceptance-criteria axes. Triggers on 'review this feature', 'code review the login feature', 'is this ready to ship'."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: features }

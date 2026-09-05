@@ -3,6 +3,8 @@ name: design-brand
 description: "Use when the brief is approved and the project has no visual identity yet, or the user wants to change it. Discovers a direction in plain language, extracts from reference sites, and writes the palette, tokens and brandbook. Triggers on 'brand', 'colors', 'fonts', 'design tokens', 'make it look good'."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: brief }

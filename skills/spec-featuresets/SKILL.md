@@ -3,6 +3,8 @@ name: spec-featuresets
 description: "Use when the journeys are approved and nothing has decided what the app's features are or how they group. Derives the feature roster from the stories and cuts it into featuresets, one entry per feature the loop will then specify. Triggers on 'what features do we need', 'group the features', 'plan the feature set'."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: brief }

@@ -3,6 +3,8 @@ name: architecture-datamodel
 description: "Use when the features are specified and the project needs a schema — derives entities, relationships and enums from the feature specs, writes the stack-neutral model with its seed scenarios, and pins the vocabulary it just named. Triggers on 'data model', 'design the schema', 'what entities do we need', 'seed data'."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: brief }

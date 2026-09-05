@@ -3,6 +3,8 @@ name: concept-reverse
 description: "Use when a repository already exists and the concept has to be extracted from it rather than designed. Detects the stack, the brand, the routes and the schema, and writes what the code actually says plus the evidence the rest of the pipeline reads. Triggers on 'reverse engineer this project', 'extract the concept from this codebase', 'document this existing app'."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: scope }
