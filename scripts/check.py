@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import unicodedata
 import sys
 from pathlib import Path
 
@@ -343,6 +344,17 @@ def check_flows(
         _check_one_flow(repo, flow, text, flow_file, where, skill_names, skill_contracts, rep)
 
 
+def _slugify_asset_name(raw: str) -> str:
+    """The installer's canonical asset name for `raw`.
+
+    Mirrors `slugifyAssetName` (@skaile/workspaces core/src/models.ts): NFKD, drop
+    combining accents, lowercase, every other run of non-alphanumerics to `-`, trim.
+    """
+    decomposed = unicodedata.normalize("NFKD", raw)
+    stripped = "".join(c for c in decomposed if not unicodedata.combining(c))
+    return re.sub(r"^-+|-+$", "", re.sub(r"[^a-z0-9]+", "-", stripped.lower()))
+
+
 def _check_one_flow(
     repo: Path,
     flow: dict,
@@ -365,8 +377,21 @@ def _check_one_flow(
 
     # platform's validateFlow requires `name`; forge-concept's loader does not.
     # Carrying it satisfies both, at the cost of one line.
-    if not flow.get("name"):
+    flow_name = flow.get("name")
+    if not flow_name:
         rep.error(where, "has no top-level `name:` (platform's validateFlow requires it)")
+    elif flow_id and _slugify_asset_name(flow_name) != flow_id:
+        # `name:` is not decoration: the installer takes a flow's asset identity from it,
+        # not from `id:` (@skaile/workspaces core/manifest.ts fromFlowYamlContent, slugified
+        # in scanDirectory). A title that does not slugify to the id makes the flow
+        # unresolvable as `flow:@<publisher>/<id>` and it silently never installs, while
+        # the deployed directory the loader matches on is named from the same slug.
+        rep.error(
+            where,
+            f"`name:` {flow_name!r} slugifies to {_slugify_asset_name(flow_name)!r}, not to `id:` "
+            f"{flow_id!r} — the installer names the asset from `name:`, so this flow cannot be "
+            f"installed as `flow:@skaile-ai/{flow_id}`",
+        )
 
     _check_presentation(flow, text, where, rep)
 

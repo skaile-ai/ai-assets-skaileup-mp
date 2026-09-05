@@ -81,7 +81,7 @@ def good_flow() -> dict:
     return {
         "id": "tiny",
         "version": "0.1.0",
-        "name": "Tiny flow",
+        "name": "Tiny",
         "description": "A tiny flow.",
         "meta": {
             "icon": "i-heroicons-beaker",
@@ -270,7 +270,30 @@ def test_flow_id_must_match_directory_and_stem(tmp_path):
     flow = good_flow()
     flow["id"] = "other"
     write_flow(root, flow, flow_id="tiny")
-    only(root, "must equal both the filename stem")
+    # Two rules fire, and both are true of this file: the id matches neither the stem
+    # nor the directory, and `name:` no longer slugifies to it either.
+    among(root, "must equal both the filename stem", "the installer names the asset from `name:`")
+
+
+def test_flow_name_must_slugify_to_its_id(tmp_path):
+    """Ticket 29: the installer takes a flow's asset name from `name:`, not `id:`, so a
+    title that does not slugify to the id is unresolvable and silently never installs."""
+    root = write_repo(tmp_path)
+    flow = good_flow()
+    flow["name"] = "Reverse Engineer a Codebase"
+    write_flow(root, flow)
+    only(root, "slugifies to 'reverse-engineer-a-codebase', not to `id:` 'tiny'")
+
+
+def test_a_title_cased_name_slugifies_to_its_id(tmp_path):
+    """The rule is the slug, not string equality — `Appbuilder MVP` is a legal title for
+    `appbuilder-mvp`, and every landed flow is named that way."""
+    root = write_repo(tmp_path)
+    flow = good_flow()
+    flow["id"] = "appbuilder-mvp"
+    flow["name"] = "Appbuilder MVP"
+    write_flow(root, flow)
+    assert errors(root) == []
 
 
 def test_flow_needs_a_top_level_name(tmp_path):

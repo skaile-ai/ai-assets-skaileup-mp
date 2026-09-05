@@ -1,6 +1,6 @@
 id: skaileup-concept-reverse
 version: "0.1.0"
-name: Reverse Engineer a Codebase
+name: Skaileup Concept Reverse
 description: >-
   Builds a concept out of an existing repository. Discovers the stack and grades its
   own confidence, reads the codebase's standards, then reconstructs journeys,
