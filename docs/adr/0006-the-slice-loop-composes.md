@@ -68,3 +68,8 @@ slice is impl-side only.
   skill — spec review before code review, a forced simplification pass, a usability gate —
   now survives only as a line inside one of the four, or not at all. That is the trade this
   ADR makes: fewer seams, and the discipline stated where it binds rather than staged.
+
+**Paths superseded by [0007](./0007-one-numbered-artifact-tree.md).** The two dossiers kept
+their names and their two-ness; their locations moved with the tree —
+`08_dossiers/<feature_slug>/` and `11_build/slices/<slice_id>/`, both inside `_concept/`.
+`contracts/concept_structure.md` is the authority.
