@@ -43,10 +43,10 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
    are the interview; what this feature adds is the ground the frontier has to cover before
    it can be empty: what the feature *is* and who triggers it, the happy path, state
    transitions, boundary inputs, concurrency, a role × action permissions table, persistence
-   and recovery, error states, and the other features this one touches. The tier in
-   `01_meta/scope.yaml` sets the depth — `appbuilder-mvp` and `appbuilder-simple` settle the
-   happy path and permissions in a round or two; `appbuilder-standard` and
-   `appbuilder-complex` work the tree until the frontier is genuinely empty. Read
+   and recovery, error states, and the other features this one touches. The flow in
+   `01_meta/scope.yaml` sets the depth — `appbuilder-mvp` settles the happy path and
+   permissions in a round or two; `appbuilder-standard`, `skaileup-concept-only` and
+   `skaileup-concept-reverse` work the tree until the frontier is genuinely empty. Read
    `brief.md`, `04_journeys/stories.yaml` and any sibling spec the feature touches first —
    no journeys and no data model means the interview carries both loads, so ask where the
    feature sits in a journey rather than assuming it stands alone:

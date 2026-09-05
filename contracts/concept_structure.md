@@ -19,7 +19,7 @@ _concept/
 ├── comparable.md                   reference apps: borrow, avoid, positioning gap
 │
 ├── 01_meta/
-│   └── scope.yaml                  tier + profile; every skill reads its depth from here
+│   └── scope.yaml                  flow + project_type; every skill reads its depth from here
 │
 ├── 02_grounding/                   everything that came from outside — read by every skill
 │   ├── onboarding/

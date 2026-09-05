@@ -34,12 +34,12 @@ below sequence it and never restate it.
 ## Steps
 
 1. **Resolve the renderer, once, before anything else.** `_grounding/onboarding/onboarding.yaml`
-   key `mockup.renderer` wins when set (`static-html` | `astro`). Absent, the tier in
-   `_meta/scope.yaml` decides: `appbuilder-mvp` and `appbuilder-simple` get **static-html**,
-   `appbuilder-standard` and `appbuilder-complex` get **astro**. The answer names both the
+   key `mockup.renderer` wins when set (`static-html` | `astro`). Absent, the flow in
+   `_meta/scope.yaml` decides: `appbuilder-mvp` gets **static-html**, `appbuilder-standard`
+   and `skaileup-concept-only` get **astro**. The answer names both the
    output root `_concept/09_mockup/walkthrough/<renderer>/` and the reference directory you work
    from — read `references/<renderer>/RENDERER.md` now; it carries the render steps this one
-   only outlines. A tier the table does not list is a project that has not been scoped: say so
+   only outlines. A flow the table does not list is a project that has not been scoped: say so
    and stop, rather than guessing a renderer whose output the annotator may not find.
 2. **Preserve intent.** If `_concept/09_mockup/feedback/devlog.md` exists, read it. Each session block
    lists the screen and feature files it touched under `### <file>` headers, with one applied

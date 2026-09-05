@@ -26,7 +26,7 @@ _concept/
 ├── brief.md                        elevator pitch
 │
 ├── 01_meta/
-│   └── scope.yaml                  tier + profile
+│   └── scope.yaml                  flow + project_type
 │
 ├── 07_screens/
 │   └── shell.md                    the app shell
