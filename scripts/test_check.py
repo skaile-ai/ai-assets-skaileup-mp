@@ -40,9 +40,10 @@ SKILL = """\
 name: {name}
 description: "A skill."
 version: "0.1.0"
-prerequisites:
-  files:
-    - {{ path: "07_screens", gate: hard }}
+metadata:
+  prerequisites:
+    files:
+      - {{ path: "_concept/07_screens", gate: hard }}
 ---
 
 # {name}
@@ -136,8 +137,39 @@ def test_line_budget(tmp_path):
 def test_prerequisite_path_outside_the_tree(tmp_path):
     root = write_repo(tmp_path)
     skill = root / "skills" / "spec-feature" / "SKILL.md"
-    skill.write_text(skill.read_text().replace('path: "07_screens"', 'path: "experience/screens"'))
+    skill.write_text(
+        skill.read_text().replace('path: "_concept/07_screens"', 'path: "_concept/experience/screens"')
+    )
     only(root, "not a top-level entry of the artifact tree")
+
+
+def test_prerequisite_path_without_the_concept_prefix(tmp_path):
+    """The path the validator joins is the project root's, so the prefix is load-bearing."""
+    root = write_repo(tmp_path)
+    skill = root / "skills" / "spec-feature" / "SKILL.md"
+    skill.write_text(skill.read_text().replace('path: "_concept/07_screens"', 'path: "07_screens"'))
+    only(root, "does not start with '_concept/'")
+
+
+def test_prerequisites_at_the_frontmatter_root(tmp_path):
+    """The failure this catches is silent: the block parses and the gate never fires."""
+    root = write_repo(tmp_path)
+    skill = root / "skills" / "spec-feature" / "SKILL.md"
+    skill.write_text(
+        skill.read_text().replace(
+            "metadata:\n  prerequisites:\n    files:\n      - ", "prerequisites:\n  files:\n    - "
+        )
+    )
+    only(root, "must sit under `metadata:`")
+
+
+def test_artifacts_at_the_frontmatter_root(tmp_path):
+    root = write_repo(tmp_path)
+    skill = root / "skills" / "spec-feature" / "SKILL.md"
+    skill.write_text(
+        skill.read_text().replace("metadata:\n", "artifacts:\n  requires:\n    - { id: screens }\nmetadata:\n")
+    )
+    only(root, "must sit under `metadata:`")
 
 
 def test_top_level_set_comes_from_the_contract(tmp_path):

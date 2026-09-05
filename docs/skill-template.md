@@ -10,11 +10,15 @@ name: <kebab-case; this is the skill's whole identity — install path, flow dat
        produced_by, grounding path>
 description: "Use when <trigger>, or when the user says '<phrase>'."
 version: "0.1.0"
-# ...and nothing else unless a machine reads it. Today that means:
-#   artifacts.requires[].id + gate   — hard gates the flow engine enforces
-#   prerequisites.files[]            — path gates
-#   prerequisites.inputs_optional[]  — the input dialog forge-concept renders
-#   requires                         — transitive install manifest
+metadata:                            # everything a machine reads sits under this key —
+  artifacts:                         # `parseSkillRequirements` and `extractSkillRequires`
+    requires:                        # both read `metadata.` and never fall back to the root
+      - { id: <artifact> }           # id only; no code has ever read a `gate:` here
+  prerequisites:
+    files:                           # the live gate: `_concept/`-prefixed, `hard` or `soft`
+      - { path: "_concept/<tree entry>/...", gate: hard, min_entries: 1 }
+    inputs_optional:                 # the input dialog forge-concept renders
+      - { id: <field>, label: "...", type: text }
 ---
 
 # <name>
@@ -50,6 +54,16 @@ Siblings, in `references/`:
 
 ## The rules behind it
 
+- **`metadata:` is where the readers look.** `resolver/src/parser.ts:45-46` reads
+  `fm.metadata.prerequisites` with no root-level fallback, and
+  `discovery/src/requires-graph.ts:236-238` returns early on a missing `metadata`. A block at
+  the root parses, renders no error, and reports `satisfied: true` on an unmet gate.
+  `name`, `description` and `version` stay at the root: those readers normalise both.
+- **A declared path is joined to the *project* root** (`resolver/src/validator.ts:81`), not to
+  `_concept/`, so every path carries the prefix. `scripts/check.py` enforces both halves.
+- **A `soft` gate renders nowhere** — it is excluded from `satisfied` and never warned on. If
+  its absence changes what the skill does, the step says so; the frontmatter alone tells the
+  human nothing.
 - **Ceiling 140 lines**, frontmatter included — mp's measured maximum. Both ports came in
   under 110. A skill that cannot fit is a signal about the skill, not about the ceiling.
 - **The environment and the contracts are sources of truth; the body is not a cache of

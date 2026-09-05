@@ -19,7 +19,9 @@ The live machine contracts are: the flow contract (`<id>.flow.yaml` in a directo
 `<id>`, kept only with `id` + `nodes` + `edges`; top-level `requires:` drives transitive
 install) and the frontmatter fields forge-concept actually reads — `version`,
 `artifacts.requires[].id`, `prerequisites.*`, `requires`. Everything else in frontmatter is
-documentation.
+documentation. (Where those fields sit is narrowed by
+[ADR 0011](0011-the-machine-layer-sits-under-metadata.md): under `metadata:`, paths prefixed
+`_concept/`.)
 
 ## Consequences
 

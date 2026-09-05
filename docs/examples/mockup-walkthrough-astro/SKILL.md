@@ -2,19 +2,20 @@
 name: mockup-walkthrough-astro
 description: "Use when stakeholders need a clickable Astro walkthrough of the application — built static site, Tailwind-styled, openable directly in a browser. Generates one HTML file per screen and per journey, plus a manifest.json that the mockup-feedback cluster reads. Best for appbuilder-standard tier."
 version: "0.2.0"
-artifacts:
-  requires:
-    - { id: screens, gate: hard }
-    - { id: journeys, gate: hard }
-    - { id: brand-tokens, gate: hard }
-    - { id: features, gate: soft }
-  produces: [walkthrough]
-prerequisites:
-  files:
-    - { path: "experience/screens", gate: hard, min_entries: 1 }
-    - { path: "experience/journeys/stories.yaml", gate: hard }
-    - { path: "design/tokens.json", gate: hard }
-    - { path: "experience/features", gate: soft, min_entries: 1 }
+metadata:
+  artifacts:
+    requires:
+      - { id: screens }
+      - { id: journeys }
+      - { id: brand-tokens }
+      - { id: features }
+    produces: [walkthrough]
+  prerequisites:
+    files:
+      - { path: "_concept/07_screens", gate: hard, min_entries: 1 }
+      - { path: "_concept/04_journeys/stories.yaml", gate: hard }
+      - { path: "_concept/03_brand/tokens.json", gate: hard }
+      - { path: "_concept/05_features", gate: soft, min_entries: 1 }
 ---
 
 # mockup-walkthrough-astro
@@ -62,7 +63,7 @@ Three consequences, all Astro-only:
    `items[].target` into an `href` (unresolved → `href: null` plus an `unresolved_target`
    warning), auto-slug what `elements:` leaves uncovered, build the app nav (shell-
    authoritative if `00_layout/shell.md` declares a `kind: nav` element with items,
-   otherwise derived per rendered screen), flatten `design/tokens.json` into
+   otherwise derived per rendered screen), flatten `03_brand/tokens.json` into
    `--token-<dotted-path>` vars, and render each screen's spec-panel `body_html`.
    Element-schema validation belongs to `lab/validate-elements-block` at authoring time;
    handle render-time semantics only.
@@ -107,4 +108,4 @@ Everything else in the shared `warnings[].kind` enum is soft — render the node
 warning, keep going — plus this renderer's own `stale_scaffold` and `stale_tailwind_config`.
 
 **Done when** the validator exits 0 and `manifest.json` names every screen in
-`experience/screens/` and every journey in `stories.yaml`.
+`07_screens/` and every journey in `stories.yaml`.

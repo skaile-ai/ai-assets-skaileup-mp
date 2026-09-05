@@ -2,18 +2,19 @@
 name: mockup-walkthrough
 description: "Use when stakeholders need a clickable walkthrough of the application — one page per screen and per journey, openable in a browser, plus the manifest.json mockup-annotate reads. Renders zero-build static HTML or a built Astro site; the renderer comes from the project, not from you."
 version: "0.1.0"
-artifacts:
-  requires:
-    - { id: screens, gate: hard }
-    - { id: journeys, gate: hard }
-    - { id: brand-tokens, gate: hard }
-    - { id: features, gate: soft }
-prerequisites:
-  files:
-    - { path: "07_screens", gate: hard, min_entries: 1 }
-    - { path: "04_journeys/stories.yaml", gate: hard }
-    - { path: "03_brand/tokens.json", gate: hard }
-    - { path: "05_features", gate: soft, min_entries: 1 }
+metadata:
+  artifacts:
+    requires:
+      - { id: screens }
+      - { id: journeys }
+      - { id: brand-tokens }
+      - { id: features }
+  prerequisites:
+    files:
+      - { path: "_concept/07_screens", gate: hard, min_entries: 1 }
+      - { path: "_concept/04_journeys/stories.yaml", gate: hard }
+      - { path: "_concept/03_brand/tokens.json", gate: hard }
+      - { path: "_concept/05_features", gate: soft, min_entries: 1 }
 ---
 
 # mockup-walkthrough
@@ -55,7 +56,8 @@ below sequence it and never restate it.
    derived per rendered screen otherwise. Flatten `03_brand/tokens.json` into `--token-<dotted-path>`
    custom properties. Read `04_journeys/stories.yaml`; a journey without a
    `screen_sequence` gets a `missing_screen_sequence` warning and is skipped. Glob
-   `05_features/**/*.md` for manifest traceability only — they are never rendered.
+   `05_features/**/*.md` for manifest traceability only — they are never rendered, and their
+   absence costs the manifest its feature links rather than stopping the render.
    Element-schema validation is authoring-time work; handle render-time semantics only, and
    let a screen file with malformed YAML stop the run naming the file rather than shipping a
    half-rendered site.

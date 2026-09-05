@@ -1,22 +1,23 @@
 ---
 name: concept-brief
-description: "Use when starting a new concept and no _concept/discovery/ exists, or when the user says 'I have an app idea', 'new project', 'start from scratch', or wants to redefine an existing brief."
+description: "Use when starting a new concept and no _concept/brief.md exists, or when the user says 'I have an app idea', 'new project', 'start from scratch', or wants to redefine an existing brief."
 version: '1.0.0'
-prerequisites:
-  inputs_optional:
-    - { id: raw_description, label: 'Describe your idea', type: textarea, hint: 'Free-form — name, audience, problem and hero flow can all be inferred from this' }
-    - { id: app_name, label: 'App name', type: text, hint: 'Working name' }
-    - { id: elevator_pitch, label: 'What does the app do?', type: text, hint: 'One sentence: who is it for, what does it do' }
-    - { id: target_audience, label: 'Who is the primary user?', type: text, hint: 'Role, context, skill level' }
-    - { id: problem_statement, label: 'What problem does it solve?', type: text, hint: 'The single most important one' }
-    - { id: hero_flow, label: 'Most important user action', type: text, hint: 'The one thing every user must be able to do' }
-    - { id: comparable_products, label: 'Similar apps', type: text, hint: 'For reference' }
-    - { id: success_criteria, label: 'What does success look like?', type: text, hint: 'Goals, constraints, deadlines' }
+metadata:
+  prerequisites:
+    inputs_optional:
+      - { id: raw_description, label: 'Describe your idea', type: textarea, hint: 'Free-form — name, audience, problem and hero flow can all be inferred from this' }
+      - { id: app_name, label: 'App name', type: text, hint: 'Working name' }
+      - { id: elevator_pitch, label: 'What does the app do?', type: text, hint: 'One sentence: who is it for, what does it do' }
+      - { id: target_audience, label: 'Who is the primary user?', type: text, hint: 'Role, context, skill level' }
+      - { id: problem_statement, label: 'What problem does it solve?', type: text, hint: 'The single most important one' }
+      - { id: hero_flow, label: 'Most important user action', type: text, hint: 'The one thing every user must be able to do' }
+      - { id: comparable_products, label: 'Similar apps', type: text, hint: 'For reference' }
+      - { id: success_criteria, label: 'What does success look like?', type: text, hint: 'Goals, constraints, deadlines' }
 ---
 
 # concept-brief
 
-The first step of a concept. It writes `_concept/discovery/` — the pitch, the goals, and
+The first step of a concept. It writes the three `_concept/` root files — the pitch, the goals, and
 the comparables — and stops there. Everything downstream (features, screens, data model,
 brand, stack) reads the brief, so a brief that guesses at them sets the whole concept
 guessing. Write what the user actually said and hand off.
@@ -46,7 +47,7 @@ Otherwise ask, one at a time, and wait for the answers:
 
 ## 2. Write
 
-Three files under `_concept/discovery/`, frontmatter per `contracts/frontmatter.md`:
+Three files at the root of `_concept/`, frontmatter per `contracts/artifact_frontmatter.md`:
 
 - **`brief.md`** — frontmatter (`elevator_pitch`, `audience`, `problem`, `hero_flow`,
   `comparable_products`, `last_updated`) plus the vision in natural language: who it serves,
@@ -59,9 +60,8 @@ Three files under `_concept/discovery/`, frontmatter per `contracts/frontmatter.
 Then size the project from the description — `small` (≤5 implied features, no custom
 backend), `standard` (6–15), or `complex` (16+, or multi-tenant, or a significant custom
 backend) — and write `{ "complexity", "complexity_rationale" }` into
-`_concept/_grounding/overview/user_input.json`. It lives there rather than in `brief.md`
-frontmatter because the frontmatter shape is pinned and downstream skills read the grounding
-file. Tell the user your read of the size in a sentence; they may correct it, and their
+`_concept/01_meta/scope.yaml`. It lives there rather than in `brief.md` frontmatter because
+the frontmatter shape is pinned and every skill reads its depth from `scope.yaml`. Tell the user your read of the size in a sentence; they may correct it, and their
 answer wins.
 
 ## 3. Approve

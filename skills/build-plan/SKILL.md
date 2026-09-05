@@ -2,18 +2,19 @@
 name: build-plan
 description: "Use when a frozen feature spec needs breaking into buildable work — cuts the feature into vertical slices, gives each its blocking edges, and writes one slice dossier per slice. Triggers on 'plan this feature', 'break it into slices', 'what do we build first'."
 version: "0.1.0"
-artifacts:
-  requires:
-    - { id: features, gate: hard }
-    - { id: screens, gate: hard }
-    - { id: techstack, gate: soft }
-    - { id: datamodel, gate: soft }
-prerequisites:
-  files:
-    - { path: "05_features", gate: hard, min_entries: 1 }
-    - { path: "07_screens", gate: hard, min_entries: 1 }
-    - { path: "10_blueprint/techstack.md", gate: soft }
-    - { path: "10_blueprint/datamodel", gate: soft }
+metadata:
+  artifacts:
+    requires:
+      - { id: features }
+      - { id: screens }
+      - { id: techstack }
+      - { id: datamodel }
+  prerequisites:
+    files:
+      - { path: "_concept/05_features", gate: hard, min_entries: 1 }
+      - { path: "_concept/07_screens", gate: hard, min_entries: 1 }
+      - { path: "_concept/10_blueprint/techstack.md", gate: soft }
+      - { path: "_concept/10_blueprint/datamodel", gate: soft }
 ---
 
 # build-plan
@@ -30,7 +31,9 @@ Paths are `contracts/concept_structure.md`'s; `slice_id` and the dossier lifecyc
 1. **Read the feature, then the code.** Load
    `05_features/<featureset>/<feature_slug>.md`, every screen under
    `07_screens/<feature_slug>/`, and `10_blueprint/` for stack, architecture and data model
-   where they exist. Then explore the codebase for what is already there. Slice titles and
+   where they exist. Neither is required to plan: without `techstack.md` the slices name no
+   framework and the first one has to establish it, and without a data model every slice that
+   touches storage carries its own schema decision. Then explore the codebase for what is already there. Slice titles and
    descriptions use `10_blueprint/glossary.md`'s vocabulary and respect the decisions in
    `10_blueprint/decisions.md` and `11_build/decisions.md` — a plan written in different
    words than the code is a plan the implementer has to translate. Look for prefactoring

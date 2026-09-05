@@ -2,12 +2,13 @@
 name: mockup-annotate
 description: "Use when a built walkthrough is ready for stakeholders to comment on. Injects the annotation overlay so a reader can click any element and leave a note, and prepares the session directory their notes come back to. Run mockup-feedback once the notes are in."
 version: "0.1.0"
-artifacts:
-  requires:
-    - { id: walkthrough, gate: hard }
-prerequisites:
-  files:
-    - { path: "09_mockup/walkthrough", gate: hard, min_entries: 1 }
+metadata:
+  artifacts:
+    requires:
+      - { id: walkthrough }
+  prerequisites:
+    files:
+      - { path: "_concept/09_mockup/walkthrough", gate: hard, min_entries: 1 }
 ---
 
 # mockup-annotate

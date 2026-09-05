@@ -18,8 +18,10 @@ and untouched — projects opt in via `skaile.yaml`.
 - **Skill bodies: 140 lines including frontmatter.** No `MUST`/`NEVER` block — constraints
   are stated positively at the step they bind, and a hard guardrail is a named failure with
   a check behind it. See [`docs/skill-template.md`](./docs/skill-template.md).
-- **Frontmatter carries only what a machine reads**: `version`, `artifacts.requires[]`,
+- **Frontmatter carries only what a machine reads**: `version`, `artifacts.requires[].id`,
   `prerequisites.*`, `requires`. Everything else is documentation and belongs in the body.
+  The machine layer sits **under `metadata:`** and its paths start with **`_concept/`** —
+  that is where the readers look, and neither failure raises ([ADR 0011](./docs/adr/0011-the-machine-layer-sits-under-metadata.md)).
 - **Flow nodes declare `data.phase`** rather than relying on forge-concept's name-prefix
   fallback.
 

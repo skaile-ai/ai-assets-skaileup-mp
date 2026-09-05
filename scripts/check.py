@@ -32,6 +32,10 @@ import yaml
 # included — that is how a reader meets it.
 LINE_BUDGET = 140
 
+# Every declared prerequisite path is joined to the *project* root, never to the concept
+# (`resolver/src/validator.ts:81`), so the prefix is part of the declaration.
+ARTIFACT_ROOT = "_concept"
+
 # forge-concept's lane vocabulary (`shared/flow-phases.ts`). An invalid value is
 # silently swallowed there, which is why it is checked here.
 PHASES = {"conceptualization", "implementation", "review"}
@@ -151,10 +155,27 @@ def check_skills(repo: Path, rep: Report) -> set[str]:
         if line_count > LINE_BUDGET:
             rep.error(where, f"SKILL.md is {line_count} lines, over the {LINE_BUDGET}-line ceiling")
 
-        # 4. declared prerequisites must name somewhere the tree actually has.
-        if top_level:
-            for entry in _prerequisite_paths(fm):
-                first = entry.split("/", 1)[0]
+        # 4. the machine layer has to be where its readers look. `parseSkillRequirements`
+        #    reads `fm.metadata.prerequisites` and `extractSkillRequires` returns early on a
+        #    missing `metadata` — neither falls back to the root, and neither raises. A block
+        #    at the root parses clean and reports `satisfied: true` on an unmet gate.
+        for key in ("artifacts", "prerequisites"):
+            if key in fm:
+                rep.error(where, f"`{key}:` is at the frontmatter root — it must sit under `metadata:`, which is the only place its reader looks")
+
+        # 5. declared prerequisites are joined to the *project* root (`validator.ts:81`),
+        #    not to `_concept/`, so a path without the prefix resolves one level too high —
+        #    and its first segment inside the tree has to be a real one.
+        for entry in _prerequisite_paths(fm):
+            if not entry.startswith(ARTIFACT_ROOT + "/"):
+                rep.error(
+                    where,
+                    f"prerequisite path {entry!r} does not start with {ARTIFACT_ROOT + '/'!r} — "
+                    f"the validator joins it to the project root, so it would resolve outside the concept",
+                )
+                continue
+            if top_level:
+                first = entry[len(ARTIFACT_ROOT) + 1:].split("/", 1)[0]
                 if first not in top_level:
                     rep.error(
                         where,
@@ -162,7 +183,7 @@ def check_skills(repo: Path, rep: Report) -> set[str]:
                         f"top-level entry of the artifact tree",
                     )
 
-        # 5. cited contracts must exist.
+        # 6. cited contracts must exist.
         for ref in sorted(set(CONTRACT_REF_RE.findall(text))):
             ref = ref.rstrip(".,;:)")
             if not (repo / "contracts" / ref).exists():
@@ -172,7 +193,10 @@ def check_skills(repo: Path, rep: Report) -> set[str]:
 
 
 def _prerequisite_paths(fm: dict) -> list[str]:
-    prereq = fm.get("prerequisites") or {}
+    """Declared file gates, read the way the resolver reads them — and also from the root,
+    so a misplaced block is checked for its paths rather than silently skipped."""
+    meta = fm.get("metadata") if isinstance(fm.get("metadata"), dict) else {}
+    prereq = meta.get("prerequisites") or fm.get("prerequisites") or {}
     if not isinstance(prereq, dict):
         return []
     files = prereq.get("files") or []

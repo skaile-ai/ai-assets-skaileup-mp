@@ -2,14 +2,15 @@
 name: mockup-feedback
 description: "Use when stakeholder annotations have come back from an annotated walkthrough and need to land in the concept. Routes each annotation to the file it belongs in, authors a reviewable diff for it, and — after you approve the review file — applies the approved diffs in one commit."
 version: "0.1.0"
-artifacts:
-  requires:
-    # Soft, not hard: step 1 adopts a session that has not landed yet, so a hard
-    # gate would refuse the skill in exactly the case it exists to handle.
-    - { id: feedback-sessions, gate: soft }
-prerequisites:
-  files:
-    - { path: "09_mockup/feedback/sessions", gate: soft, min_entries: 1 }
+metadata:
+  artifacts:
+    requires:
+      # Soft, not hard: step 1 adopts a session that has not landed yet, so a hard
+      # gate would refuse the skill in exactly the case it exists to handle.
+      - { id: feedback-sessions }
+  prerequisites:
+    files:
+      - { path: "_concept/09_mockup/feedback/sessions", gate: soft, min_entries: 1 }
 ---
 
 # mockup-feedback

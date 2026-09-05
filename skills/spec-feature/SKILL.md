@@ -2,19 +2,20 @@
 name: spec-feature
 description: "Use when one feature needs its permanent spec — grills the user, draws the in/out line, then writes the feature spec and every screen it needs. Triggers on 'spec this feature', 'design a new feature', 'lock down acceptance criteria', 'what is in vs out'."
 version: "0.1.0"
-artifacts:
-  requires:
-    - { id: scope, gate: hard }
-    - { id: brief, gate: hard }
-    - { id: journeys, gate: soft }
-    - { id: brand-tokens, gate: soft }
-    - { id: datamodel, gate: soft }
-prerequisites:
-  files:
-    - { path: "01_meta/scope.yaml", gate: hard }
-    - { path: "brief.md", gate: hard }
-    - { path: "04_journeys/stories.yaml", gate: soft }
-    - { path: "10_blueprint/datamodel", gate: soft }
+metadata:
+  artifacts:
+    requires:
+      - { id: scope }
+      - { id: brief }
+      - { id: journeys }
+      - { id: brand-tokens }
+      - { id: datamodel }
+  prerequisites:
+    files:
+      - { path: "_concept/01_meta/scope.yaml", gate: hard }
+      - { path: "_concept/brief.md", gate: hard }
+      - { path: "_concept/04_journeys/stories.yaml", gate: soft }
+      - { path: "_concept/10_blueprint/datamodel", gate: soft }
 ---
 
 # spec-feature
@@ -46,7 +47,9 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
    `01_meta/scope.yaml` sets the depth — `appbuilder-mvp` and `appbuilder-simple` settle the
    happy path and permissions in a round or two; `appbuilder-standard` and
    `appbuilder-complex` work the tree until the frontier is genuinely empty. Read
-   `brief.md`, `04_journeys/stories.yaml` and any sibling spec the feature touches first:
+   `brief.md`, `04_journeys/stories.yaml` and any sibling spec the feature touches first —
+   no journeys and no data model means the interview carries both loads, so ask where the
+   feature sits in a journey rather than assuming it stands alone:
    `grilling` makes finding facts your job, and asking the user something the tree already
    says spends the round you needed for a real question.
 3. **Pin the vocabulary as it crystallises**, per `contracts/domain_model.md` — a term the

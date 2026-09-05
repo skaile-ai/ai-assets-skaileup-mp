@@ -2,12 +2,13 @@
 name: build-branch
 description: "Use when implementation work needs somewhere to live or somewhere to go — opens the build branch and optional worktree before the first slice, and merges, PRs, keeps or discards it after the last. Triggers on 'start implementing', 'set up the branch', 'finish the branch', 'merge the work'."
 version: "0.1.0"
-artifacts:
-  requires:
-    - { id: brief, gate: hard }
-prerequisites:
-  files:
-    - { path: "brief.md", gate: hard }
+metadata:
+  artifacts:
+    requires:
+      - { id: brief }
+  prerequisites:
+    files:
+      - { path: "_concept/brief.md", gate: hard }
 ---
 
 # build-branch

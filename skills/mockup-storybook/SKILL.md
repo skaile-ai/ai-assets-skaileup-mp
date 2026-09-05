@@ -2,19 +2,20 @@
 name: mockup-storybook
 description: "Use when screen specs are approved and stakeholders want a living component library — Storybook stories for custom components, full-page screen compositions, and clickable journey walkthroughs. Framework-agnostic: the addon, story format and component library come from the project's template."
 version: "0.1.0"
-artifacts:
-  requires:
-    - { id: screens, gate: hard }
-    - { id: brand-tokens, gate: hard }
-    - { id: techstack, gate: hard }
-    - { id: journeys, gate: soft }
-    - { id: datamodel, gate: soft }
-prerequisites:
-  files:
-    - { path: "07_screens", gate: hard, min_entries: 1 }
-    - { path: "03_brand/tokens.json", gate: hard }
-    - { path: "10_blueprint/techstack.md", gate: hard }
-    - { path: "04_journeys/stories.yaml", gate: soft, min_entries: 1 }
+metadata:
+  artifacts:
+    requires:
+      - { id: screens }
+      - { id: brand-tokens }
+      - { id: techstack }
+      - { id: journeys }
+      - { id: datamodel }
+  prerequisites:
+    files:
+      - { path: "_concept/07_screens", gate: hard, min_entries: 1 }
+      - { path: "_concept/03_brand/tokens.json", gate: hard }
+      - { path: "_concept/10_blueprint/techstack.md", gate: hard }
+      - { path: "_concept/04_journeys/stories.yaml", gate: soft, min_entries: 1 }
 ---
 
 # mockup-storybook
