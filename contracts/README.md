@@ -15,13 +15,13 @@ documents that described the collection to itself.
 | `walkthrough_renderer.md` | `mockup-walkthrough` (both renderers) and `mockup-annotate` — `data-spec-*` attributes, `kind` → DOM mapping, target resolution, `items[]` id derivation, the manifest schema |
 | `feedback_loop.md` | `mockup-feedback` — the cross-reference protocol between features, screens and the data model |
 | `slice_loop.md` | `spec-feature`, `build-plan`, `build-implement` — the dossier slug rule and the freeze lifecycle |
-| `acceptance_criteria.md` | `build-plan` and `build-implement` — the EARS grammar and the ledger's shape |
+| `acceptance_criteria.md` | `spec-feature` (the EARS grammar), `build-plan` (creates the ledger), `build-implement` and `quality-e2e` (flip its rows), `quality-review` and `ops-review` (read it) — the criterion form and the ledger's row shape |
 | `domain_model.md` | Any skill that pins a term or records a decision — glossary format, the ADR format, and the three-test gate that decides whether a decision is worth recording |
 | `semantic_types.md` | The data-model skills — stack-independent types and the translation table |
-| `seed_data.md` | The data-model skills — scenario-based seed conventions |
+| `seed_data.md` | The data-model skills — scenario-based seed conventions. Also the stack-neutral half of seeding: every template's `## Seed` section cites it for the scenario set and carries only the per-ORM layout |
 | `golden_principles.md` | The mechanical rules for `_concept/` artifacts: entity naming, enums, cross-references. **No reader in this repo yet** — `lint_concept.py`, the machine ADR 0004 kept it for, was deleted by ticket 16 and had inverted its rules anyway; it is kept against the datamodel writer and the `ops` audit skill, and dies with them if they do not arrive |
 | `agent_patterns.md` | Any skill that dispatches a subagent — dispatch shape, standalone mode, research mode |
-| `evaluator.md` | The shared stance and deduction mechanics every evaluator skill cites. **No reader in this repo yet** — the `quality` and `ops` skills that read it are not written; it is kept against them, and dies with them if they do not arrive |
+| `evaluator.md` | `quality-review`, `quality-release` and `ops-review` — the shared adversarial stance, the four-level severity with its blocking boundary, and the three-tier verdict grammar the three verdict artifacts share |
 
 ## What is not here
 
@@ -34,6 +34,12 @@ repo root, because it checks the whole repo and not just this folder. The per-sk
 A JSON Schema could express roughly half the rules that matter and none of the ones that
 bite — the sharpest is that an edge without `type: flow` orders nothing, which is a
 graph property, not a shape. It also encoded three constructs no engine implements.
+
+**No `preview_compatibility.md`.** It lives in `templates/`, beside its readers. Ticket 09
+provisionally folded it into `walkthrough_renderer.md`; that fold never happened and was wrong —
+its seven readers are the `## Preview Compatibility` sections of `templates/template-*/TEMPLATE.md`,
+and none of them is in the mockup domain or is a skill at all. Reference data read by reference
+data does not meet this folder's bar, so it sits with the templates instead (ADR 0009).
 
 **No registry.** Machine-read data lives in each skill's own `SKILL.md` frontmatter,
 resolved through its `name:`, because that is where the host already reliably looks.
