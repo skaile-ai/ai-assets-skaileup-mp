@@ -1,6 +1,6 @@
 # Renderer: static-html
 
-A zero-build site at `_concept/mockup-walkthrough/static-html/`, openable from the filesystem
+A zero-build site at `_concept/09_mockup/walkthrough/static-html/`, openable from the filesystem
 with no toolchain. This is the shared contract's reference implementation: where the contract
 is ambiguous, this renderer's output under `tests/expected/` is the tie-breaker.
 

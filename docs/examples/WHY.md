@@ -1,8 +1,20 @@
 # Ticket 03 — skill body shape: what the two ports showed
 
+> **Frozen record.** Written 2026-09-03, against the artifact tree that preceded ADR 0007 —
+> the one with `_concept/discovery/`, `experience/`, `blueprint/` and `_grounding/`. Both
+> ports have since landed as real skills on 0007's numbered tree, so **the port files
+> themselves are gone from this directory**. The live shape is
+> [`skills/concept-brief/SKILL.md`](../../skills/concept-brief/SKILL.md), rewritten against
+> the current tree by ticket 26, and
+> [`skills/mockup-walkthrough/`](../../skills/mockup-walkthrough/SKILL.md), which absorbed the
+> astro port as `references/astro/`. Read those for what a skill looks like today. What
+> survives here is the half they cannot show: the *before* each was measured against, and how
+> every constraint moved. Measurements and findings are as written; only dead pointers were
+> repaired.
+
 Prototype, branch `prototype/skill-body-shape`. Two real skills ported into the candidate
 shape: `concept-brief` (small, conversational) and `mockup-walkthrough-astro` (1,133 lines,
-the collection's worst case). Both ports are here to be read, not merged.
+the collection's worst case).
 
 ## Measurements
 
@@ -11,7 +23,8 @@ the collection's worst case). Both ports are here to be read, not merged.
 | `concept-brief` | 289 (87 frontmatter) | **80** (15 fm) | 202 → **65** (−68%) |
 | `mockup-walkthrough-astro` | 1,133 (51 fm) | **110** (18 fm) | 1,082 → **92** (−91%) |
 
-The astro port's displaced content, all of it still present:
+The astro port's displaced content, all of it still present — and all of it now living under
+`skills/mockup-walkthrough/references/astro/`:
 
 - `references/scaffold/` — the 7 verbatim file bodies, now **295 lines of real files** the
   skill copies instead of writing out from a fence.
@@ -105,6 +118,6 @@ positive target — rather than a block of nine.
 ## Verdict
 
 The shape holds, at 110 lines for the collection's worst skill. The template is in
-`TEMPLATE.md`. The ceiling is mp's measured **140 lines**, and the astro port suggests it is
+[`../skill-template.md`](../skill-template.md). The ceiling is mp's measured **140 lines**, and the astro port suggests it is
 reachable even where the map expected it not to be — which weakens, but does not settle, the
 argument that the five renderers must collapse to survive. That remains ticket 06's call.

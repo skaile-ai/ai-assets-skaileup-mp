@@ -27,9 +27,9 @@ quality · ops**.
 ## Writing a skill
 
 Start from [`docs/skill-template.md`](./docs/skill-template.md) — a ceiling of 140 lines
-and a set of defaults, not a form. Two worked ports sit in
-[`docs/examples/`](./docs/examples/) with [the measurements behind
-them](./docs/examples/WHY.md).
+and a set of defaults, not a form. For the shape in practice, read a landed skill;
+[`docs/examples/WHY.md`](./docs/examples/WHY.md) records what the two ports that set the
+shape cut, and what each `MUST` / `NEVER` line became.
 
 ## Status
 

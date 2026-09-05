@@ -1,6 +1,6 @@
 # Renderer: astro
 
-A built Astro site at `_concept/mockup-walkthrough/astro/`, Tailwind-styled from the brand
+A built Astro site at `_concept/09_mockup/walkthrough/astro/`, Tailwind-styled from the brand
 tokens. Step 4 of `../../SKILL.md` expands into steps 1–4 below; the shared contract still
 owns everything else.
 
