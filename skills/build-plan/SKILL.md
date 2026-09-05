@@ -24,7 +24,8 @@ the slices that block it, each in its own dossier under `11_build/slices/<slice_
 plans and stops: `build-implement` takes one dossier and builds it.
 
 Paths are `contracts/concept_structure.md`'s; `slice_id` and the dossier lifecycle are
-`contracts/slice_loop.md`'s.
+`contracts/slice_loop.md`'s; the acceptance-criteria ledger is
+`contracts/acceptance_criteria.md`'s.
 
 ## Steps
 
@@ -69,13 +70,21 @@ Paths are `contracts/concept_structure.md`'s; `slice_id` and the dossier lifecyc
 6. **Write one dossier per approved slice** — `11_build/slices/<slice_id>/plan.md`, slug per
    `contracts/slice_loop.md`, with frontmatter naming the feature file and `blocked_by`, and
    a body carrying: the one-line slice scope; the rows of UI / logic / data it crosses, each
-   citing the screen file, the symbol and the entity by name; the acceptance criteria from
-   the spec it satisfies, copied verbatim; the manual checks and automated tests that prove
+   citing the screen file, the symbol and the entity by name; the acceptance criteria it
+   satisfies, cited by `AC-n` — the spec is where they are written, and a second copy is the
+   one that quietly goes stale; the manual checks and automated tests that prove
    it, each test tagged `[unit]`, `[integration]` or `[e2e]` by the smallest reliable seam;
    and the carry-overs it deliberately leaves open. Testing belongs here rather than after —
    a slice whose tests are decided later is a slice whose seams were never agreed.
-7. **Report the frontier** — the slices whose blockers are all satisfied, in the order they
+7. **Create the acceptance-criteria ledger** at
+   `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`, one row per criterion in
+   the spec — `AC-n` and `AC-Bn` alike — every one untested, per
+   `contracts/acceptance_criteria.md`. Step 2 already claimed every criterion into a slice,
+   so this is the only point at which the full set is known before anything is built; a
+   ledger created later is created from whatever happened to get tested.
+8. **Report the frontier** — the slices whose blockers are all satisfied, in the order they
    can start. That list is what `build-implement` is handed.
 
 **Done when** every acceptance criterion in the spec is claimed by a slice, every
-`blocked_by` names a slice that exists, and each slice's `plan.md` is on disk.
+`blocked_by` names a slice that exists, each slice's `plan.md` is on disk, and the ledger
+holds one untested row per criterion.

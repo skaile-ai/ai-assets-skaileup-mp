@@ -23,7 +23,7 @@ _concept/
 │
 ├── 02_grounding/                   everything that came from outside — read by every skill
 │   ├── onboarding/
-│   │   ├── onboarding.yaml         project profile + collected answers
+│   │   ├── onboarding.yaml         project profile, collected answers, seed inventory
 │   │   ├── answers.json            per-dialog field values, preserved for resume
 │   │   └── questions.md            open questions routed to someone who is not in the room
 │   ├── research/
@@ -41,7 +41,7 @@ _concept/
 │   │   └── <domain>/               conventions discovered in an existing codebase
 │   └── findings/
 │       ├── index.md                catalogue of raw findings with source and date
-│       └── *.png · *.md            screenshots, page saves, excerpts
+│       └── *.png · *.md            screenshots, page saves, excerpts, detection evidence
 │
 ├── 03_brand/
 │   ├── identity.md                 colours, fonts, tone — and copy guidelines when asked for
@@ -53,6 +53,7 @@ _concept/
 │   └── stories.yaml                personas, story map (hero/vital/hygiene/backlog), EARS criteria
 │
 ├── 05_features/
+│   ├── featuresets.md              the roster: every featureset and the features in it
 │   └── <featureset>/<feature>.md   one file per feature; featureset is the only grouping level
 │
 ├── 06_behaviors/
@@ -79,6 +80,10 @@ _concept/
 │
 └── 11_build/
     ├── slices/<slice_id>/          one vertical slice's dossier, frozen on commit
+    ├── review.yaml                 the concept tree's verdict, scores and findings
+    ├── trace.yaml                  feature → slices → commits → code, plus orphan code
+    ├── acceptance-criteria/        <featureset>/<feature_slug>.ac.md — the criteria status ledger
+    ├── reviews/                    <feature_slug>.yaml — one feature's code-review verdict
     └── decisions.md                build-time decision records, append-only
 ```
 

@@ -1,253 +1,91 @@
-# Acceptance Criteria Format
+# Acceptance criteria — the EARS grammar and the status ledger
 
-How to derive testable acceptance criteria from concept artifacts and structure them
-for TDD-style implementation.
+Two things live here: how a testable acceptance criterion is written, and the **ledger** that
+tracks whether each one has been proved.
 
-## Source Artifacts
+The ledger is a **join, not a copy**. A criterion is written once, in its feature spec, and
+the ledger holds one row per criterion carrying its id, its status and what proved it. The
+row never restates the criterion's text: two copies of a requirement drift, and the copy in
+the build half is the one that quietly becomes what the code is checked against.
 
-Each feature's ACs are derived from multiple concept sources:
+## Where the ledger lives
 
-| Source | What to extract |
-|---|---|
-| `experience/features/<group>/<feature>.md` | Requirements checklist, success criteria, error states |
-| `experience/screens/<group>/<screen>.md` | Component inventory, states (default/loading/error/empty/success), user actions |
-| `experience/journeys/stories.yaml` | EARS acceptance criteria, state transitions, guard conditions |
-| `blueprint/datamodel/seed.json` | Test data for realistic assertions |
-| `discovery/brand/tokens.json` | Visual expectations (colors, spacing — for visual checks only) |
+```
+_concept/11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md
+```
 
----
+One file per feature, mirroring its place under `05_features/`.
 
-## AC File Format
-
-Save to `_implementation/acceptance_criteria/<group>/<feature>.ac.md`:
+## Ledger format
 
 ```markdown
 ---
-feature_ref: _concept/experience/features/<group>/<feature>.md
-screen_refs:
-  - _concept/experience/screens/<group>/<screen>.md
-story_refs: []        # journey ids copied from the feature frontmatter
-derived_from:
-  - requirements: 5     # count from feature spec
-  - screen_states: 4    # count from screen spec
-  - behavior_rules: 3   # count from allium spec
+feature: <feature_slug>
+feature_ref: _concept/05_features/<featureset>/<feature_slug>.md
 last_updated: YYYY-MM-DD
 ---
 
-# Acceptance Criteria: <Feature Name>
+# Criteria — <Feature Name>
 
-## AC-1: <Short descriptive title>
-
-**Given** <precondition>
-**When** <action>
-**Then** <observable outcome>
-
-- Assert: <specific, testable assertion>
-- Assert: <another assertion>
-
-**Test type:** assertion
-**Seed scenario:** populated
-
-## AC-2: ...
-
-## AC-N: User Flow (snapshot)
-
-**Given** <starting state>
-**When** <user completes the full happy path>
-**Then** <final state>
-
-**Test type:** snapshot
-**Seed scenario:** populated
+- [ ] AC-1
+- [PASS] AC-2 — tests/checkout/total.test.ts · build-implement · 2026-09-05
+- [FAIL] AC-3 — journey "checkout" step 4: total unchanged · quality-e2e · 2026-09-05
+- [ ] AC-B1
 ```
 
----
+**Rows are checkbox lines, not a table.** The only machine that reads this file matches
+`- [PASS|FAIL|x|X| ] <text>` line by line (forge-concept's `review-coverage.ts`); a table
+parses as zero criteria and the coverage page reports the feature as untested. `feature:` in
+frontmatter is what every other build artifact is joined on — without it the id falls back to
+the directory name, which is the featureset.
 
-## Rules for Writing ACs
+- The marker is the status: empty is untested, `PASS` and `FAIL` are what they say.
+- The text after the id is the **evidence**: the check that flipped the row, the skill that
+  flipped it, and the date. An untested row carries the id alone.
+- `AC-Bn` numbers a criterion observable only through the service layer rather than the UI.
+  Same spec, same ledger, separate number space.
 
-1. **One AC per observable behavior.** Do not combine multiple behaviors.
-2. **Specific assertions over vague checks.** "User sees exactly 'Invalid email or password'" not "User sees an error."
-3. **Reference concrete values.** Use seed data names, exact routes, specific status codes.
-4. **Test type is either `assertion` or `snapshot`.** Only the final high-level user flow AC uses `snapshot`. All others use `assertion`.
-5. **Every AC must be independently verifiable.** No AC depends on another AC's side effects.
-6. **Cover the error states.** The concept screen specs list error states explicitly — each becomes an AC.
-7. **Include edge cases from behavioral specs.** Allium guard conditions and `requires` clauses map directly to ACs.
+## Ownership
 
----
-
-## Deriving ACs: Step by Step
-
-### Step 1: Extract from feature requirements
-
-Each checkbox in the feature's `## Requirements` section becomes one or more ACs.
-The feature's `## Success Criteria` section provides the happy-path ACs.
-The feature's `## Error States` section provides the error-path ACs.
-
-### Step 2: Extract from screen states
-
-Each state in the screen spec's `## States` section (default, loading, error, empty, success)
-becomes at least one AC. The `## User Actions` section maps to ACs that verify
-what happens when the user performs each action.
-
-### Step 3: Extract from behavioral specs
-
-Each `rule` block in the Allium spec has `requires` (preconditions) and `ensures`
-(postconditions). Each rule maps to one or more ACs. Guard conditions (`requires`)
-become the Given clause. Effects (`ensures`) become the Then clause.
-
-### Step 4: Assign seed scenarios
-
-Match each AC to the most appropriate seed scenario:
-
-- `empty` — for empty state / first-use ACs
-- `single_user` — for minimal setup ACs
-- `populated` — for most happy-path ACs
-- `edge_cases` — for error handling / boundary ACs
-
-### Step 5: Mark the snapshot AC
-
-The final AC in each feature should be a high-level user flow snapshot test
-that exercises the happy path end-to-end. This is the only AC with `test type: snapshot`.
-
----
-
-## AC Count Guidelines
-
-| Feature complexity | Expected ACs |
+| Skill | What it does to the ledger |
 |---|---|
-| Simple (1-2 screens, few states) | 4-6 |
-| Medium (2-3 screens, several states) | 6-10 |
-| Complex (3+ screens, many states, transitions) | 10-15 |
+| `build-plan` | creates the file when it cuts the feature into slices — one row per criterion in the spec, every one untested |
+| `build-implement` | flips the rows its slice gate actually exercised, each with the check behind it |
+| `quality-e2e` | flips the rows a journey evaluated end to end |
+| `quality-review` | reads it — a `PASS` row it cannot reproduce against the running app is a `high` finding |
+| `ops-review` | reads it — any `FAIL` or untested row makes the feature's trace row red |
 
-Too few ACs = undertested. Too many ACs = test maintenance burden.
-Aim for one AC per distinct observable behavior.
-
----
-
-## Backend Acceptance Criteria
-
-Not every feature needs backend ACs. If the feature only uses generated CRUD
-(list, create, update, delete via standard generated API endpoints), the generated
-code is sufficient and no custom backend testing is needed.
-
-Backend ACs are required when the feature has:
-
-- Custom business logic (validation beyond schema types, state machines, workflows)
-- External service integration (cloud APIs, git platforms, AI models)
-- Custom authorization rules (row-level access, workspace scoping)
-- Custom data transformations (computed fields, aggregations)
-
-### Source Artifacts (backend)
-
-| Source | What to extract for backend ACs |
-|---|---|
-| `experience/features/<group>/<feature>.md` | Business rules, validation requirements, integration requirements |
-| `experience/journeys/stories.yaml` | EARS acceptance criteria, state transitions, guard conditions |
-| `blueprint/datamodel/model.json` | Model relationships, enum constraints, auth rules |
-
-### Backend AC Format
-
-Append backend ACs to the same AC file, after the frontend ACs:
-
-```markdown
-## Backend Acceptance Criteria
-
-### AC-B1: <Short descriptive title>
-
-**Given** <precondition — system state, existing data>
-**When** <API action — service method call, event dispatch, or endpoint invocation>
-**Then** <observable outcome — response, state change, side effect>
-
-- Assert: <specific assertion — return value, status change, error code>
-
-**Test type:** unit | e2e
-**Test target:** <ServiceClass | Adapter | Handler>
-```
-
-### Rules for Backend ACs
-
-1. **One AC per business rule.** Each custom validation, state transition, or
-   integration behavior gets its own AC.
-2. **Specify the test type.** Use `unit` for service-level logic. Use `e2e` for
-   behavior observable through the UI.
-3. **Cover error paths.** For every external service call, write an AC for the
-   failure case (service down, invalid credentials, timeout).
-4. **Reference the adapter pattern.** ACs that involve external services should
-   describe the expected behavior, not the implementation. The in-memory adapter
-   provides predictable responses for testing.
-5. **Keep AC-B numbering separate.** Backend ACs use `AC-B1`, `AC-B2`, etc.
-   to distinguish from frontend `AC-1`, `AC-2`.
-
-### Backend AC Count Guidelines
-
-| Backend complexity | Expected backend ACs |
-|---|---|
-| No custom logic (pure CRUD) | 0 — skip backend ACs entirely |
-| Light customization (1-2 custom actions) | 2-4 |
-| Moderate (validation + external service) | 4-8 |
-| Heavy (state machine + multi-service) | 8-12 |
-
-### Deriving Backend ACs
-
-**From feature requirements:**
-
-- "Validate cloud credentials" → AC-B for successful validation, AC-B for
-  invalid credentials, AC-B for provider unreachable
-
-**From behavioral specs:**
-
-- Each `rule` block with `ensures` clauses that modify backend state →
-  one AC-B per postcondition
-- Guard conditions with `requires` → AC-B that verifies rejection when
-  precondition is not met
-
-**From data model:**
-
-- Custom enum transitions → AC-B per valid transition, AC-B for invalid
-  transition attempt
-- Unique constraints with business meaning → AC-B for duplicate rejection
-
----
+A skill flips only the rows it evaluated. A row flipped on inference costs the ledger its
+whole value: every reader downstream trusts it instead of re-reading the code.
 
 ## EARS template
 
-Canonical EARS acceptance-criterion form — cite this section instead of
-restating it:
+Canonical acceptance-criterion form — cite this section instead of restating it:
 
     WHEN <trigger>, THE SYSTEM SHALL <response>
 
 Variants: `WHILE <state>, THE SYSTEM SHALL <response>` (state-driven);
-`IF <unwanted condition>, THEN THE SYSTEM SHALL <response>` (unwanted
-behaviour). One observable response per line; every criterion independently
-verifiable.
+`IF <unwanted condition>, THEN THE SYSTEM SHALL <response>` (unwanted behaviour). One
+observable response per line; every criterion independently verifiable.
 
----
+## Deriving the criteria
 
-## Criteria Status Table (tracking spine)
+Criteria are written into the feature spec by `spec-feature`, numbered `AC-1`, `AC-2`, … in
+the order they appear. Where to look:
 
-Every `.ac.md` ends with a `## Criteria Status` section containing one row per
-criterion (frontend `AC-n` and backend `AC-Bn` alike):
-
-```markdown
-## Criteria Status
-
-| ID | Source | Status | Updated by | Date |
-|---|---|---|---|---|
-| AC-1 | <story-id>: <EARS line copied verbatim> | untested | - | - |
-| AC-B1 | <story-id or feature §>: <EARS line / rule> | untested | - | - |
-```
-
-- `Status` ∈ `untested | pass | fail`. Rows are created `untested`.
-- `Source` cites the EARS line + story-id the criterion was derived from —
-  this is the story → AC traceability edge.
-- Non-`untested` rows must fill `Updated by` (skill name) and `Date` (ISO).
-
-### Ownership
-
-| Skill | Responsibility |
+| Source | What it yields |
 |---|---|
-| `impl-plan-plan-vertical` | Creates the file at `_implementation/acceptance_criteria/<group>/<feature>.ac.md`; every row `untested` |
-| `impl-slice-test` | Flips rows exercised by the slice gate to `pass`/`fail` (only rows backed by a `[PASS]`/`[FAIL]`-tagged check) |
-| `impl-quality-test-e2e` | Flips journey/snapshot rows on end-to-end journey pass/fail |
-| `ops-trace` | Reads the table; any `fail`/`untested` row makes the feature's trace row red |
+| the grill and the scope line | every item ruled IN becomes a criterion; nothing else does |
+| `_concept/04_journeys/stories.yaml` | story-level criteria, state transitions, guard conditions |
+| `_concept/07_screens/<feature_slug>/<screen>.md` | one criterion per state — default, loading, error, empty, success — and per user action |
+| `_concept/06_behaviors/<featureset>.md` | `requires` guards become the WHEN clause, postconditions the SHALL |
+| `_concept/10_blueprint/datamodel/seed.json` | the concrete data a criterion is stated against |
 
-Validation: none ships with this collection. The ledger's structure is checked by the skill that writes it, at the step it writes it.
+Rules:
+
+1. **One criterion per observable behaviour.** Two behaviours in one line cannot be flipped
+   independently, and the ledger row becomes half true.
+2. **Specific over vague.** "the user sees 'Invalid email or password'", not "an error".
+3. **Concrete values** — seed data names, exact routes, exact status codes.
+4. **Independently verifiable.** No criterion depends on another one's side effects.
+5. **Error states are criteria.** Every error state the screen spec lists is one.

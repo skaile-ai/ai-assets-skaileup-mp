@@ -6,6 +6,7 @@ metadata:
   artifacts:
     requires:
       - { id: slice-plan }
+      - { id: acceptance-criteria }
       - { id: features }
       - { id: screens }
       - { id: datamodel }
@@ -42,6 +43,11 @@ about how to build is `tdd` and `code-review`, which it calls rather than restat
    time; its automated tests are commands. Add what using it felt like — awkward flow, hidden
    state, a screen doing too much — and close on **Done**, **Needs more work**, or
    **Blocked**, the last two naming what has to change and who owns it. Only Done continues.
+   Then flip the ledger at `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`,
+   per `contracts/acceptance_criteria.md`: set to `PASS` or `FAIL` only the rows a check in
+   this gate actually exercised, each carrying that check as its evidence. Rows nothing here
+   touched stay untested — everything downstream reads this file instead of re-deriving what
+   was proved, so a row flipped on a hunch is worse than no row at all.
 5. **Recap** in the dossier: one to three sentences of what a user can now do, in their
    words rather than the code's; the files touched; and where the outcome differed from the
    plan, with the reason. This is what the next reader gets instead of this session.
