@@ -58,6 +58,10 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
    criteria; OUT and DEFER become the spec's `## Out of Scope` section, which is where a
    later reader looks to find out whether something was considered or forgotten. A DEFER
    names the feature or slice that will pick it up, or it is an OUT wearing a friendlier word.
+   An OUT that clears the three-test gate also appends to `10_blueprint/decisions.md` with
+   Status `rejected`, per `contracts/domain_model.md` — `## Out of Scope` is this feature's
+   and freezes with its dossier, so a refusal that binds the whole design stays invisible to
+   the next feature unless it is also logged where that feature reads.
 5. **Write the feature spec** to `05_features/<featureset>/<feature_slug>.md`: frontmatter
    per the contract (including the `permissions:` block and its restated table), the
    acceptance criteria in EARS, `## Out of Scope` from step 4, and the entities the feature

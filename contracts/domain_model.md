@@ -6,7 +6,7 @@ shaped the way it is. Two durable artifacts carry it, split by lifecycle:
 | Artifact | Path | Role | Lifecycle |
 |---|---|---|---|
 | **Glossary** | `_concept/blueprint/glossary.md` | ubiquitous language — canonical term → definition | living; entries are **updated in place** |
-| **Decision records (ADRs)** | `_concept/decisions.md` (design-time) · `_implementation/decisions.md` (build-time) | why a hard-to-reverse choice was made | **append-only**; entries are never edited, only superseded |
+| **Decision records (ADRs)** | `10_blueprint/decisions.md` (design-time) · `11_build/decisions.md` (build-time) | why a hard-to-reverse choice was made | **append-only**; entries are never edited, only superseded |
 
 Both are built **lazily and inline** — as a byproduct of the work, never authored
 up front. A term is written the moment it is pinned during a grill; a decision is
@@ -72,8 +72,8 @@ term genuinely collides across subsystems — not preemptively.
 
 ## Decision record (ADR) format
 
-ADRs live beside the blueprint (`_concept/blueprint/decisions.md`, design-time) and
-the implementation ledger (`_implementation/decisions.md`, build-time). Each entry is
+ADRs live beside the blueprint (`10_blueprint/decisions.md`, design-time) and the
+build ledger (`11_build/decisions.md`, build-time). Each entry is
 tiny — the value is recording **that** a decision was made and **why**, not filling
 out sections.
 
@@ -84,8 +84,11 @@ out sections.
 ```
 
 **Optional lines** — include only when they add real value (most entries won't):
-- **Status**: `accepted | deprecated | superseded by <date/title>` — when a decision
-  gets revisited, mark the old one rather than deleting it.
+- **Status**: `accepted | rejected | deprecated | superseded by <date/title>` — when a
+  decision gets revisited, mark the old one rather than deleting it. **`rejected` means
+  the choice was refused**, recorded here so nobody re-litigates it; it is not the
+  "rejected alternatives" of *Options considered* below, which are the roads not taken
+  inside a decision that *was* accepted.
 - **Options considered** — only when the rejected alternatives are worth remembering.
 - **Consequences** — only when a non-obvious downstream effect must be flagged.
 
