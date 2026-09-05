@@ -19,12 +19,13 @@ metadata:
 
 # ops-review
 
-Inspects `_concept/` and reports what is wrong with it, in two halves. **Review** —
-`11_build/review.yaml` — is the tree's integrity: structure, frontmatter, cross-references,
-naming, coverage and decay. **Trace** — `11_build/trace.yaml` — is build coverage: for every
-feature, the slices that built it, the commits behind them and the code they touched, plus
-the tracked files that belong to no feature at all. It writes those two files and cross-
-reference repairs the user approved; every other artifact belongs to the skill that owns it.
+Inspects `_concept/` and reports what is wrong with it, in two halves. **Review** is the
+tree's integrity: structure, frontmatter, cross-references, naming, coverage and decay — a
+verdict recomputed from the tree every run, delivered as the report and never written to
+disk. **Trace** — `11_build/trace.yaml` — is build coverage: for every feature, the slices
+that built it, the commits behind them and the code they touched, plus the tracked files
+that belong to no feature at all. It writes that one file and the cross-reference repairs
+the user approved; every other artifact belongs to the skill that owns it.
 
 The stance, the flag shape and the verdict tiers are `contracts/evaluator.md`'s — read it
 first and take its `blocking` / `warning` severities as the vocabulary. Paths are
@@ -96,12 +97,13 @@ those checks and does not restate them.
     exists. Show the exact diff and get a yes before writing. Everything else — missing
     content, a renamed entity, a naming violation inside the model — is reported and left
     alone, because repairing it means deciding what it should have said.
-12. **Write the two files.** `11_build/review.yaml`: the verdict, the per-category scores, and
-    the findings in `evaluator.md`'s flag shape, each with its location, the quoted text and
-    its fixing skill. `11_build/trace.yaml`: the matrix rows, the orphan list, the summary
-    counts and `overall`. Both are written after the report, not before it — the report is what
-    the user acts on, and a file written first is a verdict issued before it was shown.
+12. **Write the trace file.** `11_build/trace.yaml`: the matrix rows, the orphan list, the
+    summary counts and `overall`. It is written after the report, not before it — the report is
+    what the user acts on, and a file written first is a verdict issued before it was shown.
+    The review half writes nothing: its verdict, scores and findings are a reading of the tree
+    as it stands this minute, so a copy on disk can only be a stale one. A reader who wants
+    yesterday's verdict runs the skill again.
 
-**Done when** `review.yaml` and `trace.yaml` are on disk, every feature has exactly one trace
-row, every finding names a fixing skill, and any repair that was applied was shown as a diff
-first.
+**Done when** `trace.yaml` is on disk, every feature has exactly one trace row, every review
+finding was reported with its severity and its fixing skill, and any repair that was applied
+was shown as a diff first.

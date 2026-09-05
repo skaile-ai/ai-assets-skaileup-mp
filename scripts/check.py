@@ -157,6 +157,70 @@ def _fenced_tree(repo: Path) -> set[str]:
     return entries
 
 
+TREE_NODE_RE = re.compile(r"^(?P<indent>(?:[\u2502 ] {3})*)[\u251c\u2514]\u2500\u2500 (?P<name>\S+)")
+
+
+def _tree_entry_stem(raw: str) -> str:
+    """The comparable name of a tree entry: no extension, no path tail, no placeholder.
+
+    `review.yaml` -> `review`, `reviews/` -> `reviews`, `slices/<slice_id>/` -> `slices`.
+    """
+    head = raw.split("/")[0].split("<")[0].strip()
+    return head.rsplit(".", 1)[0] if "." in head else head
+
+
+def _is_plural_of(a: str, b: str) -> bool:
+    """Whether `a` is `b` under a naive English pluralisation."""
+    a, b = a.lower(), b.lower()
+    return a in (b + "s", b + "es") or (b.endswith("y") and a == b[:-1] + "ies")
+
+
+def check_tree_names(repo: Path, rep: Report) -> None:
+    """No two siblings in the concept tree differ only by singular and plural.
+
+    `concept_structure.md`'s Naming section states the rule; this enforces it against
+    the same fenced tree the rest of the contract declares, so a pair like
+    `review.yaml` beside `reviews/` cannot be typed back in unnoticed.
+    """
+    contract = repo / "contracts" / "concept_structure.md"
+    if not contract.is_file():
+        return
+    where = "contracts/concept_structure.md"
+
+    # parent path -> the entry stems directly under it
+    siblings: dict[str, list[str]] = {}
+    stack: list[str] = []
+    inside = False
+    for line in contract.read_text().splitlines():
+        if line.strip().startswith("```"):
+            if inside:
+                break
+            inside = True
+            continue
+        if not inside:
+            continue
+        m = TREE_NODE_RE.match(line)
+        if not m:
+            continue
+        depth = len(m.group("indent")) // 4
+        stem = _tree_entry_stem(m.group("name"))
+        if not stem:
+            continue
+        del stack[depth:]
+        parent = "_concept/" + "/".join(stack)
+        siblings.setdefault(parent, []).append(stem)
+        stack.append(stem)
+
+    for parent, names in siblings.items():
+        for i, a in enumerate(names):
+            for b in names[i + 1 :]:
+                if _is_plural_of(a, b) or _is_plural_of(b, a):
+                    rep.error(
+                        where,
+                        f"`{parent}` declares `{a}` and `{b}`, which differ only by plural",
+                    )
+
+
 # --------------------------------------------------------------------------
 # citations — every asset kind cites contracts, and contracts are pruned hard
 # --------------------------------------------------------------------------
@@ -727,6 +791,7 @@ def run(repo: Path) -> Report:
     rep = Report()
     skill_names, skill_contracts = check_skills(repo, rep)
     check_contracts(repo, rep)
+    check_tree_names(repo, rep)
     check_flows(repo, skill_names, skill_contracts, rep)
     return rep
 

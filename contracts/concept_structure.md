@@ -80,7 +80,6 @@ _concept/
 │
 └── 11_build/
     ├── slices/<slice_id>/          one vertical slice's dossier, frozen on commit
-    ├── review.yaml                 the concept tree's verdict, scores and findings
     ├── trace.yaml                  feature → slices → commits → code, plus orphan code
     ├── acceptance-criteria/        <featureset>/<feature_slug>.ac.md — the criteria status ledger
     ├── reviews/                    <feature_slug>.yaml — one feature's code-review verdict
@@ -104,6 +103,10 @@ collection-level change that already touches every skill that writes there.
 
 - Artifact filenames are lowercase and **hyphenated** — `design-inspiration.md`, never
   `design_inspiration.md`. One artifact has exactly one path.
+- **No two siblings may differ only by singular and plural.** `review.yaml` beside
+  `reviews/` reads as one artifact and its collection, and a skill author writing the path
+  from memory gets it wrong in the direction that silently reads nothing. Where both a
+  whole-tree fact and a per-thing collection are wanted, the two carry unrelated names.
 - `shell` is a reserved slug under `07_screens/`.
 - Directories under `05_features/` and `07_screens/` are slugs: lowercase, hyphenated,
   no spaces, no numeric prefix.
