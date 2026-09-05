@@ -60,7 +60,9 @@ Siblings, in `references/`:
   the root parses, renders no error, and reports `satisfied: true` on an unmet gate.
   `name`, `description` and `version` stay at the root: those readers normalise both.
 - **A declared path is joined to the *project* root** (`resolver/src/validator.ts:81`), not to
-  `_concept/`, so every path carries the prefix. `scripts/check.py` enforces both halves.
+  `_concept/`, so every concept path carries the prefix. `scripts/check.py` enforces both
+  halves: a path either starts with `_concept/` and names a real top-level entry of the
+  artifact tree, or is one of the named project-root gates in `PROJECT_ROOT_PREREQUISITES`.
 - **A `soft` gate renders nowhere** — it is excluded from `satisfied` and never warned on. If
   its absence changes what the skill does, the step says so; the frontmatter alone tells the
   human nothing.

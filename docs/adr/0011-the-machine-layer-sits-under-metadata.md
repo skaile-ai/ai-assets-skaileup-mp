@@ -37,6 +37,17 @@ three disagreements with `prerequisites.files[]` — the live declaration wins.
 
 `scripts/check.py` enforces both halves, because both fail silently.
 
+**Amended 2026-09-05 (ticket 32).** The path half is narrowed from a blanket ban to a named
+list. `validator.ts:81` joins to the *project* root, so a project-root gate such as
+`package.json` resolves correctly and the blanket rule was stricter than the reader it
+protects — ticket 23 had to move `quality-test`'s source-exists gate into the step body to
+work around it. The rule is now: a declared path is legal if it starts with `_concept/` and
+its first segment is a real entry of the artifact tree, **or** if it is named in
+`check.py`'s `PROJECT_ROOT_PREREQUISITES`. The restriction survives for everything else on a
+drift argument, not a reader argument: without it, a superseded concept path like
+`experience/screens/foo.md` would pass as "some project-root file", and that pre-0007 shape
+is the dominant defect class in this repo (ticket 30 swept 32 files of it).
+
 ## Alternatives
 
 **Fix the reader instead.** One line in `parser.ts` would make `metadata` optional for every

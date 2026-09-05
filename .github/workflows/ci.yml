@@ -2,8 +2,10 @@ name: ci
 
 # One job, one script. The collection has no build and no runtime — the only
 # thing CI can usefully answer is whether it contains a reference that resolves
-# to nothing. `scripts/check.py` answers that; `scripts/test_check.py` is what
-# keeps the answer trustworthy while `flows/` is still empty.
+# to nothing, or a flow whose shape the hosts read differently than it reads.
+# `scripts/check.py` answers that — it is the only gate, since forge-concept
+# validates no flow at all — and `scripts/test_check.py` is the failing fixture
+# behind every rule it enforces.
 
 on:
   push:
