@@ -94,7 +94,7 @@ rewires the walkthrough.
     {
       "id": "p-ann-c1-content",
       "annotationId": "ann-c1",
-      "file": "experience/screens/01_user_auth/login.md",
+      "file": "07_screens/01_user_auth/login.md",
       "section": "## Layout",
       "kind": "content",
       "category": "change",
@@ -141,9 +141,9 @@ Re-run the test-plan skill after applying — these spec changes affect coverage
 Every auto-generated patch starts checked; the user unchecks to skip. Omit the
 `## Needs manual review` and `## Test impact` sections when they would be empty.
 
-A patch changes testable behaviour when it touches `## Requirements`, `## Error States`,
-`## Success Criteria` or `## Permissions` in a feature file, or `## Behavior` or `## States`
-in a screen file, or when an `add` introduces a new state, behaviour or error case. Those get
+A patch changes testable behaviour when it touches `## Behavior`, `## States`,
+`## Requirements`, `## Error States`, `## Success Criteria` or `## Permissions` in a screen
+file, or when an `add` introduces a new state, behaviour or error case. Those get
 one suggested scenario each under `## Test impact`. The scenarios are notes, not patches: no
 checkbox, and `apply.py` ignores them. Copy, token and layout changes have no test impact —
 leave them out rather than listing them as unaffected.

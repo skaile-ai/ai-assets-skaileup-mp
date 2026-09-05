@@ -2,10 +2,19 @@
  * annotation-overlay.js — vanilla DOM annotation overlay
  * v0.1.0 — no framework, no build step
  *
- * Loaded as the last <script type="module"> in every walkthrough page.
+ * Loaded as the last plain <script> in every walkthrough page — no `type="module"`,
+ * because this file has no imports and a module script cannot be fetched over
+ * `file://`, which is the path a stakeholder actually opens the site by.
+ *
  * Two modes (auto-detected):
- *   iframe      → postMessage to parent (forge-concept context)
- *   standalone  → floating toolbar with "Download annotations" button
+ *   standalone  → floating toolbar with "Download annotations" button. The supported path.
+ *   iframe      → postMessage to parent. No host implements the listener yet; the wiring
+ *                 is kept correct for whenever one does.
+ *
+ * A walkthrough is many pages and standalone navigation is a real page load, so the
+ * collected annotations are mirrored into sessionStorage on every submit. Without that
+ * the array empties on the first click of a link and Download only ever holds the page
+ * the reader happens to be standing on.
  *
  * postMessage protocol (from docs/devlog/forge-concept-walkthrough.md):
  *   overlay→parent: { type: "overlay.ready",      route, manifest?: undefined }
@@ -32,7 +41,28 @@ function initSessionId() {
 }
 
 const SESSION_ID = initSessionId();
-const annotations = [];
+
+// Keyed by the session so a stale value can never outlive the id it belongs to.
+const ANNOTATIONS_KEY = `overlay-annotations:${SESSION_ID}`;
+
+function loadAnnotations() {
+  try {
+    const stored = JSON.parse(sessionStorage.getItem(ANNOTATIONS_KEY) || '[]');
+    return Array.isArray(stored) ? stored : [];
+  } catch (_) {
+    return [];
+  }
+}
+
+const annotations = loadAnnotations();
+
+function persistAnnotations() {
+  try {
+    sessionStorage.setItem(ANNOTATIONS_KEY, JSON.stringify(annotations));
+  } catch (_) {
+    // Storage full or blocked: the in-memory round still works for this page.
+  }
+}
 
 // ── Mode detection ────────────────────────────────────────────────────────────
 
@@ -169,6 +199,7 @@ function submitAnnotation({ specRef, body, category }) {
     status:    'open',
   };
   annotations.push(annotation);
+  persistAnnotations();
   if (IS_IFRAME) {
     window.parent.postMessage({ type: 'overlay.annotation', annotation }, '*');
   } else {
@@ -235,6 +266,7 @@ if (!IS_IFRAME) {
 </button>`;
   document.body.appendChild(bar);
   downloadBtn = bar.querySelector('#ov-dl');
+  refreshDownloadButton();  // annotations carried over from earlier pages
   bar.querySelector('#ov-toggle').addEventListener('change', (e) => {
     setMode(e.target.checked ? 'annotate' : 'view');
   });
@@ -244,7 +276,10 @@ if (!IS_IFRAME) {
     const blob = new Blob([payload], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `annotations-${SESSION_ID.slice(0, 8)}.json`;
+    // Named after the id, not a short hash: every downstream script keys on the
+    // `sessionId` field, so a stem that differs from it is a session that reads
+    // as unapplied forever.
+    a.download = `${SESSION_ID}.json`;
     a.click();
     URL.revokeObjectURL(a.href);
   });

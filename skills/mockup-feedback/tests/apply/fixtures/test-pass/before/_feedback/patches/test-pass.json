@@ -5,7 +5,7 @@
     {
       "id": "p-ann-c1-content",
       "annotationId": "ann-c1",
-      "file": "experience/screens/01_user_auth/login.md",
+      "file": "07_screens/01_user_auth/login.md",
       "section": "## Layout",
       "kind": "content",
       "category": "change",
@@ -15,7 +15,7 @@
     {
       "id": "p-ann-c1-promotion",
       "annotationId": "ann-c1",
-      "file": "experience/screens/01_user_auth/login.md",
+      "file": "07_screens/01_user_auth/login.md",
       "section": "frontmatter:elements",
       "kind": "provisional-promotion",
       "category": null,

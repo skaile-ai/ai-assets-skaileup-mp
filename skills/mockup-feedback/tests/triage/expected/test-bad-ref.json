@@ -5,7 +5,7 @@
   "unresolved": [
     {
       "annotationId": "ann-bad-1",
-      "reason": "file not found: _concept/experience/screens/nonexistent/screen.md"
+      "reason": "file not found: _concept/07_screens/nonexistent/screen.md"
     }
   ]
 }

@@ -20,7 +20,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 OVERLAY_FILENAME = "annotation-overlay.js"
-EXPECTED_SCRIPT_TAG = f'<script type="module" src="{OVERLAY_FILENAME}"></script>'
+EXPECTED_SCRIPT_TAG = f'<script src="{OVERLAY_FILENAME}"></script>'
 
 CDN_PATTERNS = [
     re.compile(r'<script\s[^>]*src\s*=\s*"https?://', re.IGNORECASE),
@@ -37,15 +37,19 @@ class _ScriptChecker(HTMLParser):
         self.in_head = False
         self.overlay_found = False
         self.overlay_in_head = False
+        self.overlay_is_module = False
         self.cdns: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         if tag == "head":
             self.in_head = True
         if tag == "script":
-            src = dict(attrs).get("src", "")
+            attr = dict(attrs)
+            src = attr.get("src", "")
             if src == self.expected_src:
                 self.overlay_found = True
+                if (attr.get("type") or "").strip().lower() == "module":
+                    self.overlay_is_module = True
                 if self.in_head:
                     self.overlay_in_head = True
 
@@ -100,7 +104,7 @@ def check_site(site_root: Path) -> Report:
         # the root must reach it with N "../" hops, or the browser resolves the
         # src against the page's own directory and loads nothing.
         expected_src = "../" * (len(rel.parts) - 1) + OVERLAY_FILENAME
-        expected_tag = f'<script type="module" src="{expected_src}"></script>'
+        expected_tag = f'<script src="{expected_src}"></script>'
 
         checker = _ScriptChecker(expected_src)
         checker.feed(raw)
@@ -111,6 +115,12 @@ def check_site(site_root: Path) -> Report:
 
         if checker.overlay_in_head:
             r.add(str(rel), "overlay script tag is in <head> — must be last child of <body>")
+
+        # A module script is fetched with CORS, and a file:// origin is opaque, so
+        # the browser refuses to load it. The overlay has no imports and needs
+        # nothing from module scope; type="module" only costs the reader the site.
+        if checker.overlay_is_module:
+            r.add(str(rel), 'overlay script tag carries type="module" — blocks loading over file://')
 
         # 4. Must be just before </body> (last script in file)
         body_close = raw.rfind("</body>")

@@ -45,8 +45,8 @@ cd - > /dev/null
 
 # Verify concept file matches expected
 diff \
-    "$FIXTURES/test-pass/after/concept/experience/screens/01_user_auth/login.md" \
-    "$TMP1/concept/experience/screens/01_user_auth/login.md" \
+    "$FIXTURES/test-pass/after/concept/07_screens/01_user_auth/login.md" \
+    "$TMP1/concept/07_screens/01_user_auth/login.md" \
     && echo "OK: login.md matches expected" \
     || { echo "FAIL: login.md content differs"; exit 1; }
 
@@ -79,8 +79,8 @@ cd - > /dev/null
 
 # Verify concept file (only the good patch should be applied)
 diff \
-    "$FIXTURES/test-partial-fail/after/concept/experience/screens/01_user_auth/login.md" \
-    "$TMP2/concept/experience/screens/01_user_auth/login.md" \
+    "$FIXTURES/test-partial-fail/after/concept/07_screens/01_user_auth/login.md" \
+    "$TMP2/concept/07_screens/01_user_auth/login.md" \
     && echo "OK: login.md matches expected (good patch applied)" \
     || { echo "FAIL: login.md content differs"; exit 1; }
 

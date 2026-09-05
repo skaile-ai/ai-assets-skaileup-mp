@@ -5,7 +5,7 @@
     {
       "id": "p-fail-1",
       "annotationId": "ann-fail-1",
-      "file": "experience/screens/01_user_auth/login.md",
+      "file": "07_screens/01_user_auth/login.md",
       "section": "## GHOST SECTION",
       "kind": "content",
       "category": "change",

@@ -52,6 +52,10 @@ echo "--- Test 2: test-bad-ref unresolved path ---"
 compare_triage "test-bad-ref"
 
 echo ""
+echo "--- Test 2b: test-routing — journey routes to stories.yaml, feature never routes ---"
+compare_triage "test-routing"
+
+echo ""
 echo "--- Test 3: structural validator on test-minimal output ---"
 python3 "$SKILL_DIR/scripts/validate_triage.py" \
     "$TMP_OUT/test-minimal.json" \

@@ -5,6 +5,11 @@
   "required": ["sessionId", "annotations"],
   "properties": {
     "sessionId": { "type": "string", "minLength": 1 },
+    "label": {
+      "description": "Human-readable name for this feedback round, written by mockup-feedback when it adopts the file. Absent in a freshly downloaded session.",
+      "type": "string",
+      "minLength": 1
+    },
     "annotations": {
       "type": "array",
       "items": {
@@ -20,7 +25,6 @@
             "properties": {
               "element":     { "type": "string", "minLength": 1 },
               "screen":      { "type": ["string", "null"] },
-              "feature":     { "type": ["string", "null"] },
               "journey":     { "type": ["string", "null"] },
               "route":       { "type": ["string", "null"] },
               "provisional": { "type": "boolean" }

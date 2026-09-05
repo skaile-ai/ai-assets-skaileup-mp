@@ -19,24 +19,37 @@ import datetime
 from pathlib import Path
 
 
+# A specRef key is routable only if some renderer emits it. `feature` is not:
+# the overlay's resolveTarget returns element/screen/journey/route/provisional,
+# and walkthrough_renderer.md declares no `data-spec-feature` attribute. Routing
+# a key nothing produces reads as coverage the feedback loop does not have.
+#
+# `journey` routes to the whole of stories.yaml because journeys have never lived
+# in a per-journey file — the value identifies a journey *within* that file, and
+# patching addresses the section, not the path.
+SCREEN_DIR = "07_screens"
+JOURNEYS_FILE = "04_journeys/stories.yaml"
+
+
 def resolve_file(spec_ref: dict, concept_root: Path) -> tuple[str | None, str | None]:
     """Resolve a specRef dict to a relative _concept/ path.
 
     Returns (relative_path, None) on success or (None, reason_string) on failure.
-    Lookup priority: screen > feature > journey.
+    Lookup priority: screen > journey.
     """
-    for key, subdir in [
-        ("screen",  "experience/screens"),
-        ("feature", "experience/features"),
-        ("journey", "experience/journeys"),
-    ]:
-        val = spec_ref.get(key)
-        if val:
-            rel = f"{subdir}/{val}.md"
-            if (concept_root / rel).is_file():
-                return rel, None
-            return None, f"file not found: _concept/{rel}"
-    return None, "no specRef target (screen/feature/journey all absent or null)"
+    screen = spec_ref.get("screen")
+    if screen:
+        rel = f"{SCREEN_DIR}/{screen}.md"
+        if (concept_root / rel).is_file():
+            return rel, None
+        return None, f"file not found: _concept/{rel}"
+
+    if spec_ref.get("journey"):
+        if (concept_root / JOURNEYS_FILE).is_file():
+            return JOURNEYS_FILE, None
+        return None, f"file not found: _concept/{JOURNEYS_FILE}"
+
+    return None, "no specRef target (screen and journey both absent or null)"
 
 
 def triage_session(session: dict, concept_root: Path) -> dict:

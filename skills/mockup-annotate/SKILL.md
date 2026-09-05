@@ -7,7 +7,7 @@ artifacts:
     - { id: walkthrough, gate: hard }
 prerequisites:
   files:
-    - { path: "mockup-walkthrough", gate: hard, min_entries: 1 }
+    - { path: "09_mockup/walkthrough", gate: hard, min_entries: 1 }
 ---
 
 # mockup-annotate
@@ -23,7 +23,7 @@ The overlay resolves a click to the nearest `[data-spec-element]` and reads `dat
 
 ## Steps
 
-1. **Locate the site.** `_concept/mockup-walkthrough/<renderer>/`, where `<renderer>` is the
+1. **Locate the site.** `_concept/09_mockup/walkthrough/<renderer>/`, where `<renderer>` is the
    single subdirectory containing a `manifest.json`. Neither the directory nor the manifest
    present means no walkthrough was built: say which is missing and stop. Read the manifest and
    note how many screens it lists and how many elements carry `"provisional": true` — the
@@ -41,38 +41,52 @@ The overlay resolves a click to the nearest `[data-spec-element]` and reads `dat
    tag is skipped whole.
 
    ```html
-   <script type="module" src="<relative-prefix>annotation-overlay.js"></script>
+   <script src="<relative-prefix>annotation-overlay.js"></script>
    ```
 
-4. **Prepare the return path** under the project's `_concept/_feedback/`: create `sessions/`
-   and, when absent, `index.json` holding `{"schema_version": "1.0", "sessions": []}`. Append
-   `_concept/_feedback/sessions/` and `_concept/_feedback/patches/` to the project `.gitignore`
-   if they are not already there. `applied/` and `devlog.md` stay committed — they are the
-   audit trail of what feedback actually changed.
-5. **Validate**: `python skills/mockup-annotate/validator.py _concept/mockup-walkthrough/<renderer>`.
+   No `type="module"`. The overlay has no imports, and a module script is fetched with CORS
+   against an origin `file://` does not have — so the one tag a stakeholder opening
+   `index.html` from a shared folder can load is the plain one. The validator in step 5
+   rejects a module tag for that reason.
+
+4. **Prepare the return path** under the project's `_concept/09_mockup/feedback/`: create `sessions/`.
+   Append `_concept/09_mockup/feedback/sessions/` and `_concept/09_mockup/feedback/patches/` to the project
+   `.gitignore` if they are not already there. `applied/` and `devlog.md` stay committed —
+   they are the audit trail of what feedback actually changed.
+5. **Validate**: `python skills/mockup-annotate/validator.py _concept/09_mockup/walkthrough/<renderer>`.
    Exit 0 means every page carries the overlay as its last script and nothing external crept in;
    exit 2 lists the pages that do not.
 6. **Report and hand over.** Name the site root, the injected/skipped counts, the session
    directory, and the provisional-id count. Then tell the user the two things only they can do:
-   open the site and check that clicking an element in Annotate mode opens the popover, and
-   share the link.
+   open `index.html` and check that clicking an element in Annotate mode opens the popover, and
+   share the site with the readers along with the one instruction *Getting the notes back*
+   below turns on — download before closing the tab, and send the file back unrenamed.
 
 ## Getting the notes back
 
-Inside forge-concept the overlay posts each annotation to the host frame and the host stores
-the session. Opened straight from the filesystem there is no host, so the overlay collects
-annotations in the page and offers a **Download** button, which saves
-`annotations-<short-id>.json` wherever the reader's browser puts downloads.
+The reader opens the site in a browser, ticks **Annotate**, comments across as many pages as
+they like, and clicks **Download**. The overlay carries the round in `sessionStorage`, so it
+survives moving between screens; it ends when the tab closes, which is why the report tells
+the reader to download before they finish, not after they think of it.
 
-That file has to be moved by hand to `_concept/_feedback/sessions/<sid>.json`, and **the name
-it is saved under becomes the session id** every later step keys on — patches, the review file
-and the audit trail all inherit it. So rename it to something a person will recognise weeks
-later (`2026-09-05-stakeholder-review.json`), not the browser's short hash. Say this in the
-report; a downloaded file nobody moves is a feedback round that silently never happened.
+The download lands wherever their browser puts downloads, named `<session-id>.json`. **Do not
+rename it.** The id inside the file is what triage, patching and the audit trail key on, and a
+filename that disagrees with it produces a round that reads as never applied. The
+human-readable name for the round is asked for later, by `mockup-feedback`, and stored inside
+the file.
+
+So the reader's last act is to send that file back — attach it, drop it in a shared folder,
+whatever the team already does. `mockup-feedback` takes it from any path and files it itself;
+nobody has to place it in `_concept/` by hand. Say this in the report: a downloaded file
+nobody sends on is a feedback round that silently never happened.
+
+Inside an embedding host the overlay posts each annotation to the parent frame instead. **No
+host implements that listener today** — forge-concept has none — so the wiring is kept correct
+but the browser path above is the one that works.
 
 Each annotation carries the element, screen, journey and route it was made against, the
 reader's text, one of `change` / `add` / `remove` / `question`, and whether the element's id
 was provisional. `references/session.schema.json` is the shape `mockup-feedback` expects.
 
-**Done when** the validator exits 0, `_concept/_feedback/sessions/` exists, and the user has
-the site root and the rename convention in front of them.
+**Done when** the validator exits 0, `_concept/09_mockup/feedback/sessions/` exists, and the user has
+the site root and the reader instruction in front of them.

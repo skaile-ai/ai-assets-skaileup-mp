@@ -6,7 +6,7 @@
       "annotationId": "ann-bad",
       "patchId": "p-bad",
       "target": {
-        "file": "experience/screens/01_user_auth/login.md",
+        "file": "07_screens/01_user_auth/login.md",
         "section": "## NONEXISTENT SECTION",
         "category": "change"
       },
@@ -18,7 +18,7 @@
       "annotationId": "ann-good",
       "patchId": "p-good",
       "target": {
-        "file": "experience/screens/01_user_auth/login.md",
+        "file": "07_screens/01_user_auth/login.md",
         "section": "## Layout",
         "category": "change"
       },

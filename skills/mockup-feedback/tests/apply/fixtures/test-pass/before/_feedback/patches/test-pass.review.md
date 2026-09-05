@@ -1,6 +1,6 @@
 # Review patches for session test-pass (2 patches across 1 file)
 
-## experience/screens/01_user_auth/login.md
+## 07_screens/01_user_auth/login.md
 
 - [x] **p-ann-c1-content** · category=change · annotation: "this should be on the right"
   ```diff

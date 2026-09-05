@@ -1,7 +1,7 @@
 ---
 title: Login Screen
 implements:
-  - experience/features/01_user_auth/auth.md
+  - 05_features/01_user_auth/auth.md
 elements:
   - id: submit-button
     kind: button

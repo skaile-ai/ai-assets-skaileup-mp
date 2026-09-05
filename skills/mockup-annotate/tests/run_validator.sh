@@ -39,14 +39,43 @@ import pathlib
 p = pathlib.Path('$TMP_DIR/index.html')
 txt = p.read_text()
 txt = txt.replace(
-    '<script type=\"module\" src=\"annotation-overlay.js\"></script>',
-    '<script type=\"module\" src=\"annotation-overlay.js\"></script>\n<script src=\"extra.js\"></script>',
+    '<script src=\"annotation-overlay.js\"></script>',
+    '<script src=\"annotation-overlay.js\"></script>\n<script src=\"extra.js\"></script>',
     1
 )
 p.write_text(txt)
 "
 "$PY" "$VALIDATOR" "$TMP_DIR" && {
     echo "ERROR: validator returned 0 when overlay is not last script (expected 2)"
+    rm -rf "$TMP_DIR"
+    exit 1
+} || {
+    EC=$?
+    if [ "$EC" -ne 2 ]; then
+        echo "ERROR: expected exit code 2, got $EC"
+        rm -rf "$TMP_DIR"
+        exit 1
+    fi
+    echo "OK: validator correctly reported violation (exit 2)"
+}
+rm -rf "$TMP_DIR"
+
+echo ""
+echo "--- Test 4: type=\"module\" on the overlay tag should FAIL ---"
+TMP_DIR=$(mktemp -d)
+cp -r "$PASS_FIXTURE/"* "$TMP_DIR/"
+# A module script cannot be fetched over file://, which is how the site is opened.
+python3 -c "
+import pathlib
+p = pathlib.Path('$TMP_DIR/index.html')
+p.write_text(p.read_text().replace(
+    '<script src=\"annotation-overlay.js\">',
+    '<script type=\"module\" src=\"annotation-overlay.js\">',
+    1
+))
+"
+"$PY" "$VALIDATOR" "$TMP_DIR" && {
+    echo "ERROR: validator returned 0 on a module overlay tag (expected 2)"
     rm -rf "$TMP_DIR"
     exit 1
 } || {

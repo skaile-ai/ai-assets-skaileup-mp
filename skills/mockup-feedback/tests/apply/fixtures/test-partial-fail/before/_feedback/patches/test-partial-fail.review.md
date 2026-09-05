@@ -1,6 +1,6 @@
 # Review patches for session test-partial-fail (2 patches)
 
-## experience/screens/01_user_auth/login.md
+## 07_screens/01_user_auth/login.md
 
 - [x] **p-good** · category=change · annotation: "right-align the button"
   ```diff
