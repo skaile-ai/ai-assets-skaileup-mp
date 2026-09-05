@@ -24,7 +24,9 @@ One feature, from a sentence to a spec somebody can build: the interview, the sc
 then the two permanent artifacts — the feature spec and its screen specs — and the feature
 dossier frozen behind them. This skill is the **only writer of screen specs and of the
 `elements:` block**; `experience-shell` owns `07_screens/shell.md` and nothing else under
-that tree.
+that tree. It handles **one** feature per run and is re-entered once per feature in
+`05_features/featuresets.md`: the flow graph draws that node once, because iteration is not
+something a flow edge can express, so the repetition lives here.
 
 Paths are `contracts/concept_structure.md`'s. The slug rule and the freeze are
 `contracts/slice_loop.md`'s, the `elements:` schema is `contracts/elements_block.md`'s, the
@@ -37,8 +39,11 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
    per `contracts/slice_loop.md`, and place it in exactly one featureset under
    `05_features/`. A glob that already resolves means this is a refinement of an existing
    spec: load it and say so before asking anything, so the user answers against what is
-   written rather than from memory. Two matches across featuresets is the collision the slug
-   rule names — list both and ask which one this is.
+   written rather than from memory, and carry its existing `screens:` and `data_entities:`
+   arrays through untouched — they were populated by later steps that are not running now, and
+   a rewritten spec that drops them silently unlinks the feature from its screens and its
+   entities. Two matches across featuresets is the collision the slug rule names — list both
+   and ask which one this is.
 2. **Grill.** Run the global `grilling` skill against this feature. Its rounds and frontier
    are the interview; what this feature adds is the ground the frontier has to cover before
    it can be empty: what the feature *is* and who triggers it, the happy path, state
@@ -78,8 +83,16 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
 7. **Register both directions**, per `contracts/feedback_loop.md`: the feature's `screens:`
    lists the files just written, each screen's `implements:` names the feature. A
    one-directional link is a screen nothing can find from the feature it belongs to.
-8. **Show the whole write set and get approval**, then write. An existing file gets its diff
-   shown and its own answer — the user's earlier edits are the case this catches.
+8. **Show the whole write set and the blast radius, then write.** An existing file gets its
+   diff shown and its own answer — the user's earlier edits are the case this catches. Beside
+   the diffs, name which already-written artifacts this feature just invalidated and whose
+   owner has to re-run: `04_journeys/stories.yaml` when it introduces a flow no story covers,
+   `10_blueprint/techstack.md` for a new dependency, `architecture.md` for a new module or
+   protocol, `10_blueprint/datamodel/` for new entities or fields, and `07_screens/shell.md`
+   when it adds a top-level destination. Naming the owner is the whole of it — this skill
+   edits none of them, and a cascade that reaches into five trees is the multi-writer tangle
+   one writer per artifact exists to avoid. When the project is already built, `build-plan`
+   is the next command: the feature is specified, not planned.
 9. **Freeze the feature dossier.** Write `08_dossiers/<feature_slug>/index.md`: the framing,
    the questions the grill answered, the scope line with its rationales, and links forward to
    the spec and screens. It is written once, at the end, and frozen by existing — the working

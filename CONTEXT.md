@@ -49,10 +49,18 @@ A precondition on running a skill. **Hard** refuses to proceed; **soft** warns a
 continues. Every gate is one or the other, stated at the step it binds.
 _Avoid_: guard, check, blocker, prerequisite
 
+**Project type**:
+What kind of thing is being built — web-app, cli-tool, api-service, library, mobile-app,
+data-pipeline. Chosen once, and it decides which artifacts a project is expected to grow, so
+a missing screen in a cli-tool is not a gap. The word matches the key the machine reads,
+`project_type`, because a glossary that disagrees with the schema loses the argument.
+_Avoid_: shape, kind, category
+
 **Profile**:
-A project's type — web-app, cli-tool, api-service, library, mobile-app, data-pipeline.
-Chosen once; selects which artifacts a project is expected to grow.
-_Avoid_: kind, category, project type
+The collection asset describing one project type — what a project of that type grows and
+what it never will. One per type. The word names the description; the project has a *project
+type*, not a profile.
+_Avoid_: project profile, project shape
 
 **Template**:
 A tech-stack reference an implementation skill reads after the stack is chosen. Carries
