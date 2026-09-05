@@ -70,7 +70,9 @@ produces.
 _Avoid_: output, deliverable, result, product
 
 **Concept**:
-The design half of a project — what is being built and why, before any code.
+The design half of a project — what is being built and why, before any code. The root
+directory `_concept/` is *not* this word: its name is fixed by the host and it holds the
+build half too.
 _Avoid_: discovery, spec phase
 
 **Blueprint**:
