@@ -24,9 +24,10 @@ the `_concept/` artifacts are the source of truth.
 ## Pattern: Self-Collect Inputs
 
 When a skill needs user input before running:
-1. Check the flow node `user_inputs.dialog` fields (or SKILL.md frontmatter `user_inputs` in standalone mode)
-2. Check `_concept/_grounding/{grounding_folder}/user_input.json` for pre-collected answers
-3. Check if `_concept/` already has the required files/data
+1. Check the values the host's input dialog collected — it renders the skill's
+   `metadata.prerequisites.inputs_optional` fields and hands the answers in
+2. Check `_concept/02_grounding/onboarding/answers.json` for answers a prior dialog kept
+3. Check whether `_concept/` already holds the required files
 4. For missing inputs: ask the user directly using friendly, non-technical language
 5. Adapt question depth based on the flow's `globals.verbosity`:
    - **brief**: suggest smart defaults, minimal questions
@@ -95,7 +96,7 @@ After a skill completes (standalone or orchestrated):
 ## Pattern: Standards Injection
 
 Before executing a skill's main workflow:
-1. Check if `_concept/_standards/index.yml` exists
+1. Check if `_concept/02_grounding/standards/index.yml` exists
 2. If yes: read index, match standards to current skill by `applies_to` + keyword overlap
 3. Load matched standard files as additional context
 4. Reference applicable standards when making decisions
@@ -109,33 +110,32 @@ When research mode is active for the current step (flow `modes.research.enabled:
 and this skill is in `modes.research.triggers`):
 1. Identify what needs grounding (decisions, alternatives, patterns)
 2. Dispatch a parallel research sub-agent (`research` skill) with focused queries
-3. Research agent writes cross-cutting findings to `_concept/_grounding/general/`
-   and step-specific findings to `_concept/_grounding/{grounding_folder}/`
+3. Research agent writes cross-cutting findings to `_concept/02_grounding/research/`
+   and step-specific findings to `_concept/02_grounding/research/step/<skill-name>/`
 4. Main skill reads research results before making decisions
 5. Reference research sources in output artifacts
-6. Check `_grounding/{grounding_folder}/user_input.json` for pre-collected user inputs before asking the user
 
-Cross-cutting topics written to `general/`: domain, competitors, audiences, design_inspiration,
-patterns, colors_fonts, behavioral_patterns.
+Cross-cutting topics, one file each under `research/`: `domain.md`, `competitors.md`,
+`audiences.md`, `design-inspiration.md`, `patterns.md`, `colors-fonts.md`,
+`behavioral-patterns.md`.
 
-The `grounding_folder` for each skill is defined on the flow node's `data.grounding_folder` field.
+A step folder is named for the skill that dispatched the research, character for character —
+the skill's `name:`, per `concept_structure.md`.
 
 ---
 
 ## Pattern: User Input Persistence
 
-User dialog inputs collected by the UI or by skills are saved to
-`_concept/_grounding/{grounding_folder}/user_input.json`. This allows skills to skip
-re-asking questions when the user has already provided answers.
+`concept-onboard` keeps every answer a dialog collected in
+`_concept/02_grounding/onboarding/answers.json`, so a later skill can skip a question the
+user has already answered. The host writes its own per-skill dialog file at a path it
+hardcodes; no skill in this collection names that path, and none should.
 
-1. Before collecting user inputs, check if `_grounding/{grounding_folder}/user_input.json` exists
-2. If it exists, read the JSON object — keys are dialog field `id` values from the flow node's `user_inputs.dialog`
-3. Use saved values as defaults or skip the question entirely if the value is present
-4. After collecting new inputs, merge them into the existing file (or create it)
-5. Never overwrite existing values without user confirmation
-
-The `grounding_folder` value comes from the flow node `data.grounding_folder`
-(e.g., `"overview/"`, `"features/"`, `"datamodel/"`).
+1. Before asking anything, read `02_grounding/onboarding/answers.json` if it exists
+2. Keys are the `id` values of the `inputs_optional` fields the dialog rendered
+3. Use a saved value as the default, or skip the question when it is already answered
+4. New answers merge into the file rather than replacing it
+5. Never overwrite an existing value without the user confirming
 
 ---
 
@@ -214,13 +214,11 @@ actionable rather than opaque.
 ## Pattern: Expert Discovery (Implementation)
 
 When implementing features:
-1. Read `_concept/blueprint/techstack.md` to identify the tech stack
-2. Search for matching expert skills in the monorepo:
-   - JS/TS stack: `dev-implementation-experts-js/skills/impl-build-implementation-expert-<tech>/`
-   - Python stack: `dev-implementation-experts-python/skills/impl-build-implementation-expert-<tech>/`
-3. If found: load the expert skill's references and recipes for implementation guidance
-4. If not found: proceed with general knowledge
-5. After successful implementation: suggest creating or updating expert recipes
-
-The `impl-build-implementation-expert-advisor` skill can route to the correct expert
-when the target tech is not immediately obvious from the stack.
+1. Read `_concept/10_blueprint/techstack.md` for the stack and its `tech_stack_skill`
+2. Look for a matching `prog-expert-<tech>` skill — they live in a different collection
+   (`ai-assets/dev-implementation-experts-*`) and each template's `## Expert Skills` section
+   names the ones that stack would use
+3. If one is installed: load its references and recipes
+4. If not: proceed with general knowledge. Nothing is gated on an expert skill being present —
+   `skaile.yaml` has no dependency mechanism, so the dependency cannot even be declared
+5. After a successful implementation: suggest creating or updating the expert's recipes

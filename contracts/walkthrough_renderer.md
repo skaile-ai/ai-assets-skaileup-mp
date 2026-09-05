@@ -39,9 +39,9 @@ visible.
 Both forms are kept in `manifest.json` so feedback consumers can pick:
 
 - `screen_path`: full repo-relative path with extension, e.g.
-  `experience/screens/01_user_auth/login.md`. Used in journey
+  `07_screens/01_user_auth/login.md`. Used in journey
   `screen_sequence`, in `screens[].screen_path`, and in `source_anchor`s.
-- `screen_id`: path stem under `experience/screens/` without `.md`, e.g.
+- `screen_id`: path stem under `07_screens/` without `.md`, e.g.
   `01_user_auth/login`. Used in `data-spec-screen`, in the rendered HTML
   filename, and in `screens[].screen_id`.
 
@@ -76,7 +76,7 @@ element, and on any `nav` / `tabs` / `list` `items[]` entry carrying its own
 **Resolution rule.** From `screen/<gA>/<nA>.html`, a target `gB/nB` renders
 `href="../<gB>/<nB>.html"` (plus `#<fragment>` when present); from
 `index.html`, `href="screen/<gB>/<nB>.html"`. A target is resolvable iff
-`experience/screens/<target-sans-fragment>.md` exists in the set of screens
+`07_screens/<target-sans-fragment>.md` exists in the set of screens
 actually rendered in this walkthrough.
 
 **Soft-fail contract.** Renderers never hard-fail on an unresolved target.
@@ -96,14 +96,14 @@ algorithm; each renderer implements it inside its own shell/layout template
 render it).
 
   1. **Shell-authoritative case.** If
-     `experience/screens/00_layout/shell.md` frontmatter has a `kind: nav`
+     `07_screens/shell.md` frontmatter has a `kind: nav`
      element (in its `elements:` block) with `items:`, that element is
      authoritative: render it in every screen page's shell wrapper, with
      each item's `target` resolved per § Target resolution above.
   2. **Derived-default case.** Otherwise, derive a default nav: one link per
-     rendered screen, grouped by `<group>` (the screen's directory segment
-     under `experience/screens/`). Group label = that directory name with
-     its `NN_` numeric prefix stripped and underscores replaced by spaces.
+     rendered screen, grouped by the screen's directory segment under
+     `07_screens/` — a feature slug. Group label = that directory name with
+     any `NN_` numeric prefix stripped and `-`/`_` replaced by spaces.
      The generated nav element gets id `app-nav`,
      `data-spec-provisional="true"`, and the renderer records exactly one
      `auto_slugged` warning for it (not one per link).
@@ -163,7 +163,7 @@ a partial one, the renderer MUST:
      `data-spec-provisional="true"`.
   4. Append a `warnings[]` entry of `kind: "auto_slugged"` to
      `manifest.json` for each auto-slugged element.
-  5. **Never** mutate the source `experience/screens/<group>/<name>.md`
+  5. **Never** mutate the source `07_screens/<feature_slug>/<name>.md`
      file. Promotion of provisional ids is `mockup-feedback`'s job.
 
 ## `items[]` id derivation
@@ -231,22 +231,22 @@ The contract handed to `mockup-annotate`. Field names pinned exactly.
   "renderer": "mockup-walkthrough-<variant>",
   "renderer_version": "0.1.0",
   "generated_at": "2026-05-07T12:34:56Z",
-  "source_root": "experience/screens",
+  "source_root": "07_screens",
   "app_nav": [
     {
       "label": "Aufgaben",
       "target": "../20_tasks/task_list.html",
-      "source": "experience/screens/00_layout/shell.md"
+      "source": "07_screens/shell.md"
     }
   ],
   "screens": [
     {
-      "screen_path": "experience/screens/01_user_auth/login.md",
+      "screen_path": "07_screens/01_user_auth/login.md",
       "screen_id": "01_user_auth/login",
       "rendered_html": "screen/01_user_auth/login.html",
-      "implements": ["experience/features/01_user_auth/login.md"],
+      "implements": ["05_features/01_user_auth/login.md"],
       "data_entities": ["User"],
-      "layout": "experience/screens/00_layout/shell.md",
+      "layout": "07_screens/shell.md",
       "elements": [
         {
           "element_id": "submit-button",
@@ -254,7 +254,7 @@ The contract handed to `mockup-annotate`. Field names pinned exactly.
           "label": "Sign in",
           "states": ["default", "loading", "disabled", "error"],
           "provisional": false,
-          "source_anchor": "experience/screens/01_user_auth/login.md#elements/submit-button"
+          "source_anchor": "07_screens/01_user_auth/login.md#elements/submit-button"
         },
         {
           "element_id": "open-admission-form",
@@ -263,7 +263,7 @@ The contract handed to `mockup-annotate`. Field names pinned exactly.
           "states": ["default"],
           "provisional": false,
           "target": "11_intake/case_admission_form",
-          "source_anchor": "experience/screens/01_user_auth/login.md#elements/open-admission-form"
+          "source_anchor": "07_screens/01_user_auth/login.md#elements/open-admission-form"
         },
         {
           "element_id": "faelle-table",
@@ -276,7 +276,7 @@ The contract handed to `mockup-annotate`. Field names pinned exactly.
             ["Lena M.", "Teilstationär", "Kindergruppe", "Aktiv", "15.06.2026"]
           ],
           "row_target": "11_intake/case_detail",
-          "source_anchor": "experience/screens/01_user_auth/login.md#elements/faelle-table"
+          "source_anchor": "07_screens/01_user_auth/login.md#elements/faelle-table"
         },
         {
           "element_id": "pending-registrations",
@@ -287,7 +287,7 @@ The contract handed to `mockup-annotate`. Field names pinned exactly.
           "items": [
             {"label": "Lena M. · geb. 14.03.2014 · Kindergruppe", "target": "11_intake/case_admission_form"}
           ],
-          "source_anchor": "experience/screens/01_user_auth/login.md#elements/pending-registrations"
+          "source_anchor": "07_screens/01_user_auth/login.md#elements/pending-registrations"
         },
         {
           "element_id": "filter-bereich",
@@ -296,7 +296,7 @@ The contract handed to `mockup-annotate`. Field names pinned exactly.
           "states": ["default"],
           "provisional": false,
           "options": ["Alle", "Kindergruppe", "Jugendgruppe"],
-          "source_anchor": "experience/screens/01_user_auth/login.md#elements/filter-bereich"
+          "source_anchor": "07_screens/01_user_auth/login.md#elements/filter-bereich"
         }
       ]
     }
@@ -305,23 +305,23 @@ The contract handed to `mockup-annotate`. Field names pinned exactly.
     {
       "journey_id": "user-signs-in",
       "rendered_html": "journey/user-signs-in.html",
-      "source": "experience/journeys/stories.yaml#user-signs-in",
+      "source": "04_journeys/stories.yaml#user-signs-in",
       "screen_sequence": [
-        "experience/screens/01_user_auth/login.md",
-        "experience/screens/02_dashboard/home.md"
+        "07_screens/01_user_auth/login.md",
+        "07_screens/02_dashboard/home.md"
       ]
     }
   ],
   "features": [
     {
-      "feature_path": "experience/features/01_user_auth/login.md",
-      "rendered_screens": ["experience/screens/01_user_auth/login.md"]
+      "feature_path": "05_features/01_user_auth/login.md",
+      "rendered_screens": ["07_screens/01_user_auth/login.md"]
     }
   ],
   "warnings": [
     {
       "kind": "auto_slugged",
-      "screen_path": "experience/screens/02_dashboard/home.md",
+      "screen_path": "07_screens/02_dashboard/home.md",
       "element_id": "kpi-card-1",
       "message": "No elements: block in screen frontmatter; auto-slugged 1 element."
     }
@@ -338,7 +338,7 @@ The contract handed to `mockup-annotate`. Field names pinned exactly.
   produced the site.
 - `generated_at`: ISO-8601 UTC; lets feedback-annotate detect stale renders.
 - `source_root`: relative path the screen paths are anchored to (always
-  `experience/screens`).
+  `07_screens`).
 - `app_nav[]`: the generated app-shell nav actually rendered into every
   screen's shell wrapper (§ App-shell navigation). One entry per rendered
   link.
@@ -354,7 +354,7 @@ The contract handed to `mockup-annotate`. Field names pinned exactly.
     scheme across renderers.
   - `app_nav[].source`: `"derived"` when the renderer generated the
     default nav itself, or the shell source path (e.g.
-    `"experience/screens/00_layout/shell.md"`) when a shell `kind: nav`
+    `"07_screens/shell.md"`) when a shell `kind: nav`
     element was authoritative.
 - `screens[].screen_path`: full path with `.md`. Used by feedback-annotate
   when it needs to read the source file.
@@ -403,7 +403,7 @@ renderer's `RENDERER.md` (e.g. astro's `stale_tailwind_config`). Extend cautious
 | Screen in journey but absent on disk | `manifest.warnings[]` `kind: "missing_screen"` + dead-end `<li class="journey-step-missing">` |
 | `screen_sequence` absent for a journey | `manifest.warnings[]` `kind: "missing_screen_sequence"`, skip that journey render |
 | Zero journeys in `stories.yaml` | Render "No journeys defined", `kind: "no_journeys"` |
-| Missing `experience/features/` | Soft gate, `kind: "missing_feature"`, continue; `manifest.features[]` → `[]` |
+| Missing `05_features/` | Soft gate, `kind: "missing_feature"`, continue; `manifest.features[]` → `[]` |
 | Unknown `elements:` kind | Render as `custom`, `kind: "unknown_element_kind"` |
 | `layout:` reference to non-existent file | `kind: "missing_layout"`, fall back to the renderer's default shell |
 | Auto-slug collision | `kind: "auto_slug_collision"`, suffix auto id with `-2`, `-3`, … |
@@ -438,7 +438,7 @@ MUST  render declared `columns` / `sample_rows` / `items` / `options` as real DO
 MUST  render the spec body only inside the collapsed spec panel (§ Spec reference panel), never inline as primary content
 
 NEVER  emit `data-spec-*` attributes outside the pinned table
-NEVER  mutate source files (`experience/screens/**`, `experience/journeys/stories.yaml`, `design/tokens.json`, `experience/features/**`) — renderers are read-only on inputs
+NEVER  mutate source files (`07_screens/**`, `04_journeys/stories.yaml`, `03_brand/tokens.json`, `05_features/**`) — renderers are read-only on inputs
 NEVER  inject journey-*step* navigation (Next/Prev, journey-ordering) into `screen/**/*.html` — that lives only in `journey/<id>.html`; screen-intrinsic `target:` links and the generated app-shell nav are REQUIRED and are NOT journey-nav
 NEVER  inline absolute filesystem paths into `manifest.json` — repo-relative paths only
 NEVER  render a canonical spec-template heading (§ Auto-slug fallback exclusion list) as a widget

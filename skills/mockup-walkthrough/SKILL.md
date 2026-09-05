@@ -33,9 +33,9 @@ below sequence it and never restate it.
 
 ## Steps
 
-1. **Resolve the renderer, once, before anything else.** `_grounding/onboarding/onboarding.yaml`
+1. **Resolve the renderer, once, before anything else.** `02_grounding/onboarding/onboarding.yaml`
    key `mockup.renderer` wins when set (`static-html` | `astro`). Absent, the flow in
-   `_meta/scope.yaml` decides: `appbuilder-mvp` gets **static-html**, `appbuilder-standard`
+   `01_meta/scope.yaml` decides: `appbuilder-mvp` gets **static-html**, `appbuilder-standard`
    and `skaileup-concept-only` get **astro**. The answer names both the
    output root `_concept/09_mockup/walkthrough/<renderer>/` and the reference directory you work
    from — read `references/<renderer>/RENDERER.md` now; it carries the render steps this one
@@ -46,18 +46,19 @@ below sequence it and never restate it.
    line per patch. Treat every applied line for a file you are about to render as a constraint:
    a stakeholder already asked for that change and a regeneration that quietly reverts it reads
    as the tool ignoring the feedback round.
-3. **Read the inputs and build one in-memory model.** Glob `07_screens/**/*.md`
-   (excluding `00_layout/`), sorted by path, and **build the set of rendered screen ids before
+3. **Read the inputs and build one in-memory model.** Glob `07_screens/*/*.md`
+   — one level, so the root `shell.md` is not a screen — sorted by path, and **build the set of rendered screen ids before
    resolving any `target`** — resolution then never depends on parse order. Resolve every
    `target` / `row_target` / `items[].target` against that set; unresolved means `href: null`
    plus an `unresolved_target` warning, never a hard failure. Auto-slug what `elements:` leaves
    uncovered and derive ids for id-less `items[]`, both per the contract. Build the app nav —
-   shell-authoritative when `00_layout/shell.md` declares a `kind: nav` element with items,
+   shell-authoritative when `07_screens/shell.md` declares a `kind: nav` element with items,
    derived per rendered screen otherwise. Flatten `03_brand/tokens.json` into `--token-<dotted-path>`
    custom properties. Read `04_journeys/stories.yaml`; a journey without a
    `screen_sequence` gets a `missing_screen_sequence` warning and is skipped. Glob
-   `05_features/**/*.md` for manifest traceability only — they are never rendered, and their
-   absence costs the manifest its feature links rather than stopping the render.
+   `05_features/*/*.md` for manifest traceability only — one level again, because
+   `05_features/featuresets.md` is the roster, not a feature. They are never rendered, and
+   their absence costs the manifest its feature links rather than stopping the render.
    Element-schema validation is authoring-time work; handle render-time semantics only, and
    let a screen file with malformed YAML stop the run naming the file rather than shipping a
    half-rendered site.

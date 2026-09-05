@@ -1,10 +1,10 @@
-# Frontmatter Schema — _concept/ Output Files
+# Frontmatter Schema — `_concept/` artifact files
 
-> **Scope:** This document defines YAML frontmatter for files written *into* `_concept/` by skills (brief.md, feature files, screen files, stack.md, etc.).
-> For the manifest frontmatter of skills, agents, prompts, and flows themselves, see `asset_frontmatter.md`.
+> **Scope:** the YAML frontmatter of files a skill writes *into* `_concept/`. Every path
+> below is `concept_structure.md`'s. A skill's own manifest frontmatter is a different
+> object and lives in `docs/skill-template.md`.
 
-All markdown files in `_concept/` use YAML frontmatter.
-Skills must use these field names exactly.
+All markdown files in `_concept/` use YAML frontmatter. Skills use these field names exactly.
 
 ## Universal Fields
 
@@ -18,7 +18,7 @@ last_updated: YYYY-MM-DD    # ISO date, updated on every write
 
 ---
 
-## discovery/brief.md
+## brief.md
 
 ```yaml
 ---
@@ -31,9 +31,29 @@ last_updated: YYYY-MM-DD
 ---
 ```
 
+## goals.md
+
+```yaml
+---
+success_criteria: []            # what "working" means, one line each
+kpis: []                        # the measurable ones
+constraints: []                 # budget, deadline, platform, compliance
+non_goals: []                   # explicitly out, so nobody re-proposes them
+last_updated: YYYY-MM-DD
+---
+```
+
+## comparable.md
+
+```yaml
+---
+last_updated: YYYY-MM-DD
+---
+```
+
 ---
 
-## _grounding/general/competitors.md
+## 02_grounding/research/competitors.md
 
 ```yaml
 ---
@@ -42,7 +62,7 @@ last_updated: YYYY-MM-DD
 ---
 ```
 
-## _grounding/general/audiences.md
+## 02_grounding/research/audiences.md
 
 ```yaml
 ---
@@ -51,7 +71,7 @@ last_updated: YYYY-MM-DD
 ---
 ```
 
-## _grounding/general/domain.md
+## 02_grounding/research/domain.md
 
 ```yaml
 ---
@@ -59,7 +79,7 @@ last_updated: YYYY-MM-DD
 ---
 ```
 
-## _grounding/general/design_inspiration.md
+## 02_grounding/research/design-inspiration.md
 
 ```yaml
 ---
@@ -70,7 +90,7 @@ last_updated: YYYY-MM-DD
 
 ---
 
-## discovery/brand/identity.md
+## 03_brand/identity.md
 
 ```yaml
 ---
@@ -82,44 +102,34 @@ last_updated: YYYY-MM-DD
 
 ---
 
-## experience/journeys/stories.yaml
+## 04_journeys/stories.yaml
 
-JSON file — no frontmatter. Structure:
+A data file, not a markdown artifact — no frontmatter. Structure:
 
-```json
-{
-  "version": "1.0",
-  "last_updated": "YYYY-MM-DD",
-  "personas": [
-    {
-      "id": "persona_id",
-      "name": "Persona Name",
-      "role": "role_name",
-      "goals": ["..."]
-    }
-  ],
-  "journeys": [
-    {
-      "id": "journey_id",
-      "persona": "persona_id",
-      "title": "Journey Title",
-      "steps": [
-        {
-          "action": "What the user does",
-          "system_response": "What the system does",
-          "acceptance": "EARS-format acceptance criterion"
-        }
-      ],
-      "candidate_features": ["feature_slug"],
-      "candidate_entities": ["EntityName"]
-    }
-  ]
-}
+```yaml
+version: "1.0"
+last_updated: YYYY-MM-DD
+personas:
+  - id: persona_id
+    name: Persona Name
+    role: role_name
+    goals: ["..."]
+journeys:
+  - id: journey_id
+    persona: persona_id
+    title: Journey Title
+    stage: hero | vital | hygiene | backlog
+    steps:
+      - action: What the user does
+        system_response: What the system does
+        acceptance: EARS-format acceptance criterion
+    candidate_features: [feature_slug]
+    candidate_entities: [EntityName]
 ```
 
 ---
 
-## experience/features/\<group\>/\<feature\>.md
+## 05_features/\<featureset\>/\<feature\>.md
 
 ```yaml
 ---
@@ -133,65 +143,88 @@ story_refs: []                  # journey IDs from stories.yaml that motivated t
 agent_notes: |
   Free-form notes from the agent about this feature.
   Used for context across sessions.
-screens: []                     # populated by screens skill
-data_entities: []               # populated by datamodel skill
-slice_ref: ""                   # populated by impl-slice-commit: _implementation/slices/<slice_id>/
-commits: []                     # populated by impl-slice-commit: git SHAs that shipped this feature
-source_files: []                # populated by impl-slice-commit: code files from recap.md "## Files touched"
+screens: []                     # populated by spec-feature when it writes the screens
+data_entities: []               # populated by architecture-datamodel
+slice_ref: ""                   # populated by build-implement: 11_build/slices/<slice_id>/
+commits: []                     # populated by build-implement: git SHAs that shipped this feature
+source_files: []                # populated by build-implement: code files from the slice recap
 last_updated: YYYY-MM-DD
 ---
 ```
 
-### screens[] format (populated by downstream skill)
+### screens[] format (populated by the screen write)
 
 ```yaml
 screens:
-  - path: experience/screens/01_user_auth/login.md
+  - path: 07_screens/login/login.md
 ```
 
-### data_entities[] format (populated by downstream skill)
+### data_entities[] format (populated by architecture-datamodel)
 
 ```yaml
 data_entities: [User, Session]
 ```
 
-### back-link format (populated by impl-slice-commit on freeze)
+### back-link format (populated by build-implement on freeze)
 
-Forward-built features get code back-links when their slice is frozen —
-same shape `ops-reverse-engineer` writes for imported repos:
+Forward-built features get code back-links when their slice is frozen — the same shape
+`concept-reverse` writes for imported repos:
 
 ```yaml
-slice_ref: _implementation/slices/login/
+slice_ref: 11_build/slices/login/
 commits: [abc1234, deadbeef1234567]      # 7-40 hex chars each
 source_files:
   - src/routes/login.ts
   - src/components/LoginForm.tsx
 ```
 
-`ops-trace` (Direction 1) treats an empty `commits`/`source_files` on a
-frozen slice's feature as a red trace row.
+`ops-review`'s trace treats an empty `commits`/`source_files` on a frozen slice's feature as
+a red trace row.
 
 ---
 
-## experience/screens/\<group\>/\<screen\>.md
+## 06_behaviors/\<featureset\>.md
+
+```yaml
+---
+last_updated: YYYY-MM-DD
+---
+```
+
+The states, transitions and constants are markdown tables in the body, not frontmatter —
+`experience-behaviors` owns their shape.
+
+---
+
+## 07_screens/shell.md
+
+```yaml
+---
+elements: []                    # carries the `kind: nav` block — see contracts/elements_block.md
+last_updated: YYYY-MM-DD
+---
+```
+
+## 07_screens/\<feature_slug\>/\<screen\>.md
 
 ```yaml
 ---
 implements:
-  - experience/features/01_user_auth/login.md
-  - experience/features/01_user_auth/registration.md
+  - 05_features/auth/login.md
+  - 05_features/auth/registration.md
 data_entities: [User]
-layout: experience/screens/00_layout/shell.md
+layout: 07_screens/shell.md
 elements: []                    # OPTIONAL — see contracts/elements_block.md
 last_updated: YYYY-MM-DD
 ---
 ```
 
-For the optional `elements:` block (used by walkthrough renderers and the mockup-feedback loop), see `contracts/elements_block.md`.
+For the optional `elements:` block (used by walkthrough renderers and the mockup-feedback
+loop), see `contracts/elements_block.md`.
 
 ---
 
-## blueprint/techstack.md
+## 10_blueprint/techstack.md
 
 ```yaml
 ---
@@ -204,13 +237,19 @@ orm: ""                         # e.g. Prisma, TypeORM, Drizzle, Ecto
 database: ""                    # e.g. PostgreSQL, SQLite
 auth: ""                        # e.g. Keycloak, Auth.js, custom
 package_manager: ""             # e.g. pnpm, bun, npm
+tech_stack_skill: ""            # the winning template's directory name, or `custom`
 last_updated: YYYY-MM-DD
 ---
 ```
 
+`tech_stack_skill` is the field the rest of the collection resolves: `build-scaffold` and
+`build-database` read `templates/<that string>/TEMPLATE.md` for their recipe sections and
+atoms. `custom` means no template — the commands come from this file's own prose. Written by
+`architecture-techstack`; the legal values are the directory names under `templates/`.
+
 ---
 
-## blueprint/architecture.md
+## 10_blueprint/architecture.md
 
 ```yaml
 ---
@@ -225,7 +264,7 @@ last_updated: YYYY-MM-DD
 
 ---
 
-## blueprint/datamodel/feature_map.json
+## 10_blueprint/datamodel/feature-map.json
 
 JSON file — no frontmatter. Maps each model to its source feature files:
 
@@ -235,8 +274,8 @@ JSON file — no frontmatter. Maps each model to its source feature files:
   "models": {
     "User": {
       "source_features": [
-        "experience/features/01_user_auth/login.md",
-        "experience/features/01_user_auth/registration.md"
+        "05_features/auth/login.md",
+        "05_features/auth/registration.md"
       ]
     }
   }

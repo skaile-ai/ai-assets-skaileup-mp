@@ -1,8 +1,8 @@
 ---
 implements:
-  - experience/features/00_auth/login.md
+  - 05_features/00_auth/login.md
 data_entities: [User]
-layout: experience/screens/00_layout/shell.md
+layout: 07_screens/shell.md
 elements:
   - id: email-input
     kind: input
@@ -20,7 +20,7 @@ elements:
     states: [default, loading, disabled, error]
     data_entity: User
     acceptance_refs:
-      - experience/features/00_auth/login.md#AC-1
+      - 05_features/00_auth/login.md#AC-1
   - id: go-register
     kind: link
     label: "Create an account"

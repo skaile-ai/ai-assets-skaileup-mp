@@ -20,5 +20,5 @@ cp -r expected/minimal/. rendered/minimal/
 # Fixture mode: structural checks + snapshot diff.
 python3 ../validator.py rendered/minimal \
   --fixture minimal \
-  --source-root fixtures/minimal/experience/screens \
+  --source-root fixtures/minimal/07_screens \
   --cwd "$(pwd)"

@@ -22,9 +22,9 @@ metadata:
 
 Builds a standalone Storybook at `_concept/09_mockup/storybook/` in three layers: custom
 components, full-page screen compositions, and one clickable click-dummy per user journey.
-This is a concept artifact — a surface for reviewing the design before the app exists. The
-real application's own Storybook config belongs to `build-foundation`; the two never share a
-directory.
+This is a concept artifact — a surface for reviewing the design before the app exists. An
+app that wants its own Storybook gets it as ordinary build work behind the template's
+`## Storybook Config`; the two never share a directory.
 
 Nothing here is framework-specific except the values step 1 resolves. Directory layout, story
 titles, variant names and the page manifest are the same on every stack —
@@ -32,22 +32,22 @@ titles, variant names and the page manifest are the same on every stack —
 
 ## Steps
 
-1. **Resolve the stack, and resolve it once.** `10_blueprint/techstack.md` names
-   `tech_stack_skill` and `package_manager`; that template's `TEMPLATE.md` carries a
-   `## Storybook Config` block with `storybook_addon`, `story_format` and `component_import`.
-   Three values you also need are not in that block: derive `story_extension` from
-   `story_format` (`Vue SFC` → `.vue`, `CSF3` → `.tsx`, Svelte → `.svelte`),
-   `component_library` from the template's `## Component Library` section, and `icon_library`
-   from its dependency list. Confirm all six with the user before scaffolding — a wrong addon
-   is discovered at the end of step 6, after every story has been written against it. Carry
-   the six as the only stack-shaped values in the run; every later step names them rather than
-   a framework.
+1. **Resolve the stack and read its atoms by name.** `10_blueprint/techstack.md` names
+   `tech_stack_skill`; `templates/<that id>/TEMPLATE.md` carries `storybook_addon`,
+   `story_format`, `story_extension`, `component_import`, `component_library`, `icon_library`
+   and `package_manager` under `metadata.atoms`. Every template declares every atom with a
+   value or an explicit `null`, and a `null` is the answer rather than a missing one:
+   `component_library: null` means the stack ships none, so step 3's split puts every element
+   on the custom side, and `icon_library: null` means inline the SVGs. Confirm the set with the
+   user before scaffolding — a wrong addon is discovered at the end of step 6, after every story
+   has been written against it. Carry them as the only stack-shaped values in the run; every
+   later step names an atom rather than a framework.
 2. **Scaffold, when `_concept/09_mockup/storybook/package.json` is absent.** Write the project
    files listed in `references/scaffold.md` — `package.json` on the resolved addon,
    `.storybook/main`, `theme` and `preview`, and `src/styles/brand.css` — then install with
    the resolved package manager and confirm `run build` passes before writing a single story.
    Every colour, font, radius and spacing value comes from `03_brand/tokens.json` and
-   viewport presets come from `07_screens/00_layout/shell.md`: a hardcoded breakpoint
+   viewport presets come from `07_screens/shell.md`: a hardcoded breakpoint
    or an invented colour makes the prototype disagree with the brand it exists to show.
    Present already? Leave it alone and go to step 3 — the scaffold is the user's by then.
 3. **Build the components layer.** Read every screen spec's `UI Elements` section and take the
@@ -61,7 +61,7 @@ titles, variant names and the page manifest are the same on every stack —
    `populated` and `empty` scenarios, so the stories and the tests later share one fixture.
    Finish with the `src/components/index` barrel — step 4 imports from it, and an empty barrel
    with a comment is the right output when the library covered everything.
-4. **Build the pages layer.** `AppShell` first, from `00_layout/shell.md`, with its nav items
+4. **Build the pages layer.** `AppShell` first, from `07_screens/shell.md`, with its nav items
    derived from the shell spec: it is the frame every page renders inside, so a page built
    before it gets composed twice. Then one page component and one story per screen spec, with
    a named variant for every state the spec lists and `Mobile` / `Tablet` variants alongside.

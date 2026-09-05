@@ -1,8 +1,8 @@
 ---
 implements:
-  - experience/features/00_auth/login.md
+  - 05_features/00_auth/login.md
 data_entities: [User]
-layout: experience/screens/00_layout/shell.md
+layout: 07_screens/shell.md
 last_updated: 2026-07-06
 ---
 

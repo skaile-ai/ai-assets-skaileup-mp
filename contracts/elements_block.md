@@ -12,7 +12,7 @@
 ## Scope
 
 This contract defines the optional `elements:` block on screen frontmatter
-files at `experience/screens/<group>/<screen>.md`. It is consumed by:
+files at `07_screens/<feature_slug>/<screen>.md`. It is consumed by:
 
 - **The walkthrough renderers** (`mockup-walkthrough`) — emit stable HTML
   attributes per element so annotations can survive regenerations.
@@ -24,15 +24,12 @@ an empty list) triggers the auto-slug fallback (see *Hybrid ID strategy*
 below). An empty list (`elements: []`) and an absent key are semantically
 identical.
 
-That fallback is a **safety net, not the primary path.** The
-`experience-screens` skill (`skaileup/03_experience/03_screens/SKILL.md`)
-treats an explicit `elements:` block as a hard MUST at depth `medium`/`max`
-(exempt at `light`/`none`, matching the existing `### Wireframe` MUST
-precedent), covering every interactive or structural thing named in
-`### UI Elements`, `## Actions`, and `## Information Displayed` — including
-`target:` for every action that names a destination screen. Renderers still
-never hard-fail on a missing or partial block; the MUST lives at authoring
-time, not render time.
+That fallback is a **safety net, not the primary path.** `spec-feature` is the sole
+writer of screen specs and of this block, and it writes one for every screen it names —
+covering every interactive or structural thing under `### UI Elements`, `## Actions` and
+`## Information Displayed`, including `target:` for every action that names a destination
+screen. Renderers still never hard-fail on a missing or partial block: the obligation is
+the author's, at authoring time, not the renderer's at render time.
 
 ---
 
@@ -76,7 +73,7 @@ elements:                            # OPTIONAL — top-level frontmatter key
 | `describes` | string | no | one-line prose describing the element's role on the screen |
 | `data_entity` | string | no | name of a `data_entities[]` entity this element renders or edits |
 | `acceptance_refs` | list of strings | no | each entry is `<feature-path>#<criterion-id>`, mirroring the `story_refs:` convention |
-| `target` | string | no | `screen_id` (path stem under `experience/screens/`) plus optional `#<element-id>` fragment; valid only when `kind` is `link`, `button`, `list`, `image`, or `custom`; MUST resolve against the rendered screen set, or the renderer records an `unresolved_target` warning — see § Navigation targets |
+| `target` | string | no | `screen_id` (path stem under `07_screens/`) plus optional `#<element-id>` fragment; valid only when `kind` is `link`, `button`, `list`, `image`, or `custom`; MUST resolve against the rendered screen set, or the renderer records an `unresolved_target` warning — see § Navigation targets |
 | `items` | list | no | valid only when `kind` is `nav`, `tabs`, or `list`; entry shape depends on `kind` — see § Content fidelity |
 | `columns` | list of strings | yes, iff `kind: table` | column headers, in display order; valid only when `kind: table` |
 | `sample_rows` | list of lists of strings | no | `table` only; each row's length MUST equal `len(columns)`; authored fixture data, never renderer-invented — see § Content fidelity |
@@ -91,8 +88,8 @@ The `target` field (and a table's `row_target`) points an interactive
 element at another screen.
 
 **Identity form.** A target is a `screen_id` — the path stem of a screen
-file under `experience/screens/`, e.g. `11_intake/case_admission_form` for
-`experience/screens/11_intake/case_admission_form.md`. This is the same
+file under `07_screens/`, e.g. `11_intake/case_admission_form` for
+`07_screens/11_intake/case_admission_form.md`. This is the same
 identity used by `data-spec-screen`, rendered filenames, and
 `screens[].screen_id` in the walkthrough manifest. An optional
 `#<element-id>` fragment addresses a specific element on the target screen.
@@ -110,7 +107,7 @@ error — `nav` and `tabs` carry per-entry destinations through
 **Resolution rule.** From `screen/<gA>/<nA>.html`, a target `gB/nB` renders
 `href="../<gB>/<nB>.html"` (plus `#<fragment>` when present); from
 `index.html`, `href="screen/<gB>/<nB>.html"`. A target is resolvable iff
-`experience/screens/<target-sans-fragment>.md` exists in the set of screens
+`07_screens/<target-sans-fragment>.md` exists in the set of screens
 actually rendered in this walkthrough.
 
 **Soft-fail contract.** Renderers never hard-fail on an unresolved target.
@@ -193,7 +190,7 @@ Walkthrough renderers MUST emit the following HTML data attributes:
   `provisional: true`).
 
 The screen path in `data-spec-screen` is the repo-relative path to the
-screen markdown file (e.g. `experience/screens/01_user_auth/login.md`).
+screen markdown file (e.g. `07_screens/01_user_auth/login.md`).
 
 ---
 
@@ -254,7 +251,7 @@ elements:
     states: [default, loading, disabled, error]
     data_entity: User
     acceptance_refs:
-      - experience/features/01_user_auth/login.md#AC-2
+      - 05_features/01_user_auth/login.md#AC-2
 ```
 
 ### Explicit `elements:` entry with `target:` (in-screen navigation)
@@ -352,7 +349,7 @@ auto-slugs from the visible label and emits:
 
 ```html
 <button
-  data-spec-screen="experience/screens/01_user_auth/login.md"
+  data-spec-screen="07_screens/01_user_auth/login.md"
   data-spec-element="sign-in"
   data-spec-provisional="true">
   Sign in

@@ -21,8 +21,7 @@ setup_repo() {
     local before_dir="$1"
     local tmp
     tmp=$(mktemp -d)
-    cp -r "$before_dir/concept"   "$tmp/concept"
-    cp -r "$before_dir/_feedback" "$tmp/_feedback"
+    cp -r "$before_dir/concept" "$tmp/concept"
     git -C "$tmp" init -q
     git -C "$tmp" config user.email "test@test.com"
     git -C "$tmp" config user.name "Test"
@@ -38,9 +37,9 @@ trap 'rm -rf "$TMP1"' EXIT
 
 cd "$TMP1"
 python3 "$APPLY" \
-    "_feedback/patches/test-pass.json" \
-    "_feedback/patches/test-pass.review.md" \
-    "concept" "_feedback"
+    "concept/09_mockup/feedback/patches/test-pass.json" \
+    "concept/09_mockup/feedback/patches/test-pass.review.md" \
+    "concept" "concept/09_mockup/feedback"
 cd - > /dev/null
 
 # Verify concept file matches expected
@@ -51,8 +50,8 @@ diff \
     || { echo "FAIL: login.md content differs"; exit 1; }
 
 # Verify applied JSON (strip volatile fields)
-ACTUAL_NORM=$(normalize_applied < "$TMP1/_feedback/applied/test-pass.json")
-EXPECTED_NORM=$(normalize_applied < "$FIXTURES/test-pass/after/_feedback/applied/test-pass.json")
+ACTUAL_NORM=$(normalize_applied < "$TMP1/concept/09_mockup/feedback/applied/test-pass.json")
+EXPECTED_NORM=$(normalize_applied < "$FIXTURES/test-pass/after/concept/09_mockup/feedback/applied/test-pass.json")
 [ "$ACTUAL_NORM" = "$EXPECTED_NORM" ] \
     && echo "OK: applied JSON matches expected" \
     || { echo "FAIL: applied JSON differs"; diff <(echo "$EXPECTED_NORM") <(echo "$ACTUAL_NORM"); exit 1; }
@@ -72,9 +71,9 @@ trap 'rm -rf "$TMP1" "$TMP2"' EXIT
 
 cd "$TMP2"
 python3 "$APPLY" \
-    "_feedback/patches/test-partial-fail.json" \
-    "_feedback/patches/test-partial-fail.review.md" \
-    "concept" "_feedback"
+    "concept/09_mockup/feedback/patches/test-partial-fail.json" \
+    "concept/09_mockup/feedback/patches/test-partial-fail.review.md" \
+    "concept" "concept/09_mockup/feedback"
 cd - > /dev/null
 
 # Verify concept file (only the good patch should be applied)
@@ -85,8 +84,8 @@ diff \
     || { echo "FAIL: login.md content differs"; exit 1; }
 
 # Verify applied JSON has 1 applied + 1 failed
-ACTUAL_NORM=$(normalize_applied < "$TMP2/_feedback/applied/test-partial-fail.json")
-EXPECTED_NORM=$(normalize_applied < "$FIXTURES/test-partial-fail/after/_feedback/applied/test-partial-fail.json")
+ACTUAL_NORM=$(normalize_applied < "$TMP2/concept/09_mockup/feedback/applied/test-partial-fail.json")
+EXPECTED_NORM=$(normalize_applied < "$FIXTURES/test-partial-fail/after/concept/09_mockup/feedback/applied/test-partial-fail.json")
 [ "$ACTUAL_NORM" = "$EXPECTED_NORM" ] \
     && echo "OK: applied JSON matches expected (failed item recorded)" \
     || { echo "FAIL: applied JSON differs"; diff <(echo "$EXPECTED_NORM") <(echo "$ACTUAL_NORM"); exit 1; }
@@ -106,9 +105,9 @@ trap 'rm -rf "$TMP1" "$TMP2" "$TMP3"' EXIT
 cd "$TMP3"
 set +e
 python3 "$APPLY" \
-    "_feedback/patches/test-all-fail.json" \
-    "_feedback/patches/test-all-fail.review.md" \
-    "concept" "_feedback"
+    "concept/09_mockup/feedback/patches/test-all-fail.json" \
+    "concept/09_mockup/feedback/patches/test-all-fail.review.md" \
+    "concept" "concept/09_mockup/feedback"
 EC=$?
 set -e
 cd - > /dev/null
@@ -117,7 +116,7 @@ cd - > /dev/null
     && echo "OK: exit code 2 (all-failed)" \
     || { echo "FAIL: expected exit 2, got $EC"; exit 1; }
 
-[ ! -f "$TMP3/_feedback/applied/test-all-fail.json" ] \
+[ ! -f "$TMP3/concept/09_mockup/feedback/applied/test-all-fail.json" ] \
     && echo "OK: no applied JSON written" \
     || { echo "FAIL: applied JSON was written (should not exist)"; exit 1; }
 
@@ -129,9 +128,9 @@ COMMIT_COUNT=$(git -C "$TMP3" log --oneline | wc -l | tr -d ' ')
 # Verify retry without --force succeeds cleanly (exits 2 again, not 1)
 set +e
 (cd "$TMP3" && python3 "$APPLY" \
-    "_feedback/patches/test-all-fail.json" \
-    "_feedback/patches/test-all-fail.review.md" \
-    "concept" "_feedback")
+    "concept/09_mockup/feedback/patches/test-all-fail.json" \
+    "concept/09_mockup/feedback/patches/test-all-fail.review.md" \
+    "concept" "concept/09_mockup/feedback")
 EC2=$?
 set -e
 [ "$EC2" -eq 2 ] \

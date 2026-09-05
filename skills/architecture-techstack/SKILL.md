@@ -27,7 +27,7 @@ auth and ORM recipes come from — so the abstract choice and the concrete templ
 decision under one approval, not two rounds over the same field.
 
 Paths are `contracts/concept_structure.md`'s and the frontmatter is
-`contracts/artifact_frontmatter.md § blueprint/techstack.md`. The template set, its atoms
+`contracts/artifact_frontmatter.md § 10_blueprint/techstack.md`. The template set, its atoms
 and its section headings are `templates/README.md`'s; read it before scoring.
 
 ## Steps

@@ -3,7 +3,7 @@
   "renderer": "mockup-walkthrough-astro",
   "renderer_version": "0.2.0",
   "generated_at": "<pinned>",
-  "source_root": "experience/screens",
+  "source_root": "07_screens",
   "app_nav": [
     {
       "label": "login",
@@ -23,16 +23,16 @@
   ],
   "screens": [
     {
-      "screen_path": "experience/screens/00_auth/login.md",
+      "screen_path": "07_screens/00_auth/login.md",
       "screen_id": "00_auth/login",
       "rendered_html": "screen/00_auth/login.html",
       "implements": [
-        "experience/features/00_auth/login.md"
+        "05_features/00_auth/login.md"
       ],
       "data_entities": [
         "User"
       ],
-      "layout": "experience/screens/00_layout/shell.md",
+      "layout": "07_screens/shell.md",
       "elements": [
         {
           "element_id": "email-input",
@@ -44,7 +44,7 @@
             "error"
           ],
           "provisional": false,
-          "source_anchor": "experience/screens/00_auth/login.md#elements/email-input"
+          "source_anchor": "07_screens/00_auth/login.md#elements/email-input"
         },
         {
           "element_id": "password-input",
@@ -56,7 +56,7 @@
             "error"
           ],
           "provisional": false,
-          "source_anchor": "experience/screens/00_auth/login.md#elements/password-input"
+          "source_anchor": "07_screens/00_auth/login.md#elements/password-input"
         },
         {
           "element_id": "submit-button",
@@ -69,7 +69,7 @@
             "error"
           ],
           "provisional": false,
-          "source_anchor": "experience/screens/00_auth/login.md#elements/submit-button"
+          "source_anchor": "07_screens/00_auth/login.md#elements/submit-button"
         },
         {
           "element_id": "go-register",
@@ -80,7 +80,7 @@
           ],
           "provisional": false,
           "target": "00_auth/register",
-          "source_anchor": "experience/screens/00_auth/login.md#elements/go-register"
+          "source_anchor": "07_screens/00_auth/login.md#elements/go-register"
         },
         {
           "element_id": "recent-signins",
@@ -102,7 +102,7 @@
             ["Tom B.", "tom@example.com", "2026-07-04"]
           ],
           "row_target": "00_auth/verify_email",
-          "source_anchor": "experience/screens/00_auth/login.md#elements/recent-signins"
+          "source_anchor": "07_screens/00_auth/login.md#elements/recent-signins"
         },
         {
           "element_id": "filter-role",
@@ -117,7 +117,7 @@
             "Admin",
             "User"
           ],
-          "source_anchor": "experience/screens/00_auth/login.md#elements/filter-role"
+          "source_anchor": "07_screens/00_auth/login.md#elements/filter-role"
         },
         {
           "element_id": "forgot-password",
@@ -127,7 +127,7 @@
             "default"
           ],
           "provisional": true,
-          "source_anchor": "experience/screens/00_auth/login.md#auto/forgot-password"
+          "source_anchor": "07_screens/00_auth/login.md#auto/forgot-password"
         },
         {
           "element_id": "theme",
@@ -137,21 +137,21 @@
             "default"
           ],
           "provisional": true,
-          "source_anchor": "experience/screens/00_auth/login.md#auto/theme"
+          "source_anchor": "07_screens/00_auth/login.md#auto/theme"
         }
       ]
     },
     {
-      "screen_path": "experience/screens/00_auth/register.md",
+      "screen_path": "07_screens/00_auth/register.md",
       "screen_id": "00_auth/register",
       "rendered_html": "screen/00_auth/register.html",
       "implements": [
-        "experience/features/00_auth/login.md"
+        "05_features/00_auth/login.md"
       ],
       "data_entities": [
         "User"
       ],
-      "layout": "experience/screens/00_layout/shell.md",
+      "layout": "07_screens/shell.md",
       "elements": [
         {
           "element_id": "go-login",
@@ -162,7 +162,7 @@
           ],
           "provisional": false,
           "target": "00_auth/login",
-          "source_anchor": "experience/screens/00_auth/register.md#elements/go-login"
+          "source_anchor": "07_screens/00_auth/register.md#elements/go-login"
         },
         {
           "element_id": "account-type-tabs",
@@ -176,7 +176,7 @@
             {"label": "Personal"},
             {"label": "Business"}
           ],
-          "source_anchor": "experience/screens/00_auth/register.md#elements/account-type-tabs"
+          "source_anchor": "07_screens/00_auth/register.md#elements/account-type-tabs"
         },
         {
           "element_id": "signup-benefits",
@@ -190,7 +190,7 @@
             {"label": "See your login screen", "target": "00_auth/login"},
             "Get onboarding tips"
           ],
-          "source_anchor": "experience/screens/00_auth/register.md#elements/signup-benefits"
+          "source_anchor": "07_screens/00_auth/register.md#elements/signup-benefits"
         },
         {
           "element_id": "learn-more",
@@ -201,7 +201,7 @@
           ],
           "provisional": false,
           "target": "00_auth/business_account_info",
-          "source_anchor": "experience/screens/00_auth/register.md#elements/learn-more"
+          "source_anchor": "07_screens/00_auth/register.md#elements/learn-more"
         },
         {
           "element_id": "email",
@@ -211,7 +211,7 @@
             "default"
           ],
           "provisional": true,
-          "source_anchor": "experience/screens/00_auth/register.md#auto/email"
+          "source_anchor": "07_screens/00_auth/register.md#auto/email"
         },
         {
           "element_id": "password",
@@ -221,7 +221,7 @@
             "default"
           ],
           "provisional": true,
-          "source_anchor": "experience/screens/00_auth/register.md#auto/password"
+          "source_anchor": "07_screens/00_auth/register.md#auto/password"
         },
         {
           "element_id": "create-account",
@@ -231,21 +231,21 @@
             "default"
           ],
           "provisional": true,
-          "source_anchor": "experience/screens/00_auth/register.md#auto/create-account"
+          "source_anchor": "07_screens/00_auth/register.md#auto/create-account"
         }
       ]
     },
     {
-      "screen_path": "experience/screens/00_auth/verify_email.md",
+      "screen_path": "07_screens/00_auth/verify_email.md",
       "screen_id": "00_auth/verify_email",
       "rendered_html": "screen/00_auth/verify_email.html",
       "implements": [
-        "experience/features/00_auth/login.md"
+        "05_features/00_auth/login.md"
       ],
       "data_entities": [
         "User"
       ],
-      "layout": "experience/screens/00_layout/shell.md",
+      "layout": "07_screens/shell.md",
       "elements": []
     }
   ],
@@ -253,92 +253,92 @@
     {
       "journey_id": "sign-in",
       "rendered_html": "journey/sign-in.html",
-      "source": "experience/journeys/stories.yaml#sign-in",
+      "source": "04_journeys/stories.yaml#sign-in",
       "screen_sequence": [
-        "experience/screens/00_auth/login.md"
+        "07_screens/00_auth/login.md"
       ]
     }
   ],
   "features": [
     {
-      "feature_path": "experience/features/00_auth/login.md",
+      "feature_path": "05_features/00_auth/login.md",
       "rendered_screens": [
-        "experience/screens/00_auth/login.md",
-        "experience/screens/00_auth/register.md",
-        "experience/screens/00_auth/verify_email.md"
+        "07_screens/00_auth/login.md",
+        "07_screens/00_auth/register.md",
+        "07_screens/00_auth/verify_email.md"
       ]
     }
   ],
   "warnings": [
     {
       "kind": "auto_slugged",
-      "screen_path": "experience/screens/00_auth/login.md",
+      "screen_path": "07_screens/00_auth/login.md",
       "element_id": "forgot-password",
       "message": "No elements: entry for this widget in screen frontmatter; auto-slugged from an ## Actions bullet."
     },
     {
       "kind": "auto_slugged",
-      "screen_path": "experience/screens/00_auth/login.md",
+      "screen_path": "07_screens/00_auth/login.md",
       "element_id": "theme",
       "message": "No elements: entry for this widget in screen frontmatter; auto-slugged from an ## Actions bullet."
     },
     {
       "kind": "auto_slugged",
-      "screen_path": "experience/screens/00_auth/register.md",
+      "screen_path": "07_screens/00_auth/register.md",
       "element_id": "personal",
       "message": "No id: for this tabs items[] entry in screen frontmatter; auto-slugged from its label (scoped to account-type-tabs)."
     },
     {
       "kind": "auto_slugged",
-      "screen_path": "experience/screens/00_auth/register.md",
+      "screen_path": "07_screens/00_auth/register.md",
       "element_id": "business",
       "message": "No id: for this tabs items[] entry in screen frontmatter; auto-slugged from its label (scoped to account-type-tabs)."
     },
     {
       "kind": "auto_slugged",
-      "screen_path": "experience/screens/00_auth/register.md",
+      "screen_path": "07_screens/00_auth/register.md",
       "element_id": "see-your-login-screen",
       "message": "No id: for this list items[] entry in screen frontmatter; auto-slugged from its label (scoped to signup-benefits)."
     },
     {
       "kind": "auto_slugged",
-      "screen_path": "experience/screens/00_auth/register.md",
+      "screen_path": "07_screens/00_auth/register.md",
       "element_id": "get-onboarding-tips",
       "message": "No id: for this list items[] entry in screen frontmatter; auto-slugged from its label (scoped to signup-benefits)."
     },
     {
       "kind": "unresolved_target",
-      "screen_path": "experience/screens/00_auth/register.md",
+      "screen_path": "07_screens/00_auth/register.md",
       "element_id": "learn-more",
       "message": "target \"00_auth/business_account_info\" does not resolve to any rendered screen; rendered as href=\"#\"."
     },
     {
       "kind": "auto_slugged",
-      "screen_path": "experience/screens/00_auth/register.md",
+      "screen_path": "07_screens/00_auth/register.md",
       "element_id": "email",
       "message": "No elements: entry for this widget in screen frontmatter; auto-slugged from heading."
     },
     {
       "kind": "auto_slugged",
-      "screen_path": "experience/screens/00_auth/register.md",
+      "screen_path": "07_screens/00_auth/register.md",
       "element_id": "password",
       "message": "No elements: entry for this widget in screen frontmatter; auto-slugged from heading."
     },
     {
       "kind": "auto_slugged",
-      "screen_path": "experience/screens/00_auth/register.md",
+      "screen_path": "07_screens/00_auth/register.md",
       "element_id": "create-account",
       "message": "No elements: entry for this widget in screen frontmatter; auto-slugged from heading."
     },
     {
       "kind": "no_explicit_elements",
-      "screen_path": "experience/screens/00_auth/verify_email.md",
+      "screen_path": "07_screens/00_auth/verify_email.md",
       "message": "Screen declares no elements: block and auto-slug discovered nothing; spec panel rendered open."
     },
     {
       "kind": "auto_slugged",
       "element_id": "app-nav",
-      "message": "No shell nav declared in 00_layout/shell.md (file absent); derived a default app nav from 3 rendered screens grouped by directory."
+      "message": "No shell nav declared in 07_screens/shell.md (file absent); derived a default app nav from 3 rendered screens grouped by directory."
     }
   ]
 }

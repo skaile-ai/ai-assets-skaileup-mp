@@ -1,6 +1,6 @@
 # Seed Data Convention
 
-`_concept/blueprint/datamodel/seed.json` provides realistic sample data for mockups,
+`_concept/10_blueprint/datamodel/seed.json` provides realistic sample data for mockups,
 screen specs, and E2E testing. Data is organized as named **scenarios** so
 each consumer can pick the state it needs.
 
@@ -116,41 +116,39 @@ Additional scenarios (like `permissions`) are optional based on feature needs.
 > **Stack-specific dev user:** Some stacks require a fixed dev identity for auth-scoped
 > queries to return data during development (e.g., a user matching the mock JWT subject).
 > If the target stack requires this, every scenario except `empty` should include such a
-> record. The stack translator or scaffold skill is responsible for documenting this
-> requirement.
+> record. The template's `## Seed` section is where that requirement is written down.
 
 ---
 
 ## How Skills Use Scenarios
 
-### `mock` (mockups)
+### The mockup renderers
 
-Render each screen in multiple scenarios:
+`mockup-walkthrough` and `mockup-storybook` render each screen in multiple scenarios:
 - `populated` as the default/hero view
 - `empty` for empty state design
 - `edge_cases` to verify layout doesn't break
 
-### `screens` (screen specs)
+### `spec-feature` (screen specs)
 
-Reference `populated` scenario in the `## Template Data` section.
+Reference the `populated` scenario in the `## Template Data` section.
 Mention `empty` and `edge_cases` in the `## States` section.
 
-### `e2e` (testing)
+### `quality-e2e`
 
 - Use `empty` scenario to test onboarding/first-use flows
 - Use `populated` scenario for core journey tests
 - Use `edge_cases` scenario for validation and layout stress tests
 - Use `permissions` scenario for role-based access tests
 
-### `datamodel` (creation)
+### `architecture-datamodel` (creation)
 
-The datamodel skill generates `seed.json` with all standard scenarios after the
-model is approved. Entity keys and field names follow the semantic layer conventions.
-Values are generated to be realistic and varied.
+`architecture-datamodel` writes `seed.json` with all standard scenarios after the model is
+approved. Entity keys and field names follow the semantic layer conventions. Values are
+generated to be realistic and varied.
 
-### `scaffold` (seed integration)
+### `build-database` (seed integration)
 
-The scaffold skill wires `seed.json` into the project's seed migration or test
-data loader. The stack translator determines the exact format expected by the
-backend — seed.json is the source of truth; any format transformation happens
-at scaffold time.
+`build-database` wires `seed.json` into the project's seed script, in the layout its
+template's `## Seed` section gives for the stack's ORM. `seed.json` is the source of truth;
+any format transformation happens there, and nothing writes back into it.

@@ -18,13 +18,13 @@ an item's derived id, a screen's rendered spec body — is pre-resolved here
   "screens": [
     {
       "screen_id": "01_user_auth/login",
-      "screen_path": "experience/screens/01_user_auth/login.md",
+      "screen_path": "07_screens/01_user_auth/login.md",
       "rendered_html": "screen/01_user_auth/login.html",
       "group": "01_user_auth",
       "title": "Login",
-      "implements": ["experience/features/01_user_auth/login.md"],
+      "implements": ["05_features/01_user_auth/login.md"],
       "data_entities": ["User"],
-      "layout": "experience/screens/00_layout/shell.md",
+      "layout": "07_screens/shell.md",
       "body_html": "<p>Intro prose…</p><h3>Purpose</h3><p>…</p>",
       "elements": [
         {
@@ -33,7 +33,7 @@ an item's derived id, a screen's rendered spec body — is pre-resolved here
           "label": "Sign in",
           "states": ["default", "loading"],
           "provisional": false,
-          "source_anchor": "experience/screens/01_user_auth/login.md#elements/submit-button"
+          "source_anchor": "07_screens/01_user_auth/login.md#elements/submit-button"
         },
         {
           "element_id": "go-register",
@@ -43,7 +43,7 @@ an item's derived id, a screen's rendered spec body — is pre-resolved here
           "provisional": false,
           "target": "01_user_auth/register",
           "href": "/screen/01_user_auth/register",
-          "source_anchor": "experience/screens/01_user_auth/login.md#elements/go-register"
+          "source_anchor": "07_screens/01_user_auth/login.md#elements/go-register"
         },
         {
           "element_id": "recent-signins",
@@ -55,7 +55,7 @@ an item's derived id, a screen's rendered spec body — is pre-resolved here
           "sample_rows": [["Lena M.", "lena@example.com"]],
           "row_target": "01_user_auth/verify_email",
           "row_href": "/screen/01_user_auth/verify_email",
-          "source_anchor": "experience/screens/01_user_auth/login.md#elements/recent-signins"
+          "source_anchor": "07_screens/01_user_auth/login.md#elements/recent-signins"
         },
         {
           "element_id": "signup-benefits",
@@ -77,7 +77,7 @@ an item's derived id, a screen's rendered spec body — is pre-resolved here
               "provisional": true
             }
           ],
-          "source_anchor": "experience/screens/01_user_auth/login.md#elements/signup-benefits"
+          "source_anchor": "07_screens/01_user_auth/login.md#elements/signup-benefits"
         }
       ],
       "journeys": ["user-signs-in"]
@@ -89,7 +89,7 @@ an item's derived id, a screen's rendered spec body — is pre-resolved here
       "title": "User signs in",
       "description": "First-time user authenticates.",
       "rendered_html": "journey/user-signs-in.html",
-      "source": "experience/journeys/stories.yaml#user-signs-in",
+      "source": "04_journeys/stories.yaml#user-signs-in",
       "screen_sequence": ["01_user_auth/login", "02_dashboard/home"]
     }
   ],
@@ -99,8 +99,8 @@ an item's derived id, a screen's rendered spec body — is pre-resolved here
   },
   "features": [
     {
-      "feature_path": "experience/features/01_user_auth/login.md",
-      "rendered_screens": ["experience/screens/01_user_auth/login.md"]
+      "feature_path": "05_features/01_user_auth/login.md",
+      "rendered_screens": ["07_screens/01_user_auth/login.md"]
     }
   ]
 }

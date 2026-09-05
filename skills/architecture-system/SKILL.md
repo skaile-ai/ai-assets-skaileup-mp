@@ -27,7 +27,7 @@ The artifact is optional by design: a project whose features need nothing beyond
 gets a short document saying exactly that, which is the answer `build-plan` needs.
 
 Paths are `contracts/concept_structure.md`'s; the frontmatter is
-`contracts/artifact_frontmatter.md § blueprint/architecture.md`.
+`contracts/artifact_frontmatter.md § 10_blueprint/architecture.md`.
 
 ## Steps
 

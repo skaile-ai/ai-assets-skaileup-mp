@@ -32,7 +32,7 @@ instance. Then `<package_manager> install`.
 - `framework` — the resolved `storybook_addon`
 - `stories: ['../src/**/*.stories.*']`
 - `addons: ['<storybook_addon>', '@storybook/addon-essentials']`
-- viewport presets built from the breakpoints in `07_screens/00_layout/shell.md`
+- viewport presets built from the breakpoints in `07_screens/shell.md`
 
 ## `.storybook/theme.<ts|js>`
 
@@ -44,7 +44,7 @@ A Storybook theme object built entirely from tokens and the brief:
 | `appBg` | `tokens.colors.background` |
 | `fontBase` | `tokens.fonts.body` |
 | `fontCode` | `tokens.fonts.mono` |
-| `brandTitle` | the app name from `discovery/brief.md` |
+| `brandTitle` | the app name from `brief.md` |
 
 ## `.storybook/preview.<ts|js>`
 

@@ -1021,7 +1021,7 @@ def main() -> None:
     parser.add_argument("--fixture", default=None, help="fixture name under tests/expected/")
     parser.add_argument(
         "--source-root",
-        default="experience/screens",
+        default="07_screens",
         help="path the manifest source_root resolves to",
     )
     parser.add_argument(
@@ -1038,7 +1038,8 @@ def main() -> None:
     if args.project_root is not None:
         project_root = (cwd / args.project_root).resolve()
     else:
-        project_root = source_root.parent.parent
+        # `<project>/07_screens` — one segment under the concept root (ADR 0007).
+        project_root = source_root.parent
 
     if not site.is_dir():
         print(f"FAIL — site root does not exist: {site}", file=sys.stderr)

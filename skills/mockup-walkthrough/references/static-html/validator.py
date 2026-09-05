@@ -991,14 +991,14 @@ def main() -> None:
     )
     parser.add_argument(
         "--source-root",
-        default="experience/screens",
+        default="07_screens",
         help="path the manifest source_root resolves to (must contain screen sources)",
     )
     parser.add_argument(
         "--project-root",
         default=None,
         help="root that screen_path values are anchored to "
-        "(default: parent of --source-root's parent)",
+        "(default: --source-root's parent)",
     )
     parser.add_argument(
         "--cwd",
@@ -1013,10 +1013,10 @@ def main() -> None:
     if args.project_root is not None:
         project_root = (cwd / args.project_root).resolve()
     else:
-        # Default: project_root = source_root.parent.parent
-        # (since source_root is typically `<project>/experience/screens`
-        # — strip both segments to land on the project root).
-        project_root = source_root.parent.parent
+        # Default: project_root = source_root.parent
+        # (source_root is `<project>/07_screens` — one segment under the
+        # concept root, since ADR 0007 numbered only the first level).
+        project_root = source_root.parent
 
     if not site.is_dir():
         print(f"FAIL — site root does not exist: {site}", file=sys.stderr)

@@ -30,7 +30,7 @@ echo ""
 echo "1. Structural + fixture-mode pass (rendered/minimal)..."
 python3 "$SKILL_DIR/validator.py" "$SITE_DIR" \
   --fixture minimal \
-  --source-root "$FIXTURE_SRC/experience/screens" \
+  --source-root "$FIXTURE_SRC/07_screens" \
   --project-root "$FIXTURE_SRC" \
   --cwd "$(pwd)"
 echo "   PASS"
@@ -42,7 +42,7 @@ cp -r "$SITE_DIR/." "$_WORK/"
 mkdir "$_WORK/dist"
 _rc=0
 python3 "$SKILL_DIR/validator.py" "$_WORK" \
-  --source-root "$FIXTURE_SRC/experience/screens" \
+  --source-root "$FIXTURE_SRC/07_screens" \
   --project-root "$FIXTURE_SRC" \
   --cwd "$(pwd)" || _rc=$?
 if [[ $_rc -eq 0 ]]; then echo "   UNEXPECTED PASS"; exit 1; fi
@@ -64,7 +64,7 @@ p.write_text(json.dumps(m, indent=2))
 "
 _rc=0
 python3 "$SKILL_DIR/validator.py" "$_WORK" \
-  --source-root "$FIXTURE_SRC/experience/screens" \
+  --source-root "$FIXTURE_SRC/07_screens" \
   --project-root "$FIXTURE_SRC" \
   --cwd "$(pwd)" || _rc=$?
 if [[ $_rc -eq 0 ]]; then echo "   UNEXPECTED PASS"; exit 1; fi
@@ -85,7 +85,7 @@ p.write_text(text)
 "
 _rc=0
 python3 "$SKILL_DIR/validator.py" "$_WORK" \
-  --source-root "$FIXTURE_SRC/experience/screens" \
+  --source-root "$FIXTURE_SRC/07_screens" \
   --project-root "$FIXTURE_SRC" \
   --cwd "$(pwd)" || _rc=$?
 if [[ $_rc -eq 0 ]]; then echo "   UNEXPECTED PASS"; exit 1; fi
@@ -101,7 +101,7 @@ cp -r "$SITE_DIR/." "$_WORK/"
 > "$_WORK/_astro/style.css"
 _rc=0
 python3 "$SKILL_DIR/validator.py" "$_WORK" \
-  --source-root "$FIXTURE_SRC/experience/screens" \
+  --source-root "$FIXTURE_SRC/07_screens" \
   --project-root "$FIXTURE_SRC" \
   --cwd "$(pwd)" || _rc=$?
 if [[ $_rc -eq 0 ]]; then echo "   UNEXPECTED PASS"; exit 1; fi

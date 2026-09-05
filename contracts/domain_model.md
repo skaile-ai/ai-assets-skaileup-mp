@@ -13,7 +13,7 @@ up front. A term is written the moment it is pinned during a grill; a decision i
 recorded the moment it is made during planning or implementation. No skill produces
 these in a dedicated "write the glossary" pass — they accrete.
 
-**Read by ALL skills.** Like `_grounding/` and `_standards/`, the glossary is always
+**Read by ALL skills.** Like `02_grounding/`, the glossary is always
 available as input. Every skill that names a domain concept — feature specs, screen
 specs, datamodel entities, plan tasks, test names, code — uses the glossary's term,
 not a synonym. This is what keeps a large app's vocabulary from drifting ("account"
