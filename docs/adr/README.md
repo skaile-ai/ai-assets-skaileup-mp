@@ -15,3 +15,6 @@ was expensive to reach, and reversing it would cost more than reading it.
 | [0004](./0004-contracts-earn-their-place.md) | A contract survives only if it is read in-body |
 | [0005](./0005-warm-and-cold-session-boundaries.md) | Two session boundaries, warm and cold; no slash commands |
 | [0006](./0006-the-slice-loop-composes.md) | The slice loop is four skills that compose global ones |
+| [0007](./0007-one-numbered-artifact-tree.md) | One numbered artifact tree under `_concept/` |
+| [0009](./0009-stack-knowledge-lives-in-templates.md) | Stack-specific knowledge lives in a template, not a skill |
+| [0010](./0010-no-plan-file-and-no-status-file.md) | The build side keeps no plan file and no status file |

@@ -58,8 +58,10 @@ Chosen once; selects which artifacts a project is expected to grow.
 _Avoid_: kind, category, project type
 
 **Template**:
-A tech-stack reference an implementation skill reads after the stack is chosen. Not a
-profile, not a skill.
+A tech-stack reference an implementation skill reads after the stack is chosen. Carries
+**atoms** in its frontmatter (one value each, extracted by name) and **recipes** as named
+sections (paragraphs, cited by heading). All stack-specific knowledge lives here; a skill
+that needs a stack branch has found a missing template section. Not a profile, not a skill.
 _Avoid_: stack profile, scaffold, boilerplate
 
 ## What a project grows
@@ -78,6 +80,16 @@ _Avoid_: discovery, spec phase
 **Blueprint**:
 The technical design a concept resolves to: stack, architecture, data model, glossary.
 Still design, not code.
+
+**Datamodel**:
+The *designed* schema — entities, fields, relations and seed scenarios in
+`10_blueprint/datamodel/`. A description of data, not any running store.
+_Avoid_: schema, data layer
+
+**Database**:
+The *materialised* datamodel — migrations applied and seed scenarios loaded in the built
+app. What `build-database` produces from what `architecture-datamodel` designed.
+_Avoid_: db, persistence, store
 
 **Implementation**:
 The build half — plans, slices, and the code itself.

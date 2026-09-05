@@ -59,7 +59,9 @@ slice is impl-side only.
 - `contracts/slice_loop.md` shrinks to the slug rule and the freeze lifecycle. Its tier gate
   and refuse message go with tier-as-routing; its context-isolation section is ADR 0005's.
 - `contracts/plans.md` is deleted. `PLANS.md` itself has readers in the build and ops domains
-  and is decided there, not here.
+  and is decided there, not here. **Decided by [0010](./0010-no-plan-file-and-no-status-file.md):
+  it does not port, and neither does a project-level `progress.yaml`.** The per-slice
+  `progress.yaml` this ADR deletes on freeze is untouched by that.
 - `spec-feature` writes into the screens tree, so a whole-app screens skill has to justify
   itself against it or collapse into it.
 - The flows lose a fan-out reason: no tier branch at the slice loop, and no node for the two
