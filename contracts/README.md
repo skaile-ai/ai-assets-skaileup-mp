@@ -1,87 +1,43 @@
-# skaileup-contracts
+# contracts/
 
-Shared contracts, documentation, and scripts used by all skills across all domains. **Nothing in this folder is invocable** — it is reference material only.
+The shared reference layer. A contract is here because a skill **reads it at a step in
+its body** — naming a file is a citation, not a reading, and citations do not earn a
+contract. Nothing here is invocable.
 
-## Structure
+Thirteen files. The old collection had twenty-eight; the difference is almost entirely
+documents that described the collection to itself.
 
-```
-skaileup-contracts/
-├── DOMAIN.md
-├── contracts/                    ← merged contracts (use these)
-│   ├── concept_structure.md
-│   ├── frontmatter.md
-│   ├── golden_principles.md
-│   ├── iron_laws.md
-│   ├── agent_patterns.md
-│   ├── feedback_loop.md
-│   ├── semantic_types.md
-│   ├── skill_template.md
-│   ├── skill_testing.md
-│   ├── skill_grammar.md
-│   ├── acceptance_criteria.md
-│   ├── domain_model.md
-│   ├── flows.md
-│   ├── seed_data.md
-│   ├── slice_loop.md
-│   ├── MIGRATION.md              ← path/field changes from CF/Saxe originals
-│   ├── cf/                       ← legacy originals (archive, do not reference)
-│   └── saxe/                     ← legacy originals (archive, do not reference)
-├── docs/
-│   ├── cf/                       ← CF architecture + observability docs
-│   └── saxe/                     ← Saxe architecture + observability docs
-└── scripts/                      ← shared Python linting tools
-    ├── lint_concept.py
-    ├── validate_skill_rules.py
-    └── validator_lib.py
-```
-
-## contracts/ (merged)
-
-All skills reference contracts at the root of `contracts/` — not the `cf/` or `saxe/` subdirectories.
-
-| File | Purpose |
+| File | What reads it, and for what |
 |---|---|
-| `concept_structure.md` | Canonical `_concept/` paths, naming rules, read direction |
-| `frontmatter.md` | Standard YAML fields per file type |
-| `golden_principles.md` | Mechanical rules enforced by lint (entities, enums, naming) |
-| `iron_laws.md` | Non-negotiable constraints (e.g., NO DATA MODEL WITHOUT FEATURES) |
-| `agent_patterns.md` | Reusable patterns: standalone mode, subagent dispatch, research mode |
-| `feedback_loop.md` | Cross-reference protocol (features ↔ screens, model → features) |
-| `semantic_types.md` | Stack-independent types + translation table |
-| `skill_template.md` | SKILL.md template for new skills |
-| `skill_testing.md` | Example fixtures + `_validation.json` format for skill self-testing |
-| `skill_grammar.md` | MUST/NEVER/CHECKLIST DSL for skill instructions |
-| `acceptance_criteria.md` | EARS format acceptance criteria (When/Then/So that) |
-| `domain_model.md` | Ubiquitous-language glossary + decision-record (ADR) format, the 3-test ADR gate, and the build-as-you-work discipline |
-| `flows.md` | Multi-step flow definition format |
-| `seed_data.md` | Scenario-based seed data conventions |
-| `slice_loop.md` | Slug rule and freeze lifecycle for the feature and slice dossiers |
-| `MIGRATION.md` | Structural changes from legacy CF/Saxe paths — use when handling older projects |
+| `concept_structure.md` | Every skill that writes an artifact — the canonical `_concept/` tree. The only place the tree is stated; `scripts/check.py` parses this file's fenced block to decide whether a declared path exists |
+| `artifact_frontmatter.md` | Every skill that writes a `_concept/` markdown file — the YAML fields per artifact type |
+| `elements_block.md` | `spec-feature` writes the `elements:` block; both walkthrough renderers consume it |
+| `walkthrough_renderer.md` | `mockup-walkthrough` (both renderers) and `mockup-annotate` — `data-spec-*` attributes, `kind` → DOM mapping, target resolution, `items[]` id derivation, the manifest schema |
+| `feedback_loop.md` | `mockup-feedback` — the cross-reference protocol between features, screens and the data model |
+| `slice_loop.md` | `spec-feature`, `build-plan`, `build-implement` — the dossier slug rule and the freeze lifecycle |
+| `acceptance_criteria.md` | `build-plan` and `build-implement` — the EARS grammar and the ledger's shape |
+| `domain_model.md` | Any skill that pins a term or records a decision — glossary format, the ADR format, and the three-test gate that decides whether a decision is worth recording |
+| `semantic_types.md` | The data-model skills — stack-independent types and the translation table |
+| `seed_data.md` | The data-model skills — scenario-based seed conventions |
+| `golden_principles.md` | The mechanical rules for `_concept/` artifacts: entity naming, enums, cross-references |
+| `iron_laws.md` | The gates that decide whether a skill may run at all, expressed in each skill's `prerequisites.files[].gate` |
+| `agent_patterns.md` | Any skill that dispatches a subagent — dispatch shape, standalone mode, research mode |
+| `evaluator.md` | The shared stance and deduction mechanics every evaluator skill cites. **No reader in this repo yet** — the `quality` and `ops` skills that read it are not written; it is kept against them, and dies with them if they do not arrive |
 
-## contracts/cf/ and contracts/saxe/ (legacy archives)
+## What is not here
 
-The original pre-merge source files. Do not reference these in new skills. They are kept for:
-- Diffing against the merged versions if discrepancies arise
-- Supporting projects created with older tooling (see `MIGRATION.md`)
+**No `scripts/`.** The collection's own self-check lives at `scripts/check.py` in the
+repo root, because it checks the whole repo and not just this folder. The per-skill
+`validator.py` files are steps of their skills and ship inside
+`skills/<name>/references/`, not here.
 
-## docs/
+**No `flow.schema.json`.** The flow contract is enforced by `scripts/check.py` directly.
+A JSON Schema could express roughly half the rules that matter and none of the ones that
+bite — the sharpest is that an edge without `type: flow` orders nothing, which is a
+graph property, not a shape. It also encoded three constructs no engine implements.
 
-Architecture and observability documentation. Still in `cf/` and `saxe/` subdirectories pending a docs merge pass.
+**No registry.** Machine-read data lives in each skill's own `SKILL.md` frontmatter,
+resolved through its `name:`, because that is where the host already reliably looks.
 
-| Path | Contents |
-|---|---|
-| `docs/cf/ARCHITECTURE.md` | CF pipeline boundaries and data flow |
-| `docs/cf/OBSERVABILITY.md` | Structured event requirements (started, checkpoint, completed, etc.) |
-| `docs/cf/SKILLS.md` | CF skill overview |
-| `docs/saxe/ARCHITECTURE.md` | Saxe platform architecture |
-| `docs/saxe/OBSERVABILITY.md` | Saxe observability spec |
-
-## scripts/
-
-Shared Python linting and validation scripts available to all quality and implementation skills:
-
-| Script | Purpose |
-|---|---|
-| `lint_concept.py` | Validates `_concept/` structure and frontmatter |
-| `validate_skill_rules.py` | Validates skill grammar (MUST/NEVER/CHECKLIST rules) |
-| `validator_lib.py` | Shared validation utilities used by both scripts |
+**No `DOMAIN.md`, no grammar, no skill template.** Domain foldering is gone; the DSL is
+gone; the skill template is documentation and lives in `docs/`.

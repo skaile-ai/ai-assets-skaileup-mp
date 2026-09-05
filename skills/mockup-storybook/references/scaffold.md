@@ -1,8 +1,8 @@
 # Scaffold — the files step 2 writes
 
-All paths are under `_concept/prototype/storybook/`. Every value in angle brackets is either
+All paths are under `_concept/09_mockup/storybook/`. Every value in angle brackets is either
 one of the six stack values resolved in step 1 or a key from
-`_concept/discovery/brand/tokens.json`.
+`_concept/03_brand/tokens.json`.
 
 ## `package.json`
 
@@ -32,7 +32,7 @@ instance. Then `<package_manager> install`.
 - `framework` — the resolved `storybook_addon`
 - `stories: ['../src/**/*.stories.*']`
 - `addons: ['<storybook_addon>', '@storybook/addon-essentials']`
-- viewport presets built from the breakpoints in `experience/screens/00_layout/shell.md`
+- viewport presets built from the breakpoints in `07_screens/00_layout/shell.md`
 
 ## `.storybook/theme.<ts|js>`
 

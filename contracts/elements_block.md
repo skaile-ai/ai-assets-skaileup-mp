@@ -3,7 +3,7 @@
 > **Status:** v0.3 — adds navigation targets + content-fidelity shapes
 > (2026-07-05 merged mockup plan). Enums below are proposals; future
 > renderer skills MAY propose additions via the normal contract-revision flow.
-> See also: `contracts/frontmatter.md`, `lab/validate-elements-block/`,
+> See also: `contracts/artifact_frontmatter.md`,
 > `contracts/walkthrough_renderer.md` (the renderer-side contract that
 > consumes `target`/`items`/`columns`/`sample_rows`/`row_target`/`options`).
 
@@ -367,21 +367,15 @@ frontmatter and subsequent renders drop `data-spec-provisional`.
 
 ## Validation
 
-The schema is enforced by `lab/validate-elements-block/` (a Python
-validator that uses `contracts/scripts/validator_lib.py`, shipped in the
-sister repo `ai-assets-skill-development`). Reference fixtures live at
-`skaileup/contracts/tests/elements_block_examples.md` (9 valid, 11 invalid —
-the original 3 valid/3 invalid set plus 6 new valid/8 new invalid v0.3
-examples covering `target`/`items`/`table`/`tabs`/`options`).
+**This collection ships no validator for the block.** The sole writer of
+`elements:` is `spec-feature`, and the sole consumers are the two walkthrough
+renderers, each of which already fails loudly on a block it cannot render —
+`skills/mockup-walkthrough/references/<renderer>/validator.py`, run as a step of
+the skill. A third checker in CI would duplicate them against a schema no host
+reads.
 
-Run:
-
-```
-python lab/validate-elements-block/validator.py skaileup/contracts/tests/elements_block_examples.md
-```
-
-Exit code is `0` when every example matches its declared `expect:`,
-otherwise `1` with a `<path>:<line>: <message>` violation report.
+The rejections listed below are therefore what a *renderer* rejects, stated here
+so an author can meet the schema before running one.
 
 **New invalid cases (v0.3).** In addition to the existing checks (missing
 `id`, duplicate `id`s, `kind` outside the enum), the schema now also rejects:

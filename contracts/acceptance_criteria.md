@@ -250,4 +250,4 @@ criterion (frontend `AC-n` and backend `AC-Bn` alike):
 | `impl-quality-test-e2e` | Flips journey/snapshot rows on end-to-end journey pass/fail |
 | `ops-trace` | Reads the table; any `fail`/`untested` row makes the feature's trace row red |
 
-Validation: `skaileup/contracts/scripts/ac_lib.py` (`validate_ac_file`).
+Validation: none ships with this collection. The ledger's structure is checked by the skill that writes it, at the step it writes it.

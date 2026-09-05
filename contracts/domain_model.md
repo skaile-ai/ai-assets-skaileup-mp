@@ -5,7 +5,7 @@ shaped the way it is. Two durable artifacts carry it, split by lifecycle:
 
 | Artifact | Path | Role | Lifecycle |
 |---|---|---|---|
-| **Glossary** | `_concept/blueprint/glossary.md` | ubiquitous language — canonical term → definition | living; entries are **updated in place** |
+| **Glossary** | `_concept/10_blueprint/glossary.md` | ubiquitous language — canonical term → definition | living; entries are **updated in place** |
 | **Decision records (ADRs)** | `10_blueprint/decisions.md` (design-time) · `11_build/decisions.md` (build-time) | why a hard-to-reverse choice was made | **append-only**; entries are never edited, only superseded |
 
 Both are built **lazily and inline** — as a byproduct of the work, never authored
@@ -21,7 +21,7 @@ in one feature, "user" in a screen, "customer" in code).
 
 ---
 
-## Glossary format — `_concept/blueprint/glossary.md`
+## Glossary format — `_concept/10_blueprint/glossary.md`
 
 The glossary is a **glossary and nothing else**: term → definition. It contains
 **zero implementation detail** — no schemas, no file paths, no API shapes. Those
@@ -60,11 +60,11 @@ _Avoid_: Client, buyer, account, user
 
 ### Single vs. multi-context
 
-Most projects have **one** glossary at `_concept/blueprint/glossary.md`.
+Most projects have **one** glossary at `_concept/10_blueprint/glossary.md`.
 
 When a project spans distinct subsystems with their own languages (e.g. a "billing"
 subsystem and a "fulfillment" subsystem where the same word means different things),
-promote to a **context map**: `_concept/blueprint/glossary/` holds one file per
+promote to a **context map**: `_concept/10_blueprint/glossary/` holds one file per
 subsystem plus a `map.md` listing them and their relationships. Do this only when a
 term genuinely collides across subsystems — not preemptively.
 
@@ -133,11 +133,13 @@ step. When a skill runs a grill and:
   login User? They're different." → resolve → glossary.
 - **a decision passes the 3-test gate** → append an ADR then and there.
 
-The dedicated **`skaileup-domain-model`** skill is the *sharpen-later* tool: a standalone
-grill (the skaileup analog of "grill-with-docs") that challenges the existing
-glossary against the code, stress-tests terms with edge-case scenarios, and captures
-ADRs — run any time the model has drifted or needs hardening. Inline capture keeps
-the model current; `skaileup-domain-model` deepens it.
+The globally-installed **`domain-modeling`** skill is the *sharpen-later* tool: a
+standalone grill that challenges the existing glossary against the code, stress-tests
+terms with edge-case scenarios, and captures ADRs — run any time the model has drifted
+or needs hardening. This collection ships no skill of its own for it, because the job
+is not skaileup-specific: what is skaileup-specific is where the artifacts land, and
+that is this contract. Inline capture keeps the model current; `domain-modeling`
+deepens it.
 
 **Consumption is a one-line habit, not this discipline.** Any skill exploring the
 project reads `glossary.md` for vocabulary and respects existing ADRs in the area it

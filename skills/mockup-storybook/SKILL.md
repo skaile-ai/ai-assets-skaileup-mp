@@ -11,15 +11,15 @@ artifacts:
     - { id: datamodel, gate: soft }
 prerequisites:
   files:
-    - { path: "experience/screens", gate: hard, min_entries: 1 }
-    - { path: "discovery/brand/tokens.json", gate: hard }
-    - { path: "blueprint/techstack.md", gate: hard }
-    - { path: "experience/journeys/stories.yaml", gate: soft, min_entries: 1 }
+    - { path: "07_screens", gate: hard, min_entries: 1 }
+    - { path: "03_brand/tokens.json", gate: hard }
+    - { path: "10_blueprint/techstack.md", gate: hard }
+    - { path: "04_journeys/stories.yaml", gate: soft, min_entries: 1 }
 ---
 
 # mockup-storybook
 
-Builds a standalone Storybook at `_concept/prototype/storybook/` in three layers: custom
+Builds a standalone Storybook at `_concept/09_mockup/storybook/` in three layers: custom
 components, full-page screen compositions, and one clickable click-dummy per user journey.
 This is a concept artifact — a surface for reviewing the design before the app exists. The
 real application's own Storybook config belongs to `build-foundation`; the two never share a
@@ -31,7 +31,7 @@ titles, variant names and the page manifest are the same on every stack —
 
 ## Steps
 
-1. **Resolve the stack, and resolve it once.** `blueprint/techstack.md` names
+1. **Resolve the stack, and resolve it once.** `10_blueprint/techstack.md` names
    `tech_stack_skill` and `package_manager`; that template's `TEMPLATE.md` carries a
    `## Storybook Config` block with `storybook_addon`, `story_format` and `component_import`.
    Three values you also need are not in that block: derive `story_extension` from
@@ -41,12 +41,12 @@ titles, variant names and the page manifest are the same on every stack —
    is discovered at the end of step 6, after every story has been written against it. Carry
    the six as the only stack-shaped values in the run; every later step names them rather than
    a framework.
-2. **Scaffold, when `_concept/prototype/storybook/package.json` is absent.** Write the project
+2. **Scaffold, when `_concept/09_mockup/storybook/package.json` is absent.** Write the project
    files listed in `references/scaffold.md` — `package.json` on the resolved addon,
    `.storybook/main`, `theme` and `preview`, and `src/styles/brand.css` — then install with
    the resolved package manager and confirm `run build` passes before writing a single story.
-   Every colour, font, radius and spacing value comes from `discovery/brand/tokens.json` and
-   viewport presets come from `experience/screens/00_layout/shell.md`: a hardcoded breakpoint
+   Every colour, font, radius and spacing value comes from `03_brand/tokens.json` and
+   viewport presets come from `07_screens/00_layout/shell.md`: a hardcoded breakpoint
    or an invented colour makes the prototype disagree with the brand it exists to show.
    Present already? Leave it alone and go to step 3 — the scaffold is the user's by then.
 3. **Build the components layer.** Read every screen spec's `UI Elements` section and take the
@@ -56,7 +56,7 @@ titles, variant names and the page manifest are the same on every stack —
    both lists and confirm the split before building. For each custom element write the
    component under `src/components/`, a minimal interface under `src/@types/` covering only the
    properties it renders, and a story under `src/stories/Components/`. Where
-   `blueprint/datamodel/seed.json` exists, source the `WithData` and `Empty` variants from its
+   `10_blueprint/datamodel/seed.json` exists, source the `WithData` and `Empty` variants from its
    `populated` and `empty` scenarios, so the stories and the tests later share one fixture.
    Finish with the `src/components/index` barrel — step 4 imports from it, and an empty barrel
    with a comment is the right output when the library covered everything.
@@ -66,7 +66,7 @@ titles, variant names and the page manifest are the same on every stack —
    a named variant for every state the spec lists and `Mobile` / `Tablet` variants alongside.
    Close with `src/pages/manifest.json` mapping each screen spec path to its component and
    route — step 5 reads it to turn a journey's `candidate_screens` into imports.
-5. **Build the journeys layer**, when `experience/journeys/stories.yaml` exists. One story per
+5. **Build the journeys layer**, when `04_journeys/stories.yaml` exists. One story per
    `hero`, `vital` and `hygiene` story map — `backlog` maps are out of scope by stage, and
    there is exactly one hero. Each is a single interactive story that renders the AppShell and
    swaps the page component as the reader clicks: navigation happens through the real nav

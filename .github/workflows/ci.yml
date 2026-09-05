@@ -1,0 +1,26 @@
+name: ci
+
+# One job, one script. The collection has no build and no runtime — the only
+# thing CI can usefully answer is whether it contains a reference that resolves
+# to nothing. `scripts/check.py` answers that; `scripts/test_check.py` is what
+# keeps the answer trustworthy while `flows/` is still empty.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml pytest
+      - name: check the collection
+        run: python scripts/check.py
+      - name: test the checker
+        run: pytest scripts/test_check.py -q

@@ -6,7 +6,7 @@ step 1.
 ## Directory layout
 
 ```
-_concept/prototype/storybook/
+_concept/09_mockup/storybook/
 ├── package.json
 ├── .storybook/{main,theme,preview}.<ts|js>
 └── src/
@@ -66,7 +66,7 @@ One entry per screen spec, keyed by the spec's path relative to `_concept/`:
 
 ```json
 {
-  "experience/screens/01_user_auth/login.md": {
+  "07_screens/01_user_auth/login.md": {
     "component": "01_user_auth/Login",
     "import": "./src/pages/01_user_auth/Login",
     "route": "/login"
