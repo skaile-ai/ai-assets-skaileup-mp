@@ -1072,6 +1072,27 @@ grounds that the host might change later.
   verified firing: citation existence, skill cite⟺declare, flow ref iff needed, and the manifest's
   `name:` slugifying to `shared-contracts`. Green at 29 skills · 4 flows · 0 errors.
 
+- **[35: The docs site is generated from a tree that no longer exists](issues/35-docs-site-disposition.md)**
+  (2026-09-06): **No docs site.** The old repo's Starlight site stays there with the tree it
+  describes; `-mp`'s `docs/` remains 11 ADRs, the skill template and `examples/WHY.md`. The
+  case was not "it needs updating" but that the site was **already dead before the migration**:
+  never deployed (no host config, no `site:`, `dist/` untracked, README says "read it locally"),
+  **never built by CI** (`collection-ci.yml` runs three python checks and no `docs:build`), and
+  `docs/src` last touched **2026-06-30** — in the very commit that renamed the flows it documents.
+  Regenerating small was refused too: an index over `skills/`, `flows/` and `contracts/` restates
+  what `check.py` verifies and what forge-concept already draws, for the price of an Astro
+  toolchain. **`docs/` now has a gate** — `check_docs` over `docs/**/*.md` and the root markdown:
+  relative links resolve, `skills/<name>` paths name a real skill. Deliberately **paths, not
+  mentions**: a dead-*name* sweep fires on exactly the artifacts that must name dead things — an
+  ADR citing the contract it deleted (`0004`, `0010`) and `WHY.md`'s quoted port prose, which
+  ticket 33 kept on purpose. Zero violations at landing. No narrative replaces the intro pages —
+  they rotted *because* they restated the graph; README grew a four-flow table instead, and its
+  stale map pointer is repaired. **Found on the way: `main` had been red in CI since ticket 34**
+  — green at 31 (61 passed), 58-failed at 34, which made `CONTRACT.md` mandatory without touching
+  the fixture, left three tests on the per-file `requires:` rules it replaced, and whose new
+  lookbehind silently disabled ticket 28's `flows/README.md` gate by no longer matching
+  `../contracts/`. All repaired: **69 passed**, 29 skills · 4 flows · 0 errors.
+
 ## Not yet specified
 
 <!-- Empty as of 2026-09-06: all three remaining patches graduated into tickets 35, 36 and 37.
@@ -1080,10 +1101,12 @@ grounds that the host might change later.
      resolution opens ground none of them covers. -->
 
 _Nothing. The three patches that stood here — the docs site, the absorbed skills' bodies, and
-the old repo's carry-over — are now
-[35: The docs site is generated from a tree that no longer exists](issues/35-docs-site-disposition.md),
-[36: The router — the last absorbed skill with no body](issues/36-the-router.md), and
-[37: What carries over from the old repo besides skills](issues/37-old-repo-carry-over.md)._
+the old repo's carry-over — became tickets 35, 36 and 37.
+[35: The docs site is generated from a tree that no longer exists](issues/35-docs-site-disposition.md)
+is resolved; the frontier is
+[36: The router — the last absorbed skill with no body](issues/36-the-router.md) and
+[37: What carries over from the old repo besides skills](issues/37-old-repo-carry-over.md),
+which 35 unblocked._
 
 ## Out of scope
 

@@ -1,8 +1,8 @@
 # 37: What carries over from the old repo besides skills
 
 **Type:** grilling
-**Blocked by:** 35 — the disposition of `docs/` decides where two of these three live
-**Status:** blocked
+**Blocked by:** None — 35 resolved 2026-09-06: no docs site, so `improvements.mdx` goes with it
+**Status:** ready
 
 ## Question
 

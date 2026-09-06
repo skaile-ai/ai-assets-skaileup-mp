@@ -228,7 +228,12 @@ def check_tree_names(repo: Path, rep: Report) -> None:
 # The lookbehind keeps a *deployed* path out of the citation set: a skill cites
 # `contracts/x.md` repo-relatively, while `.claude/contracts/shared-contracts/` names
 # where the asset lands and is not a file in this repo.
-CONTRACT_REF_RE = re.compile(r"(?<![A-Za-z0-9_./-])`?contracts/([A-Za-z0-9_./-]+)`?")
+CONTRACT_REF_RE = re.compile(r"(?<![A-Za-z0-9_./-])`?(?:\.\./)*contracts/([A-Za-z0-9_./-]+)`?")
+# The `../` run is matched explicitly because prose one directory down cites the layer
+# relatively — `flows/README.md` says `../contracts/<file>`. Without it the lookbehind
+# sees the slash and skips the citation, which is how ticket 28's `flows/` gate went
+# quiet the moment the lookbehind landed: the deployed-path exclusion below is meant to
+# drop `.claude/contracts/...`, not every path with a parent segment.
 
 # The whole reference layer installs as one dir-scoped asset: `contracts/CONTRACT.md`
 # names it, and `contract` is a dir-scoped kind, so the directory deploys whole. A
@@ -857,6 +862,55 @@ def _check_requires(
 
 # --------------------------------------------------------------------------
 
+# --------------------------------------------------------------------------
+# prose
+# --------------------------------------------------------------------------
+
+# `docs/` and the root markdown are the one part of the collection no gate looked at:
+# `check.py` globs `skills/`, `contracts/` and `flows/` and stopped there. That is how two
+# worked examples drifted onto the tree ADR 0007 replaced and three deleted skill names sat
+# unread until ticket 33 found them by hand — the same quiet failure every other check here
+# exists to raise, in the files a *human* reads first.
+#
+# The bar is ticket 33's: a reader must not be able to copy a path that resolves to nothing.
+# It is deliberately a check on **paths**, not on prose. Two artifacts in this repo are
+# supposed to name things that no longer exist — an ADR recording a deletion cites the
+# contract it deleted (`0004` → `iron_laws.md`, `0010` → `plans.md`), and `examples/WHY.md`
+# quotes pre-port skill bodies verbatim. A dead-*name* check would fire on exactly the two
+# places where naming a dead thing is correct, so mentions are free and only links and
+# `skills/<name>` paths are gated.
+MD_LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)")
+SKILL_PATH_RE = re.compile(r"(?<![A-Za-z0-9_./-])`?skills/([a-z0-9][a-z0-9-]*)")
+
+
+def _prose_files(repo: Path) -> list[Path]:
+    """Every markdown file no other check reads: `docs/` and the repo root.
+
+    `skills/` and `contracts/` are gated by their own checks, which know far more about
+    what those files are; `flows/` holds YAML. What is left is prose.
+    """
+    return sorted([*(repo / "docs").rglob("*.md")] if (repo / "docs").is_dir() else []) + sorted(repo.glob("*.md"))
+
+
+def check_docs(repo: Path, skill_names: set[str], rep: Report) -> None:
+    for path in _prose_files(repo):
+        where = path.relative_to(repo).as_posix()
+        text = path.read_text(encoding="utf-8")
+
+        for target in MD_LINK_RE.findall(text):
+            if target.startswith(("http://", "https://", "mailto:", "#")):
+                continue
+            rel = target.split("#", 1)[0]
+            if not rel:
+                continue
+            if not (path.parent / rel).exists():
+                rep.error(where, f"links to `{target}`, which does not exist")
+
+        for name in sorted(set(SKILL_PATH_RE.findall(text))):
+            if name not in skill_names:
+                rep.error(where, f"names the path `skills/{name}`, which is not a skill in this collection")
+
+
 def run(repo: Path) -> Report:
     rep = Report()
     skill_names, skill_contracts = check_skills(repo, rep)
@@ -864,6 +918,7 @@ def run(repo: Path) -> Report:
     check_contract_manifest(repo, rep)
     check_tree_names(repo, rep)
     check_flows(repo, skill_names, skill_contracts, rep)
+    check_docs(repo, skill_names, rep)
     return rep
 
 

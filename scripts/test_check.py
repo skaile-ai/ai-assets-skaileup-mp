@@ -54,8 +54,22 @@ Body.
 """
 
 
+CONTRACT_MANIFEST = """\
+---
+name: shared-contracts
+description: "The reference layer."
+version: "0.1.0"
+metadata:
+  do_not_invoke: true
+---
+
+# shared-contracts
+"""
+
+
 def write_repo(root: Path, skills=("spec-feature",), contracts=("concept_structure.md",)) -> Path:
     (root / "contracts").mkdir(parents=True, exist_ok=True)
+    (root / "contracts" / "CONTRACT.md").write_text(CONTRACT_MANIFEST)
     (root / "contracts" / "concept_structure.md").write_text(CONCEPT_STRUCTURE)
     for c in contracts:
         if c != "concept_structure.md":
@@ -116,10 +130,21 @@ def node(flow: dict, nid: str) -> dict:
     return next(n for n in flow["nodes"] if n["id"] == nid)
 
 
-def cite(root: Path, skill: str, contract: str) -> None:
-    """Make `skill` cite `contracts/<contract>.md` from its body."""
+def cite(root: Path, skill: str, contract: str, declare: bool = True) -> None:
+    """Make `skill` cite `contracts/<contract>.md` from its body.
+
+    A citing skill must also declare the reference layer (ticket 34), so `declare`
+    defaults on: the fixture stays valid except for the one thing a test breaks.
+    """
     p = root / "skills" / skill / "SKILL.md"
-    p.write_text(p.read_text() + f"\nReads `contracts/{contract}.md`.\n")
+    text = p.read_text() + f"\nReads `contracts/{contract}.md`.\n"
+    if declare:
+        text = text.replace(
+            "metadata:\n",
+            'metadata:\n  requires:\n    - "contract:@skaile-ai/shared-contracts"\n',
+            1,
+        )
+    p.write_text(text)
 
 
 def errors(root: Path) -> list[str]:
@@ -243,9 +268,16 @@ def test_top_level_set_comes_from_the_contract(tmp_path):
 
 def test_missing_cited_contract(tmp_path):
     root = write_repo(tmp_path)
-    skill = root / "skills" / "spec-feature" / "SKILL.md"
-    skill.write_text(skill.read_text() + "\nSee `contracts/gone.md`.\n")
+    cite(root, "spec-feature", "gone")
     only(root, "cites `contracts/gone.md`")
+
+
+def test_citing_without_declaring_the_reference_layer(tmp_path):
+    """Ticket 34: cite a contract file and you declare the one contract asset, or
+    nothing installs what the skill reads."""
+    root = write_repo(tmp_path, contracts=("concept_structure.md", "seed_data.md"))
+    cite(root, "spec-feature", "seed_data", declare=False)
+    only(root, "does not declare")
 
 
 def test_contract_citing_a_deleted_contract(tmp_path):
@@ -624,29 +656,31 @@ def test_requires_listing_a_skill_no_node_runs(tmp_path):
     only(root, "which no node in this flow runs")
 
 
-def test_requires_names_a_missing_contract(tmp_path):
+def test_requires_names_a_per_file_contract(tmp_path):
+    """Ticket 34 made the reference layer one asset, so a per-file ref names nothing —
+    `_` is not a legal asset-name character, so it could never have resolved."""
     root = write_repo(tmp_path)
-    flow = good_flow()
-    flow["requires"].append("contract:@skaile-ai/gone")
-    write_flow(root, flow)
-    only(root, "`contracts/gone.md` does not exist")
-
-
-def test_requires_omits_a_contract_its_skills_cite(tmp_path):
-    """Existence was checked; exactness was not. A cited contract left out of `requires:`
-    is not installed, and the skill reads a file that is not there."""
-    root = write_repo(tmp_path, contracts=("concept_structure.md", "seed_data.md"))
-    cite(root, "spec-feature", "seed_data")
-    write_flow(root, good_flow())
-    only(root, "its skills cite `contracts/seed_data.md`, which `requires:` does not list")
-
-
-def test_requires_lists_a_contract_no_skill_cites(tmp_path):
-    root = write_repo(tmp_path, contracts=("concept_structure.md", "seed_data.md"))
     flow = good_flow()
     flow["requires"].append("contract:@skaile-ai/seed_data")
     write_flow(root, flow)
-    only(root, "which none of this flow's skills cite")
+    only(root, "the only contract asset is 'shared-contracts'")
+
+
+def test_requires_omits_the_reference_layer_its_skills_read(tmp_path):
+    """Per-file exactness moved down to the skills; what a flow still owes is the one
+    asset, present iff any of its own node skills reads a contract file."""
+    root = write_repo(tmp_path, contracts=("concept_structure.md", "seed_data.md"))
+    cite(root, "spec-feature", "seed_data")
+    write_flow(root, good_flow())
+    only(root, "does not list `contract:@skaile-ai/shared-contracts`")
+
+
+def test_requires_lists_the_reference_layer_no_skill_reads(tmp_path):
+    root = write_repo(tmp_path)
+    flow = good_flow()
+    flow["requires"].append("contract:@skaile-ai/shared-contracts")
+    write_flow(root, flow)
+    only(root, "which none of this flow's skills read")
 
 
 def test_requires_ref_grammar(tmp_path):
@@ -656,6 +690,61 @@ def test_requires_ref_grammar(tmp_path):
     write_flow(root, flow)
     errs = errors(root)
     assert any("is not a `kind:@publisher/name` ref" in e for e in errs), errs
+
+
+# -- prose: docs/ and the root ----------------------------------------------
+
+def doc(root, rel: str, text: str) -> None:
+    """Write a prose file at `rel`, creating its directory."""
+    path = root / rel
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text)
+
+
+def test_dead_relative_link_in_docs(tmp_path):
+    root = write_repo(tmp_path)
+    doc(root, "docs/adr/0001-a.md", "See [the template](../skill-template.md).\n")
+    only(root, "links to `../skill-template.md`")
+
+
+def test_dead_relative_link_at_the_root(tmp_path):
+    root = write_repo(tmp_path)
+    doc(root, "README.md", "Start from [the examples](docs/examples/WHY.md).\n")
+    only(root, "links to `docs/examples/WHY.md`")
+
+
+def test_live_relative_link_resolves(tmp_path):
+    root = write_repo(tmp_path)
+    doc(root, "docs/skill-template.md", "# template\n")
+    doc(root, "docs/adr/0001-a.md", "See [the template](../skill-template.md).\n")
+    assert errors(root) == []
+
+
+def test_external_and_anchor_links_are_not_paths(tmp_path):
+    root = write_repo(tmp_path)
+    doc(root, "README.md", "[repo](https://example.com/x) · [above](#layout) · [self](README.md#layout)\n")
+    assert errors(root) == []
+
+
+def test_dead_skill_path_in_docs(tmp_path):
+    root = write_repo(tmp_path)
+    doc(root, "docs/examples/WHY.md", "The port landed at `skills/concept-brief/`.\n")
+    only(root, "names the path `skills/concept-brief`")
+
+
+def test_live_skill_path_resolves(tmp_path):
+    root = write_repo(tmp_path)
+    doc(root, "docs/examples/WHY.md", "The port landed at `skills/spec-feature/`.\n")
+    assert errors(root) == []
+
+
+def test_prose_may_name_a_deleted_contract(tmp_path):
+    """An ADR recording a deletion cites what it deleted; `WHY.md` quotes ported bodies
+    verbatim. The gate reads paths, not mentions, so neither is an error."""
+    root = write_repo(tmp_path)
+    doc(root, "docs/adr/0004-contracts-earn-their-place.md", "Deletes `contracts/iron_laws.md`.\n")
+    doc(root, "docs/examples/WHY.md", "The old body cited `contracts/skill_grammar.md`.\n")
+    assert errors(root) == []
 
 
 if __name__ == "__main__":

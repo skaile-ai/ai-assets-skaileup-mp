@@ -31,7 +31,28 @@ and a set of defaults, not a form. For the shape in practice, read a landed skil
 [`docs/examples/WHY.md`](./docs/examples/WHY.md) records what the two ports that set the
 shape cut, and what each `MUST` / `NEVER` line became.
 
+## How a project moves through it
+
+A **flow** is the unit a project is sized by: it names the skills and the order, so the
+graph carries the sequence and no prose restates it. Four ship:
+
+| Flow | For |
+|---|---|
+| [`appbuilder-mvp`](./flows/appbuilder-mvp/) | The lean end-to-end path — 9 skills, one featureset pass |
+| [`appbuilder-standard`](./flows/appbuilder-standard/) | A multi-user app in full — 27 skills, discovery through review |
+| [`skaileup-concept-only`](./flows/skaileup-concept-only/) | The conceptualization half alone, to hand a specified product on |
+| [`skaileup-concept-reverse`](./flows/skaileup-concept-reverse/) | A concept built out of an existing repository |
+
+A host picks the flow (in forge-concept the profile key *is* the flow id) and runs its
+nodes; each writes into `_concept/`, the one artifact tree, described in
+[`contracts/concept_structure.md`](./contracts/concept_structure.md).
+
 ## Status
 
-Skeleton. Skills and flows land per domain; see the migration map in the old repo at
-`.scratch/skaileup-mp/map.md`.
+Skeleton. Skills and flows land per domain; the migration map is in this repo at
+[`.scratch/wayfinder/map.md`](./.scratch/wayfinder/map.md).
+
+There is **no documentation site**. The old collection's Starlight site stays in
+[`ai-assets-skaileup`](https://github.com/skaile-ai/ai-assets-skaileup) with the tree it
+describes; here the flows are the pipeline, `docs/adr/` holds why the collection is shaped
+as it is, and `scripts/check.py` answers whether it still hangs together.
