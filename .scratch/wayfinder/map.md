@@ -1070,7 +1070,11 @@ grounds that the host might change later.
   reads the repo; rewriting them to `.claude/contracts/shared-contracts/` would hardcode a driver
   target into skill prose and break the existence gate — register entry instead. Four gates, each
   verified firing: citation existence, skill cite⟺declare, flow ref iff needed, and the manifest's
-  `name:` slugifying to `shared-contracts`. Green at 29 skills · 4 flows · 0 errors.
+  `name:` slugifying to `shared-contracts`. Green at 29 skills · 4 flows · 0 errors —
+  **but `check.py` only. Corrected 2026-09-06 by ticket 35:** the test suite was never run,
+  this commit left it 58-failed, and CI (which runs both) was red on `main` for ~13 hours.
+  The lookbehind also cost ticket 28's `flows/README.md` gate by no longer matching
+  `../contracts/`. All repaired under 35; the correction is appended to ticket 34.
 
 - **[35: The docs site is generated from a tree that no longer exists](issues/35-docs-site-disposition.md)**
   (2026-09-06): **No docs site.** The old repo's Starlight site stays there with the tree it

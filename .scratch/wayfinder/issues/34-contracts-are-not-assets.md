@@ -137,3 +137,25 @@ Four checks, each verified by breaking it and watching it fail:
 longer mistaken for a citation of a repo file.
 
 Collection green: **29 skills · 4 flows · 0 errors.**
+
+### Correction (2026-09-06, by ticket 35)
+
+**"Collection green" was `check.py` only, and this commit turned CI red.** The four gates above
+are real and still stand, but `scripts/test_check.py` was never run: it was green at ticket 31
+(61 passed) and **58-failed** at this commit. CI runs both scripts, so run
+[33997272072](https://github.com/skaile-ai/ai-assets-skaileup-mp/actions/runs/33997272072)
+failed on push, and the next commit's run failed the same way — `main` was red for ~13 hours
+before ticket 35 found it. Three causes, all repaired under
+[35: The docs site is generated from a tree that no longer exists](35-docs-site-disposition.md):
+
+1. `write_repo` never wrote the `contracts/CONTRACT.md` this ticket made mandatory, so **every**
+   test carried that error and every `only(...)` assertion broke.
+2. Three tests still asserted the per-file `requires:` contract rules this ticket replaced.
+3. **The lookbehind cost a gate.** Keeping `.claude/contracts/...` out of the citation set also
+   stopped `../contracts/<file>` from matching — silently disabling ticket 28's `flows/README.md`
+   citation gate, whose fixture went from passing to reporting nothing. That one was a lost
+   check, not a stale test. `CONTRACT_REF_RE` now matches an explicit `../` run.
+
+The gap this exposes is not in the gates but in what "verified" meant: breaking a check and
+watching it fail proves the check, not the suite. See
+[39: Make a red `main` impossible to miss](39-red-main-is-invisible.md).
