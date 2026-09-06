@@ -1099,6 +1099,29 @@ grounds that the host might change later.
   by run [34054544742](https://github.com/skaile-ai/ai-assets-skaileup-mp/actions/runs/34054544742)
   (2026-09-06, ticket 38), the first passing CI run since `dc8dfea` on 2026-09-05.
 
+- [38: Land ticket 35 upstream and prove `main` is green](issues/38-land-ticket-35-upstream.md):
+  Done. Ticket 35's repair pushed, both submodule levels bumped innermost-first per the
+  super-repo rule, and CI ran
+  [34054544742](https://github.com/skaile-ai/ai-assets-skaileup-mp/actions/runs/34054544742)
+  green — the first passing run on `main` since `dc8dfea`. Graduated
+  [39: Make a red `main` impossible to miss](issues/39-red-main-is-invisible.md): the push
+  arrived unnotified, so option 1 is *not* already in place.
+
+- [36: The router — the last absorbed skill with no body](issues/36-the-router.md):
+  **`skaileup` ships, and no flow contains it** — 29 → **30 skills**. Two of the question's
+  premises were wrong: `concept-scope:44-56` **already** puts the four flows to the user when
+  nothing has chosen (so "which flow" was never the router's), and `-mp`'s six `profiles/`
+  are *project types* (ADR 0002) while forge-concept's profiles derive from **flows** — one
+  word, two things, now separated in `CONTEXT.md`. The router's two jobs are **intake**
+  (ticket 13's rule, until now recorded only in this map: global `/triage`, then
+  `spec-feature` for a changed capability or `build-plan` for a defect) and the **cold open**
+  — `agent_patterns.md § Standalone Mode` / `§ Next-Step Suggestion` already cover
+  on-completion, so the router reads `01_meta/scope.yaml` → the flow → its edges, and never
+  restates the order. Three references had been pointing at the absence and resolving to
+  nothing: `skill-template.md:77`'s "or the router", `agent_patterns.md:81,90`'s **`next_flows`
+  field that no flow defines**, and the intake rule itself. All three repaired. 30 skills ·
+  4 flows · 0 errors, 69 passed.
+
 ## Not yet specified
 
 <!-- Empty as of 2026-09-06: all three remaining patches graduated into tickets 35, 36 and 37.
@@ -1107,12 +1130,11 @@ grounds that the host might change later.
      resolution opens ground none of them covers. -->
 
 _Nothing. The three patches that stood here — the docs site, the absorbed skills' bodies, and
-the old repo's carry-over — became tickets 35, 36 and 37.
-[35: The docs site is generated from a tree that no longer exists](issues/35-docs-site-disposition.md)
-is resolved; the frontier is
-[36: The router — the last absorbed skill with no body](issues/36-the-router.md) and
-[37: What carries over from the old repo besides skills](issues/37-old-repo-carry-over.md),
-which 35 unblocked._
+the old repo's carry-over — became tickets 35, 36 and 37, and 35 and 36 are now resolved. The
+frontier is
+[37: What carries over from the old repo besides skills](issues/37-old-repo-carry-over.md) and
+[39: Make a red `main` impossible to miss](issues/39-red-main-is-invisible.md), the latter
+graduated from ticket 38's push rather than from a fog patch._
 
 ## Out of scope
 

@@ -2,7 +2,7 @@
 
 **Type:** grilling
 **Blocked by:** None — graduated from the map's fog 2026-09-06
-**Status:** ready
+**Status:** resolved
 
 ## Question
 
@@ -45,4 +45,56 @@ Whichever wins, ticket 13's sentence stops living only in a wayfinder map.
 
 ## Answer
 
-_(pending)_
+**Option 1, widened by one job: `-mp` ships `skaileup`, and no flow contains it.**
+
+Two of the question's premises were wrong, and correcting them is most of the answer.
+
+- **"`concept-scope` contains no routing, triage or intake language at all"** — false.
+  `skills/concept-scope/SKILL.md:44-56` step 4 reads *"Where nothing has chosen, put the four
+  to the user with your recommendation from the signals"* and carries the four-row flow table.
+  **The non-host flow choice already shipped.** So the router's territory is not "which flow";
+  that question has two answers already (the host's profile picker, and this step).
+- **"the profile key *is* the flow id ...; `-mp` ships six `profiles/*.yaml`"** — conflates two
+  words. `profiles.get.ts:29` derives the host's onboarding profiles **from flows** (4 of them);
+  `-mp`'s `profiles/` is project-type data read by `concept-scope` step 3 (6 files), and ADR
+  0002 already pinned **profile = project type** inside the collection. The collision is with
+  the host's vocabulary, not the collection's, so nothing was renamed — `CONTEXT.md`'s
+  **Profile** entry grew the host's sense as an `_Avoid_`.
+
+**Option 2 survived, one case wide.** `contracts/agent_patterns.md` already ships
+`§ Standalone Mode` (`:73-82`) and `§ Next-Step Suggestion` (`:86-95`): every skill already
+suggests its successors **on completion**. The uncovered slice is the **cold open** — a
+`_concept/` tree entered with nothing running and no skill just finished. So the router reads
+`01_meta/scope.yaml`, opens the flow it names, and walks the edges; it **reads** the graph and
+never restates it, which keeps the flow the single source of order.
+
+**Option 3 lost on the evidence that the hole is already load-bearing.** Three references
+pointed at a router-shaped absence, each resolving to nothing — the same defect class ticket 34
+swept out of the contracts:
+
+- `docs/skill-template.md:77` sent cross-cutting prose to *"`CONTEXT.md` or the router"*.
+- `contracts/agent_patterns.md:81,90` cited a `next_flows` field **defined nowhere** — zero
+  flows carry it, grepped repo-wide.
+- Ticket 13's intake rule existed **only in the wayfinder map**: `grep -ri 'triage|intake|router'`
+  over the repo returned no hit for it.
+
+### What landed
+
+| File | Change |
+|---|---|
+| `skills/skaileup/SKILL.md` | new — 70 lines. Intake (global `/triage`, then `spec-feature` for a changed capability or `build-plan` for a defect) + cold start. Names one skill and stops. |
+| `contracts/agent_patterns.md:81,90` | `next_flows` deleted; successors are the edges leaving the node. A parallel hint field would be the second source of order the router itself refuses to be. |
+| `docs/skill-template.md:77` | "`CONTEXT.md` or the router" → `contracts/agent_patterns.md`, which already carries both patterns. The router does **not** claim them. |
+| `CONTEXT.md` | **Router** added; **Profile** widened with the host's sense. |
+| `README.md` | the one non-domain name explained; stale `build-slice-implement` example corrected to `build-implement`. |
+
+**Name kept as ticket 04 set it**, and verified harmless: `phaseForSkill`
+(`shared/flow-phases.ts:20-28`) falls through to `conceptualization` for an unprefixed name, and
+`check.py` enforces no domain prefix. `skaileup` is what someone types cold.
+
+**No flow contains it.** A flow whose first node asks which flow you are in is circular. It
+installs as an ordinary skill asset, which means every workspace listing skills by hand
+(ticket 29) lists it too.
+
+Measured at landing: **30 skills · 4 flows · 0 errors**, `pytest scripts/test_check.py` **69
+passed**.

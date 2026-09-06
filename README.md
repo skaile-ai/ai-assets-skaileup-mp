@@ -20,9 +20,14 @@ CONTEXT.md                 the collection's glossary — the words skills use wi
 ```
 
 No `NN_` prefixes anywhere, no domain folders: the domain is the first segment of the
-skill's name (`concept-brief`, `mockup-walkthrough`, `build-slice-implement`). The nine
+skill's name (`concept-brief`, `mockup-walkthrough`, `build-implement`). The nine
 domains are **concept · design · experience · spec · mockup · architecture · build ·
 quality · ops**.
+
+One skill carries no domain: [`skaileup`](./skills/skaileup/), the router. It is named for
+the collection because it is the door into it rather than a step inside one domain — run it
+when work arrives from outside a flow, or when a `_concept/` tree is opened cold and the
+next skill is unclear.
 
 ## Writing a skill
 

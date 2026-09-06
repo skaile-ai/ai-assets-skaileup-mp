@@ -78,8 +78,8 @@ Skills can run independently without the orchestrator:
 3. If ALL pass: read input folders → execute workflow → emit `completed` → suggest next steps
 4. If ANY fail: name the missing prerequisites, tell the user which skill to run first
 
-Next-step suggestions in standalone mode come from `next_flows` hints in the relevant
-flow file, or from the skill's own knowledge of what it unblocks.
+Next-step suggestions in standalone mode come from the edges leaving this skill's node in
+the relevant flow file, or from the skill's own knowledge of what it unblocks.
 
 ---
 
@@ -87,7 +87,8 @@ flow file, or from the skill's own knowledge of what it unblocks.
 
 After a skill completes (standalone or orchestrated):
 1. Identify which skills now have all their `requires` paths satisfied
-2. Present unblocked skills as suggestions (use `next_flows` from the active flow if available)
+2. Present unblocked skills as suggestions — the successors are the edges leaving this
+   skill's node in the active flow
 3. If no skills are unblocked, show what is still missing and which skill would produce it
 4. If the orchestrator is active, it handles next-step dispatch automatically
 

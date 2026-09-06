@@ -38,6 +38,13 @@ the flow, not the filesystem, carries sequence. Choosing a flow and sizing the p
 act — `01_meta/scope.yaml` records the flow id, and a skill that varies its depth reads that.
 _Avoid_: pipeline, workflow, chain, tier
 
+**Router**:
+The one skill that names another skill instead of doing work — `skaileup`, the collection's
+front door. It answers only where nothing else already does: work arriving from outside the
+collection, and a `_concept/` tree opened cold. Which flow a project runs is `concept-scope`'s
+answer and the host's before that; what follows a completed skill is the flow's own edges.
+_Avoid_: dispatcher, orchestrator, entry skill
+
 **Phase**:
 The lane a flow node belongs to — conceptualization, implementation, or review. A
 machine-read interface with forge-concept; never used loosely for "stage of work".
@@ -75,7 +82,7 @@ _Avoid_: shape, kind, category
 The collection asset describing one project type — what a project of that type grows and
 what it never will. One per type. The word names the description; the project has a *project
 type*, not a profile.
-_Avoid_: project profile, project shape
+_Avoid_: project profile, project shape; onboarding profile (that is forge-concept's, keyed by flow id — a different thing that shares the word)
 
 **Template**:
 A tech-stack reference an implementation skill reads after the stack is chosen. Carries

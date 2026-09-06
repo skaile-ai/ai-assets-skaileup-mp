@@ -73,5 +73,6 @@ Siblings, in `references/`:
   CHECKLIST (the validator has it), no Context Budget table.
 - **Constraints are stated positively, at the step they bind.** No `MUST`/`NEVER` block.
 - **`## Depth Behavior`, `## Standalone Mode`, `## Context Budget`** describe how the
-  collection works, not what the skill does. They belong in one place, once — `CONTEXT.md`
-  or the router — not in 30-39 skills each.
+  collection works, not what the skill does. They belong in one place, once —
+  `contracts/agent_patterns.md`, which already carries `Standalone Mode` and
+  `Next-Step Suggestion` — not in 30-39 skills each.
