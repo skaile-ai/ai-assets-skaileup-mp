@@ -1095,7 +1095,9 @@ grounds that the host might change later.
   — green at 31 (61 passed), 58-failed at 34, which made `CONTRACT.md` mandatory without touching
   the fixture, left three tests on the per-file `requires:` rules it replaced, and whose new
   lookbehind silently disabled ticket 28's `flows/README.md` gate by no longer matching
-  `../contracts/`. All repaired: **69 passed**, 29 skills · 4 flows · 0 errors.
+  `../contracts/`. All repaired: **69 passed**, 29 skills · 4 flows · 0 errors — and **proven green on `main`**
+  by run [34054544742](https://github.com/skaile-ai/ai-assets-skaileup-mp/actions/runs/34054544742)
+  (2026-09-06, ticket 38), the first passing CI run since `dc8dfea` on 2026-09-05.
 
 ## Not yet specified
 
