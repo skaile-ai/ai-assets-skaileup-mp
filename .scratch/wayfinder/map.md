@@ -1139,7 +1139,7 @@ grounds that the host might change later.
   refused**: a hook is not committed, so it needs `core.hooksPath` plus per-clone setup — the
   forbidden fourth thing — and protection blocks the push-to-main this repo ships by. CI keeps
   **two** steps so a red run names its half without opening a log, the first passing
-  `--no-tests`.
+  `--no-tests`. Landed as `63126d0`, run [34159676894](https://github.com/skaile-ai/ai-assets-skaileup-mp/actions/runs/34159676894) green.
 
 ## Not yet specified
 

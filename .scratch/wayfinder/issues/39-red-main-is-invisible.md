@@ -73,6 +73,8 @@ this repo ships.
 two named steps say which half failed on the summary page without opening a log, so the first
 step passes `--no-tests` rather than running them twice.
 
+Landed as `63126d0`; run [34159676894](https://github.com/skaile-ai/ai-assets-skaileup-mp/actions/runs/34159676894) green, observed with the rule this ticket wrote.
+
 Surfaced while resolving this, and opened rather than absorbed:
 [40: The checker's host coupling is asserted, not tested](40-host-coupling-is-asserted-not-tested.md)
 — roughly a dozen `check.py` rules copy facts from forge-concept, justified in comments naming a
