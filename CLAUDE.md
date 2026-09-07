@@ -25,6 +25,18 @@ and untouched — projects opt in via `skaile.yaml`.
 - **Flow nodes declare `data.phase`** rather than relying on forge-concept's name-prefix
   fallback.
 
+## The gate
+
+**Green means `python scripts/check.py`, and that is the whole gate.** It checks the
+collection and then runs its own fixtures; nothing else needs running, and a run with
+`--no-tests` is not a green one. This repo has no build and no runtime, so that script is
+the only thing that can tell you the collection still hangs together — forge-concept
+validates no flow at all and reports a missing skill as `satisfied: true`.
+
+**A push is not finished until its run is green:** `gh run watch --exit-status` after
+pushing. The failure mail arrives, but it arrives in an inbox rather than in the session
+that caused it — two red runs once sat on `main` for ~13 hours that way.
+
 ## The vocabulary
 
 [`CONTEXT.md`](./CONTEXT.md) is the collection's glossary and nothing else — no paths, no

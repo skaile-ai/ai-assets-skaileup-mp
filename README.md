@@ -1,5 +1,7 @@
 # ai-assets-skaileup-mp
 
+[![ci](https://github.com/skaile-ai/ai-assets-skaileup-mp/actions/workflows/ci.yml/badge.svg)](https://github.com/skaile-ai/ai-assets-skaileup-mp/actions/workflows/ci.yml)
+
 The skaileup skill collection, rebuilt small. Same product domains as
 [`ai-assets-skaileup`](https://github.com/skaile-ai/ai-assets-skaileup) — design, spec,
 mockups, build, quality — as roughly **9 domains and ~30 skills** instead of 17 and 95,
@@ -61,3 +63,7 @@ There is **no documentation site**. The old collection's Starlight site stays in
 [`ai-assets-skaileup`](https://github.com/skaile-ai/ai-assets-skaileup) with the tree it
 describes; here the flows are the pipeline, `docs/adr/` holds why the collection is shaped
 as it is, and `scripts/check.py` answers whether it still hangs together.
+
+**Green means `python scripts/check.py`** — it checks the collection and then runs its own
+fixtures, so one command is the whole gate. The badge above is the same answer for anyone
+who did not run it.

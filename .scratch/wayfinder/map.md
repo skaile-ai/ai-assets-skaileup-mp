@@ -1122,6 +1122,25 @@ grounds that the host might change later.
   field that no flow defines**, and the intake rule itself. All three repaired. 30 skills ·
   4 flows · 0 errors, 69 passed.
 
+- [39: Make a red `main` impossible to miss](issues/39-red-main-is-invisible.md):
+  **The notifications were already on and they worked** — the mail for `736522f` arrived — so
+  the ticket's cheapest option is **struck, not adopted**, and the gap was never a missing
+  signal but ~13 hours between the signal and anyone acting on it. The channel is an inbox; the
+  work is in a session. So: **prevent, then let the session notice.** `check.py` now runs
+  `test_check.py` as its last phase — the command already in the habit becomes the whole gate
+  rather than half of one, with **no `Makefile` and no `check.sh`** (a second entry point drifts,
+  and the ticket forbade a fourth thing to remember); a missing pytest is an **error, not a
+  skip**. Verified against the ticket-34 shape: a fixture left asserting a changed rule made the
+  old script print `0 error(s)` and exit 0, and this one exit 1. The gate is now stated in
+  `CLAUDE.md` and `README.md`, which had never mentioned it — `README` named `check.py` once and
+  `pytest` **zero times**, documenting exactly the half-gate that failed. **A push is not
+  finished until `gh run watch --exit-status` is green**, which is the actual answer to the 13
+  hours. Badge added as a backstop, not as the fix. **Pre-push hook and branch protection
+  refused**: a hook is not committed, so it needs `core.hooksPath` plus per-clone setup — the
+  forbidden fourth thing — and protection blocks the push-to-main this repo ships by. CI keeps
+  **two** steps so a red run names its half without opening a log, the first passing
+  `--no-tests`.
+
 ## Not yet specified
 
 <!-- Empty as of 2026-09-06: all three remaining patches graduated into tickets 35, 36 and 37.
@@ -1133,8 +1152,10 @@ _Nothing. The three patches that stood here — the docs site, the absorbed skil
 the old repo's carry-over — became tickets 35, 36 and 37, and 35 and 36 are now resolved. The
 frontier is
 [37: What carries over from the old repo besides skills](issues/37-old-repo-carry-over.md) and
-[39: Make a red `main` impossible to miss](issues/39-red-main-is-invisible.md), the latter
-graduated from ticket 38's push rather than from a fog patch._
+[40: The checker's host coupling is asserted, not tested](issues/40-host-coupling-is-asserted-not-tested.md).
+Neither of the last two graduated from a fog patch: 39 came out of ticket 38's push, and 40 was
+surfaced while working 39, from the same failure family one level further out. 39 is now
+resolved, leaving 37 and 40._
 
 ## Out of scope
 

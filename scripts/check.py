@@ -17,17 +17,24 @@ This is the collection's only real gate. forge-concept validates no flow at all
 (`validateFlow` / `FlowManifestSchema` have zero call sites), so anything not
 checked here is not checked anywhere.
 
+The rules are only as good as the fixtures behind them, so this script runs
+`test_check.py` as its last phase. That is not tidiness: ticket 34 changed these
+rules without updating those fixtures, `check.py` printed a confident `0 error(s)`
+because it did not run them, and `main` was red for ~13 hours. One command has to
+mean green, or half of the gate is optional in practice.
+
 Usage:
-  python scripts/check.py [--repo <path>]
+  python scripts/check.py [--repo <path>] [--no-tests]
 
 Exit codes:
-  0  no errors
-  1  at least one error
+  0  the collection checks out and the checker's own fixtures pass
+  1  at least one error, or a failing fixture, or pytest is missing
 """
 from __future__ import annotations
 
 import argparse
 import re
+import subprocess
 import unicodedata
 import sys
 from pathlib import Path
@@ -922,9 +929,36 @@ def run(repo: Path) -> Report:
     return rep
 
 
+def run_own_tests() -> int:
+    """Run `test_check.py`, the failing fixture behind every rule above.
+
+    A missing pytest is an error, not a skip: a skipped test phase reports the same
+    confident green as the defect this phase exists to catch.
+    """
+    tests = Path(__file__).resolve().parent / "test_check.py"
+    if not tests.is_file():
+        print(f"ERROR {tests.name} is missing — the rules above have no fixtures behind them")
+        return 1
+
+    sys.stdout.flush()
+    proc = subprocess.run(
+        [sys.executable, "-m", "pytest", str(tests), "-q"],
+        cwd=tests.parent,
+    )
+    sys.stdout.flush()
+    if proc.returncode == 4:  # pytest's usage error, which includes "no module named pytest"
+        print("ERROR pytest could not run — install it (`pip install pytest`); a skipped test phase is not a pass")
+    return proc.returncode
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Check the collection for references that resolve to nothing.")
     parser.add_argument("--repo", default=None, help="repo root (default: the parent of this script's directory)")
+    parser.add_argument(
+        "--no-tests",
+        action="store_true",
+        help="skip `test_check.py`. For CI, which runs it as its own step, and for iterating on one rule.",
+    )
     args = parser.parse_args()
 
     repo = Path(args.repo).resolve() if args.repo else Path(__file__).resolve().parent.parent
@@ -937,7 +971,14 @@ def main() -> int:
         print(f"ERROR {err}")
 
     print(f"\n{skills} skill(s) · {flows} flow(s) · {len(rep.errors)} error(s)")
-    return 0 if rep.ok() else 1
+
+    if args.no_tests:
+        print("fixtures: skipped (--no-tests) — this run does not mean green")
+        return 0 if rep.ok() else 1
+
+    print("\nrunning the checker's own fixtures…", flush=True)
+    tests_rc = run_own_tests()
+    return 0 if (rep.ok() and tests_rc == 0) else 1
 
 
 if __name__ == "__main__":
