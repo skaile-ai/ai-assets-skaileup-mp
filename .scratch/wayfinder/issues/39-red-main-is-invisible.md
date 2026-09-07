@@ -61,6 +61,12 @@ Four changes, no fifth thing to remember:
    beside the other in `CLAUDE.md`. This is the actual fix for the 13 hours: the human channel
    answers in hours, the session is standing there in seconds, and change 1 is what makes it
    rarely fire.
+
+**Amended 2026-09-07, found by using it:** the rule shipped as a bare `gh run watch`, which
+takes the latest *registered* run — still the previous commit's for the first seconds after a
+push. It reported that run's green as the new commit's twice while resolving ticket 37, which is
+this ticket's own failure class inside this ticket's own fix. `CLAUDE.md` now pins the watch to
+`git rev-parse HEAD` and polls until a run for that sha exists.
 4. **A CI badge at the top of `README.md`** — a backstop for whoever did not push, not the fix.
    Same passive class as the mail that lost; kept because it is free and on the first page.
 

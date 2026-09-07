@@ -33,9 +33,20 @@ collection and then runs its own fixtures; nothing else needs running, and a run
 the only thing that can tell you the collection still hangs together — forge-concept
 validates no flow at all and reports a missing skill as `satisfied: true`.
 
-**A push is not finished until its run is green:** `gh run watch --exit-status` after
-pushing. The failure mail arrives, but it arrives in an inbox rather than in the session
-that caused it — two red runs once sat on `main` for ~13 hours that way.
+**A push is not finished until its run is green.** The failure mail arrives, but it arrives
+in an inbox rather than in the session that caused it — two red runs once sat on `main` for
+~13 hours that way.
+
+Pin the watch to your own commit. A bare `gh run watch` takes the latest *registered* run,
+which is still the previous commit's for the first seconds after a push, and then reports
+that one's green as yours:
+
+```sh
+SHA=$(git rev-parse HEAD)
+until RUN=$(gh run list --limit 5 --json databaseId,headSha \
+      -q ".[] | select(.headSha==\"$SHA\") | .databaseId" | head -1); [ -n "$RUN" ]; do sleep 3; done
+gh run watch --exit-status "$RUN"
+```
 
 ## The vocabulary
 

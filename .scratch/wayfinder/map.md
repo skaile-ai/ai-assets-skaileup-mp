@@ -1135,7 +1135,10 @@ grounds that the host might change later.
   `CLAUDE.md` and `README.md`, which had never mentioned it — `README` named `check.py` once and
   `pytest` **zero times**, documenting exactly the half-gate that failed. **A push is not
   finished until `gh run watch --exit-status` is green**, which is the actual answer to the 13
-  hours. Badge added as a backstop, not as the fix. **Pre-push hook and branch protection
+  hours — **amended the same day, found by using it**: a bare `gh run watch` takes the latest
+  *registered* run, still the previous commit's for a few seconds after a push, and reported its
+  green as the new commit's twice during ticket 37, so the rule now pins to `git rev-parse HEAD`.
+  Badge added as a backstop, not as the fix. **Pre-push hook and branch protection
   refused**: a hook is not committed, so it needs `core.hooksPath` plus per-clone setup — the
   forbidden fourth thing — and protection blocks the push-to-main this repo ships by. CI keeps
   **two** steps so a red run names its half without opening a log, the first passing
