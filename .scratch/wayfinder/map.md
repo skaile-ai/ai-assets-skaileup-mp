@@ -1141,6 +1141,29 @@ grounds that the host might change later.
   **two** steps so a red run names its half without opening a log, the first passing
   `--no-tests`. Landed as `63126d0`, run [34159676894](https://github.com/skaile-ai/ai-assets-skaileup-mp/actions/runs/34159676894) green.
 
+- [37: What carries over from the old repo besides skills](issues/37-old-repo-carry-over.md):
+  **Nothing carries — all three, plus the two mitigations offered with them.** The ticket's case
+  for the devlog was that it is the only record of *why* the old collection is what it is, which
+  a migration "cannot re-derive"; the measurement refutes the premise. **`docs/devlog/` sat
+  available for this entire migration and was read zero times** — across 39 tickets, 10 briefs and
+  3 research files, every `devlog` hit is this ticket, ticket 35 pointing at it, brief 13 counting
+  the files, or a *different devlog*. 31 files, **32,293 lines**, never opened, because the why was
+  re-derived by **measuring the artifact**: 44% duplication (03), `artifacts.yaml` unreachable (01),
+  `EMIT` read by nothing (03), `flows.md` with zero readers (09) — none of them in the devlog.
+  Mining it for ADRs was refused on a second ground: it would author records for decisions **`-mp`
+  did not make**. **The "improvement backlog" was never a backlog** — `improvements.mdx` is
+  completed-phases history, all ✅, with one open entry (validator coverage) that is a *decision*
+  in `-mp`, not a gap: old repo **38** validators, `-mp` **3**, since ticket 03 found `CHECKLIST`
+  restated `validator.py`. **Git history stays put** — grafting 330 commits would make `git log`
+  lie about every `-mp` file. **Both mitigations refused**: no `CONTEXT.md` entry for `devlog`
+  (a word inherited through one artifact filename does not earn a glossary line) and no `README`
+  pointer (the old repo is linked twice already; a note explaining its history exists is written
+  once and read never). Recorded but not acted on: **`devlog` names three things** — the old
+  collection's build record, the `_feedback/devlog.md` artifact `-mp` ships, and platform's
+  `_devlog/entries/`, which ticket 15 mined as a *primary source*. So the form works and this
+  instance was unused. The map itself stays in `.scratch/`, tracked, and is the record the devlog
+  would have been.
+
 ## Not yet specified
 
 <!-- Empty as of 2026-09-06: all three remaining patches graduated into tickets 35, 36 and 37.
@@ -1149,13 +1172,10 @@ grounds that the host might change later.
      resolution opens ground none of them covers. -->
 
 _Nothing. The three patches that stood here — the docs site, the absorbed skills' bodies, and
-the old repo's carry-over — became tickets 35, 36 and 37, and 35 and 36 are now resolved. The
-frontier is
-[37: What carries over from the old repo besides skills](issues/37-old-repo-carry-over.md) and
-[40: The checker's host coupling is asserted, not tested](issues/40-host-coupling-is-asserted-not-tested.md).
-Neither of the last two graduated from a fog patch: 39 came out of ticket 38's push, and 40 was
-surfaced while working 39, from the same failure family one level further out. 39 is now
-resolved, leaving 37 and 40._
+the old repo's carry-over — became tickets 35, 36 and 37, **all three now resolved**. The frontier
+is [40: The checker's host coupling is asserted, not tested](issues/40-host-coupling-is-asserted-not-tested.md),
+alone. Neither of the last two tickets graduated from a fog patch: 39 came out of ticket 38's
+push, and 40 was surfaced while working 39 — the same failure family one level further out._
 
 ## Out of scope
 
