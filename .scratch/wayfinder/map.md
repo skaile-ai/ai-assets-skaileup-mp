@@ -1167,6 +1167,27 @@ grounds that the host might change later.
   instance was unused. The map itself stays in `.scratch/`, tracked, and is the record the devlog
   would have been.
 
+- [40: The checker's host coupling is asserted, not tested](issues/40-host-coupling-is-asserted-not-tested.md):
+  **The coupling stays; its bookkeeping becomes enumerable, dated and testable.** Measured
+  2026-09-08 against `d16003d`/`cf1d222d`: of `check.py`'s 14 distinct `file:line` refs, **4 rotted
+  in ~2 weeks and every underlying fact still holds** (`validator.ts:81`→`:86`, `profiles.get.ts:30`
+  →`:31` and the path missing its `pipeline/` segment, `flow-manager.ts:508`→`:507`,
+  `flow-layout.ts:53-65` shifted). So the defect is this repo's own class — a reference that
+  resolves to nothing quietly. Settled: **`scripts/host_facts.py`**, imported not prose, **one row
+  per fact** (host · path · **signature, not line** · `expect` · claim · `verified:` · rule ids);
+  error text **interpolates the path from the table** and appends the fact id; **`verify_host.py`
+  manual-only** (the hosts are absent from push CI) with verdicts **holds/expired** and
+  **`--update`** to rewrite the dates, without which they rot exactly as the lines just did;
+  **`expect: present | absent`** makes the four negative claims first-class, since a host that
+  *gains* a `${}` resolver silently voids a ban; **the table gates itself** — `fact=` ids at the
+  ~12 host-derived sites, `test_check.py` failing on both dangles and orphans, which is what
+  ticket 34 needed and did not have. **Tiering is of the output, not the severity** — intrinsic /
+  host-derived / house style, a host-derived failure printing both readings; **no second exit
+  code** and **house style stays an error** (ADR 0003's ceiling and ticket 10's deletions are
+  decisions this map made). **The forge-concept register does not merge into the table**:
+  constraints-and-workarounds for a successor effort vs live machinery this repo runs. Build is
+  ticket 41. Evidence: `briefs/40-host-coupling.md`.
+
 ## Not yet specified
 
 <!-- Empty as of 2026-09-06: all three remaining patches graduated into tickets 35, 36 and 37.
@@ -1174,11 +1195,10 @@ grounds that the host might change later.
      toward a destination, and this one is behind us. A patch reappears only if a ticket's
      resolution opens ground none of them covers. -->
 
-_Nothing. The three patches that stood here — the docs site, the absorbed skills' bodies, and
-the old repo's carry-over — became tickets 35, 36 and 37, **all three now resolved**. The frontier
-is [40: The checker's host coupling is asserted, not tested](issues/40-host-coupling-is-asserted-not-tested.md),
-alone. Neither of the last two tickets graduated from a fog patch: 39 came out of ticket 38's
-push, and 40 was surfaced while working 39 — the same failure family one level further out._
+_The frontier is [41: Give the host facts an owner](issues/41-host-facts-table.md), alone — the
+build ticket 40 sized and deliberately did not do. None of the last three tickets graduated from a
+fog patch: 39 came out of ticket 38's push, 40 was surfaced while working 39, and 41 is 40's own
+decision handed to a second session. The same failure family, each time one level further out._
 
 ## Out of scope
 
