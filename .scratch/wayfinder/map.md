@@ -1187,6 +1187,33 @@ grounds that the host might change later.
   decisions this map made). **The forge-concept register does not merge into the table**:
   constraints-and-workarounds for a successor effort vs live machinery this repo runs. Build is
   ticket 41. Evidence: `briefs/40-host-coupling.md`.
+- [41: Give the host facts an owner](issues/41-host-facts-table.md): **built, 2026-09-09.**
+  `scripts/host_facts.py` carries **23 facts** across forge-concept (16) and workspaces (7); no
+  rule rests on `platform`, so the misattributed "platform's `validateFlow`" comment moved to
+  workspaces, where the schema actually lives. `check.py` cites them through
+  `rep.error(..., fact=...)` at **30 sites**, `{host}` interpolating the path from the row, and
+  every inline `file:line` is gone. Two amendments to 40's shape, both forced by the build:
+  **`fact=` takes a tuple** — the edge-type rule rests on two files (`run.post.ts` orders the
+  run, `flow-extended-state.ts` gates readiness) that can rot apart, and merging them would have
+  cost the second's coverage; and **`data.parameters`/`data.writes` are host-derived, not house
+  style** — both keys still have live reads, so those bans change meaning if the host stops,
+  which leaves house style at the same five rules by a truer cut (the ceiling, `meta.category`,
+  the dead globals, the plural rule, the node-kind ban). The self-gate is an **AST
+  reconciliation** rather than a text scan, because comments name fact ids too and a fact cited
+  only in prose is exactly the unowned rule ticket 34 shipped. **A fifth rotted claim, found by
+  the same method 40 used:** `check.py` asserted no `${...}` resolver exists "in either host" —
+  @skaile/workspaces has **three** (`expression.ts`, `normalize.ts`, `bindings.ts`). The rule
+  survives because forge-concept's node-run path never calls that connector, so the fact is now
+  scoped to that one file and expressed as `expect: absent`. All 23 verify **holds** against
+  `d16003d` / `995deb12`; `check.py` is green over 4 flows and 30 skills with **113 fixtures**.
+  **Amended after review**, which found the ticket's own defect class inside the artifact meant
+  to abolish it: the `rules` column was prose no test read — 27 of 30 ids appeared nowhere in
+  code while `verify_host.py` printed them on every expiry. Every site now passes **`rule=`**
+  beside `fact=`, `Report.error` refuses an id the row does not list, and the AST reconciles both
+  directions; the scan also excludes docstrings, which are `ast.Constant` and would otherwise
+  satisfy the orphan gate as prose. Five stale `file:line` refs left in `test_check.py`
+  docstrings are gone too. CONTEXT.md gains a **Host** entry: the word was already load-bearing
+  there in two senses (the harness, and forge-concept) and defined in neither.
 
 ## Not yet specified
 
@@ -1195,10 +1222,13 @@ grounds that the host might change later.
      toward a destination, and this one is behind us. A patch reappears only if a ticket's
      resolution opens ground none of them covers. -->
 
-_The frontier is [41: Give the host facts an owner](issues/41-host-facts-table.md), alone — the
-build ticket 40 sized and deliberately did not do. None of the last three tickets graduated from a
-fog patch: 39 came out of ticket 38's push, 40 was surfaced while working 39, and 41 is 40's own
-decision handed to a second session. The same failure family, each time one level further out._
+_There is no frontier. 41 was the last open ticket — the build ticket 40 sized and deliberately
+did not do — and it landed 2026-09-09. None of the last four tickets graduated from a fog patch:
+39 came out of ticket 38's push, 40 was surfaced while working 39, and 41 was 40's own decision
+handed to a second session. The same failure family, each time one level further out — and 41
+closed it by giving the outermost layer, the coupling to repos this map does not own, the only
+verifier it ever had. Work resumes if a ticket's resolution opens ground, or if
+`verify_host.py` reports **expired**._
 
 ## Out of scope
 
@@ -1229,6 +1259,14 @@ decision handed to a second session. The same failure family, each time one leve
   rules host edits out for sequencing (see Notes), so each ticket below accepted a workaround
   instead. Each entry names the site that forced it, so a later map starts from the list rather
   than rediscovering it:
+  - **Not to be confused with `scripts/host_facts.py`** (ticket 41), which reads like this
+    register and is a different artifact. The table holds the **23 facts `check.py`'s rules rest
+    on** — host, path, grep-able signature, `expect`, claim, `verified:` date, rule ids — and is
+    live machinery: `check.py` interpolates its error text from it and `scripts/verify_host.py`
+    greps it against real checkouts. This register holds **constraints the host forced and the
+    workarounds accepted**, a finished argument whose reader is the successor effort. Different
+    lifetimes, different readers; several entries below name a fact the table also carries, and
+    that duplication is deliberate. Ruled by ticket 40 (8): cross-reference, don't merge.
   - **`artifacts.yaml` is unreachable as deployed** — read only under `--link`
     (`artifact-contract.ts:138`); the default copy install leaves the recursive search finding
     nothing and forge-concept silently falls back to session completion. Ticket 01 found it;

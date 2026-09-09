@@ -13,9 +13,15 @@ contract that was deleted reads as fine. A node whose `data.phase` contradicts
 its group's renders in the group's lane and never says so. None of these raise
 anywhere in the toolchain, so they are raised here.
 
-This is the collection's only real gate. forge-concept validates no flow at all
-(`validateFlow` / `FlowManifestSchema` have zero call sites), so anything not
-checked here is not checked anywhere.
+This is the collection's only real gate. forge-concept validates no flow at all — it
+loads them and drops the malformed ones silently — so anything not checked here is not
+checked anywhere.
+
+About a dozen rules here are copies of facts in forge-concept and @skaile/workspaces.
+Each names its fact id and nothing else: `scripts/host_facts.py` owns the path, the
+signature and the date, and `scripts/verify_host.py` greps them against real checkouts.
+A `file:line` in a comment is not a citation — ticket 40 measured four of fourteen
+rotting in two weeks while every underlying fact still held.
 
 The rules are only as good as the fixtures behind them, so this script runs
 `test_check.py` as its last phase. That is not tidiness: ticket 34 changed these
@@ -41,17 +47,19 @@ from pathlib import Path
 
 import yaml
 
+import host_facts as hf
+
 # The published skill body ceiling (ADR 0003). A whole SKILL.md, frontmatter
 # included — that is how a reader meets it.
 LINE_BUDGET = 140
 
 # Every declared prerequisite path is joined to the *project* root, never to the concept
-# (`resolver/src/validator.ts:81`), so the prefix is part of the declaration.
+# (`host:prerequisite-project-root`), so the prefix is part of the declaration.
 ARTIFACT_ROOT = "_concept"
 
 # The named exceptions to "every prerequisite path lives under `_concept/`".
 #
-# `validator.ts:81` joins the declared path to the *project* root, so a project-root
+# `host:prerequisite-project-root` joins the declared path to the *project* root, so a project-root
 # gate like `package.json` resolves correctly — the blanket ban this check used to carry
 # was stricter than the reader it protects (found by ticket 23, which had to move
 # `quality-test`'s source-exists gate into the step body to work around it).
@@ -67,7 +75,7 @@ ARTIFACT_ROOT = "_concept"
 # because whether it exists is a fact about the scaffolded project, not about this repo.
 PROJECT_ROOT_PREREQUISITES = {"package.json"}
 
-# forge-concept's lane vocabulary (`shared/flow-phases.ts`). An invalid value is
+# forge-concept's lane vocabulary (`host:phase-lane-vocabulary`). An invalid value is
 # silently swallowed there, which is why it is checked here.
 PHASES = {"conceptualization", "implementation", "review"}
 
@@ -81,35 +89,142 @@ FLOW_EDGE = "flow"
 # with the pick-one renderers.
 NODE_KINDS = {"skill", "group"}
 
-# `profiles.get.ts:33-36` casts `meta.onboarding.input_style` to this union without
-# checking it; `OnboardingWizard.vue` then branches on it and renders nothing for a
-# value outside the set.
+# `host:profile-onboarding` casts `meta.onboarding.input_style` to this union without
+# checking it; the wizard then branches on it and renders nothing for a value outside
+# the set.
 INPUT_STYLES = {"freeform", "structured", "repo"}
 
-# `profiles.get.ts:47` publishes exactly these as the selectable depths.
+# `host:research-depth-options` publishes exactly these as the selectable depths.
 RESEARCH_DEPTHS = {"skip", "light", "moderate", "deep"}
 
-# Keys ticket 10 deleted as decoration. Each fell through every reader — except
-# `data.parameters`, which still has one live read host-wide (`flow-extended.ts:47`
-# reads `data.parameters.flow` as a sub-flow's child id), so a stray block is not inert.
+# Keys ticket 10 deleted as decoration. `meta.category` and the globals fell through
+# every reader, which makes their bans house style — a decision this map made, owned by
+# nobody else. `data.parameters` and `data.writes` are different: both still have live
+# reads (`host:sub-flow-parameters-read`, `host:node-writes-legacy-read`), so those two
+# bans are host-derived and carry a fact id.
 DEAD_META_KEYS = ("category",)
 DEAD_GLOBALS = ("approval_mode", "subagent_mode", "verbosity", "concept_depth")
 DEAD_NODE_DATA = ("parameters", "writes")
 
-# No resolver for `${...}` exists anywhere in either host — the string reaches the
-# prompt verbatim.
+# Which fact each of those two bans rests on, and the clause it contributes. Hoisted out
+# of the loop so the ids stay plain literals: `test_check.py` reconciles the table by
+# walking this module's AST, and a fact id built at runtime would read as an orphan.
+DEAD_NODE_DATA_FACTS = {
+    "parameters": (
+        "host:sub-flow-parameters-read",
+        "node-data-parameters",
+        " — and it is not inert: {host} reads `data.parameters.flow`",
+    ),
+    "writes": (
+        "host:node-writes-legacy-read",
+        "node-data-writes",
+        " — {host} still reads it for legacy flows",
+    ),
+}
+
+# No `${...}` resolver runs on forge-concept's node-run path (`host:prompt-is-verbatim`)
+# — the string reaches the prompt verbatim. Scoped to that path deliberately: the flow
+# *connector* in @skaile/workspaces does resolve `${}`, and forge-concept never calls it.
 INTERPOLATION_RE = re.compile(r"\$\{[^}]*\}")
+
+
+# The three kinds of rule this script mixes, kept apart in the *output* and nowhere
+# else. A red gate is a red gate — there is no second exit code, because a distinct one
+# invites a CI config that ignores it.
+#
+#   intrinsic     depends on nothing outside this repo. `name:` == directory, links
+#                 resolve, edges reference real nodes, reachability. If one fails, the
+#                 collection is wrong.
+#   host-derived  a copy of a fact in someone else's repo, each owned by a row in
+#                 `host_facts.py`. If one fails, either the collection is wrong or the
+#                 fact expired — and until someone runs `verify_host.py` that is
+#                 genuinely ambiguous, so the message says both.
+#   house style   decisions this map made (ADR 0003's ceiling, ticket 10's deletions,
+#                 the plural rule). They stay errors: a warning nobody is forced to read
+#                 is how a deleted key comes back.
+INTRINSIC = "intrinsic"
+HOST_DERIVED = "host-derived"
+HOUSE_STYLE = "house style"
+
+TIERS = (INTRINSIC, HOST_DERIVED, HOUSE_STYLE)
+
+
+class Problem:
+    """One reported failure, with the tier that decides how it reads."""
+
+    def __init__(
+        self, where: str, msg: str, tier: str, facts: tuple[str, ...] = (), rule: str | None = None
+    ) -> None:
+        self.where = where
+        self.msg = msg
+        self.tier = tier
+        self.facts = facts
+        self.rule = rule
+
+    def __str__(self) -> str:
+        suffix = f" [{', '.join(self.facts)}]" if self.facts else ""
+        return f"{self.where}: {self.msg}{suffix}"
 
 
 class Report:
     def __init__(self) -> None:
-        self.errors: list[str] = []
+        self.problems: list[Problem] = []
 
-    def error(self, where: str, msg: str) -> None:
-        self.errors.append(f"{where}: {msg}")
+    def error(
+        self,
+        where: str,
+        msg: str,
+        *,
+        fact: str | tuple[str, ...] | None = None,
+        rule: str | None = None,
+    ) -> None:
+        """An intrinsic failure, or — with `fact=` — a host-derived one.
+
+        `fact` names a row in `host_facts.py`, or several when one rule rests on more
+        than one (an edge type governs both run ordering and readiness, in two files
+        that can rot apart). An unknown id raises rather than printing: a citation that
+        resolves to nothing is exactly the defect this table exists to make loud.
+
+        `rule` names this rule, and must appear in every cited row's `rules`. It is what
+        makes that column mean something: a rule id that lives only in the table is
+        unfalsifiable bookkeeping — the defect the table was built to abolish, one field
+        further in. `test_check.py` reconciles both directions.
+
+        `{host}` in `msg` is replaced by the first row's host and path, so the message
+        cannot drift out of step with the table.
+        """
+        if fact is None:
+            if rule is not None:
+                raise ValueError(f"rule {rule!r} given without a fact — only host-derived rules carry ids")
+            self.problems.append(Problem(where, msg, INTRINSIC))
+            return
+        if rule is None:
+            raise ValueError(f"fact {fact!r} cited with no rule id — the table's `rules` column would go unowned")
+        ids = (fact,) if isinstance(fact, str) else tuple(fact)
+        rows = [hf.fact(i) for i in ids]
+        for row in rows:
+            if rule not in row.rules:
+                raise KeyError(f"rule {rule!r} is not listed in {row.id}'s `rules` — add it to scripts/host_facts.py")
+        self.problems.append(
+            Problem(where, msg.replace("{host}", rows[0].where), HOST_DERIVED, ids, rule)
+        )
+
+    def house(self, where: str, msg: str) -> None:
+        """A rule this collection imposes on itself. Same severity, different reading."""
+        self.problems.append(Problem(where, msg, HOUSE_STYLE))
+
+    @property
+    def errors(self) -> list[str]:
+        return [str(p) for p in self.problems]
+
+    def by_tier(self, tier: str) -> list[Problem]:
+        return [p for p in self.problems if p.tier == tier]
+
+    def facts_cited(self) -> set[str]:
+        return {f for p in self.problems for f in p.facts}
 
     def ok(self) -> bool:
-        return not self.errors
+        return not self.problems
 
 
 # --------------------------------------------------------------------------
@@ -222,7 +337,7 @@ def check_tree_names(repo: Path, rep: Report) -> None:
         for i, a in enumerate(names):
             for b in names[i + 1 :]:
                 if _is_plural_of(a, b) or _is_plural_of(b, a):
-                    rep.error(
+                    rep.house(
                         where,
                         f"`{parent}` declares `{a}` and `{b}`, which differ only by plural",
                     )
@@ -300,16 +415,30 @@ def _check_skill_contract_dep(fm: dict, cited: set[str], where: str, rep: Report
     """Cite a contract file and you declare the contract asset — and vice versa."""
     declared = _declared_contract_assets(fm)
     for wrong in sorted(declared - {CONTRACT_ASSET}):
-        rep.error(where, f"declares contract {wrong!r}, but the only contract asset is {CONTRACT_ASSET!r}")
+        rep.error(
+            where,
+            f"declares contract {wrong!r}, but the only contract asset is {CONTRACT_ASSET!r} — "
+            f"{{host}} indexes an asset under its slugified `name:`, so a per-file ref names nothing",
+            fact="host:asset-name-slug",
+            rule="contract-asset-is-one",
+        )
     if cited and CONTRACT_ASSET not in declared:
         rep.error(
             where,
             f"cites {len(cited)} contract file(s) but does not declare "
             f"`contract:@skaile-ai/{CONTRACT_ASSET}` in `metadata.requires` — "
-            "nothing would install what it reads",
+            f"nothing would install what it reads, and {{host}} is what reports the gap",
+            fact="host:doctor-walks-requires",
+            rule="skill-declares-what-it-reads",
         )
     if not cited and CONTRACT_ASSET in declared:
-        rep.error(where, f"declares {CONTRACT_ASSET!r} but cites no contract file")
+        rep.error(
+            where,
+            f"declares {CONTRACT_ASSET!r} but cites no contract file — {{host}} would "
+            f"report a dependency that reached no reader",
+            fact="host:doctor-walks-requires",
+            rule="skill-declares-what-it-reads",
+        )
 
 
 def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]]:
@@ -342,20 +471,27 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
             continue
 
         # The reader declares its own dependency. A skill's `metadata.requires` is the
-        # one list with a live reader in the shipped installer — `AssetManager.doctor()`
-        # walks it to report a dependency that reached no workspace — while a flow's
-        # `requires:` provisions nothing (`bundleDeps` handles bundles only).
+        # one list with a live reader in the shipped installer (`host:doctor-walks-requires`,
+        # which reports a dependency that reached no workspace), while a flow's dependency
+        # edges are built from its nodes' `run.assets`, never from its top-level `requires:`
+        # (`extractFlowRequires`, @skaile/workspaces discovery/src/requires-graph.ts).
         _check_skill_contract_dep(fm, contracts[directory], where, rep)
 
-        # 1. identity. Three of the four roles a skill name plays resolve
-        #    through the directory, and forge-concept never reads `name:` for
-        #    identity at all — so a mismatch is invisible until a node runs
-        #    with no skill body.
+        # 1. identity. Three of the four roles a skill name plays resolve through the
+        #    directory, and forge-concept never reads `name:` for identity at all
+        #    (`host:skill-identity-is-the-directory`) — so a mismatch is invisible until
+        #    a node runs with no skill body.
         name = fm.get("name")
         if not name:
             rep.error(where, "frontmatter has no `name:`")
         elif name != directory:
-            rep.error(where, f"`name:` is {name!r} but the directory is {directory!r} — they must match character for character")
+            rep.error(
+                where,
+                f"`name:` is {name!r} but the directory is {directory!r} — they must match "
+                f"character for character; {{host}} resolves a node's skill through the directory",
+                fact="host:skill-identity-is-the-directory",
+                rule="skill-name-matches-directory",
+            )
         else:
             names.add(name)
 
@@ -366,19 +502,24 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
         # 3. the body ceiling.
         line_count = len(text.splitlines())
         if line_count > LINE_BUDGET:
-            rep.error(where, f"SKILL.md is {line_count} lines, over the {LINE_BUDGET}-line ceiling")
+            rep.house(where, f"SKILL.md is {line_count} lines, over the {LINE_BUDGET}-line ceiling")
 
-        # 4. the machine layer has to be where its readers look. `parseSkillRequirements`
-        #    reads `fm.metadata.prerequisites` and `extractSkillRequires` returns early on a
-        #    missing `metadata` — neither falls back to the root, and neither raises. A block
-        #    at the root parses clean and reports `satisfied: true` on an unmet gate.
+        # 4. the machine layer has to be where its readers look — neither reader falls
+        #    back to the frontmatter root, and neither raises. A block at the root parses
+        #    clean and reports `satisfied: true` on an unmet gate.
         for key in ("artifacts", "prerequisites"):
             if key in fm:
-                rep.error(where, f"`{key}:` is at the frontmatter root — it must sit under `metadata:`, which is the only place its reader looks")
+                rep.error(
+                    where,
+                    f"`{key}:` is at the frontmatter root — it must sit under `metadata:`, "
+                    f"which is the only place its reader looks ({{host}})",
+                    fact="host:skill-metadata-nesting",
+                    rule="machine-layer-nesting",
+                )
 
-        # 5. declared prerequisites are joined to the *project* root (`validator.ts:81`),
-        #    not to `_concept/`. A concept path without the prefix resolves one level too
-        #    high, and its first segment inside the tree has to be a real one. Paths
+        # 5. declared prerequisites are joined to the *project* root, not to `_concept/`
+        #    (`host:prerequisite-project-root`). A concept path without the prefix resolves
+        #    one level too high, and its first segment inside the tree has to be a real one. Paths
         #    outside the concept are legal only when named in PROJECT_ROOT_PREREQUISITES —
         #    see that constant for why the restriction survives ticket 23's finding.
         for entry in _prerequisite_paths(fm):
@@ -389,8 +530,10 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
                     where,
                     f"prerequisite path {entry!r} does not start with {ARTIFACT_ROOT + '/'!r} and is not "
                     f"one of the named project-root gates ({', '.join(sorted(PROJECT_ROOT_PREREQUISITES))}) — "
-                    f"the validator joins it to the project root, so a concept path without the prefix "
+                    f"{{host}} joins it to the project root, so a concept path without the prefix "
                     f"resolves outside the concept",
+                    fact="host:prerequisite-project-root",
+                    rule="prerequisite-prefix",
                 )
                 continue
             if top_level:
@@ -399,7 +542,10 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
                     rep.error(
                         where,
                         f"prerequisite path {entry!r} starts at {first!r}, which is not a "
-                        f"top-level entry of the artifact tree",
+                        f"top-level entry of the artifact tree — {{host}} would resolve it "
+                        f"against the project root and find nothing",
+                        fact="host:prerequisite-project-root",
+                        rule="prerequisite-tree-segment",
                     )
 
         # 6. cited contracts must exist.
@@ -447,7 +593,14 @@ def check_contract_manifest(repo: Path, rep: Report) -> None:
     if not name:
         rep.error(where, "frontmatter has no `name:`")
     elif _slugify_asset_name(str(name)) != CONTRACT_ASSET:
-        rep.error(where, f"`name:` {name!r} installs as {_slugify_asset_name(str(name))!r}, but every `contract:` ref names {CONTRACT_ASSET!r}")
+        rep.error(
+            where,
+            f"`name:` {name!r} installs as {_slugify_asset_name(str(name))!r}, but every "
+            f"`contract:` ref names {CONTRACT_ASSET!r} — {{host}} takes the asset's identity "
+            f"from the slugified name",
+            fact="host:asset-name-slug",
+            rule="contract-manifest-slug",
+        )
 
 
 def check_contracts(repo: Path, rep: Report) -> None:
@@ -494,7 +647,7 @@ def check_flows(
 def _slugify_asset_name(raw: str) -> str:
     """The installer's canonical asset name for `raw`.
 
-    Mirrors `slugifyAssetName` (@skaile/workspaces core/src/models.ts): NFKD, drop
+    Mirrors `slugifyAssetName` (`host:asset-name-slug`): NFKD, drop
     combining accents, lowercase, every other run of non-alphanumerics to `-`, trim.
     """
     decomposed = unicodedata.normalize("NFKD", raw)
@@ -522,22 +675,30 @@ def _check_one_flow(
     elif flow_id != stem or flow_id != directory:
         rep.error(where, f"`id:` {flow_id!r} must equal both the filename stem {stem!r} and the directory {directory!r}")
 
-    # platform's validateFlow requires `name`; forge-concept's loader does not.
-    # Carrying it satisfies both, at the cost of one line.
+    # `validateFlow` requires `name`; forge-concept's loader does not. Carrying it
+    # satisfies both, at the cost of one line. (The claim used to read "platform's
+    # validateFlow" — the schema lives in @skaile/workspaces, which platform calls.)
     flow_name = flow.get("name")
     if not flow_name:
-        rep.error(where, "has no top-level `name:` (platform's validateFlow requires it)")
+        rep.error(
+            where,
+            "has no top-level `name:` — {host} requires a non-empty one",
+            fact="host:flow-manifest-requires-name",
+            rule="flow-name-present",
+        )
     elif flow_id and _slugify_asset_name(flow_name) != flow_id:
         # `name:` is not decoration: the installer takes a flow's asset identity from it,
-        # not from `id:` (@skaile/workspaces core/manifest.ts fromFlowYamlContent, slugified
-        # in scanDirectory). A title that does not slugify to the id makes the flow
-        # unresolvable as `flow:@<publisher>/<id>` and it silently never installs, while
-        # the deployed directory the loader matches on is named from the same slug.
+        # not from `id:` (`host:flow-asset-named-from-name`). A title that does not slugify
+        # to the id makes the flow unresolvable as `flow:@<publisher>/<id>` and it silently
+        # never installs, while the deployed directory the loader matches on is named from
+        # the same slug.
         rep.error(
             where,
             f"`name:` {flow_name!r} slugifies to {_slugify_asset_name(flow_name)!r}, not to `id:` "
-            f"{flow_id!r} — the installer names the asset from `name:`, so this flow cannot be "
+            f"{flow_id!r} — {{host}} names the asset from `name:`, so this flow cannot be "
             f"installed as `flow:@skaile-ai/{flow_id}`",
+            fact="host:flow-asset-named-from-name",
+            rule="flow-name-slugifies-to-id",
         )
 
     _check_presentation(flow, text, where, rep)
@@ -545,7 +706,12 @@ def _check_one_flow(
     nodes = flow.get("nodes") or []
     edges = flow.get("edges") or []
     if not isinstance(nodes, list) or not nodes:
-        rep.error(where, "has no `nodes:` — the loader discards a flow missing id/nodes/edges")
+        rep.error(
+            where,
+            "has no `nodes:` — {host} discards a flow missing id/nodes/edges, without an error",
+            fact="host:loader-discards-incomplete-flow",
+            rule="flow-has-nodes",
+        )
         return
     if not isinstance(edges, list):
         rep.error(where, "`edges:` is not a list")
@@ -569,8 +735,8 @@ def _check_one_flow(
     node_skills = _check_nodes(nodes, by_id, where, skill_names, rep)
 
     # edges. The host orders nodes along `type: flow` and nothing else
-    # (`run.post.ts:62`, `flow-extended-state.ts:48`), so a differently-typed edge
-    # draws on the canvas and orders nothing. Reachability below catches it when it is
+    # (`host:flow-edge-orders-run`, `host:flow-edge-gates-state`), so a differently-typed
+    # edge draws on the canvas and orders nothing. Reachability below catches it when it is
     # the only path to a node; this catches it when it runs *parallel* to a flow edge,
     # where reachability stays green and the edge is pure decoration.
     for edge in edges:
@@ -589,8 +755,10 @@ def _check_one_flow(
         if etype != FLOW_EDGE:
             rep.error(
                 where,
-                f"edge {eid!r} has `type: {etype!r}`, but the host reads only `type: {FLOW_EDGE}` — "
-                f"it would draw an edge that orders nothing",
+                f"edge {eid!r} has `type: {etype!r}`, but {{host}} reads only `type: {FLOW_EDGE}` — "
+                f"it would draw an edge that orders nothing, and gates no node's readiness either",
+                fact=("host:flow-edge-orders-run", "host:flow-edge-gates-state"),
+                rule="edge-type-flow",
             )
 
     # reachability under flow-typed edges — a disconnected subgraph is still possible
@@ -603,7 +771,7 @@ def _check_one_flow(
 
 
 def _check_presentation(flow: dict, text: str, where: str, rep: Report) -> None:
-    """The keys `profiles.get.ts` turns into an onboarding card, and the keys ticket 10
+    """The keys the onboarding endpoint turns into a card, and the keys ticket 10
     deleted. Every field here is read without validation on the far side: a missing
     `description` renders an empty card, an `input_style` outside the union is cast to
     it and branches to nothing, and a `research_depth` outside the published options is
@@ -611,11 +779,21 @@ def _check_presentation(flow: dict, text: str, where: str, rep: Report) -> None:
     for key in ("version", "description"):
         value = flow.get(key)
         if not isinstance(value, str) or not value.strip():
-            rep.error(where, f"has no non-empty string `{key}:` (`profiles.get.ts:30` publishes `description` verbatim)")
+            rep.error(
+                where,
+                f"has no non-empty string `{key}:` — {{host}} publishes `description` verbatim",
+                fact="host:profile-description",
+                rule="flow-description",
+            )
 
     meta = flow.get("meta")
     if meta is None:
-        rep.error(where, "has no `meta:` — `profiles.get.ts:29-40` reads `meta.icon` and `meta.onboarding` from it")
+        rep.error(
+            where,
+            "has no `meta:` — {host} reads `meta.icon` and `meta.onboarding` from it",
+            fact="host:profile-onboarding",
+            rule="flow-meta",
+        )
         meta = {}
     elif not isinstance(meta, dict):
         rep.error(where, "`meta:` is not a mapping")
@@ -623,47 +801,87 @@ def _check_presentation(flow: dict, text: str, where: str, rep: Report) -> None:
 
     for dead in DEAD_META_KEYS:
         if dead in meta:
-            rep.error(where, f"carries `meta.{dead}:`, deleted by ticket 10 — every value fell through every reader")
+            rep.house(where, f"carries `meta.{dead}:`, deleted by ticket 10 — every value fell through every reader")
 
     icon = meta.get("icon")
     if not isinstance(icon, str) or not icon.startswith("i-"):
         rep.error(
             where,
             f"has `meta.icon: {icon!r}` — it must be an `i-` prefixed Iconify name; "
-            f"`profiles.get.ts:31` passes it straight to the icon component, which renders nothing for anything else",
+            f"{{host}} passes it straight to the icon component, which renders nothing for anything else",
+            fact="host:profile-icon",
+            rule="flow-icon",
         )
 
     onboarding = meta.get("onboarding")
     if not isinstance(onboarding, dict):
-        rep.error(where, "has no `meta.onboarding:` mapping — the onboarding wizard then falls back to a structured form with no fields")
+        rep.error(
+            where,
+            "has no `meta.onboarding:` mapping — {host} then falls back to a structured "
+            "form with no fields",
+            fact="host:profile-onboarding",
+            rule="onboarding-present",
+        )
     else:
         style = onboarding.get("input_style")
         if style not in INPUT_STYLES:
-            rep.error(where, f"has `meta.onboarding.input_style: {style!r}`, not one of {sorted(INPUT_STYLES)}")
+            rep.error(
+                where,
+                f"has `meta.onboarding.input_style: {style!r}`, not one of {sorted(INPUT_STYLES)} "
+                f"— {{host}} casts it to the union without checking it",
+                fact="host:profile-onboarding",
+                rule="onboarding-input-style",
+            )
         fields = onboarding.get("fields")
         if style in ("structured", "repo"):
             if not isinstance(fields, list) or not fields or not all(isinstance(f, str) and f.strip() for f in fields):
-                rep.error(where, f"has `input_style: {style!r}` but no non-empty `meta.onboarding.fields:` list — the wizard would render a form with no questions")
+                rep.error(
+                    where,
+                    f"has `input_style: {style!r}` but no non-empty `meta.onboarding.fields:` "
+                    f"list — {{host}} would render a form with no questions",
+                    fact="host:profile-onboarding",
+                    rule="onboarding-fields",
+                )
         if "placeholder" in onboarding and style != "freeform":
             rep.error(
                 where,
                 f"carries `meta.onboarding.placeholder:` with `input_style: {style!r}` — "
-                f"`OnboardingWizard.vue:82-99` binds it to the freeform textarea only, so it has no reader here",
+                f"{{host}} binds it to the freeform textarea only, so it has no reader here",
+                fact="host:onboarding-placeholder-freeform",
+                rule="onboarding-placeholder",
             )
 
     globals_ = flow.get("globals")
     if not isinstance(globals_, dict):
-        rep.error(where, "has no `globals:` mapping — `globals.research_depth` seeds the onboarding depth picker")
+        rep.error(
+            where,
+            "has no `globals:` mapping — {host} seeds the onboarding depth picker from "
+            "`globals.research_depth`",
+            fact="host:research-depth-seed",
+            rule="flow-globals",
+        )
     else:
         for dead in DEAD_GLOBALS:
             if dead in globals_:
-                rep.error(where, f"carries `globals.{dead}:`, deleted by ticket 10 — it has no reader in either host")
+                rep.house(where, f"carries `globals.{dead}:`, deleted by ticket 10 — it has no reader in either host")
         depth = globals_.get("research_depth")
         if depth not in RESEARCH_DEPTHS:
-            rep.error(where, f"has `globals.research_depth: {depth!r}`, not one of {sorted(RESEARCH_DEPTHS)} (`profiles.get.ts:47`)")
+            rep.error(
+                where,
+                f"has `globals.research_depth: {depth!r}`, not one of {sorted(RESEARCH_DEPTHS)} "
+                f"— {{host}} publishes exactly those as selectable",
+                fact="host:research-depth-options",
+                rule="research-depth",
+            )
 
     for found in sorted(set(INTERPOLATION_RE.findall(text))):
-        rep.error(where, f"contains the interpolation {found!r} — no resolver for `${{...}}` exists in either host, so the literal string reaches the prompt")
+        rep.error(
+            where,
+            f"contains the interpolation {found!r} — {{host}} resolves nothing, so the "
+            f"literal string reaches the prompt",
+            fact="host:prompt-is-verbatim",
+            rule="no-interpolation",
+        )
 
 
 def _check_nodes(nodes: list, by_id: dict, where: str, skill_names: set[str], rep: Report) -> set[str]:
@@ -679,26 +897,40 @@ def _check_nodes(nodes: list, by_id: dict, where: str, skill_names: set[str], re
         kind = node.get("type")
 
         if kind not in NODE_KINDS:
-            rep.error(
+            rep.house(
                 where,
                 f"node {nid!r} has `type: {kind!r}` — `-mp` ships `skill` and `group` nodes only "
                 f"(ticket 10 deleted the `sub-flow` and `router` kinds)",
             )
 
+        # Both bans are host-derived rather than house style: each key still has a live
+        # reader, so the ban would change meaning if the host stopped reading it.
         for dead in DEAD_NODE_DATA:
             if dead in data:
-                extra = (
-                    " — and it is not inert: `flow-extended.ts:47` reads `data.parameters.flow`"
-                    if dead == "parameters"
-                    else " — `flow-manager.ts:361,508` still reads it for legacy flows"
+                fact_id, rule_id, extra = DEAD_NODE_DATA_FACTS[dead]
+                rep.error(
+                    where,
+                    f"node {nid!r} carries `data.{dead}:`, deleted by ticket 10{extra}",
+                    fact=fact_id,
+                    rule=rule_id,
                 )
-                rep.error(where, f"node {nid!r} carries `data.{dead}:`, deleted by ticket 10{extra}")
 
         phase = data.get("phase")
         if phase is None:
-            rep.error(where, f"node {nid!r} declares no `data.phase` — forge-concept then guesses from the skill name")
+            rep.error(
+                where,
+                f"node {nid!r} declares no `data.phase` — {{host}} then guesses one from the skill name",
+                fact="host:phase-guessed-from-skill",
+                rule="node-phase-present",
+            )
         elif phase not in PHASES:
-            rep.error(where, f"node {nid!r} has `data.phase: {phase!r}`, not one of {sorted(PHASES)}")
+            rep.error(
+                where,
+                f"node {nid!r} has `data.phase: {phase!r}`, not one of {sorted(PHASES)} — "
+                f"{{host}} is the whole lane vocabulary, and swallows anything else",
+                fact="host:phase-lane-vocabulary",
+                rule="node-phase-enum",
+            )
 
         if kind == "group":
             if isinstance(phase, str):
@@ -714,26 +946,32 @@ def _check_nodes(nodes: list, by_id: dict, where: str, skill_names: set[str], re
                 if skill_names and skill not in skill_names:
                     rep.error(where, f"node {nid!r} names skill {skill!r}, which has no `skills/{skill}/` directory")
 
-            # Authored geometry on a skill node is not cosmetic: `flow-layout.ts:53-65`
-            # drops every positioned node from the lane computation and returns early
-            # with `lanes: []` once none are left, so a fully-positioned flow loses the
-            # swimlanes *and* the group-phase override that makes group nodes worth
-            # carrying. The collection has to withhold geometry to get the feature.
+            # Authored geometry on a skill node is not cosmetic
+            # (`host:positioned-nodes-lose-lanes`): every positioned node drops out of the
+            # lane computation and the layout returns early with `lanes: []` once none are
+            # left, so a fully-positioned flow loses the swimlanes *and* the group-phase
+            # override that makes group nodes worth carrying. The collection has to
+            # withhold geometry to get the feature.
             if node.get("position") is not None:
                 rep.error(
                     where,
-                    f"skill node {nid!r} carries `position:` — `flow-layout.ts:53-65` removes positioned "
+                    f"skill node {nid!r} carries `position:` — {{host}} removes positioned "
                     f"nodes from the lane computation, so authoring geometry here disables the phase swimlanes",
+                    fact="host:positioned-nodes-lose-lanes",
+                    rule="node-position",
                 )
 
     # Three group nodes per flow, one per phase. Ticket 10 kept group nodes for one
-    # reason — `flow-layout.ts:87-93` makes the group phase win over the node's — so a
-    # flow missing a lane loses the mechanism for the nodes that would have sat in it.
+    # reason — `host:group-phase-wins` — so a flow missing a lane loses the mechanism for
+    # the nodes that would have sat in it.
     if len(group_phases) != 3 or set(group_phases.values()) != PHASES:
         rep.error(
             where,
             f"has {len(group_phases)} group node(s) with phases {sorted(group_phases.values())} — "
-            f"every flow carries exactly three, one per phase {sorted(PHASES)}",
+            f"every flow carries exactly three, one per phase {sorted(PHASES)}, because {{host}} "
+            f"lets a group override its children's",
+            fact="host:group-phase-wins",
+            rule="group-nodes-per-phase",
         )
 
     # parentNode, and the agreement that makes the two phase declarations one table.
@@ -750,7 +988,9 @@ def _check_nodes(nodes: list, by_id: dict, where: str, skill_names: set[str], re
             rep.error(
                 where,
                 f"skill node {nid!r} has no `parentNode` — it sits in no phase group, so nothing can "
-                f"hold its `data.phase` to the lane it renders in",
+                f"hold its `data.phase` to the lane it renders in ({{host}})",
+                fact="host:group-phase-wins",
+                rule="skill-node-parent",
             )
             continue
         if parent not in by_id:
@@ -768,8 +1008,10 @@ def _check_nodes(nodes: list, by_id: dict, where: str, skill_names: set[str], re
             rep.error(
                 where,
                 f"node {nid!r} declares `data.phase: {own!r}` but sits in group {parent!r}, whose phase is "
-                f"{group!r} — `flow-layout.ts:87-93` takes the group's, so the node's declaration is "
+                f"{group!r} — {{host}} takes the group's, so the node's declaration is "
                 f"silently overridden and the two must be written from one table",
+                fact="host:group-phase-wins",
+                rule="node-phase-agrees-with-group",
             )
 
     return node_skills
@@ -847,7 +1089,14 @@ def _check_requires(
             declared_contracts.add(name)
             if name != CONTRACT_ASSET:
                 unresolvable_contracts.add(name)
-                rep.error(where, f"`requires:` names contract {name!r}, but the only contract asset is {CONTRACT_ASSET!r} — a per-file ref resolves to nothing")
+                rep.error(
+                    where,
+                    f"`requires:` names contract {name!r}, but the only contract asset is "
+                    f"{CONTRACT_ASSET!r} — {{host}} indexes by slugified name, so a per-file "
+                    f"ref resolves to nothing",
+                    fact="host:asset-name-slug",
+                    rule="requires-contract-per-file",
+                )
 
     for missing in sorted(node_skills - declared_skills):
         rep.error(where, f"runs skill {missing!r} but does not list it in `requires:` — it would not be installed")
@@ -951,6 +1200,42 @@ def run_own_tests() -> int:
     return proc.returncode
 
 
+TIER_HEADINGS = {
+    INTRINSIC: "intrinsic — this collection is wrong",
+    HOST_DERIVED: "host-derived — this collection is wrong, or the fact expired",
+    HOUSE_STYLE: "house style — a rule this collection imposes on itself",
+}
+
+
+def print_report(rep: Report) -> None:
+    """Print failures grouped by tier.
+
+    The tiering is output only: every tier is an error and the exit code stays one bit,
+    because a distinct code invites a CI config that ignores it. It exists because the
+    three read differently. An intrinsic failure has one meaning. A host-derived one has
+    two, and which it is cannot be settled from inside this repo — so it names its fact
+    and the tool that can.
+    """
+    for tier in TIERS:
+        problems = rep.by_tier(tier)
+        if not problems:
+            continue
+        print(f"-- {TIER_HEADINGS[tier]} ({len(problems)})")
+        for problem in problems:
+            print(f"ERROR {problem}")
+        print()
+
+    cited = sorted(rep.facts_cited())
+    if cited:
+        print(
+            "Each host-derived failure above has two readings: this collection is wrong,\n"
+            "or the fact it rests on expired. Only the verifier can tell them apart:\n"
+            f"    python scripts/verify_host.py --fact {cited[0]}\n"
+            f"    python scripts/verify_host.py            # all {len(hf.FACTS)} facts\n"
+            f"facts cited by this run: {', '.join(cited)}\n"
+        )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Check the collection for references that resolve to nothing.")
     parser.add_argument("--repo", default=None, help="repo root (default: the parent of this script's directory)")
@@ -967,8 +1252,7 @@ def main() -> int:
     skills = len(list((repo / "skills").glob("*/SKILL.md"))) if (repo / "skills").is_dir() else 0
     flows = len(list((repo / "flows").glob("*/*.flow.yaml"))) if (repo / "flows").is_dir() else 0
 
-    for err in rep.errors:
-        print(f"ERROR {err}")
+    print_report(rep)
 
     print(f"\n{skills} skill(s) · {flows} flow(s) · {len(rep.errors)} error(s)")
 

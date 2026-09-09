@@ -12,12 +12,16 @@ new check that fires on one of them is a defect in the check.
 """
 from __future__ import annotations
 
+import ast
+import re
 from pathlib import Path
 
 import pytest
 import yaml
 
 import check
+import host_facts
+import verify_host
 
 
 CONCEPT_STRUCTURE = """\
@@ -220,7 +224,7 @@ def test_prerequisite_path_without_the_concept_prefix(tmp_path):
 
 
 def test_named_project_root_prerequisite_is_allowed(tmp_path):
-    """`validator.ts:81` joins to the project root, so `package.json` genuinely resolves —
+    """`host:prerequisite-project-root` joins to the project root, so `package.json` genuinely resolves —
     the restriction is a named list now, not a blanket ban."""
     root = write_repo(tmp_path)
     skill = root / "skills" / "spec-feature" / "SKILL.md"
@@ -304,7 +308,7 @@ def test_flow_id_must_match_directory_and_stem(tmp_path):
     write_flow(root, flow, flow_id="tiny")
     # Two rules fire, and both are true of this file: the id matches neither the stem
     # nor the directory, and `name:` no longer slugifies to it either.
-    among(root, "must equal both the filename stem", "the installer names the asset from `name:`")
+    among(root, "must equal both the filename stem", "names the asset from `name:`")
 
 
 def test_flow_name_must_slugify_to_its_id(tmp_path):
@@ -345,7 +349,7 @@ def test_flow_needs_a_version(tmp_path):
 
 
 def test_flow_needs_a_description(tmp_path):
-    """`profiles.get.ts:30` publishes it verbatim onto the onboarding card."""
+    """`host:profile-description` publishes it verbatim onto the onboarding card."""
     root = write_repo(tmp_path)
     flow = good_flow()
     flow["description"] = "  "
@@ -386,7 +390,7 @@ def test_structured_onboarding_needs_fields(tmp_path):
 
 
 def test_placeholder_outside_freeform_has_no_reader(tmp_path):
-    """`OnboardingWizard.vue:82-99` binds it to the freeform textarea only."""
+    """`host:onboarding-placeholder-freeform` binds it to the freeform textarea only."""
     root = write_repo(tmp_path)
     flow = good_flow()
     flow["meta"]["onboarding"]["placeholder"] = "Describe your app"
@@ -439,7 +443,7 @@ def test_interpolation_has_no_resolver(tmp_path):
 
 def test_node_parameters_are_not_inert(tmp_path):
     """`data.parameters` is the one deleted key with a live host read
-    (`flow-extended.ts:47` takes `data.parameters.flow` as a child flow id)."""
+    (`host:sub-flow-parameters-read` takes `data.parameters.flow` as a child flow id)."""
     root = write_repo(tmp_path)
     flow = good_flow()
     node(flow, "b")["data"]["parameters"] = {"flow": "skaileup-slice"}
@@ -561,7 +565,7 @@ def test_group_node_may_not_be_parented(tmp_path):
 
 
 def test_skill_node_geometry_disables_the_swimlanes(tmp_path):
-    """`flow-layout.ts:53-65` drops positioned nodes from the lane computation and returns
+    """`host:positioned-nodes-lose-lanes` drops positioned nodes from the lane computation and returns
     `lanes: []` once none remain — authoring geometry deletes the group-phase override."""
     root = write_repo(tmp_path)
     flow = good_flow()
@@ -609,7 +613,7 @@ def test_untyped_edge_orders_nothing(tmp_path):
     flow = good_flow()
     del flow["edges"][0]["type"]
     write_flow(root, flow)
-    among(root, "the host reads only `type: flow`", "unreachable from `entry` along `type: flow` edges")
+    among(root, "reads only `type: flow`", "unreachable from `entry` along `type: flow` edges")
 
 
 def test_review_loop_edge_is_a_no_op(tmp_path):
@@ -617,7 +621,7 @@ def test_review_loop_edge_is_a_no_op(tmp_path):
     flow = good_flow()
     flow["edges"][0]["type"] = "review-loop"
     write_flow(root, flow)
-    among(root, "the host reads only `type: flow`", "unreachable from `entry`")
+    among(root, "reads only `type: flow`", "unreachable from `entry`")
 
 
 def test_optional_edge_does_not_confer_reachability(tmp_path):
@@ -625,7 +629,7 @@ def test_optional_edge_does_not_confer_reachability(tmp_path):
     flow = good_flow()
     flow["edges"][0]["type"] = "optional"
     write_flow(root, flow)
-    among(root, "the host reads only `type: flow`", "unreachable from `entry`")
+    among(root, "reads only `type: flow`", "unreachable from `entry`")
 
 
 def test_non_flow_edge_parallel_to_a_flow_edge(tmp_path):
@@ -635,7 +639,7 @@ def test_non_flow_edge_parallel_to_a_flow_edge(tmp_path):
     flow = good_flow()
     flow["edges"].append({"id": "e2", "source": "a", "target": "b", "type": "parallel"})
     write_flow(root, flow)
-    only(root, "the host reads only `type: flow`")
+    only(root, "reads only `type: flow`")
 
 
 # -- flows: requires --------------------------------------------------------
@@ -749,3 +753,290 @@ def test_prose_may_name_a_deleted_contract(tmp_path):
 
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-q"]))
+
+
+# -- the host-facts table ---------------------------------------------------
+#
+# Ticket 41. The table only decouples anything if it is kept honest, and the thing that
+# actually went wrong is ticket 34: five rules landed depending on host behaviour with
+# **no owner**, and nothing forced them to declare it. So these gate the two directions
+# that catch that — a citation resolving to nothing, and a fact nobody rests on — rather
+# than only checking that the rows are well shaped.
+
+FACT_ID_RE = re.compile(r"^host:[a-z][a-z0-9-]*$")
+
+
+def check_py_ast() -> ast.Module:
+    return ast.parse(Path(check.__file__).read_text())
+
+
+def _docstring_nodes(tree: ast.Module) -> set[int]:
+    """The id() of every docstring Constant, which does not count as a citation.
+
+    Comments are invisible to the AST, which is most of why this is an AST scan — but
+    docstrings are not comments, they are `ast.Constant` strings. Without this a fact id
+    named only in a docstring would satisfy the orphan gate while no rule cited it,
+    which is the hole in prose form rather than in code.
+    """
+    out = set()
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Module, ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)):
+            first = node.body[0] if node.body else None
+            if isinstance(first, ast.Expr) and isinstance(first.value, ast.Constant):
+                out.add(id(first.value))
+    return out
+
+
+def cited_fact_ids() -> set[str]:
+    """Every fact id `check.py` cites in code, read from its AST."""
+    tree = check_py_ast()
+    docstrings = _docstring_nodes(tree)
+    return {
+        n.value
+        for n in ast.walk(tree)
+        if isinstance(n, ast.Constant)
+        and isinstance(n.value, str)
+        and FACT_ID_RE.match(n.value)
+        and id(n) not in docstrings
+    }
+
+
+def cited_pairs() -> set[tuple[str, str]]:
+    """Every `(fact id, rule id)` pair `check.py` reports with.
+
+    The dynamic site — `DEAD_NODE_DATA_FACTS`, whose two entries are chosen at runtime —
+    is read from the constant itself rather than from the call, so the loop that hands
+    `check.py` its ids is covered by the same reconciliation as the literal sites.
+    """
+    pairs: set[tuple[str, str]] = set()
+    for node in ast.walk(check_py_ast()):
+        if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)):
+            continue
+        if node.func.attr != "error":
+            continue
+        fact_kw = next((k for k in node.keywords if k.arg == "fact"), None)
+        rule_kw = next((k for k in node.keywords if k.arg == "rule"), None)
+        if fact_kw is None:
+            continue
+        assert rule_kw is not None, "a fact cited with no rule id"
+        if isinstance(fact_kw.value, ast.Constant):
+            facts = [fact_kw.value.value]
+        elif isinstance(fact_kw.value, ast.Tuple):
+            facts = [e.value for e in fact_kw.value.elts]
+        else:
+            continue  # the dynamic site, covered below
+        rule = rule_kw.value.value if isinstance(rule_kw.value, ast.Constant) else None
+        if rule is None:
+            continue
+        pairs.update((f, rule) for f in facts)
+    for fact_id, rule_id, _extra in check.DEAD_NODE_DATA_FACTS.values():
+        pairs.add((fact_id, rule_id))
+    return pairs
+
+
+def test_every_cited_fact_resolves_to_a_row():
+    dangling = sorted(cited_fact_ids() - set(host_facts.BY_ID))
+    assert not dangling, f"cited in check.py, absent from host_facts.py: {dangling}"
+
+
+def test_every_row_is_cited_by_a_rule():
+    orphans = sorted(set(host_facts.BY_ID) - cited_fact_ids())
+    assert not orphans, f"in host_facts.py, cited by no rule: {orphans}"
+
+
+def test_every_declared_rule_is_used_by_a_site_citing_that_fact():
+    """The `rules` column is reconciled, not just non-empty.
+
+    Ticket 41's own failure mode, one field in: a rule id that lives only in the table
+    is unfalsifiable bookkeeping, and `verify_host.py` prints those ids on every expiry.
+    """
+    pairs = cited_pairs()
+    unused = sorted(
+        f"{f.id} -> {rule}" for f in host_facts.FACTS for rule in f.rules if (f.id, rule) not in pairs
+    )
+    assert not unused, f"declared in host_facts.py, cited by no site: {unused}"
+
+
+def test_every_cited_rule_is_declared_by_its_fact():
+    undeclared = sorted(
+        f"{fact_id} -> {rule}"
+        for fact_id, rule in cited_pairs()
+        if rule not in host_facts.fact(fact_id).rules
+    )
+    assert not undeclared, f"cited in check.py, absent from that row's `rules`: {undeclared}"
+
+
+def test_a_fact_cited_without_a_rule_id_raises():
+    rep = check.Report()
+    with pytest.raises(ValueError):
+        rep.error("somewhere", "broken", fact="host:profile-icon")
+
+
+def test_a_rule_id_the_row_does_not_list_raises():
+    rep = check.Report()
+    with pytest.raises(KeyError):
+        rep.error("somewhere", "broken", fact="host:profile-icon", rule="not-a-rule-of-that-fact")
+
+
+def test_an_intrinsic_error_may_not_carry_a_rule_id():
+    rep = check.Report()
+    with pytest.raises(ValueError):
+        rep.error("somewhere", "broken", rule="flow-icon")
+
+
+def test_a_fact_id_named_only_in_a_docstring_does_not_count_as_a_citation():
+    """The orphan gate must not be satisfiable by prose — see `_docstring_nodes`."""
+    tree = ast.parse('def f():\n    """See host:profile-icon."""\n    return 1\n')
+    docstrings = _docstring_nodes(tree)
+    constants = [n for n in ast.walk(tree) if isinstance(n, ast.Constant) and isinstance(n.value, str)]
+    assert any(id(n) in docstrings for n in constants)
+
+
+def test_an_unknown_fact_id_raises_rather_than_printing():
+    rep = check.Report()
+    with pytest.raises(KeyError):
+        rep.error("somewhere", "broken", fact="host:no-such-fact", rule="whatever")
+
+
+@pytest.mark.parametrize("f", host_facts.FACTS, ids=lambda f: f.id)
+def test_fact_rows_are_well_formed(f):
+    assert FACT_ID_RE.match(f.id), f.id
+    assert f.host in host_facts.HOSTS, f.host
+    assert f.expect in (host_facts.PRESENT, host_facts.ABSENT), f.expect
+    assert f.signature.strip(), "a fact with no signature cannot be verified"
+    assert f.claim.strip().endswith((".", ".)")), "the claim is prose, ending in a full stop"
+    assert f.rules, "a fact resting under no rule is an orphan by construction"
+    assert re.match(r"^\d{4}-\d{2}-\d{2}$", f.verified), f.verified
+    assert not f.path.startswith("/"), "paths are relative to the host checkout"
+
+
+def test_fact_ids_are_unique():
+    ids = [f.id for f in host_facts.FACTS]
+    assert len(ids) == len(set(ids))
+
+
+# -- the tiers --------------------------------------------------------------
+
+def tiers(root: Path) -> dict[str, list[str]]:
+    rep = check.run(root)
+    return {t: [str(p) for p in rep.by_tier(t)] for t in check.TIERS}
+
+
+def test_a_host_derived_failure_names_its_fact_and_interpolates_the_path(tmp_path):
+    root = write_repo(tmp_path)
+    flow = good_flow()
+    flow["meta"]["icon"] = "mdi-rocket"
+    write_flow(root, flow)
+    grouped = tiers(root)
+    assert grouped[check.INTRINSIC] == []
+    assert len(grouped[check.HOST_DERIVED]) == 1
+    msg = grouped[check.HOST_DERIVED][0]
+    row = host_facts.fact("host:profile-icon")
+    assert f"[{row.id}]" in msg
+    assert row.path in msg, "the path comes from the table, never from the message"
+
+
+def test_a_rule_resting_on_two_facts_names_both(tmp_path):
+    root = write_repo(tmp_path)
+    flow = good_flow()
+    flow["edges"][0]["type"] = "parallel"
+    write_flow(root, flow)
+    msg = next(m for m in tiers(root)[check.HOST_DERIVED] if "orders nothing" in m)
+    assert "[host:flow-edge-orders-run, host:flow-edge-gates-state]" in msg
+
+
+def test_house_style_lands_in_its_own_tier(tmp_path):
+    root = write_repo(tmp_path)
+    flow = good_flow()
+    flow["globals"]["verbosity"] = "loud"
+    write_flow(root, flow)
+    grouped = tiers(root)
+    assert len(grouped[check.HOUSE_STYLE]) == 1
+    assert "host:" not in grouped[check.HOUSE_STYLE][0], "a house rule owes nothing to a host"
+    assert grouped[check.HOST_DERIVED] == []
+
+
+def test_an_intrinsic_failure_carries_no_fact(tmp_path):
+    root = write_repo(tmp_path)
+    flow = good_flow()
+    flow["nodes"].append({"id": "orphan", "type": "skill", "parentNode": "g_concept",
+                          "data": {"skill": "spec-feature", "phase": "conceptualization"}})
+    write_flow(root, flow)
+    grouped = tiers(root)
+    assert any("unreachable" in m for m in grouped[check.INTRINSIC])
+    assert not any("unreachable" in m for m in grouped[check.HOST_DERIVED])
+
+
+def test_the_summary_groups_by_tier_and_names_the_verifier(tmp_path, capsys):
+    root = write_repo(tmp_path)
+    flow = good_flow()
+    flow["meta"]["icon"] = "mdi-rocket"
+    flow["globals"]["verbosity"] = "loud"
+    write_flow(root, flow)
+    check.print_report(check.run(root))
+    out = capsys.readouterr().out
+    assert "host-derived" in out and "house style" in out
+    assert "verify_host.py --fact host:profile-icon" in out
+    assert "two readings" in out, "a host-derived failure is ambiguous until the verifier runs"
+
+
+def test_a_clean_run_says_nothing_about_facts(tmp_path, capsys):
+    root = write_repo(tmp_path)
+    write_flow(root, good_flow())
+    check.print_report(check.run(root))
+    assert capsys.readouterr().out == ""
+
+
+# -- verify_host ------------------------------------------------------------
+#
+# The verifier's own logic, without the real checkouts: `expect` is the half that is
+# easy to get backwards, and an absent fact that silently starts passing is how a ban
+# would go on being enforced after the host made it wrong.
+
+def host_tree(root: Path, rel: str, text: str) -> Path:
+    p = root / host_facts.HOSTS["forge-concept"] / rel
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(text)
+    return root
+
+
+def a_fact(**kw) -> host_facts.Fact:
+    base = dict(
+        id="host:probe", host="forge-concept", path="probe.ts", signature="const x = 1;",
+        expect=host_facts.PRESENT, claim="A probe.", rules=("probe",), verified="2026-09-09",
+    )
+    return host_facts.Fact(**{**base, **kw})
+
+
+def test_verifier_holds_when_a_present_signature_is_found(tmp_path):
+    host_tree(tmp_path, "probe.ts", "const x = 1;\n")
+    verdict, _detail, hits = verify_host.check_fact(a_fact(), tmp_path)
+    assert verdict == verify_host.HOLDS
+    assert hits == [1]
+
+
+def test_verifier_expires_when_a_present_signature_moved(tmp_path):
+    host_tree(tmp_path, "probe.ts", "const y = 2;\n")
+    verdict, detail, _ = verify_host.check_fact(a_fact(), tmp_path)
+    assert verdict == verify_host.EXPIRED
+    assert "moved or died" in detail
+
+
+def test_verifier_expires_when_an_absent_signature_appears(tmp_path):
+    host_tree(tmp_path, "probe.ts", "const x = 1;\n")
+    verdict, detail, _ = verify_host.check_fact(a_fact(expect=host_facts.ABSENT), tmp_path)
+    assert verdict == verify_host.EXPIRED
+    assert "now wrong" in detail, "a ban whose fact reappeared is the dangerous direction"
+
+
+def test_verifier_holds_when_an_absent_signature_stays_absent(tmp_path):
+    host_tree(tmp_path, "probe.ts", "const y = 2;\n")
+    verdict, _detail, _ = verify_host.check_fact(a_fact(expect=host_facts.ABSENT), tmp_path)
+    assert verdict == verify_host.HOLDS
+
+
+def test_verifier_expires_when_the_host_file_is_gone(tmp_path):
+    host_tree(tmp_path, "other.ts", "const x = 1;\n")
+    verdict, detail, _ = verify_host.check_fact(a_fact(), tmp_path)
+    assert verdict == verify_host.EXPIRED
+    assert "no such file" in detail

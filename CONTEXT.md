@@ -45,6 +45,15 @@ collection, and a `_concept/` tree opened cold. Which flow a project runs is `co
 answer and the host's before that; what follows a completed skill is the flow's own edges.
 _Avoid_: dispatcher, orchestrator, entry skill
 
+**Host**:
+A codebase that reads this collection at runtime rather than shipping in it —
+forge-concept, `@skaile/workspaces`, platform. Always one of those. The word is *not*
+used for the agent harness a session runs in (say **harness** for that), and a fact this
+collection copies from one is a **host fact**: a row in `scripts/host_facts.py` naming
+the file and the grep-able signature it rests on, so `check.py`'s rules cite it and
+`verify_host.py` can prove it still holds.
+_Avoid_: consumer, platform (that is one host's name), environment
+
 **Phase**:
 The lane a flow node belongs to — conceptualization, implementation, or review. A
 machine-read interface with forge-concept; never used loosely for "stage of work".
