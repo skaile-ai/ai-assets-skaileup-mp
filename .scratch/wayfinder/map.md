@@ -1,5 +1,7 @@
 # Map: skaileup → skaileup-mp
 
+Status: resolved
+
 > **Moved 2026-09-06.** This map was charted in the old repo at
 > `ai-assets-skaileup/.scratch/skaileup-mp/` on branch `wayfinder/map`, before `-mp` existed.
 > It now lives in the repo it describes. **Its commit history did not come with it** — the
