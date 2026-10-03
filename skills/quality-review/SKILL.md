@@ -40,8 +40,9 @@ writes: a finding fixed during the review is a finding that never reached the le
    call the Skill tool with "diagnosing-bugs" and come back once it is green; without it,
    hand the failure to the user with the failing command and stop.
 3. **Call the Skill tool with "code-review" from a context that did not write the code.**
-   The fixed point is the parent of the earliest sha in `commits[]`; the spec is the
-   feature file. Dispatch it as a
+   If `code-review` is not installed, the review stops and names it rather than improvising
+   one — this body has no stand-in for it. The fixed point is the parent of the earliest sha
+   in `commits[]`; the spec is the feature file. Dispatch it as a
    subagent: the session that implemented the slice reads its own diff as correct, which is
    the whole reason an evaluator is independent. Hand it `02_grounding/standards/` alongside
    whatever the repo documents, where that exists — a convention this project was measured to

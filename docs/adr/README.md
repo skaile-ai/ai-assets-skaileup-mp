@@ -20,3 +20,4 @@ was expensive to reach, and reversing it would cost more than reading it.
 | [0009](./0009-stack-knowledge-lives-in-templates.md) | Stack-specific knowledge lives in a template, not a skill |
 | [0010](./0010-no-plan-file-and-no-status-file.md) | The build side keeps no plan file and no status file |
 | [0011](./0011-the-machine-layer-sits-under-metadata.md) | The machine layer sits under `metadata:`; paths carry `_concept/` |
+| [0012](./0012-foreign-skills-and-the-two-libraries.md) | Five foreign skills stay global, called one gate-checked way; what came from pstack and Pocock |
