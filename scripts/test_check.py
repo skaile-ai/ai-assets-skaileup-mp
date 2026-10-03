@@ -299,6 +299,66 @@ def test_flow_docs_are_scanned_for_citations(tmp_path):
     only(root, "cites `contracts/flow.schema.json`")
 
 
+def body(root: Path, skill: str, text: str) -> None:
+    """Replace the `Body.` line of `skill`'s SKILL.md with `text`."""
+    p = root / "skills" / skill / "SKILL.md"
+    p.write_text(p.read_text().replace("Body.", text, 1))
+
+
+def test_cited_section_with_no_such_heading(tmp_path):
+    """A rewrite that renames a heading leaves every `§` citation of it dangling, and
+    the file still exists — the file-exists check alone stays green."""
+    root = write_repo(tmp_path)
+    cite(root, "spec-feature", "concept_structure")
+    body(root, "spec-feature", "Per `contracts/concept_structure.md § Nowhere`.")
+    only(root, "cites `contracts/concept_structure.md § Nowhere`, and concept_structure.md has no such heading")
+
+
+def test_cited_section_resolves_across_a_wrap_and_a_pattern_prefix(tmp_path):
+    root = write_repo(tmp_path, contracts=("concept_structure.md", "agent_patterns.md"))
+    (root / "contracts" / "agent_patterns.md").write_text("# patterns\n\n## Pattern: Subagent Dispatch\n")
+    cite(root, "spec-feature", "concept_structure")
+    body(
+        root,
+        "spec-feature",
+        "Per `contracts/concept_structure.md §\n   Numbering`; dispatch is\n"
+        "`contracts/agent_patterns.md § Subagent Dispatch`.",
+    )
+    assert errors(root) == []
+
+
+# -- skills: calling a skill ------------------------------------------------
+
+def test_skill_tool_call_naming_an_unknown_skill(tmp_path):
+    root = write_repo(tmp_path)
+    body(root, "spec-feature", 'Call the Skill tool with "nonesuch".')
+    only(root, "calls the Skill tool with 'nonesuch'")
+
+
+def test_skill_tool_call_naming_a_user_invoked_skill(tmp_path):
+    """`triage` is reachable only by the human, so the call is an instruction to them."""
+    root = write_repo(tmp_path)
+    body(root, "spec-feature", 'First, call the Skill tool with "triage".')
+    only(root, "user-invoked upstream")
+
+
+def test_bare_slash_command_for_a_model_invoked_skill(tmp_path):
+    root = write_repo(tmp_path)
+    body(root, "spec-feature", "Run `/tdd` for each row.")
+    only(root, "mentions `/tdd` as a slash command")
+
+
+def test_the_three_call_shapes_are_legal(tmp_path):
+    root = write_repo(tmp_path)
+    body(
+        root,
+        "spec-feature",
+        'Call the Skill tool with "tdd". Then, call the Skill tool twice, for "tdd" and '
+        '"code-review". Before that, tell the user to run `/triage`.',
+    )
+    assert errors(root) == []
+
+
 # -- flows: identity and presentation ---------------------------------------
 
 def test_flow_id_must_match_directory_and_stem(tmp_path):
@@ -748,6 +808,18 @@ def test_prose_may_name_a_deleted_contract(tmp_path):
     root = write_repo(tmp_path)
     doc(root, "docs/adr/0004-contracts-earn-their-place.md", "Deletes `contracts/iron_laws.md`.\n")
     doc(root, "docs/examples/WHY.md", "The old body cited `contracts/skill_grammar.md`.\n")
+    assert errors(root) == []
+
+
+def test_readme_skill_index_missing_a_skill(tmp_path):
+    root = write_repo(tmp_path, skills=("spec-feature", "build-plan"))
+    doc(root, "README.md", "## Skills\n\n| skill | does |\n|---|---|\n| [spec-feature](skills/spec-feature/) | specs |\n")
+    only(root, "does not list `skills/build-plan` under `## Skills`")
+
+
+def test_readme_without_a_skills_heading_is_not_an_index(tmp_path):
+    root = write_repo(tmp_path, skills=("spec-feature", "build-plan"))
+    doc(root, "README.md", "Start with [spec-feature](skills/spec-feature/).\n")
     assert errors(root) == []
 
 

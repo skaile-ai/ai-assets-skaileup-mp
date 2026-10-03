@@ -44,11 +44,14 @@ Paths are `contracts/concept_structure.md`'s; the frontmatter is
    its state tables sharpen all three: a transition on a timer is background work, one that
    two actors race for is real-time, and one that waits on an outside system names an adapter.
 3. **Ask only what the features left open**, one question per message per
-   `contracts/agent_patterns.md`: background or scheduled work, live updates, external
-   services, streaming or instant communication, and any non-standard handling of data. A
-   question the feature specs already answer spends the round you needed for a real one.
-4. **Write each addition with the thing that makes it buildable.** A custom module names its
-   purpose, what it depends on, and the feature that asked for it. A protocol names its
+   `contracts/agent_patterns.md § Questions Are Standalone Messages`: background or
+   scheduled work, live updates, external services, streaming or instant communication, and
+   any non-standard handling of data. A question the feature specs already answer spends the
+   round you needed for a real one.
+4. **Write each addition with the thing that makes it buildable.** Screen each addition
+   against `references/design-red-flags.md` first; a module that fails the shallow-module
+   question is usually a feature's helper, not an architecture entry. A custom module names
+   its purpose, what it depends on, and the feature that asked for it. A protocol names its
    endpoints, its message types, its connection lifecycle and what happens on error. An
    external integration names the API or SDK, what data crosses the boundary, the retry and
    fallback behaviour, and where the credentials live. Those last two are the ones that get
@@ -70,6 +73,12 @@ Paths are `contracts/concept_structure.md`'s; the frontmatter is
    live updates and over what, what the custom logic is *for* in business terms, and which
    outside services it will depend on. The counts — apps, modules, protocols, integrations —
    go underneath for whoever wants them. Approve, or name what to change.
+
+## What sits in `references/`
+
+`design-red-flags.md` — four questions to ask of each candidate module, protocol and
+integration before step 4 writes it down, and the rule for a module with two plausible
+interfaces: write both, keep the deeper one.
 
 **Done when** `10_blueprint/architecture.md` exists, every entry in its frontmatter lists is
 described in the body with its dependencies and its error behaviour, and the user has

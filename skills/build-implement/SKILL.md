@@ -23,7 +23,9 @@ metadata:
 
 Builds one vertical slice and lands it. Everything it knows about the work comes from
 `11_build/slices/<slice_id>/plan.md` and the artifacts that plan names; everything it knows
-about how to build is `tdd` and `code-review`, which it calls rather than restates.
+about how to build is `tdd` and `code-review`, which it calls rather than restates. Both
+have to be installed: this skill stops and names the missing one rather than improvising a
+test loop or a review.
 
 ## Steps
 
@@ -31,16 +33,17 @@ about how to build is `tdd` and `code-review`, which it calls rather than restat
    `07_screens/<feature_slug>/`. Refuse to start while any `blocked_by` slice is unfrozen —
    its dossier has no `index.md`, so the thing this slice builds on does not exist yet.
    Resume from `progress.yaml` if one is there.
-2. **Build the rows, one at a time, with `tdd`.** A row is done when its UI renders real
-   data, its handler is callable from that UI, its data layer round-trips, and its tests are
-   green — then the next row starts. Confirm the seams with the user before the first test,
+2. **Build the rows, one at a time.** Call the Skill tool with "tdd" for each row. A row is
+   done when its UI renders real data, its handler is callable from that UI, its data layer
+   round-trips, and its tests are green — then the next row starts. Confirm the seams with
+   the user before the first test,
    as `tdd` requires; the plan's test tags say which level, not where. Mark each finished row
    in `progress.yaml`.
 3. **Review against the spec before reviewing the code.** Read the feature spec against what
    was actually built, assuming the implementer finished suspiciously quickly: every
    acceptance criterion present in the code, not merely implied by a passing test. Fix gaps
    and re-run before going further — a quality review of the wrong feature is wasted work.
-   Then run `code-review`.
+   Then call the Skill tool with "code-review".
 4. **Run the gate in `plan.md`.** Its manual checks are questions for the user, one at a
    time; its automated tests are commands. Add what using it felt like — awkward flow, hidden
    state, a screen doing too much — and close on **Done**, **Needs more work**, or

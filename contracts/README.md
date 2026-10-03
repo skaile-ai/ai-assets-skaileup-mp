@@ -28,7 +28,7 @@ gates both directions.
 | `semantic_types.md` | The data-model skills — stack-independent types and the translation table |
 | `seed_data.md` | The data-model skills — scenario-based seed conventions. Also the stack-neutral half of seeding: every template's `## Seed` section cites it for the scenario set and carries only the per-ORM layout |
 | `golden_principles.md` | `architecture-datamodel` (entity, field and enum naming), `experience-behaviors` (the same names, one step earlier) and `ops-review` (checks artifacts against them) — the mechanical rules for `_concept/` artifacts. Kept on notice through ADR 0008 for want of a reader; the datamodel writer and the `ops` audit skill both arrived, so it is off notice |
-| `agent_patterns.md` | Any skill that dispatches a subagent — dispatch shape, standalone mode, research mode |
+| `agent_patterns.md` | Any skill that asks the user, dispatches a subagent or runs outside a flow — question shape, todo seeding, dispatch and status codes, next-step suggestion, completion summary |
 | `evaluator.md` | `quality-review`, `quality-release` and `ops-review` — the shared adversarial stance, the four-level severity with its blocking boundary, and the three-tier verdict grammar the three verdict artifacts share |
 
 ## What is not here

@@ -75,6 +75,17 @@ ARTIFACT_ROOT = "_concept"
 # because whether it exists is a fact about the scaffolded project, not about this repo.
 PROJECT_ROOT_PREREQUISITES = {"package.json"}
 
+# Skills this collection calls but does not ship (migration map, premise 6). Axis is
+# the upstream frontmatter: "user" = disable-model-invocation: true, reachable only by
+# the human; "model" = reachable through the Skill tool.
+EXTERNAL_SKILLS: dict[str, str] = {
+    "grilling": "model", "tdd": "model", "code-review": "model",
+    "diagnosing-bugs": "model", "triage": "user",
+}
+# Mid-sentence calls are lower-case ("…, call the Skill tool with …"); match both.
+SKILL_TOOL_CALL_RE = re.compile(r'[Cc]all the Skill tool (?:with|twice, for) "([a-z][a-z0-9-]*)"(?: and "([a-z][a-z0-9-]*)")?')
+BARE_SLASH_SKILL_RE = re.compile(r'(?<=[\s`(])/([a-z][a-z0-9-]*)\b(?![/.])')
+
 # forge-concept's lane vocabulary (`host:phase-lane-vocabulary`). An invalid value is
 # silently swallowed there, which is why it is checked here.
 PHASES = {"conceptualization", "implementation", "review"}
@@ -370,10 +381,34 @@ def _cited_contracts(text: str) -> list[str]:
     return sorted({ref.rstrip(".,;:)") for ref in CONTRACT_REF_RE.findall(text)})
 
 
+# A citation of one section: `contracts/<file> § <Section>`, inside one pair of backticks.
+# Matched over the text with line-wrap whitespace collapsed, because citations wrap.
+CONTRACT_SECTION_RE = re.compile(r"`contracts/([^`§\s]+) § ([^`]+)`")
+HEADING_RE = re.compile(r"^#+\s+(.+?)\s*$", re.MULTILINE)
+
+
 def _check_citations(text: str, where: str, repo: Path, rep: Report) -> None:
     for ref in _cited_contracts(text):
         if not (repo / "contracts" / ref).exists():
             rep.error(where, f"cites `contracts/{ref}`, which does not exist")
+    _check_section_citations(text, where, repo, rep)
+
+
+def _check_section_citations(text: str, where: str, repo: Path, rep: Report) -> None:
+    """A cited section resolves to a heading equal to it, or to `Pattern: <section>`.
+
+    A rewrite that renames a heading leaves every `§` citation of it dangling, and the
+    file-exists check above cannot see that. A missing file is that check's report.
+    """
+    headings: dict[str, set[str]] = {}
+    for file, section in sorted(set(CONTRACT_SECTION_RE.findall(re.sub(r"\n[ \t]*", " ", text)))):
+        path = repo / "contracts" / file
+        if not path.is_file():
+            continue
+        if file not in headings:
+            headings[file] = set(HEADING_RE.findall(path.read_text(encoding="utf-8")))
+        if section not in headings[file] and f"Pattern: {section}" not in headings[file]:
+            rep.error(where, f"cites `contracts/{file} § {section}`, and {file} has no such heading")
 
 
 def _contract_names(text: str) -> set[str]:
@@ -455,12 +490,13 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
         return names, contracts
 
     top_level = _fenced_tree(repo)
+    bodies: list[tuple[str, str]] = []
 
     for skill_md in sorted(skills_dir.glob("*/SKILL.md")):
         directory = skill_md.parent.name
         where = f"skills/{directory}"
         text = skill_md.read_text()
-        fm, _body = split_frontmatter(text)
+        fm, body = split_frontmatter(text)
 
         # Keyed by directory, because that is what a flow node resolves against —
         # `name:` may be wrong, and the mismatch is reported separately below.
@@ -551,7 +587,43 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
         # 6. cited contracts must exist.
         _check_citations(text, where, repo, rep)
 
+        bodies.append((where, body))
+
+    # 7. a skill is called one way, and only if it exists here or in EXTERNAL_SKILLS —
+    #    a second pass, so a call to a skill later in the directory order resolves.
+    for where, body in bodies:
+        _check_skill_calls(body, where, names, rep)
+
     return names, contracts
+
+
+def _check_skill_calls(body: str, where: str, names: set[str], rep: Report) -> None:
+    """An operative call reads `Call the Skill tool with "<name>"`, and a user-invoked
+    skill is an instruction to the human, never a Skill-tool call."""
+    # A call wraps like any sentence; read it with the line breaks folded to spaces.
+    called = {n for pair in SKILL_TOOL_CALL_RE.findall(re.sub(r"\n[ \t]*", " ", body)) for n in pair if n}
+    for name in sorted(called):
+        if name in names or EXTERNAL_SKILLS.get(name) == "model":
+            continue
+        if EXTERNAL_SKILLS.get(name) == "user":
+            rep.house(
+                where,
+                f"calls the Skill tool with {name!r}, which is user-invoked upstream — phrase it "
+                f"as an instruction to the human: tell the user to run `/{name}`",
+            )
+        else:
+            rep.house(
+                where,
+                f"calls the Skill tool with {name!r}, which is neither a skill in this collection "
+                f"nor an external skill in EXTERNAL_SKILLS",
+            )
+    for name in sorted(set(BARE_SLASH_SKILL_RE.findall(body))):
+        if name in names or EXTERNAL_SKILLS.get(name) == "model":
+            rep.house(
+                where,
+                f"mentions `/{name}` as a slash command — an operative call reads: "
+                f"Call the Skill tool with \"{name}\"",
+            )
 
 
 def _prerequisite_paths(fm: dict) -> list[str]:
@@ -1137,6 +1209,7 @@ def _check_requires(
 # `skills/<name>` paths are gated.
 MD_LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)")
 SKILL_PATH_RE = re.compile(r"(?<![A-Za-z0-9_./-])`?skills/([a-z0-9][a-z0-9-]*)")
+SKILLS_HEADING_RE = re.compile(r"^## Skills[ \t]*$", re.MULTILINE)
 
 
 def _prose_files(repo: Path) -> list[Path]:
@@ -1162,9 +1235,19 @@ def check_docs(repo: Path, skill_names: set[str], rep: Report) -> None:
             if not (path.parent / rel).exists():
                 rep.error(where, f"links to `{target}`, which does not exist")
 
-        for name in sorted(set(SKILL_PATH_RE.findall(text))):
+        listed = set(SKILL_PATH_RE.findall(text))
+        for name in sorted(listed):
             if name not in skill_names:
                 rep.error(where, f"names the path `skills/{name}`, which is not a skill in this collection")
+
+        # The README's `## Skills` table is the human's index of the collection, read with
+        # the same token reader as the phantom check above, so both directions agree.
+        if where == "README.md" and SKILLS_HEADING_RE.search(text):
+            for name in sorted(skill_names - listed):
+                rep.house(
+                    "README.md",
+                    f"does not list `skills/{name}` under `## Skills` — every skill is in the README index",
+                )
 
 
 def run(repo: Path) -> Report:

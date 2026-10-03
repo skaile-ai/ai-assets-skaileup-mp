@@ -47,8 +47,9 @@ a schema into the concept tree before the stack's migration tool has seen it.
    values, and an enum here that disagrees with one there will be caught by whichever half is
    read second.
 2. **Ask what the features left ambiguous**, one question per message per
-   `contracts/agent_patterns.md`: what each feature stores, how things connect ("a user has
-   many tasks"), and who may see or change what. The last one is already half-answered — each
+   `contracts/agent_patterns.md § Questions Are Standalone Messages`: what each feature
+   stores, how things connect ("a user has many tasks"), and who may see or change what.
+   The last one is already half-answered — each
    feature's `permissions:` block is in its frontmatter, and the model's job is to carry the
    fields those rules need to evaluate.
 3. **Write `model.dbml` and `model.json`.** Semantic types only, PascalCase singular model

@@ -36,10 +36,12 @@ writes: a finding fixed during the review is a finding that never reached the le
    slice. Without them there is no fixed point, and a review with no fixed point quietly
    widens to the whole repository.
 2. **Build and test before reading a line.** Run the project's own build and test commands.
-   A red build makes every finding provisional, so stop there, hand the failure to
-   `diagnosing-bugs`, and come back once it is green.
-3. **Run `code-review` from a context that did not write the code.** The fixed point is the
-   parent of the earliest sha in `commits[]`; the spec is the feature file. Dispatch it as a
+   A red build makes every finding provisional, so stop there,
+   call the Skill tool with "diagnosing-bugs" and come back once it is green; without it,
+   hand the failure to the user with the failing command and stop.
+3. **Call the Skill tool with "code-review" from a context that did not write the code.**
+   The fixed point is the parent of the earliest sha in `commits[]`; the spec is the
+   feature file. Dispatch it as a
    subagent: the session that implemented the slice reads its own diff as correct, which is
    the whole reason an evaluator is independent. Hand it `02_grounding/standards/` alongside
    whatever the repo documents, where that exists — a convention this project was measured to
@@ -83,8 +85,9 @@ writes: a finding fixed during the review is a finding that never reached the le
    page reads; spelled any other way the feature renders with no verdict at all.
 8. **Report by axis** — Standards, Spec, Security, Accessibility, Criteria — each with its
    findings ordered by severity inside that axis and never across them. On
-   `changes-requested`, hand the findings to `diagnosing-bugs` and name this file as the one
-   to re-run against.
+   `changes-requested`, call the Skill tool with "diagnosing-bugs" against the findings and
+   name this file as the one to re-run against; without it, the findings go to the user as
+   they stand.
 
 **Done when** `11_build/reviews/<feature_slug>.yaml` is on disk, every finding in it carries
 a file, a line and a resolution, and the verdict is `approved` only where no finding is

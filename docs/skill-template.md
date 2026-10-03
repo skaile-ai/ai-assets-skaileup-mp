@@ -72,6 +72,13 @@ Siblings, in `references/`:
   them.** No READS/WRITES path list (the frontmatter and the contracts have it), no
   CHECKLIST (the validator has it), no Context Budget table.
 - **Constraints are stated positively, at the step they bind.** No `MUST`/`NEVER` block.
+- **Calling a skill the collection does not ship.** An operative call reads
+  `Call the Skill tool with "<name>"`; two skills are
+  `call the Skill tool twice, for "<a>" and "<b>"` (one skill per call, never "with a and
+  b"); a user-invoked skill is an instruction to the human (`tell the user to run
+  `/<name>``) and never a Skill-tool call; the allowed names are `EXTERNAL_SKILLS` in
+  `scripts/check.py`; a hard dependency says in the same step what happens when the skill
+  is absent.
 - **`## Depth Behavior`, `## Standalone Mode`, `## Context Budget`** describe how the
   collection works, not what the skill does. They belong in one place, once —
   `contracts/agent_patterns.md`, which already carries `Standalone Mode` and

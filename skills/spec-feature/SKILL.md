@@ -46,9 +46,11 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
    a rewritten spec that drops them silently unlinks the feature from its screens and its
    entities. Two matches across featuresets is the collision the slug rule names — list both
    and ask which one this is.
-2. **Grill.** Run the global `grilling` skill against this feature. Its rounds and frontier
-   are the interview; what this feature adds is the ground the frontier has to cover before
-   it can be empty: what the feature *is* and who triggers it, the happy path, state
+2. **Grill.** Call the Skill tool with "grilling" against this feature. If it is not
+   installed, run the rounds yourself: one frontier of unsettled questions per message, each
+   with a recommended answer. Either way, what this feature adds is the ground the frontier
+   has to cover before it can be empty: what the feature *is* and who triggers it, the
+   happy path, state
    transitions, boundary inputs, concurrency, a role × action permissions table, persistence
    and recovery, error states, and the other features this one touches. The flow in
    `01_meta/scope.yaml` sets the depth — `appbuilder-mvp` settles the happy path and

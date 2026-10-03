@@ -33,9 +33,11 @@ Paths are `contracts/concept_structure.md`'s.
    suggested its own successors; routing it again would give the user two answers from two
    sources, and no way to tell which is stale.
 
-2. **Intake — triage first, then one entry point.** Run the globally installed `/triage`
-   before choosing. It decides whether the item is worth doing at all, and that judgement is
-   not this collection's to make: skaileup builds what a project has decided to build.
+2. **Intake — triage first, then one entry point.** Tell the user to run `/triage` before
+   choosing; it is user-invoked, so this skill cannot call it. It decides whether the item
+   is worth doing at all, and that judgement is not this collection's to make: skaileup
+   builds what a project has decided to build. Without it, say that intake was not triaged
+   and go on.
 
    What survives triage enters at exactly one of two skills:
 

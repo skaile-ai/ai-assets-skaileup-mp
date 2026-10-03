@@ -15,6 +15,14 @@ app). Approach adversarially: assume defects exist and make the artifact
 prove otherwise. Never infer intent — if something is not explicitly
 stated, it is missing.
 
+Every finding states how it was obtained in the same sentence — **measured**
+(seen in the artifact or the running app, quoted or reproduced) or
+**inferred** (follows from something measured, and names it). A claim that
+is neither is not a finding: run the check that would make it one, or leave
+it out — never hand the user a check you could run. An absence counts as
+measured: what the artifact does not state is missing (above), and the quote
+is the place where it should have been.
+
 ## Laws
 
 MUST  gather ALL evidence silently before scoring — read every input (or

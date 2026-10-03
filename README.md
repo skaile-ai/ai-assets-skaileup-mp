@@ -54,10 +54,42 @@ A host picks the flow (in forge-concept the profile key *is* the flow id) and ru
 nodes; each writes into `_concept/`, the one artifact tree, described in
 [`contracts/concept_structure.md`](./contracts/concept_structure.md).
 
-## Status
+## Skills
 
-Skeleton. Skills and flows land per domain; the migration map is in this repo at
-[`.scratch/wayfinder/map.md`](./.scratch/wayfinder/map.md).
+| skill | does |
+|---|---|
+| [skaileup](skills/skaileup/) | Routes cold work or an unclear next step to the right skill |
+| [concept-onboard](skills/concept-onboard/) | Captures what the user already knows: tech preferences, brand, material |
+| [concept-scope](skills/concept-scope/) | Records the flow the project is sized by and its project type |
+| [concept-brief](skills/concept-brief/) | Writes the pitch, goals and comparables everything downstream reads |
+| [concept-research](skills/concept-research/) | Grounds decisions in domain, competitor, audience and visual research |
+| [concept-reverse](skills/concept-reverse/) | Extracts a concept from an existing repository |
+| [design-brand](skills/design-brand/) | Discovers a visual direction and writes the project's brand |
+| [experience-journeys](skills/experience-journeys/) | Defines personas and the staged story map features derive from |
+| [experience-shell](skills/experience-shell/) | Specifies navigation, layout areas, breakpoints and shared screen patterns |
+| [experience-behaviors](skills/experience-behaviors/) | Writes state machines and rules for entity lifecycles |
+| [spec-featuresets](skills/spec-featuresets/) | Derives the feature roster and cuts it into featuresets |
+| [spec-feature](skills/spec-feature/) | Writes one feature's permanent spec and every screen it needs |
+| [mockup-walkthrough](skills/mockup-walkthrough/) | Renders a clickable browser walkthrough, one page per screen and journey |
+| [mockup-storybook](skills/mockup-storybook/) | Builds Storybook stories, screen compositions and journey walkthroughs |
+| [mockup-annotate](skills/mockup-annotate/) | Injects the annotation overlay so stakeholders can comment on a walkthrough |
+| [mockup-feedback](skills/mockup-feedback/) | Routes stakeholder annotations back into the concept as reviewable diffs |
+| [architecture-techstack](skills/architecture-techstack/) | Chooses the technology stack and records its id |
+| [architecture-system](skills/architecture-system/) | Records custom modules, protocols and integrations beyond the stack |
+| [architecture-datamodel](skills/architecture-datamodel/) | Derives the stack-neutral data model and seed scenarios from feature specs |
+| [build-branch](skills/build-branch/) | Opens the build branch before slices and merges or discards it after |
+| [build-scaffold](skills/build-scaffold/) | Scaffolds, themes, wires auth and builds the shell of a running app |
+| [build-database](skills/build-database/) | Translates the data model into a migrated schema with seed scripts |
+| [build-plan](skills/build-plan/) | Cuts a frozen feature spec into vertical slices with slice dossiers |
+| [build-implement](skills/build-implement/) | Implements a slice test-first, reviews it, commits and freezes it |
+| [quality-standards](skills/quality-standards/) | Records an existing codebase's conventions as standards |
+| [quality-test](skills/quality-test/) | Writes unit tests that trace back to feature specs |
+| [quality-e2e](skills/quality-e2e/) | Proves journeys end to end in a real browser |
+| [quality-review](skills/quality-review/) | Reviews a finished feature's code adversarially against its spec |
+| [quality-release](skills/quality-release/) | Grades the running app against its brief on seven axes before release |
+| [ops-review](skills/ops-review/) | Health-checks _concept/: cross-references and build/ship coverage |
+
+## Gate
 
 There is **no documentation site**. The old collection's Starlight site stays in
 [`ai-assets-skaileup`](https://github.com/skaile-ai/ai-assets-skaileup) with the tree it
