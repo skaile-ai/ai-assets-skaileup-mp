@@ -1056,7 +1056,7 @@
    "a-07_screens"
   ],
   "title": "Two skills write an `elements:` block while the contract names one writer",
-  "detail": "`experience-shell` step 6 writes a `kind: nav` element into `shell.md`. `spec-feature` and `contracts/elements_block.md` both call `spec-feature` the sole writer of `elements:`; the contract never mentions the shell.",
+  "detail": "`spec-feature` and `contracts/elements_block.md` both name `spec-feature` as the sole writer of `elements:`, yet `experience-shell` step 6 writes a `kind: nav` element into `shell.md`. The contract describes `kind: nav` as app-shell / persistent navigation but never names `experience-shell` as a writer of it.",
   "evidence": [
    {
     "at": "skills/experience-shell/SKILL.md:56",
@@ -1069,6 +1069,10 @@
    {
     "at": "contracts/elements_block.md:367-368",
     "quote": "The sole writer of"
+   },
+   {
+    "at": "contracts/elements_block.md:138",
+    "quote": "persistent/app-shell"
    }
   ],
   "recommendation": "Name both writers in `elements_block.md`. Or move the nav element to `spec-feature` and let the shell write prose only.",
@@ -1393,7 +1397,7 @@
   "evidence": [
    {
     "at": "contracts/README.md:24",
-    "quote": "`mockup-feedback` — the cross-reference protocol between features, screens and the data model"
+    "quote": "`mockup-feedback` — the cross-reference protocol between features, screens and"
    },
    {
     "at": "contracts/feedback_loop.md:100",
@@ -1655,7 +1659,7 @@
   "evidence": [
    {
     "at": "skills/architecture-datamodel/SKILL.md:70",
-    "quote": "**Write `feature-map.json`**, mapping each model to the feature files it came from."
+    "quote": "**Write `feature-map.json`**, mapping each model to the feature files it came"
    },
    {
     "at": "skills/architecture-datamodel/SKILL.md:83",
@@ -1727,7 +1731,7 @@
    },
    {
     "at": "skills/architecture-datamodel/SKILL.md:74",
-    "quote": "**Pin the vocabulary in `10_blueprint/glossary.md`**, per `contracts/domain_model.md`."
+    "quote": "**Pin the vocabulary in `10_blueprint/glossary.md`**, per"
    },
    {
     "at": "skills/architecture-datamodel/SKILL.md:82",
@@ -2075,7 +2079,7 @@
    },
    {
     "at": "skills/quality-standards/SKILL.md:11",
-    "quote": "skills that write code read `02_grounding/standards/index.yml` themselves when they need it"
+    "quote": "skills that write code read `02_grounding/standards/index.yml` themselves when"
    },
    {
     "at": "skills/quality-standards/SKILL.md:33",
@@ -2087,7 +2091,7 @@
    },
    {
     "at": "skills/quality-standards/SKILL.md:14",
-    "quote": "is the one part of the pipeline that works on a repository with no concept at all"
+    "quote": "is the one part of the pipeline that works on a repository with no concept at"
    }
   ],
   "recommendation": "Add `quality-standards` to `appbuilder-standard` after scaffold, with a step in `build-plan` and `build-implement` that reads the index. Or state that the index exists only in the reverse flow.",
@@ -2135,7 +2139,7 @@
    },
    {
     "at": "skills/ops-review/SKILL.md:81",
-    "quote": "slice is unfrozen, or commits or source files are empty, or an acceptance criterion is"
+    "quote": "slice is unfrozen, or commits or source files are empty, or an acceptance"
    },
    {
     "at": "skills/quality-release/SKILL.md:37",

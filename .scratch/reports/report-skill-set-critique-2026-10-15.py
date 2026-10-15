@@ -5,7 +5,7 @@
 
 Reads   .scratch/reports/skill-set-critique-2026-10-15.data/*.json   (written by dump-skill-set-critique-2026-10-15.py)
 Writes  .scratch/reports/skill-set-critique-2026-10-15.json          (report-html input)
-        .scratch/reports/skill-set-critique-2026-10-15.choice.json   (feature choice for build.py --check-choice)
+        .scratch/reports/skill-set-critique-2026-10-15.choice.json   (feature choice for build.py --check-choice; written once, never overwritten)
 
 Optional: .scratch/reports/skill-set-critique-2026-10-15.map-layout.json = {"pos": {...}, "off": [...]}
 (paste of the "Copy layout" button of the `writers` map); it is merged into the map block on every run.
@@ -17,6 +17,7 @@ import json
 import subprocess
 import sys
 from collections import Counter, OrderedDict
+from datetime import datetime
 from pathlib import Path
 
 STEM = "skill-set-critique-2026-10-15"
@@ -74,11 +75,6 @@ stem_of = lambda cid: cid[2:] if cid.startswith("c-") else cid
 cid_of = lambda stem: "c-" + stem_of(stem)
 plural = lambda n, w: f"{n} {w}" + ("" if n == 1 else "s")
 domain_of = lambda sid: sid.split("-", 1)[0].replace("skaileup", "collection")
-short = lambda s: s.split("/")[-1].split(":")[-1]  # '@skaile-ai/concept-scope' -> 'concept-scope'
-
-
-def unmet_hard(g):
-    return bool(g["unmet_hard"]) if "unmet_hard" in g else (g.get("gate") == "hard" and not g.get("satisfied"))
 
 
 def dedupe(seq):
@@ -102,20 +98,16 @@ contract_set = set(contract_ids)
 flow_ids = [f["id"] for f in flows]
 flow_set = set(flow_ids)
 artifact_ids = [a["id"] for a in artifacts]
-artifact_set = set(artifact_ids)
 finding_ids = [f["id"] for f in findings]
 stage_ids = ["s-" + d for d in STAGE_ORDER]
 stage_set = set(stage_ids)
 stage_row = {s["id"]: s for s in stages}
-for sid in stage_ids:
-    if sid not in stage_row:
-        errors.append(f"stages.json has no row {sid}")
 entity_ids = set(skill_ids) | set(contract_ids) | set(flow_ids) | set(artifact_ids) | set(finding_ids) | stage_set
 if len(entity_ids) != len(skill_ids) + len(contract_ids) + len(flow_ids) + len(artifact_ids) + len(finding_ids) + len(stage_ids):
     errors.append("entity ids collide across skills, contracts, flows, artifacts, findings, stages")
 
 
-def L(eid, text=None):
+def link(eid, text=None):
     """[[id]] link when the entity exists, else plain code (with a warning)."""
     if eid in entity_ids:
         return f"[[{eid}|{text}]]" if text else f"[[{eid}]]"
@@ -124,33 +116,14 @@ def L(eid, text=None):
 
 
 def links(ids, sep=", "):
-    return sep.join(L(i) for i in ids)
+    return sep.join(link(i) for i in ids)
 
 
-by_skill = {s["id"]: s for s in skills}
-by_artifact = {a["id"]: a for a in artifacts}
 by_flow = {f["id"]: f for f in flows}
-
-# -- validate findings -----------------------------------------------------------------------
-for f in findings:
-    if f["sev"] not in SEVS:
-        errors.append(f"{f['id']}: sev {f['sev']!r}")
-    if f["lens"] not in LENSES:
-        errors.append(f"{f['id']}: lens {f['lens']!r}")
-    if f["stage"] not in stage_set:
-        errors.append(f"{f['id']}: stage {f['stage']!r}")
-    if len(f["title"]) > 80:
-        warnings.append(f"{f['id']}: title has {len(f['title'])} chars (> 80)")
-    for key, known in (("skills", skill_set), ("contracts", contract_set), ("flows", flow_set), ("artifacts", artifact_set)):
-        for x in f.get(key, []):
-            if x not in known:
-                errors.append(f"{f['id']}: {key} entry {x!r} is no entity")
-    if not f.get("evidence"):
-        errors.append(f"{f['id']}: no evidence")
 
 
 def finding_refs(f):
-    refs = [*f.get("skills", []), *f.get("contracts", []), *f.get("flows", []), *f.get("artifacts", []), *f.get("refs", [])]
+    refs = [*f["skills"], *f["contracts"], *f["flows"], *f["artifacts"], *f["refs"]]
     out = []
     for r in dedupe(refs):
         if r == f["id"]:
@@ -173,12 +146,12 @@ n_stage_with = sum(1 for s in stage_ids if stage_n[s])
 for s in stage_ids:
     if not stage_n[s]:
         warnings.append(f"stage {s} has no finding: the tree counts it as a leaf")
-unmet = [g for g in gates if unmet_hard(g)]
+unmet = [g for g in gates if g["unmet_hard"]]
 unmet_by_flow = Counter(g["flow"] for g in unmet)
-multi = [a for a in artifacts if a.get("multi_writer")]
+multi = [a for a in artifacts if a["multi_writer"]]
 contract_lines = {cid_of(c["id"]): c["lines"] for c in contracts}
 longest = max(skills, key=lambda s: s["lines"])
-max_contracts = max(skills, key=lambda s: s.get("contracts_n", len(s.get("contracts", []))))
+max_contracts = max(skills, key=lambda s: s["contracts_n"])
 elements_lines = contract_lines.get("c-elements_block", 0) + contract_lines.get("c-walkthrough_renderer", 0)
 
 # -- badges ----------------------------------------------------------------------------------
@@ -199,28 +172,28 @@ badges = {
 # -- entities --------------------------------------------------------------------------------
 entities = []
 for i, sid in enumerate(stage_ids, 1):
-    r = stage_row.get(sid, {})
+    r = stage_row[sid]
     entities.append({"id": sid, "title": sid[2:], "order": i,
-                     "meta": [plural(r.get("skills_n", 0), "skill"), f"{r.get('lines', 0)} lines"]})
+                     "meta": [plural(r["skills_n"], "skill"), f"{r['lines']} lines"]})
 for n, f in enumerate(findings, 1):
     entities.append({"id": f["id"], "parent": f["stage"], "order": n, "title": f["title"], "label": f["id"],
                      "badges": {"sev": [f["sev"]], "lens": [f["lens"]]},
-                     "meta": [code_at(f.get("first_at") or f["evidence"][0]["at"])],
+                     "meta": [code_at(f["first_at"])],
                      "refs": finding_refs(f)})
 for s in skills:
-    refs = [c if c.startswith("c-") else cid_of(c.replace("contracts/", "").replace(".md", "")) for c in s.get("contracts", [])]
-    refs = [c for c in dedupe(refs) if c in contract_set] + [x for x in s.get("flows", []) if x in flow_set]
+    refs = [c if c.startswith("c-") else cid_of(c.replace("contracts/", "").replace(".md", "")) for c in s["contracts"]]
+    refs = [c for c in dedupe(refs) if c in contract_set] + [x for x in s["flows"] if x in flow_set]
     entities.append({"id": s["id"], "title": s["id"], "tree": False,
-                     "meta": [f"{s['lines']} lines · {s['steps']} steps", s.get("phase") or "none"], "refs": refs})
+                     "meta": [f"{s['lines']} lines · {s['steps']} steps", s["phase"]], "refs": refs})
 for c in contracts:
-    entities.append({"id": cid_of(c["id"]), "title": c.get("file") or f"{stem_of(c['id'])}.md", "label": f"{stem_of(c['id'])}.md", "tree": False,
+    entities.append({"id": cid_of(c["id"]), "title": c["file"], "label": f"{stem_of(c['id'])}.md", "tree": False,
                      "meta": [f"{c['lines']} lines"]})
 for f in flows:
     entities.append({"id": f["id"], "title": f["id"], "tree": False,
-                     "meta": [f"{f['nodes_n']} nodes", f"research_depth: {f.get('research_depth')}"]})
+                     "meta": [f"{f['nodes_n']} nodes", f"research_depth: {f['research_depth']}"]})
 for a in artifacts:
     entities.append({"id": a["id"], "title": a["path"], "label": short_path(a["path"]), "tree": False, "meta": [a["editor_form"]],
-                     "refs": [w for w in a.get("writers", []) if w in skill_set]})
+                     "refs": [w for w in a["writers"] if w in skill_set]})
 
 # -- stats -----------------------------------------------------------------------------------
 stats = [
@@ -234,25 +207,25 @@ stats = [
 ]
 
 # -- section 1: the answer -------------------------------------------------------------------
-std = by_flow.get(STANDARD)
-if std is None:
-    errors.append(f"flows.json has no {STANDARD}")
+if STANDARD not in by_flow:
+    die(f"flows.json has no {STANDARD}")
+std = by_flow[STANDARD]
 broken_flows = len(unmet_by_flow)
 verdict = " ".join([
     "The collection has the right skills in the wrong order.",
-    f"The domain vocabulary gets its final form last ({L('F08')}, {L('F30')}), and the data model comes after every feature and screen ({L('F17')}).",
-    f"In {broken_flows} of {len(flows)} flows, a hard gate has no upstream node that satisfies it ({L('F01')}, {L('F02')}, {L('F03')}), and `check.py` does not look ({L('F04')}).",
-    f"The editor cannot tell a finished node from the files, because no skill declares what it produces ({L('F05')}).",
-    f"The reasons behind artifacts and the approvals stay in chat ({L('F13')}, {L('F23')}).",
+    f"The domain vocabulary gets its final form last ({link('F08')}, {link('F30')}), and the data model comes after every feature and screen ({link('F17')}).",
+    f"In {broken_flows} of {len(flows)} flows, a hard gate has no upstream node that satisfies it ({link('F01')}, {link('F02')}, {link('F03')}), and `check.py` does not look ({link('F04')}).",
+    f"The editor cannot tell a finished node from the files, because no skill declares what it produces ({link('F05')}).",
+    f"The reasons behind artifacts and the approvals stay in chat ({link('F13')}, {link('F23')}).",
     f"The review holds {n_find} findings: {sev_n['critical']} critical, {sev_n['high']} high, {sev_n['medium']} medium, {sev_n['low']} low.",
 ])
 right = [
-    f"The skills are flat: {len(skills)} skills in one directory level, and the longest ({L(longest['id'])}) has {longest['lines']} lines.",
-    f"One artifact tree holds all {len(artifacts)} targets, from {L('a-brief')} to {L('a-11_build')}, so every skill writes to a known place.",
-    f"`scripts/check.py` is the single gate of the collection; its flow rule has one gap ({L('F04')}).",
+    f"The skills are flat: {len(skills)} skills in one directory level, and the longest ({link(longest['id'])}) has {longest['lines']} lines.",
+    f"One artifact tree holds all {len(artifacts)} targets, from {link('a-brief')} to {link('a-11_build')}, so every skill writes to a known place.",
+    f"`scripts/check.py` is the single gate of the collection; its flow rule has one gap ({link('F04')}).",
     "The glossary format keeps an `_Avoid_` list per term, so a rejected word has a home.",
     "A decision enters `decisions.md` only after the three-test check.",
-    f"Feature dossiers are frozen records of the reasons ({L('a-08_dossiers')}).",
+    f"Feature dossiers are frozen records of the reasons ({link('a-08_dossiers')}).",
 ]
 sec_answer = {"title": "The answer", "sub": "right pieces, wrong order", "blocks": [
     {"type": "p", "text": verdict},
@@ -261,28 +234,24 @@ sec_answer = {"title": "The answer", "sub": "right pieces, wrong order", "blocks
 ]}
 
 # -- section 2: findings ---------------------------------------------------------------------
-if std:
-    nl = {short(k): v for k, v in std.get("node_lines", {}).items()}
-    seq = [domain_of(s) for s in std["order"]]
-    dom_order = dedupe(d for d in seq if d in STAGE_ORDER and d != "collection")
-    first_skill = {}
-    for s in std["order"]:
-        first_skill.setdefault(domain_of(s), s)
-    flow_edges = []
-    for a, b in zip(dom_order, dom_order[1:]):
-        node = first_skill[b]
-        if node not in nl:
-            errors.append(f"{STANDARD} node_lines has no line for {node}")
-            continue
-        flow_edges.append({"from": "s-" + a, "to": "s-" + b, "label": CROSSING.get(b, ""),
-                           "at": f"flows/{STANDARD}/{STANDARD}.flow.yaml:{nl[node]}"})
-else:
-    flow_edges = []
+if "edge_lines" not in std:
+    die(f"flows.json has no `edge_lines` for {STANDARD}; re-run `python3 {DUMP}` from the repo root")
+dom_order = dedupe(d for d in map(domain_of, std["order"]) if d in STAGE_ORDER and d != "collection")
+flow_edges = []
+for upstream, downstream in zip(dom_order, dom_order[1:]):
+    # first `type: flow` edge, in file order, that crosses into the downstream domain
+    crossing = next((e for e in std["edge_lines"]
+                     if domain_of(e["source"]) != domain_of(e["target"]) and domain_of(e["target"]) == downstream), None)
+    if crossing is None:
+        errors.append(f"{STANDARD} has no `type: flow` edge into the {downstream} domain")
+        continue
+    flow_edges.append({"from": "s-" + upstream, "to": "s-" + downstream, "label": CROSSING[downstream],
+                       "at": f"flows/{STANDARD}/{STANDARD}.flow.yaml:{crossing['line']}"})
 pipeline_nodes = []
 for sid in stage_ids:
     node = {"id": sid, "label": sid[2:], "ref": sid, "sub": plural(stage_n[sid], "finding")}
     if sid == "s-collection":
-        node.update({"shape": "external", "sub": f"{plural(stage_row.get('s-collection', {}).get('findings_n', stage_n[sid]), 'finding')} · flows, contracts, host"})
+        node.update({"shape": "external", "sub": f"{plural(stage_row[sid]['findings_n'], 'finding')} · flows, contracts, host"})
     pipeline_nodes.append(node)
 
 sev_rows = [{"id": f["id"], "sev": f["sev"]} for f in findings]
@@ -310,9 +279,9 @@ for f in findings:
     rows_findings.append({
         "id": f["id"], "title": f["title"], "sev": f["sev"], "lens": f["lens"],
         "stage": {"ref": f["stage"], "text": f["stage"][2:]},
-        "skills": {"refs": f.get("skills", [])},
-        "detail": f.get("detail", ""),
-        "evidence": code_at(f.get("first_at") or f["evidence"][0]["at"]),
+        "skills": {"refs": f["skills"]},
+        "detail": f["detail"],
+        "evidence": code_at(f["first_at"]),
         "recommendation": f["recommendation"],
     })
 
@@ -340,20 +309,20 @@ sec_findings = {"title": "Findings", "sub": "toggle a badge, read the stages, fi
 ]}
 
 # -- section 3: where the flows break --------------------------------------------------------
-n_hard = sum(1 for g in gates if g.get("gate") == "hard")
-per_flow = ", ".join(f"{L(fid)}: {unmet_by_flow[fid]}" for fid in flow_ids if unmet_by_flow[fid])
+n_hard = sum(1 for g in gates if g["gate"] == "hard")
+per_flow = ", ".join(f"{link(fid)}: {unmet_by_flow[fid]}" for fid in flow_ids if unmet_by_flow[fid])
 gate_rows = []
-for g in sorted(gates, key=lambda g: (bool(g["satisfied"]), g.get("gate") != "hard", g["flow"], g["position"])):
+for g in sorted(gates, key=lambda g: (g["satisfied"], g["gate"] != "hard", g["flow"], g["position"])):
     gate_rows.append({
         "flow": {"ref": g["flow"]}, "position": g["position"], "skill": {"ref": g["skill"]},
         "path": f"`{g['path']}`", "gate": g["gate"],
-        "producer": {"ref": g["producer"]} if g.get("producer") else "—",
-        "satisfied": g.get("satisfied_s") or ("yes" if g["satisfied"] else "no"),
-        "prereq_at": code_at(g.get("prereq_at")),
+        "producer": {"ref": g["producer"]} if g["producer"] else "—",
+        "satisfied": g["satisfied_s"],
+        "prereq_at": code_at(g["prereq_at"]),
     })
 sec_gates = {"title": "Where the flows break", "sub": "every prerequisite of every flow node", "blocks": [
     {"type": "p", "text": f"{len(unmet)} of {n_hard} hard gates have no producer upstream in the flow that runs them. By flow: {per_flow}. "
-                          f"`scripts/check.py` has no rule for this ({L('F04')}). The producer is the nearest upstream skill whose declared write target covers the path."},
+                          f"`scripts/check.py` has no rule for this ({link('F04')}). The producer is the nearest upstream skill whose declared write target covers the path."},
     {"type": "data", "id": "gates", "label": "Every prerequisite of every flow node", "page": 25,
      "columns": [{"label": "Flow", "key": "flow"}, {"label": "Pos", "key": "position", "type": "number"},
                  {"label": "Skill", "key": "skill"}, {"label": "Path", "key": "path"}, {"label": "Gate", "key": "gate"},
@@ -371,9 +340,8 @@ for a in artifacts:
 art_match.sort(key=lambda t: -len(t[0]))
 
 
-def artifact_of(path):
-    if not path:
-        return None
+def artifact_covering(path):
+    """Artifact target that holds a prerequisite path (writes carry their own `artifact`)."""
     for pref, folder, aid in art_match:
         if (folder and (path.rstrip("/") + "/").startswith(pref)) or (not folder and path == pref):
             return aid
@@ -382,26 +350,16 @@ def artifact_of(path):
 
 edge_map = OrderedDict()  # (from, to, kind) -> [at, ...]
 for w in writes:
-    aid = w.get("artifact") if w.get("artifact") in artifact_set else artifact_of(w.get("path"))
-    if aid is None or w["skill"] not in skill_set:
+    if w["artifact"] is None:
         continue
-    edge_map.setdefault((w["skill"], aid, "write"), []).append(w["at"])
-gate_at = {(g["skill"], g["path"]): g.get("prereq_at") for g in gates}
+    edge_map.setdefault((w["skill"], w["artifact"], "write"), []).append(w["at"])
 gate_edges = OrderedDict()
 for s in skills:
-    for p in s.get("prereqs", []):
-        aid = artifact_of(p["path"])
+    for p in s["prereqs"]:
+        aid = artifact_covering(p["path"])
         if aid is None:
             continue
-        kind = p["gate"]
-        if kind not in ("hard", "soft"):
-            errors.append(f"{s['id']}: prerequisite gate {kind!r}")
-            continue
-        at = p.get("at") or gate_at.get((s["id"], p["path"]))
-        if not at:
-            errors.append(f"{s['id']}: prerequisite {p['path']} has no `at`")
-            continue
-        gate_edges.setdefault((aid, s["id"], kind), []).append(at)
+        gate_edges.setdefault((aid, s["id"], p["gate"]), []).append(p["at"])
 for (aid, sid, kind), ats in list(gate_edges.items()):
     if kind == "soft" and (aid, sid, "hard") in gate_edges:
         del gate_edges[(aid, sid, kind)]  # keep the stronger edge between one pair
@@ -425,7 +383,7 @@ if LAYOUT.is_file():
         map_block["pos"] = pos
     map_block["off"] = off
 
-sec_map = {"title": "Who writes what", "sub": "30 skills, the targets they write and the gates they read", "blocks": [
+sec_map = {"title": "Who writes what", "sub": f"{plural(len(skills), 'skill')}, the targets they write and the gates they read", "blocks": [
     {"type": "p", "text": f"{plural(len(skills), 'skill')} write to or read from {len(artifacts)} targets. {len(multi)} targets have more than one writer: "
                           f"{links([a['id'] for a in multi])}. Edge kinds: write, hard gate, soft gate. Click a legend entry to hide a kind."},
     map_block,
@@ -433,12 +391,12 @@ sec_map = {"title": "Who writes what", "sub": "30 skills, the targets they write
 
 # -- section 5: scorecard --------------------------------------------------------------------
 why = {
-    "dup": f"The same text sits in several skills, for example the one-question rule ({L('F14')}). No runtime effect.",
-    "alt": f"{lens_n['alt']} findings name a double home, among them permissions ({L('F19')}), EARS criteria ({L('F20')}) and mockups ({L('F26')}).",
-    "order": f"Gate cycle ({L('F17')}), glossary last ({L('F08')}), {broken_flows} broken flows ({L('F01')}).",
-    "disk": f"Artifacts land on disk; reasons and approvals do not ({L('F13')}). The editor cannot derive done ({L('F05')}).",
-    "wayfinding": f"{L(max_contracts['id'])} cites {max_contracts.get('contracts_n', len(max_contracts.get('contracts', [])))} contracts; two contracts hold {elements_lines} lines ({L('F07')}).",
-    "planning fit": f"Features come before the model ({L('F17')}); no skill lists what it produces ({L('F05')}).",
+    "dup": f"The same text sits in several skills, for example the one-question rule ({link('F14')}). No runtime effect.",
+    "alt": f"{lens_n['alt']} findings name a double home, among them permissions ({link('F19')}), EARS criteria ({link('F20')}) and mockups ({link('F26')}).",
+    "order": f"Gate cycle ({link('F17')}), glossary last ({link('F08')}), {broken_flows} broken flows ({link('F01')}).",
+    "disk": f"Artifacts land on disk; reasons and approvals do not ({link('F13')}). The editor cannot derive done ({link('F05')}).",
+    "wayfinding": f"{link(max_contracts['id'])} cites {max_contracts['contracts_n']} contracts; two contracts hold {elements_lines} lines ({link('F07')}).",
+    "planning fit": f"Features come before the model ({link('F17')}); no skill lists what it produces ({link('F05')}).",
 }
 score_rows = []
 for lens in LENSES:
@@ -453,18 +411,17 @@ sec_score = {"title": "Scorecard", "sub": "counts are measured, ratings are judg
 skill_rows = []
 for s in skills:
     skill_rows.append({"anchor": s["id"], "cells": [
-        f"`{s['id']}`", s["lines"], s["steps"], s.get("hard_n", 0), s.get("soft_n", 0),
-        s.get("contracts_n", len(s.get("contracts", []))), len(s.get("flows", [])), {"refs": skill_findings[s["id"]]}]})
+        f"`{s['id']}`", s["lines"], s["steps"], s["hard_n"], s["soft_n"],
+        s["contracts_n"], len(s["flows"]), {"refs": skill_findings[s["id"]]}]})
 contract_rows = [{"anchor": cid_of(c["id"]), "cells": [
-    f"`{c.get('file') or stem_of(c['id']) + '.md'}`", c["lines"], {"refs": [r for r in c.get("readers", []) if r in skill_set]}]} for c in contracts]
+    f"`{c['file']}`", c["lines"], {"refs": [r for r in c["readers"] if r in skill_set]}]} for c in contracts]
 flow_rows = []
 for f in flows:
-    n_unmet = f["unmet_hard"] if "unmet_hard" in f else unmet_by_flow[f["id"]]
     flow_rows.append({"anchor": f["id"], "cells": [
-        f"`{f['id']}`", f["nodes_n"], " → ".join(L(s) for s in f["order"]), n_unmet]})
+        f"`{f['id']}`", f["nodes_n"], " → ".join(link(s) for s in f["order"]), f["unmet_hard"]]})
 artifact_rows = [{"anchor": a["id"], "cells": [
-    f"`{a['path']}`", a["editor_form"], {"refs": [w for w in a.get("writers", []) if w in skill_set]},
-    a.get("readers_n", len(a.get("readers", [])))]} for a in artifacts]
+    f"`{a['path']}`", a["editor_form"], {"refs": [w for w in a["writers"] if w in skill_set]},
+    a["readers_n"]]} for a in artifacts]
 sec_inventory = {"title": "Inventory", "sub": "every skill, contract, flow and artifact target", "blocks": [
     {"type": "p", "text": f"Skills: {len(skills)} rows. The Findings column lists the findings that name the skill."},
     {"type": "table", "columns": ["Skill", "Lines", "Steps", "Hard gates", "Soft gates", "Contracts", "Flows", "Findings"],
@@ -479,20 +436,20 @@ sec_inventory = {"title": "Inventory", "sub": "every skill, contract, flow and a
 
 # -- section 7: target shape -----------------------------------------------------------------
 proposal_steps = [
-    f"{L('concept-scope')} and {L('concept-onboard')}: `answers.json` is the one record of every answer ({L('F06')}, {L('F16')}).",
-    f"{L('concept-brief')}: `brief.md` and `goals.md`. {L('concept-reverse')} writes findings only ({L('F09')}).",
-    f"Domain language (new): `_concept/glossary.md`, first level, one writer. Every later skill reads it first ({L('F08')}, {L('F30')}).",
-    f"{L('concept-research')} runs alongside, before brand and journeys ({L('F12')}).",
-    f"{L('experience-journeys')}: stories use glossary terms and carry no `candidate_entities` ({L('F18')}).",
-    f"Data model: {L('architecture-datamodel')} moves ahead of the features (`10_blueprint/datamodel/`, conceptually `05_datamodel/`). It names entities from the glossary only, and `feature-map.json` goes ({L('F17')}, {L('F33')}).",
-    f"{L('spec-featuresets')} and {L('experience-behaviors')} read the entities and never coin names ({L('F18')}, {L('F19')}).",
-    f"{L('architecture-techstack')} and {L('architecture-system')} run before any renderer ({L('F02')}, {L('F32')}).",
-    f"Feature loop with {L('spec-feature')}: spec and screens. The dossier opens at step 2 ({L('F23')}).",
-    f"{L('experience-shell')} runs after the loop. Navigation comes from real screens ({L('F25')}).",
-    f"{L('mockup-walkthrough')} is the one mockup renderer, then {L('mockup-annotate')} and {L('mockup-feedback')} ({L('F26')}).",
-    f"Build: {L('build-scaffold')}, {L('build-database')}, {L('build-plan')}, {L('build-implement')}.",
-    f"Quality: {L('quality-test')}, {L('quality-e2e')}, {L('quality-review')}.",
-    f"{L('ops-review')} and {L('quality-release')}. `trace.yaml` is the single trace ({L('F36')}).",
+    f"{link('concept-scope')} and {link('concept-onboard')}: `answers.json` is the one record of every answer ({link('F06')}, {link('F16')}).",
+    f"{link('concept-brief')}: `brief.md` and `goals.md`. {link('concept-reverse')} writes findings only ({link('F09')}).",
+    f"Domain language (new): `_concept/glossary.md`, first level, one writer. Every later skill reads it first ({link('F08')}, {link('F30')}).",
+    f"{link('concept-research')} runs alongside, before brand and journeys ({link('F12')}).",
+    f"{link('experience-journeys')}: stories use glossary terms and carry no `candidate_entities` ({link('F18')}).",
+    f"Data model: {link('architecture-datamodel')} moves ahead of the features (`10_blueprint/datamodel/`, conceptually `05_datamodel/`). It names entities from the glossary only, and `feature-map.json` goes ({link('F17')}, {link('F33')}).",
+    f"{link('spec-featuresets')} and {link('experience-behaviors')} read the entities and never coin names ({link('F18')}, {link('F19')}).",
+    f"{link('architecture-techstack')} and {link('architecture-system')} run before any renderer ({link('F02')}, {link('F32')}).",
+    f"Feature loop with {link('spec-feature')}: spec and screens. The dossier opens at step 2 ({link('F23')}).",
+    f"{link('experience-shell')} runs after the loop. Navigation comes from real screens ({link('F25')}).",
+    f"{link('mockup-walkthrough')} is the one mockup renderer, then {link('mockup-annotate')} and {link('mockup-feedback')} ({link('F26')}).",
+    f"Build: {link('build-scaffold')}, {link('build-database')}, {link('build-plan')}, {link('build-implement')}.",
+    f"Quality: {link('quality-test')}, {link('quality-e2e')}, {link('quality-review')}.",
+    f"{link('ops-review')} and {link('quality-release')}. `trace.yaml` is the single trace ({link('F36')}).",
 ]
 
 PROSE = "prose (TipTap)"
@@ -505,58 +462,58 @@ def writers_of(*needles):
 
 
 # artifact id -> (proposed owners, change text)
-PLAN = {
-    "a-brief": (["concept-brief"], f"One owner. {L('concept-reverse')} stops writing it ({L('F09')})."),
-    "a-goals": (["concept-brief"], f"One owner. {L('concept-reverse')} stops writing it ({L('F09')})."),
-    "a-comparable": (["concept-brief"], f"One file for competitor knowledge, shared with `research/competitors.md` ({L('F10')})."),
+OWNER_PROPOSALS = {
+    "a-brief": (["concept-brief"], f"One owner. {link('concept-reverse')} stops writing it ({link('F09')})."),
+    "a-goals": (["concept-brief"], f"One owner. {link('concept-reverse')} stops writing it ({link('F09')})."),
+    "a-comparable": (["concept-brief"], f"One file for competitor knowledge, shared with `research/competitors.md` ({link('F10')})."),
     "a-01_meta": (["concept-scope"], "No change: one writer."),
     "a-02_grounding": (["concept-onboard", "concept-research", "quality-standards"],
-                       f"One owner per subfolder: `onboarding/`, `research/` and `findings/`, `standards/`. Screenshots live in `findings/` only ({L('F11')})."),
-    "a-03_brand": (["design-brand"], f"{L('concept-reverse')} stops writing `identity.md` and `tokens.json` ({L('F09')})."),
-    "a-04_journeys": (["experience-journeys"], f"Stories carry the criterion id; spec and ledger cite it ({L('F20')})."),
-    "a-05_features": (["spec-feature"], f"The feature spec has one owner. The data model no longer writes into it ({L('F17')}, {L('F33')})."),
-    "a-06_behaviors": (["experience-behaviors"], f"Permissions move to the feature spec ({L('F19')})."),
-    "a-07_screens": (["spec-feature"], f"Shell runs after the loop ({L('F25')}). Feedback patches through the contract ({L('F28')})."),
-    "a-08_dossiers": (["spec-feature"], f"Open at step 2, append per step ({L('F23')})."),
-    "a-09_mockup": (["mockup-walkthrough"], f"One renderer ({L('F26')}); one annotation schema ({L('F27')})."),
+                       f"One owner per subfolder: `onboarding/`, `research/` and `findings/`, `standards/`. Screenshots live in `findings/` only ({link('F11')})."),
+    "a-03_brand": (["design-brand"], f"{link('concept-reverse')} stops writing `identity.md` and `tokens.json` ({link('F09')})."),
+    "a-04_journeys": (["experience-journeys"], f"Stories carry the criterion id; spec and ledger cite it ({link('F20')})."),
+    "a-05_features": (["spec-feature"], f"The feature spec has one owner. The data model no longer writes into it ({link('F17')}, {link('F33')})."),
+    "a-06_behaviors": (["experience-behaviors"], f"Permissions move to the feature spec ({link('F19')})."),
+    "a-07_screens": (["spec-feature"], f"Shell runs after the loop ({link('F25')}). Feedback patches through the contract ({link('F28')})."),
+    "a-08_dossiers": (["spec-feature"], f"Open at step 2, append per step ({link('F23')})."),
+    "a-09_mockup": (["mockup-walkthrough"], f"One renderer ({link('F26')}); one annotation schema ({link('F27')})."),
     "a-10_blueprint": (["architecture-techstack", "architecture-system", "architecture-datamodel"],
-                       f"One owner per file. `glossary.md` leaves the folder ({L('F08')})."),
+                       f"One owner per file. `glossary.md` leaves the folder ({link('F08')})."),
     "a-11_build": (["build-plan", "quality-review", "ops-review", "quality-release"],
-                   f"One owner per subfolder or file: `slices/` and `acceptance-criteria/`, `reviews/`, `trace.yaml`, `release.yaml` ({L('F36')}, {L('F37')})."),
+                   f"One owner per subfolder or file: `slices/` and `acceptance-criteria/`, `reviews/`, `trace.yaml`, `release.yaml` ({link('F36')}, {link('F37')})."),
 }
 owner_rows = []
 for a in artifacts:
-    owners, change = PLAN.get(a["id"], (None, None))
+    owners, change = OWNER_PROPOSALS.get(a["id"], (None, None))
     if owners is None:
-        errors.append(f"PLAN has no row for artifact {a['id']}")
+        errors.append(f"OWNER_PROPOSALS has no row for artifact {a['id']}")
         continue
     cell = {"ref": owners[0]} if len(owners) == 1 else {"refs": owners}
-    owner_rows.append([f"`{a['path']}`", {"refs": [w for w in a.get("writers", []) if w in skill_set]}, cell, a["editor_form"], change])
-EXTRA = [
+    owner_rows.append([f"`{a['path']}`", {"refs": [w for w in a["writers"] if w in skill_set]}, cell, a["editor_form"], change])
+EXTRA_OWNER_ROWS = [
     ("`_concept/glossary.md` (new)", writers_of("glossary.md"), ["concept-brief"], PROSE,
-     f"New: first-level file, written by one domain-language step after the brief; every later writer reads it ({L('F08')})."),
+     f"New: first-level file, written by one domain-language step after the brief; every later writer reads it ({link('F08')})."),
     ("`_concept/02_grounding/onboarding/answers.json`", writers_of("02_grounding/onboarding/"), ["concept-onboard"], CODE,
-     f"The record of every answer and approval; seeded from the host's `_grounding/<step>/user_input.json` ({L('F06')}, {L('F13')})."),
+     f"The record of every answer and approval; seeded from the host's `_grounding/<step>/user_input.json` ({link('F06')}, {link('F13')})."),
     ("`_concept/11_build/acceptance-criteria/`", writers_of("acceptance-criteria"), ["build-plan"], PROSE,
-     f"`build-plan` owns the rows; the others flip a `status` field ({L('F37')})."),
+     f"`build-plan` owns the rows; the others flip a `status` field ({link('F37')})."),
     ("`_concept/11_build/trace.yaml`", writers_of("trace.yaml"), ["ops-review"], CODE,
-     f"The single trace of feature to code ({L('F36')})."),
+     f"The single trace of feature to code ({link('F36')})."),
 ]
-for label, today, proposed, form, change in EXTRA:
+for label, today, proposed, form, change in EXTRA_OWNER_ROWS:
     owner_rows.append([label, {"refs": today}, {"ref": proposed[0]}, form, change])
-for o in [x for _, _, ps, _, _ in EXTRA for x in ps] + [x for ps, _ in PLAN.values() for x in ps]:
+for o in [x for _, _, ps, _, _ in EXTRA_OWNER_ROWS for x in ps] + [x for ps, _ in OWNER_PROPOSALS.values() for x in ps]:
     if o not in skill_set:
         errors.append(f"proposal names unknown skill {o}")
 
 workarounds = [
-    f"Run {L('experience-journeys')} by hand before {L('spec-featuresets')} in {L('appbuilder-mvp')} ({L('F01')}).",
-    f"Run {L('architecture-techstack')} before {L('mockup-storybook')} in {L('appbuilder-standard')} ({L('F02')}).",
-    f"Create `_concept/01_meta/scope.yaml` by hand before {L('spec-feature')} in {L('skaileup-concept-reverse')} ({L('F03')}).",
-    f"For a project whose profile does not grow screens (cli-tool, api-service, library, data-pipeline), create an empty `_concept/07_screens/` so the hard gates of {L('build-plan')} and {L('build-implement')} open ({L('F35')}).",
-    f"Copy `_grounding/<step>/user_input.json` into `answers.json` at onboarding ({L('F06')}).",
+    f"Run {link('experience-journeys')} by hand before {link('spec-featuresets')} in {link('appbuilder-mvp')} ({link('F01')}).",
+    f"Run {link('architecture-techstack')} before {link('mockup-storybook')} in {link('appbuilder-standard')} ({link('F02')}).",
+    f"Create `_concept/01_meta/scope.yaml` by hand before {link('spec-feature')} in {link('skaileup-concept-reverse')} ({link('F03')}).",
+    f"For a project whose profile does not grow screens (cli-tool, api-service, library, data-pipeline), create an empty `_concept/07_screens/` so the hard gates of {link('build-plan')} and {link('build-implement')} open ({link('F35')}).",
+    f"Copy `_grounding/<step>/user_input.json` into `answers.json` at onboarding ({link('F06')}).",
 ]
 sec_target = {"title": "Target shape", "sub": "one hierarchy, one owner per artifact", "blocks": [
-    {"type": "p", "text": f"The principle: one hierarchy (domain language, data model, features, screens), one owner per artifact, and every decision of the user lands in a markdown file that the editor opens ({L('F08')}, {L('F17')}, {L('F13')})."},
+    {"type": "p", "text": f"The principle: one hierarchy (domain language, data model, features, screens), one owner per artifact, and every decision of the user lands in a markdown file that the editor opens ({link('F08')}, {link('F17')}, {link('F13')})."},
     {"type": "p", "text": "Proposed order of the standard flow:"},
     {"type": "steps", "items": proposal_steps},
     {"type": "p", "text": f"One owner per artifact. The first {len(artifacts)} rows are the artifact targets; the other rows are files that today have several writers or no home."},
@@ -569,10 +526,14 @@ sec_target = {"title": "Target shape", "sub": "one hierarchy, one owner per arti
 if errors:
     die("data problems:\n  " + "\n  ".join(dict.fromkeys(errors)))
 
-try:
-    sha = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
-except (OSError, subprocess.CalledProcessError):
-    sha = "unknown"
+# Last commit that changed a collection source: stable across commits that only touch the report.
+SOURCE_PATHS = ["skills", "contracts", "flows", "profiles", "scripts"]
+git = subprocess.run(["git", "log", "-1", "--format=%h", "--", *SOURCE_PATHS], cwd=ROOT, capture_output=True, text=True)
+sha = git.stdout.strip()
+if git.returncode != 0 or not sha:
+    die(f"`git log -1 -- {' '.join(SOURCE_PATHS)}` gave no commit: {git.stderr.strip() or 'no output'}")
+# The dump date is the date of the newest data file.
+dump_date = datetime.fromtimestamp(max(p.stat().st_mtime for p in DATA.glob("*.json"))).strftime("%Y-%m-%d")
 
 report = {
     "title": "skaileup-mp — skill-set critique",
@@ -580,17 +541,19 @@ report = {
     "profile": "critique",
     "numbered": True,
     "meta": [f"Source: ai-assets-skaileup-mp @ {sha}, skaile-forge/server for host facts",
-             f"Dump: 2026-10-15, dump-{STEM}.py"],
+             f"Dump: {dump_date}, dump-{STEM}.py"],
     "stats": stats,
     "badges": badges,
     "entities": entities,
     "sections": [sec_answer, sec_findings, sec_gates, sec_map, sec_score, sec_inventory, sec_target],
 }
 OUT.write_text(json.dumps(report, ensure_ascii=False, indent=1) + "\n")
-CHOICE.write_text(json.dumps({"profile": "critique", "features": FEATURES}, indent=1) + "\n")
+choice_written = not CHOICE.exists()
+if choice_written:
+    CHOICE.write_text(json.dumps({"profile": "critique", "features": FEATURES}, indent=1) + "\n")
 for w in dict.fromkeys(warnings):
     print(f"warning: {w}", file=sys.stderr)
 print(f"{OUT.relative_to(ROOT)}: {len(entities)} entities "
       f"({len(stage_ids)} stages, {n_find} findings, {len(skills)} skills, {len(contracts)} contracts, {len(flows)} flows, {len(artifacts)} artifacts), "
       f"{len(map_edges)} map edges, {len(gate_rows)} gate rows")
-print(f"{CHOICE.relative_to(ROOT)}: {len(FEATURES)} features")
+print(f"{CHOICE.relative_to(ROOT)}: {'written' if choice_written else 'kept as written'}")

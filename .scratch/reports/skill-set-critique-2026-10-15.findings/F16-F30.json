@@ -114,11 +114,12 @@
     "flows": [],
     "artifacts": ["a-07_screens"],
     "title": "Two skills write an `elements:` block while the contract names one writer",
-    "detail": "`experience-shell` step 6 writes a `kind: nav` element into `shell.md`. `spec-feature` and `contracts/elements_block.md` both call `spec-feature` the sole writer of `elements:`; the contract never mentions the shell.",
+    "detail": "`spec-feature` and `contracts/elements_block.md` both name `spec-feature` as the sole writer of `elements:`, yet `experience-shell` step 6 writes a `kind: nav` element into `shell.md`. The contract describes `kind: nav` as app-shell / persistent navigation but never names `experience-shell` as a writer of it.",
     "evidence": [
       {"at": "skills/experience-shell/SKILL.md:56", "quote": "**Mirror the navigation into the `elements:` block.**"},
       {"at": "skills/spec-feature/SKILL.md:27", "quote": "**only writer of screen specs and of the"},
-      {"at": "contracts/elements_block.md:367-368", "quote": "The sole writer of"}
+      {"at": "contracts/elements_block.md:367-368", "quote": "The sole writer of"},
+      {"at": "contracts/elements_block.md:138", "quote": "persistent/app-shell"}
     ],
     "recommendation": "Name both writers in `elements_block.md`. Or move the nav element to `spec-feature` and let the shell write prose only."
   },
@@ -248,7 +249,7 @@
     "title": "`mockup-feedback` edits screen specs under no contract section",
     "detail": "`contracts/README.md` lists `mockup-feedback` as a reader of `feedback_loop.md`, but the skill cites no contract and the contract has no section for it. Its patches rewrite screen specs and promote provisional element ids. The protocol covers `experience-journeys`, `spec-featuresets`, `spec-feature`, `architecture-datamodel`, behaviors and `build-implement`.",
     "evidence": [
-      {"at": "contracts/README.md:24", "quote": "`mockup-feedback` — the cross-reference protocol between features, screens and the data model"},
+      {"at": "contracts/README.md:24", "quote": "`mockup-feedback` — the cross-reference protocol between features, screens and"},
       {"at": "contracts/feedback_loop.md:100", "quote": "### When `build-implement` freezes a slice:"},
       {"at": "contracts/feedback_loop.md:110", "quote": "### When a screen is deleted or renamed:"},
       {"at": "skills/mockup-feedback/SKILL.md:18", "quote": "It ends with edited screen specs"},

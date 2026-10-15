@@ -207,6 +207,16 @@ def check_citation(collection: str, row_id: str, at: str, quote: str) -> str | N
     return head + hint
 
 
+def quote_is_whole_line(at: str, quote: str) -> bool:
+    """True when `quote` equals the stripped content of a cited line (a short line cannot be quoted longer)."""
+    m = CITE_RE.match(at)
+    p = Path(m.group(1))
+    lines = file_lines(p if p.is_absolute() else ROOT / p) or []
+    a = int(m.group(2))
+    b = int(m.group(3) or a)
+    return any(lines[i - 1].strip() == quote for i in range(a, b + 1))
+
+
 # --------------------------------------------------------------------------
 # collections
 # --------------------------------------------------------------------------
@@ -241,6 +251,27 @@ def load_flows() -> list[dict]:
                 order_nodes.append(cur)
             queue.extend(out_edges.get(cur, []))
         order = [skill_nodes[i]["data"]["skill"] for i in order_nodes]
+
+        def label_of(node_id: str) -> str:
+            n = skill_nodes.get(node_id)
+            return n["data"]["skill"] if n else node_id
+
+        def edge_line(src: str, tgt: str) -> int | None:
+            pat = re.compile(r"source:\s*%s\s*[,}\n]|source:\s*%s\s*$" % (re.escape(src), re.escape(src)))
+            pat2 = re.compile(r"target:\s*%s\s*(?:[,}]|$)" % re.escape(tgt))
+            for i in range(edges_at + 1, len(text_lines)):
+                if pat.search(text_lines[i]) and pat2.search(text_lines[i]):
+                    return i + 1
+            return None
+
+        edge_lines = []
+        for e in doc.get("edges", []):
+            if e.get("type") != "flow":
+                continue
+            ln = edge_line(e["source"], e["target"])
+            if ln is None:
+                raise SystemExit(f"ABORT: {f.name}: no single-line yaml entry found for edge {e.get('source')} -> {e.get('target')}")
+            edge_lines.append({"source": label_of(e["source"]), "target": label_of(e["target"]), "line": ln})
         node_lines = {skill_nodes[i]["data"]["skill"]: node_line(i) for i in skill_nodes}
         phases = {skill_nodes[i]["data"]["skill"]: skill_nodes[i]["data"].get("phase") for i in skill_nodes}
         rows.append({
@@ -253,6 +284,7 @@ def load_flows() -> list[dict]:
             "research_depth": (doc.get("globals") or {}).get("research_depth"),
             "unmet_hard": 0,
             "node_lines": node_lines,
+            "edge_lines": edge_lines,
             "_phases": phases,
         })
     return rows
@@ -546,7 +578,7 @@ def main() -> int:
             msg = check_citation("findings", f"{fid} evidence[{k}]", e.get("at"), e.get("quote"))
             if msg:
                 failures.append(msg)
-            elif not (10 <= len(e["quote"]) <= 80):
+            elif not (10 <= len(e["quote"]) <= 80) and not (len(e["quote"]) < 10 and quote_is_whole_line(e["at"], e["quote"])):
                 warnings.append(f"[findings] {fid} evidence[{k}]: quote is {len(e['quote'])} characters (10-80 wanted)")
 
     if failures:
@@ -578,6 +610,24 @@ def main() -> int:
             "findings_n": sum(1 for f in findings if f["stage"] == f"s-{dom}"),
         })
 
+    # ---- freshness input: read BEFORE writing ----------------------------
+    old_out = [p.stat().st_mtime for p in OUT.glob("*.json")]
+    prev_out = min(old_out) if old_out else None
+
+    sources = [p for p in (ROOT / "skills").rglob("*") if p.is_file()]
+    sources += list((ROOT / "contracts").glob("*.md"))
+    sources += [p for p in (ROOT / "flows").rglob("*") if p.is_file()]
+    sources += list((ROOT / "profiles").glob("*.yaml"))
+    sources.append(ROOT / "scripts/check.py")
+    sources += [p for p in FINDINGS_DIR.glob("*.json")]
+    cited: set[Path] = set()
+    for row in findings:
+        for e in row["evidence"]:
+            m = CITE_RE.match(e["at"])
+            p = Path(m.group(1))
+            cited.add(p if p.is_absolute() else ROOT / p)
+    sources += sorted(cited)
+
     # ---- write -----------------------------------------------------------
     OUT.mkdir(parents=True, exist_ok=True)
     dump_json("skills", skills)
@@ -601,14 +651,11 @@ def main() -> int:
     for w in warnings:
         print("warning: " + w)
 
-    sources = [p for p in (ROOT / "skills").rglob("*") if p.is_file()]
-    sources += list((ROOT / "contracts").glob("*.md"))
-    sources += [p for p in (ROOT / "flows").rglob("*") if p.is_file()]
-    sources += list((ROOT / "profiles").glob("*.yaml"))
-    sources.append(ROOT / "scripts/check.py")
-    newest = max(p.stat().st_mtime for p in sources if p.exists())
-    out_time = max(p.stat().st_mtime for p in OUT.glob("*.json"))
-    print(f"newest source mtime: {iso(newest)}  output: {iso(out_time)}")
+    newest, newest_src = max(((p.stat().st_mtime, p) for p in sources if p.exists()), key=lambda t: t[0])
+    prev = f"{iso(prev_out)}" if prev_out is not None else "none"
+    print(f"newest source mtime: {iso(newest)} ({newest_src.relative_to(ROOT) if newest_src.is_relative_to(ROOT) else newest_src})  previous output: {prev}")
+    if prev_out is not None and newest > prev_out:
+        print("STALE: sources changed since the last dump")
     return 0
 
 

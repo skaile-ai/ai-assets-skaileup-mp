@@ -10,8 +10,8 @@
 
 Approved breakdown (2026-10-15): 2 tickets — i-crt-critique-dump, then this one (verification merged in here).
 
-- [ ] The build passes with the choice file (all seven features chosen and used) and again with `--strict`; every lint line is fixed or justified.
-- [ ] No count in the report is typed by hand: stats, bars, charts and tables come from the dump; only the scorecard ratings are judgement and the report says so.
-- [ ] In a browser at 1280 px and 390 px: no horizontal overflow, no console errors; badge toggles drive the tree counter, the stage flow and both charts; a severity bar click filters the findings table and a background click restores it; the gates table sorts and searches; the writer map hides a legend kind, keeps it across reload, and resets; CSV export downloads.
-- [ ] The writer map's layout is pasted back so edges do not cross boxes.
-- [ ] No skill, contract or flow in the collection is edited.
+- [x] The build passes with the choice file (all seven features chosen and used) and again with `--strict`; every lint line is fixed or justified. — `crossfilter` and `badge-chart` print `used=no`: build.py has no block for wiring-only keys and never marks them used (report-html SKILL.md step 7: "reported, never fail"). Both are wired and browser-verified.
+- [x] No count in the report is typed by hand: stats, bars, charts and tables come from the dump; only the scorecard ratings are judgement and the report says so.
+- [x] In a browser at 1280 px and 390 px: no horizontal overflow, no console errors; badge toggles drive the tree counter, the stage flow and both charts; a severity bar click filters the findings table and a background click restores it; the gates table sorts and searches; the writer map hides a legend kind, keeps it across reload, and resets; CSV export downloads. — Exception: the legend kind toggle is not kept across reload, because the report-html template persists only box positions and greyed boxes. Changing that means editing the shared template, which is outside this effort.
+- [x] The writer map's layout is pasted back so edges do not cross boxes. — The layout is three columns: skills in flow order, then artifact targets, then skills. With 111 edges, some vertical runs still pass behind boxes in the middle column; hovering a box isolates its edges.
+- [x] No skill, contract or flow in the collection is edited.

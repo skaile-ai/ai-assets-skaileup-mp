@@ -4,8 +4,8 @@
  "profile": "critique",
  "numbered": true,
  "meta": [
-  "Source: ai-assets-skaileup-mp @ 5d698c6, skaile-forge/server for host facts",
-  "Dump: 2026-10-15, dump-skill-set-critique-2026-10-15.py"
+  "Source: ai-assets-skaileup-mp @ afe1cbb, skaile-forge/server for host facts",
+  "Dump: 2026-10-16, dump-skill-set-critique-2026-10-15.py"
  ],
  "stats": [
   [
@@ -2257,49 +2257,49 @@
        "from": "s-concept",
        "to": "s-design",
        "label": "brief.md",
-       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:108"
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:279"
       },
       {
        "from": "s-design",
        "to": "s-experience",
        "label": "tokens.json",
-       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:115"
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:280"
       },
       {
        "from": "s-experience",
        "to": "s-spec",
        "label": "stories.yaml",
-       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:122"
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:281"
       },
       {
        "from": "s-spec",
        "to": "s-mockup",
        "label": "07_screens/",
-       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:152"
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:285"
       },
       {
        "from": "s-mockup",
        "to": "s-architecture",
        "label": "09_mockup/",
-       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:180"
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:289"
       },
       {
        "from": "s-architecture",
        "to": "s-build",
        "label": "10_blueprint/",
-       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:202"
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:292"
       },
       {
        "from": "s-build",
        "to": "s-quality",
        "label": "11_build/",
-       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:240"
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:297"
       },
       {
        "from": "s-quality",
        "to": "s-ops",
        "label": "trace.yaml",
-       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:261"
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:300"
       }
      ]
     },
@@ -3284,7 +3284,7 @@
          "spec-feature"
         ]
        },
-       "detail": "`experience-shell` step 6 writes a `kind: nav` element into `shell.md`. `spec-feature` and `contracts/elements_block.md` both call `spec-feature` the sole writer of `elements:`; the contract never mentions the shell.",
+       "detail": "`spec-feature` and `contracts/elements_block.md` both name `spec-feature` as the sole writer of `elements:`, yet `experience-shell` step 6 writes a `kind: nav` element into `shell.md`. The contract describes `kind: nav` as app-shell / persistent navigation but never names `experience-shell` as a writer of it.",
        "evidence": "`skills/experience-shell/SKILL.md:56`",
        "recommendation": "Name both writers in `elements_block.md`. Or move the nav element to `spec-feature` and let the shell write prose only."
       },

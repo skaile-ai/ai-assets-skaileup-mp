@@ -52,7 +52,7 @@
     "title": "The entity-feature link is written twice: feature-map.json, data_entities[]",
     "detail": "Step 5 writes `feature-map.json` (model to feature files); step 7 writes `data_entities[]` into each feature (feature to models). That is one relation in two files, and `ops-review` and `feedback_loop.md` must keep the pair in sync. Step 4 also restates `seed_data.md` rules (timestamps, locales, string lengths) after it cites the contract.",
     "evidence": [
-      {"at": "skills/architecture-datamodel/SKILL.md:70", "quote": "**Write `feature-map.json`**, mapping each model to the feature files it came from."},
+      {"at": "skills/architecture-datamodel/SKILL.md:70", "quote": "**Write `feature-map.json`**, mapping each model to the feature files it came"},
       {"at": "skills/architecture-datamodel/SKILL.md:83", "quote": "`data_entities[]` lists the entities that serve it"},
       {"at": "contracts/feedback_loop.md:68", "quote": "mapping each model to the features it serves"},
       {"at": "contracts/feedback_loop.md:70", "quote": "Set `data_entities:` to the list of model names"},
@@ -76,7 +76,7 @@
     "evidence": [
       {"at": "skills/architecture-datamodel/SKILL.md:41-46", "quote": "`10_blueprint/glossary.md`"},
       {"at": "skills/architecture-datamodel/SKILL.md:31-33", "quote": "Types are `contracts/semantic_types.md`'s"},
-      {"at": "skills/architecture-datamodel/SKILL.md:74", "quote": "**Pin the vocabulary in `10_blueprint/glossary.md`**, per `contracts/domain_model.md`."},
+      {"at": "skills/architecture-datamodel/SKILL.md:74", "quote": "**Pin the vocabulary in `10_blueprint/glossary.md`**, per"},
       {"at": "skills/architecture-datamodel/SKILL.md:82", "quote": "per `contracts/feedback_loop.md`"}
     ],
     "recommendation": "Move glossary pinning (F08) and the feature scan (F17) out of this skill. Cite contract sections, not whole files."
@@ -203,10 +203,10 @@
     "detail": "`quality-standards` appears in `skaileup-concept-reverse` and in no other flow. It says code-writing skills read its index themselves, and its example lists `build-implement` and `build-plan` as readers. Among skills only `quality-review` names `02_grounding/standards/`, so in `appbuilder-*` the index never exists and neither build skill looks for it.",
     "evidence": [
       {"at": "flows/skaileup-concept-reverse/skaileup-concept-reverse.flow.yaml:74", "quote": "skill: quality-standards"},
-      {"at": "skills/quality-standards/SKILL.md:11", "quote": "skills that write code read `02_grounding/standards/index.yml` themselves when they need it"},
+      {"at": "skills/quality-standards/SKILL.md:11", "quote": "skills that write code read `02_grounding/standards/index.yml` themselves when"},
       {"at": "skills/quality-standards/SKILL.md:33", "quote": "applies_to: [build-implement, build-plan]"},
       {"at": "skills/quality-review/SKILL.md:47", "quote": "Hand it `02_grounding/standards/` alongside"},
-      {"at": "skills/quality-standards/SKILL.md:14", "quote": "is the one part of the pipeline that works on a repository with no concept at all"}
+      {"at": "skills/quality-standards/SKILL.md:14", "quote": "is the one part of the pipeline that works on a repository with no concept at"}
     ],
     "recommendation": "Add `quality-standards` to `appbuilder-standard` after scaffold, with a step in `build-plan` and `build-implement` that reads the index. Or state that the index exists only in the reverse flow."
   },
@@ -225,7 +225,7 @@
       {"at": "skills/ops-review/SKILL.md:47", "quote": "2. **Check the structure.**"},
       {"at": "skills/ops-review/SKILL.md:53", "quote": "3. **Check the frontmatter**"},
       {"at": "skills/ops-review/SKILL.md:62", "quote": "5. **Check the mechanical rules** in `golden_principles.md`"},
-      {"at": "skills/ops-review/SKILL.md:81", "quote": "slice is unfrozen, or commits or source files are empty, or an acceptance criterion is"},
+      {"at": "skills/ops-review/SKILL.md:81", "quote": "slice is unfrozen, or commits or source files are empty, or an acceptance"},
       {"at": "skills/quality-release/SKILL.md:37", "quote": "Any red feature row means something claimed"},
       {"at": "skills/quality-review/SKILL.md:54", "quote": "**Check the ledger's honesty.**"},
       {"at": "skills/quality-release/SKILL.md:53", "quote": "criteria here is duplicated work"}

@@ -28,7 +28,49 @@
    "build-plan": 106,
    "build-implement": 113,
    "quality-test": 121
-  }
+  },
+  "edge_lines": [
+   {
+    "source": "concept-scope",
+    "target": "concept-onboard",
+    "line": 129
+   },
+   {
+    "source": "concept-onboard",
+    "target": "concept-brief",
+    "line": 130
+   },
+   {
+    "source": "concept-brief",
+    "target": "spec-featuresets",
+    "line": 131
+   },
+   {
+    "source": "spec-featuresets",
+    "target": "architecture-techstack",
+    "line": 132
+   },
+   {
+    "source": "architecture-techstack",
+    "target": "build-scaffold",
+    "line": 133
+   },
+   {
+    "source": "build-scaffold",
+    "target": "build-plan",
+    "line": 134
+   },
+   {
+    "source": "build-plan",
+    "target": "build-implement",
+    "line": 135
+   },
+   {
+    "source": "build-implement",
+    "target": "quality-test",
+    "line": 136
+   }
+  ]
  },
  {
   "id": "appbuilder-standard",
@@ -95,7 +137,139 @@
    "quality-review": 254,
    "ops-review": 261,
    "quality-release": 268
-  }
+  },
+  "edge_lines": [
+   {
+    "source": "concept-scope",
+    "target": "concept-onboard",
+    "line": 276
+   },
+   {
+    "source": "concept-onboard",
+    "target": "concept-brief",
+    "line": 277
+   },
+   {
+    "source": "concept-brief",
+    "target": "concept-research",
+    "line": 278
+   },
+   {
+    "source": "concept-research",
+    "target": "design-brand",
+    "line": 279
+   },
+   {
+    "source": "design-brand",
+    "target": "experience-journeys",
+    "line": 280
+   },
+   {
+    "source": "experience-journeys",
+    "target": "spec-featuresets",
+    "line": 281
+   },
+   {
+    "source": "spec-featuresets",
+    "target": "experience-behaviors",
+    "line": 282
+   },
+   {
+    "source": "experience-behaviors",
+    "target": "experience-shell",
+    "line": 283
+   },
+   {
+    "source": "experience-shell",
+    "target": "spec-feature",
+    "line": 284
+   },
+   {
+    "source": "spec-feature",
+    "target": "mockup-walkthrough",
+    "line": 285
+   },
+   {
+    "source": "mockup-walkthrough",
+    "target": "mockup-storybook",
+    "line": 286
+   },
+   {
+    "source": "mockup-storybook",
+    "target": "mockup-annotate",
+    "line": 287
+   },
+   {
+    "source": "mockup-annotate",
+    "target": "mockup-feedback",
+    "line": 288
+   },
+   {
+    "source": "mockup-feedback",
+    "target": "architecture-techstack",
+    "line": 289
+   },
+   {
+    "source": "architecture-techstack",
+    "target": "architecture-system",
+    "line": 290
+   },
+   {
+    "source": "architecture-system",
+    "target": "architecture-datamodel",
+    "line": 291
+   },
+   {
+    "source": "architecture-datamodel",
+    "target": "build-scaffold",
+    "line": 292
+   },
+   {
+    "source": "build-scaffold",
+    "target": "build-database",
+    "line": 293
+   },
+   {
+    "source": "build-database",
+    "target": "build-plan",
+    "line": 294
+   },
+   {
+    "source": "build-plan",
+    "target": "build-implement",
+    "line": 295
+   },
+   {
+    "source": "build-implement",
+    "target": "build-branch",
+    "line": 296
+   },
+   {
+    "source": "build-branch",
+    "target": "quality-test",
+    "line": 297
+   },
+   {
+    "source": "quality-test",
+    "target": "quality-e2e",
+    "line": 298
+   },
+   {
+    "source": "quality-e2e",
+    "target": "quality-review",
+    "line": 299
+   },
+   {
+    "source": "quality-review",
+    "target": "ops-review",
+    "line": 300
+   },
+   {
+    "source": "ops-review",
+    "target": "quality-release",
+    "line": 301
+   }
+  ]
  },
  {
   "id": "skaileup-concept-only",
@@ -136,7 +310,74 @@
    "mockup-annotate": 147,
    "mockup-feedback": 154,
    "ops-review": 162
-  }
+  },
+  "edge_lines": [
+   {
+    "source": "concept-scope",
+    "target": "concept-onboard",
+    "line": 170
+   },
+   {
+    "source": "concept-onboard",
+    "target": "concept-brief",
+    "line": 171
+   },
+   {
+    "source": "concept-brief",
+    "target": "concept-research",
+    "line": 172
+   },
+   {
+    "source": "concept-research",
+    "target": "design-brand",
+    "line": 173
+   },
+   {
+    "source": "design-brand",
+    "target": "experience-journeys",
+    "line": 174
+   },
+   {
+    "source": "experience-journeys",
+    "target": "spec-featuresets",
+    "line": 175
+   },
+   {
+    "source": "spec-featuresets",
+    "target": "experience-behaviors",
+    "line": 176
+   },
+   {
+    "source": "experience-behaviors",
+    "target": "experience-shell",
+    "line": 177
+   },
+   {
+    "source": "experience-shell",
+    "target": "spec-feature",
+    "line": 178
+   },
+   {
+    "source": "spec-feature",
+    "target": "mockup-walkthrough",
+    "line": 179
+   },
+   {
+    "source": "mockup-walkthrough",
+    "target": "mockup-annotate",
+    "line": 180
+   },
+   {
+    "source": "mockup-annotate",
+    "target": "mockup-feedback",
+    "line": 181
+   },
+   {
+    "source": "mockup-feedback",
+    "target": "ops-review",
+    "line": 182
+   }
+  ]
  },
  {
   "id": "skaileup-concept-reverse",
@@ -167,6 +408,48 @@
    "architecture-system": 107,
    "architecture-datamodel": 114,
    "ops-review": 122
-  }
+  },
+  "edge_lines": [
+   {
+    "source": "concept-reverse",
+    "target": "quality-standards",
+    "line": 130
+   },
+   {
+    "source": "quality-standards",
+    "target": "experience-journeys",
+    "line": 131
+   },
+   {
+    "source": "experience-journeys",
+    "target": "spec-featuresets",
+    "line": 132
+   },
+   {
+    "source": "spec-featuresets",
+    "target": "experience-shell",
+    "line": 133
+   },
+   {
+    "source": "experience-shell",
+    "target": "spec-feature",
+    "line": 134
+   },
+   {
+    "source": "spec-feature",
+    "target": "architecture-system",
+    "line": 135
+   },
+   {
+    "source": "architecture-system",
+    "target": "architecture-datamodel",
+    "line": 136
+   },
+   {
+    "source": "architecture-datamodel",
+    "target": "ops-review",
+    "line": 137
+   }
+  ]
  }
 ]
