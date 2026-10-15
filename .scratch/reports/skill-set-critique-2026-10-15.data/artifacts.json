@@ -1,0 +1,342 @@
+[
+ {
+  "id": "a-brief",
+  "path": "_concept/brief.md",
+  "writers": [
+   "concept-brief",
+   "concept-reverse"
+  ],
+  "writers_n": 2,
+  "multi_writer": true,
+  "readers": [
+   "architecture-datamodel",
+   "architecture-system",
+   "architecture-techstack",
+   "build-branch",
+   "build-scaffold",
+   "concept-brief",
+   "concept-research",
+   "concept-reverse",
+   "design-brand",
+   "experience-behaviors",
+   "experience-journeys",
+   "experience-shell",
+   "ops-review",
+   "quality-release",
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "readers_n": 16,
+  "editor_form": "prose (TipTap)",
+  "kind": "artifact"
+ },
+ {
+  "id": "a-goals",
+  "path": "_concept/goals.md",
+  "writers": [
+   "concept-brief",
+   "concept-reverse"
+  ],
+  "writers_n": 2,
+  "multi_writer": true,
+  "readers": [
+   "concept-brief",
+   "concept-research",
+   "concept-reverse",
+   "experience-journeys",
+   "quality-release",
+   "spec-featuresets"
+  ],
+  "readers_n": 6,
+  "editor_form": "prose (TipTap)",
+  "kind": "artifact"
+ },
+ {
+  "id": "a-comparable",
+  "path": "_concept/comparable.md",
+  "writers": [
+   "concept-brief",
+   "concept-reverse"
+  ],
+  "writers_n": 2,
+  "multi_writer": true,
+  "readers": [
+   "concept-brief",
+   "concept-research",
+   "concept-reverse"
+  ],
+  "readers_n": 3,
+  "editor_form": "prose (TipTap)",
+  "kind": "artifact"
+ },
+ {
+  "id": "a-01_meta",
+  "path": "_concept/01_meta",
+  "writers": [
+   "concept-scope"
+  ],
+  "writers_n": 1,
+  "multi_writer": false,
+  "readers": [
+   "architecture-techstack",
+   "concept-brief",
+   "concept-onboard",
+   "concept-reverse",
+   "concept-scope",
+   "mockup-walkthrough",
+   "quality-test",
+   "skaileup",
+   "spec-feature"
+  ],
+  "readers_n": 9,
+  "editor_form": "code editor",
+  "kind": "artifact"
+ },
+ {
+  "id": "a-02_grounding",
+  "path": "_concept/02_grounding",
+  "writers": [
+   "concept-onboard",
+   "concept-research",
+   "concept-reverse",
+   "quality-standards"
+  ],
+  "writers_n": 4,
+  "multi_writer": true,
+  "readers": [
+   "architecture-techstack",
+   "concept-brief",
+   "concept-onboard",
+   "concept-research",
+   "concept-reverse",
+   "design-brand",
+   "experience-behaviors",
+   "experience-journeys",
+   "mockup-walkthrough",
+   "quality-review",
+   "quality-standards",
+   "spec-featuresets"
+  ],
+  "readers_n": 12,
+  "editor_form": "mixed",
+  "kind": "artifact"
+ },
+ {
+  "id": "a-03_brand",
+  "path": "_concept/03_brand",
+  "writers": [
+   "concept-reverse",
+   "design-brand"
+  ],
+  "writers_n": 2,
+  "multi_writer": true,
+  "readers": [
+   "build-scaffold",
+   "concept-research",
+   "concept-reverse",
+   "design-brand",
+   "experience-shell",
+   "mockup-storybook",
+   "mockup-walkthrough",
+   "ops-review",
+   "quality-release"
+  ],
+  "readers_n": 9,
+  "editor_form": "mixed",
+  "kind": "artifact"
+ },
+ {
+  "id": "a-04_journeys",
+  "path": "_concept/04_journeys",
+  "writers": [
+   "experience-journeys"
+  ],
+  "writers_n": 1,
+  "multi_writer": false,
+  "readers": [
+   "architecture-datamodel",
+   "experience-journeys",
+   "experience-shell",
+   "mockup-feedback",
+   "mockup-storybook",
+   "mockup-walkthrough",
+   "quality-e2e",
+   "quality-release",
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "readers_n": 10,
+  "editor_form": "code editor",
+  "kind": "artifact"
+ },
+ {
+  "id": "a-05_features",
+  "path": "_concept/05_features",
+  "writers": [
+   "architecture-datamodel",
+   "build-implement",
+   "mockup-feedback",
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "writers_n": 5,
+  "multi_writer": true,
+  "readers": [
+   "architecture-datamodel",
+   "architecture-system",
+   "architecture-techstack",
+   "build-implement",
+   "build-plan",
+   "build-scaffold",
+   "experience-behaviors",
+   "experience-shell",
+   "mockup-walkthrough",
+   "ops-review",
+   "quality-e2e",
+   "quality-review",
+   "quality-test",
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "readers_n": 15,
+  "editor_form": "prose (TipTap)",
+  "kind": "artifact"
+ },
+ {
+  "id": "a-06_behaviors",
+  "path": "_concept/06_behaviors",
+  "writers": [
+   "experience-behaviors"
+  ],
+  "writers_n": 1,
+  "multi_writer": false,
+  "readers": [
+   "architecture-datamodel",
+   "architecture-system",
+   "experience-behaviors"
+  ],
+  "readers_n": 3,
+  "editor_form": "prose (TipTap)",
+  "kind": "artifact"
+ },
+ {
+  "id": "a-07_screens",
+  "path": "_concept/07_screens",
+  "writers": [
+   "experience-shell",
+   "mockup-feedback",
+   "spec-feature"
+  ],
+  "writers_n": 3,
+  "multi_writer": true,
+  "readers": [
+   "build-implement",
+   "build-plan",
+   "build-scaffold",
+   "experience-shell",
+   "mockup-storybook",
+   "mockup-walkthrough",
+   "ops-review",
+   "quality-e2e",
+   "spec-feature"
+  ],
+  "readers_n": 9,
+  "editor_form": "prose (TipTap)",
+  "kind": "artifact"
+ },
+ {
+  "id": "a-08_dossiers",
+  "path": "_concept/08_dossiers",
+  "writers": [
+   "spec-feature"
+  ],
+  "writers_n": 1,
+  "multi_writer": false,
+  "readers": [
+   "spec-feature"
+  ],
+  "readers_n": 1,
+  "editor_form": "prose (TipTap)",
+  "kind": "artifact"
+ },
+ {
+  "id": "a-09_mockup",
+  "path": "_concept/09_mockup",
+  "writers": [
+   "mockup-annotate",
+   "mockup-feedback",
+   "mockup-storybook",
+   "mockup-walkthrough"
+  ],
+  "writers_n": 4,
+  "multi_writer": true,
+  "readers": [
+   "build-scaffold",
+   "mockup-annotate",
+   "mockup-feedback",
+   "mockup-storybook",
+   "mockup-walkthrough"
+  ],
+  "readers_n": 5,
+  "editor_form": "mixed",
+  "kind": "artifact"
+ },
+ {
+  "id": "a-10_blueprint",
+  "path": "_concept/10_blueprint",
+  "writers": [
+   "architecture-datamodel",
+   "architecture-system",
+   "architecture-techstack",
+   "concept-brief",
+   "concept-reverse",
+   "spec-feature"
+  ],
+  "writers_n": 6,
+  "multi_writer": true,
+  "readers": [
+   "architecture-datamodel",
+   "architecture-system",
+   "architecture-techstack",
+   "build-database",
+   "build-plan",
+   "build-scaffold",
+   "concept-brief",
+   "concept-reverse",
+   "mockup-storybook",
+   "ops-review",
+   "quality-e2e",
+   "quality-test",
+   "spec-feature"
+  ],
+  "readers_n": 13,
+  "editor_form": "mixed",
+  "kind": "artifact"
+ },
+ {
+  "id": "a-11_build",
+  "path": "_concept/11_build",
+  "writers": [
+   "build-implement",
+   "build-plan",
+   "ops-review",
+   "quality-e2e",
+   "quality-release",
+   "quality-review"
+  ],
+  "writers_n": 6,
+  "multi_writer": true,
+  "readers": [
+   "build-branch",
+   "build-implement",
+   "build-plan",
+   "ops-review",
+   "quality-e2e",
+   "quality-release",
+   "quality-review"
+  ],
+  "readers_n": 7,
+  "editor_form": "mixed",
+  "kind": "artifact"
+ }
+]

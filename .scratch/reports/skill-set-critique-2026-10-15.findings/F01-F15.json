@@ -1,0 +1,615 @@
+[
+  {
+    "id": "F01",
+    "sev": "critical",
+    "lens": "order",
+    "stage": "s-collection",
+    "skills": [
+      "spec-featuresets",
+      "build-plan",
+      "build-implement"
+    ],
+    "contracts": [],
+    "flows": [
+      "appbuilder-mvp"
+    ],
+    "artifacts": [
+      "a-04_journeys",
+      "a-07_screens"
+    ],
+    "title": "appbuilder-mvp cannot pass its own hard gates (stories.yaml, 07_screens)",
+    "detail": "`spec-featuresets` hard-gates `_concept/04_journeys/stories.yaml`, but the flow has no `experience-journeys` node. `build-plan` and `build-implement` hard-gate `_concept/07_screens`, but the flow has no `spec-feature` or `experience-shell` node. Three hard gates in this flow have no upstream writer.",
+    "evidence": [
+      {
+        "at": "skills/spec-featuresets/SKILL.md:17",
+        "quote": "_concept/04_journeys/stories.yaml\", gate: hard"
+      },
+      {
+        "at": "skills/build-plan/SKILL.md:17",
+        "quote": "_concept/07_screens\", gate: hard"
+      },
+      {
+        "at": "skills/build-implement/SKILL.md:19",
+        "quote": "_concept/07_screens\", gate: hard"
+      },
+      {
+        "at": "flows/appbuilder-mvp/appbuilder-mvp.flow.yaml:26",
+        "quote": "skill:@skaile-ai/spec-featuresets"
+      },
+      {
+        "at": "flows/appbuilder-mvp/appbuilder-mvp.flow.yaml:131",
+        "quote": "source: brief, target: featuresets"
+      }
+    ],
+    "recommendation": "Add the producing nodes to `appbuilder-mvp`, or make the three gates `soft` and say in each step what changes without the file. Add the check.py rule of F04."
+  },
+  {
+    "id": "F02",
+    "sev": "critical",
+    "lens": "order",
+    "stage": "s-collection",
+    "skills": [
+      "mockup-storybook",
+      "architecture-techstack"
+    ],
+    "contracts": [],
+    "flows": [
+      "appbuilder-standard"
+    ],
+    "artifacts": [
+      "a-10_blueprint",
+      "a-09_mockup"
+    ],
+    "title": "appbuilder-standard runs mockup-storybook before the tech stack it hard-gates on",
+    "detail": "`mockup-storybook` hard-gates `10_blueprint/techstack.md` and reads it in step 1. In `appbuilder-standard` it runs at node 12; `architecture-techstack` runs at node 15, after annotate and feedback. The gate cannot be open when the node starts.",
+    "evidence": [
+      {
+        "at": "skills/mockup-storybook/SKILL.md:17",
+        "quote": "_concept/10_blueprint/techstack.md\", gate: hard"
+      },
+      {
+        "at": "skills/mockup-storybook/SKILL.md:35",
+        "quote": "`10_blueprint/techstack.md` names"
+      },
+      {
+        "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:286",
+        "quote": "source: walkthrough, target: storybook"
+      },
+      {
+        "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:289",
+        "quote": "source: feedback, target: techstack"
+      }
+    ],
+    "recommendation": "Move `architecture-techstack` and `architecture-system` before the mockup nodes. Or gate `mockup-storybook` soft and take the framework from the template default."
+  },
+  {
+    "id": "F03",
+    "sev": "high",
+    "lens": "order",
+    "stage": "s-collection",
+    "skills": [
+      "spec-feature",
+      "concept-reverse"
+    ],
+    "contracts": [],
+    "flows": [
+      "skaileup-concept-reverse"
+    ],
+    "artifacts": [
+      "a-01_meta"
+    ],
+    "title": "skaileup-concept-reverse runs spec-feature; nothing writes its scope.yaml gate",
+    "detail": "`spec-feature` hard-gates `_concept/01_meta/scope.yaml`. The reverse flow starts at `concept-reverse`, which only reads that file, and has no `concept-scope` node. When the host's profile picker starts the flow, no node writes `scope.yaml`. A grep of `skaile-forge/server` for `scope.yaml` and `01_meta` finds 0 hits, so the host writes none either.",
+    "evidence": [
+      {
+        "at": "skills/spec-feature/SKILL.md:17",
+        "quote": "_concept/01_meta/scope.yaml\", gate: hard"
+      },
+      {
+        "at": "skills/concept-reverse/SKILL.md:13",
+        "quote": "_concept/01_meta/scope.yaml\", gate: soft"
+      },
+      {
+        "at": "flows/skaileup-concept-reverse/skaileup-concept-reverse.flow.yaml:9",
+        "quote": "does not start at scope"
+      },
+      {
+        "at": "flows/skaileup-concept-reverse/skaileup-concept-reverse.flow.yaml:24",
+        "quote": "skill:@skaile-ai/concept-reverse"
+      },
+      {
+        "at": "skills/concept-scope/SKILL.md:47",
+        "quote": "started the run from an onboarding profile"
+      }
+    ],
+    "recommendation": "Make `concept-scope` the entry of the reverse flow, or let `concept-reverse` write `scope.yaml` with `flow: skaileup-concept-reverse`."
+  },
+  {
+    "id": "F04",
+    "sev": "high",
+    "lens": "order",
+    "stage": "s-collection",
+    "skills": [],
+    "contracts": [],
+    "flows": [
+      "appbuilder-mvp",
+      "appbuilder-standard",
+      "skaileup-concept-only",
+      "skaileup-concept-reverse"
+    ],
+    "artifacts": [],
+    "title": "check.py never checks that a hard gate has an upstream writer",
+    "detail": "The docstring says a prerequisite no skill writes is raised here. `_check_one_flow` (lines 730-842) checks id, name, presentation, node ids, edge types, reachability and `requires:`. It never compares a node's hard gate with the nodes upstream, so F01 to F03 stay green. A search of check.py for writer or producer logic finds none.",
+    "evidence": [
+      {
+        "at": "scripts/check.py:11",
+        "quote": "prerequisite path that no skill writes is a gate that can never open"
+      },
+      {
+        "at": "scripts/check.py:730",
+        "quote": "def _check_one_flow("
+      },
+      {
+        "at": "scripts/check.py:838",
+        "quote": "_check_reachability(flow, by_id, edges, where, rep)"
+      },
+      {
+        "at": "scripts/check.py:842",
+        "quote": "_check_requires(flow, node_skills, skill_contracts, repo, where, rep)"
+      }
+    ],
+    "recommendation": "Add a rule: walk each flow's `type: flow` edges, collect the targets written so far, and fail on a hard gate with no writer upstream. It needs the `produces` list of F05."
+  },
+  {
+    "id": "F05",
+    "sev": "high",
+    "lens": "disk",
+    "stage": "s-collection",
+    "skills": [
+      "skaileup"
+    ],
+    "contracts": [],
+    "flows": [],
+    "artifacts": [],
+    "title": "No skill declares what it produces, so the editor cannot derive done state",
+    "detail": "The editor marks a node done from `contracts/artifacts.yaml` `produced_by`, and falls back to the session when none exists. This collection ships no such file: ADR 0001 records it as unreachable under a copy install, and no skill frontmatter has a `produces` key. `skaileup` step 3.2 therefore walks the tree for the first node whose artifacts are missing, with no list to look up.",
+    "evidence": [
+      {
+        "at": "/Users/matthias/devBench/SKAILEdev/forge/skaile-forge/server/utils/artifact-contract.ts:12",
+        "quote": "Mapping chain: flow node"
+      },
+      {
+        "at": "/Users/matthias/devBench/SKAILEdev/forge/skaile-forge/server/utils/artifact-contract.ts:34",
+        "quote": "Producing skills; the FIRST is the canonical producer."
+      },
+      {
+        "at": "/Users/matthias/devBench/SKAILEdev/forge/skaile-forge/server/utils/artifact-contract.ts:116",
+        "quote": "Empty when no contract is"
+      },
+      {
+        "at": "contracts/README.md:52",
+        "quote": "**No registry.**"
+      },
+      {
+        "at": "docs/adr/0001-skill-name-is-the-identity.md:28",
+        "quote": "unreachable as deployed"
+      },
+      {
+        "at": "skills/skaileup/SKILL.md:60",
+        "quote": "The first node whose artifacts are not yet in the tree"
+      }
+    ],
+    "recommendation": "Add `metadata.artifacts.produces: [{id, path}]` to every skill, checked by check.py. Ask the host to read done state from that list, as it already reads `artifacts.requires`."
+  },
+  {
+    "id": "F06",
+    "sev": "medium",
+    "lens": "disk",
+    "stage": "s-collection",
+    "skills": [
+      "concept-onboard"
+    ],
+    "contracts": [
+      "c-agent_patterns"
+    ],
+    "flows": [],
+    "artifacts": [
+      "a-02_grounding"
+    ],
+    "title": "Dialog answers have two homes: host user_input.json and answers.json",
+    "detail": "The host stores each step's dialog input at `_concept/_grounding/<step>/user_input.json` and injects it into the prompt. The collection keeps answers at `02_grounding/onboarding/answers.json`, and a search of `skaile-forge/server` for `answers.json` finds 0 hits. Only `concept-onboard` mentions `answers.json` among the skills. The other skills' dialog values stay in the host file.",
+    "evidence": [
+      {
+        "at": "/Users/matthias/devBench/SKAILEdev/forge/skaile-forge/server/api/workspaces/[id]/grounding/user-input.post.ts:7",
+        "quote": "`_concept/_grounding/<step>/user_input.json`"
+      },
+      {
+        "at": "/Users/matthias/devBench/SKAILEdev/forge/skaile-forge/server/utils/channels/concept.ts:130",
+        "quote": "## Pre-collected User Input"
+      },
+      {
+        "at": "skills/README.md:6",
+        "quote": "still hardcoded under a `_grounding/`"
+      },
+      {
+        "at": "skills/concept-onboard/SKILL.md:36",
+        "quote": "`answers.json` holds the raw per-field values"
+      },
+      {
+        "at": "contracts/agent_patterns.md:47",
+        "quote": "The host writes its own per-skill dialog file"
+      }
+    ],
+    "recommendation": "Make `concept-onboard` step 1 merge what the host handed in into `answers.json` once. Record the host path as a fact in `scripts/host_facts.py`."
+  },
+  {
+    "id": "F07",
+    "sev": "medium",
+    "lens": "wayfinding",
+    "stage": "s-collection",
+    "skills": [
+      "spec-feature",
+      "architecture-datamodel",
+      "experience-shell"
+    ],
+    "contracts": [
+      "c-elements_block",
+      "c-walkthrough_renderer"
+    ],
+    "flows": [],
+    "artifacts": [],
+    "title": "Contract volume: 13 files, 2,373 lines, cited whole",
+    "detail": "The 13 contracts hold 2,373 lines (README.md and CONTRACT.md excluded). `spec-feature` and `architecture-datamodel` cite 7 contracts each. `experience-shell` cites 4; two of them, `elements_block.md` (401 lines) and `walkthrough_renderer.md` (445 lines), serve one `kind: nav` element in step 6.",
+    "evidence": [
+      {
+        "at": "skills/spec-feature/SKILL.md:34",
+        "quote": "`contracts/elements_block.md`'s"
+      },
+      {
+        "at": "skills/architecture-datamodel/SKILL.md:31",
+        "quote": "`contracts/semantic_types.md`'s"
+      },
+      {
+        "at": "skills/experience-shell/SKILL.md:32",
+        "quote": "`contracts/walkthrough_renderer.md`."
+      },
+      {
+        "at": "skills/experience-shell/SKILL.md:56",
+        "quote": "**Mirror the navigation into the `elements:` block.**"
+      }
+    ],
+    "recommendation": "Cite `§` sections, as the skills already do for `agent_patterns.md`. Point `experience-shell` at `elements_block.md § Schema` and `walkthrough_renderer.md § App-shell navigation`."
+  },
+  {
+    "id": "F08",
+    "sev": "high",
+    "lens": "order",
+    "stage": "s-concept",
+    "skills": [
+      "concept-brief",
+      "spec-feature",
+      "architecture-datamodel"
+    ],
+    "contracts": [
+      "c-domain_model"
+    ],
+    "flows": [
+      "appbuilder-standard"
+    ],
+    "artifacts": [
+      "a-10_blueprint",
+      "a-brief"
+    ],
+    "title": "The domain glossary sits in the blueprint and is written by three skills",
+    "detail": "The glossary is `10_blueprint/glossary.md`. `concept-brief` writes it at node 3 of 27, `spec-feature` writes it during every feature, and `architecture-datamodel` settles it at node 17. `experience-journeys`, `spec-featuresets`, `experience-behaviors` and `experience-shell` have 0 mentions of `glossary` in their SKILL.md and references.",
+    "evidence": [
+      {
+        "at": "skills/concept-brief/SKILL.md:66",
+        "quote": "**Pin the vocabulary the user settled**"
+      },
+      {
+        "at": "skills/concept-brief/SKILL.md:67",
+        "quote": "`10_blueprint/glossary.md` now"
+      },
+      {
+        "at": "skills/spec-feature/SKILL.md:64",
+        "quote": "**Pin the vocabulary as it crystallises**"
+      },
+      {
+        "at": "skills/architecture-datamodel/SKILL.md:74",
+        "quote": "**Pin the vocabulary in `10_blueprint/glossary.md`**"
+      },
+      {
+        "at": "skills/architecture-datamodel/SKILL.md:41",
+        "quote": "`10_blueprint/glossary.md`"
+      }
+    ],
+    "recommendation": "Put one `glossary.md` beside `brief.md`. One step writes it right after the brief; every later skill reads it."
+  },
+  {
+    "id": "F09",
+    "sev": "high",
+    "lens": "alt",
+    "stage": "s-concept",
+    "skills": [
+      "concept-reverse",
+      "concept-brief",
+      "design-brand",
+      "architecture-techstack"
+    ],
+    "contracts": [],
+    "flows": [
+      "skaileup-concept-reverse"
+    ],
+    "artifacts": [
+      "a-brief",
+      "a-goals",
+      "a-comparable",
+      "a-03_brand",
+      "a-10_blueprint",
+      "a-02_grounding"
+    ],
+    "title": "concept-reverse is a second writer of six artifacts",
+    "detail": "`concept-reverse` writes `brief.md`, `goals.md`, `comparable.md`, `10_blueprint/techstack.md`, `03_brand/identity.md` and `03_brand/tokens.json`. Their owners are `concept-brief`, `architecture-techstack` and `design-brand`. The `extraction_confidence` grades appear only in `concept-reverse`, and no owner names it.",
+    "evidence": [
+      {
+        "at": "skills/concept-reverse/SKILL.md:53",
+        "quote": "`brief.md` takes the pitch, audience, problem and hero flow"
+      },
+      {
+        "at": "skills/concept-reverse/SKILL.md:59",
+        "quote": "`10_blueprint/techstack.md` — platform, frontend"
+      },
+      {
+        "at": "skills/concept-reverse/SKILL.md:62",
+        "quote": "`03_brand/identity.md`"
+      },
+      {
+        "at": "skills/concept-brief/SKILL.md:26",
+        "quote": "`brief.md`, `goals.md`, `comparable.md`"
+      },
+      {
+        "at": "skills/design-brand/SKILL.md:54",
+        "quote": "**Write the three files.**"
+      },
+      {
+        "at": "skills/architecture-techstack/SKILL.md:80",
+        "quote": "`10_blueprint/techstack.md`: the frontmatter fields"
+      }
+    ],
+    "recommendation": "Let `concept-reverse` write only `02_grounding/findings/*`. The owning skills read those findings as seeds."
+  },
+  {
+    "id": "F10",
+    "sev": "medium",
+    "lens": "alt",
+    "stage": "s-concept",
+    "skills": [
+      "concept-research",
+      "concept-brief"
+    ],
+    "contracts": [],
+    "flows": [],
+    "artifacts": [
+      "a-comparable",
+      "a-02_grounding"
+    ],
+    "title": "Competitor knowledge lives in two files",
+    "detail": "`concept-research` writes `02_grounding/research/competitors.md`. `concept-brief` writes `comparable.md`, a second file about the same competitor products. No rule says which file is the source.",
+    "evidence": [
+      {
+        "at": "skills/concept-research/SKILL.md:44",
+        "quote": "`competitors.md` (per product: features, strengths"
+      },
+      {
+        "at": "skills/concept-brief/SKILL.md:56",
+        "quote": "**Study the comparables**, in `comparable.md`"
+      }
+    ],
+    "recommendation": "Keep one file. Make `comparable.md` a section of `brief.md` that cites `competitors.md`."
+  },
+  {
+    "id": "F11",
+    "sev": "medium",
+    "lens": "alt",
+    "stage": "s-concept",
+    "skills": [
+      "concept-research",
+      "design-brand"
+    ],
+    "contracts": [],
+    "flows": [],
+    "artifacts": [
+      "a-02_grounding",
+      "a-03_brand"
+    ],
+    "title": "Screenshots have three homes",
+    "detail": "Screenshots go to `02_grounding/findings/`, to `02_grounding/research/step/<skill name>/` or to `03_brand/references/`. Two skills write them, and no rule picks one home.",
+    "evidence": [
+      {
+        "at": "skills/concept-research/SKILL.md:57",
+        "quote": "Screenshots, page saves and excerpts go under"
+      },
+      {
+        "at": "skills/concept-research/SKILL.md:59",
+        "quote": "`02_grounding/research/step/<skill"
+      },
+      {
+        "at": "skills/design-brand/SKILL.md:44",
+        "quote": "`03_brand/references/`"
+      }
+    ],
+    "recommendation": "Use `02_grounding/findings/` only, with a `step` field in `findings/index.md`."
+  },
+  {
+    "id": "F12",
+    "sev": "medium",
+    "lens": "order",
+    "stage": "s-concept",
+    "skills": [
+      "concept-research",
+      "concept-brief"
+    ],
+    "contracts": [],
+    "flows": [
+      "appbuilder-standard",
+      "skaileup-concept-only"
+    ],
+    "artifacts": [
+      "a-02_grounding",
+      "a-brief"
+    ],
+    "title": "concept-research is \"not a pipeline step\" but both flows place it after brief",
+    "detail": "`concept-research` says it has no place in the order. `appbuilder-standard` and `skaileup-concept-only` run it right after `concept-brief`. `concept-brief` step 1 reads the research files \"where research ran first\", so in both flows those files do not exist yet.",
+    "evidence": [
+      {
+        "at": "skills/concept-research/SKILL.md:21",
+        "quote": "It is not a pipeline step with a"
+      },
+      {
+        "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:278",
+        "quote": "source: brief, target: research"
+      },
+      {
+        "at": "flows/skaileup-concept-only/skaileup-concept-only.flow.yaml:172",
+        "quote": "source: brief, target: research"
+      },
+      {
+        "at": "skills/concept-brief/SKILL.md:37",
+        "quote": "where research ran first"
+      }
+    ],
+    "recommendation": "Run research before brief, or delete the node and keep the \"alongside\" semantics."
+  },
+  {
+    "id": "F13",
+    "sev": "high",
+    "lens": "disk",
+    "stage": "s-concept",
+    "skills": [
+      "concept-brief",
+      "design-brand",
+      "concept-reverse",
+      "concept-onboard"
+    ],
+    "contracts": [
+      "c-artifact_frontmatter"
+    ],
+    "flows": [],
+    "artifacts": [
+      "a-brief",
+      "a-03_brand",
+      "a-02_grounding"
+    ],
+    "title": "Approvals and choices stay in chat",
+    "detail": "`concept-brief` waits for a \"yes in words\", and `design-brand` iterates until the user approves; neither records the approval in a file. `artifact_frontmatter.md` has no `approved` field (grep: 0 hits). The monorepo choice in `concept-reverse` and the seed-table corrections in `concept-onboard` are not recorded either. The editor shows the result, never the decision.",
+    "evidence": [
+      {
+        "at": "skills/concept-brief/SKILL.md:63",
+        "quote": "**Show the brief and wait for a yes in words.**"
+      },
+      {
+        "at": "skills/design-brand/SKILL.md:53",
+        "quote": "Iterate until they approve in words."
+      },
+      {
+        "at": "skills/concept-reverse/SKILL.md:37",
+        "quote": "ask which is the app rather than picking the first"
+      },
+      {
+        "at": "skills/concept-onboard/SKILL.md:58",
+        "quote": "Show the table and let the user correct it before recording"
+      },
+      {
+        "at": "contracts/artifact_frontmatter.md:15",
+        "quote": "ISO date, updated on every write"
+      }
+    ],
+    "recommendation": "Add `approved: <date>` to the universal frontmatter fields and write it at each approval. Record every dialog answer in `answers.json`."
+  },
+  {
+    "id": "F14",
+    "sev": "low",
+    "lens": "dup",
+    "stage": "s-concept",
+    "skills": [
+      "concept-scope",
+      "concept-onboard",
+      "design-brand",
+      "architecture-techstack",
+      "architecture-system",
+      "architecture-datamodel"
+    ],
+    "contracts": [
+      "c-agent_patterns"
+    ],
+    "flows": [],
+    "artifacts": [],
+    "title": "\"One question per message\" is restated in six skills",
+    "detail": "Six skills restate the rule in their own words. Five also cite `agent_patterns.md § Questions Are Standalone Messages`; `design-brand` does not.",
+    "evidence": [
+      {
+        "at": "skills/concept-scope/SKILL.md:21",
+        "quote": "Ask each question as its own message per"
+      },
+      {
+        "at": "skills/concept-onboard/SKILL.md:41",
+        "quote": "one question at a time per"
+      },
+      {
+        "at": "skills/design-brand/SKILL.md:39",
+        "quote": "one question at a time"
+      },
+      {
+        "at": "skills/architecture-techstack/SKILL.md:51",
+        "quote": "one question per message"
+      },
+      {
+        "at": "skills/architecture-system/SKILL.md:46",
+        "quote": "one question per message per"
+      },
+      {
+        "at": "skills/architecture-datamodel/SKILL.md:49",
+        "quote": "one question per message per"
+      }
+    ],
+    "recommendation": "Let the contract alone carry the rule. A skill lists only which questions it asks."
+  },
+  {
+    "id": "F15",
+    "sev": "low",
+    "lens": "dup",
+    "stage": "s-concept",
+    "skills": [
+      "concept-scope",
+      "concept-onboard",
+      "skaileup"
+    ],
+    "contracts": [],
+    "flows": [],
+    "artifacts": [
+      "a-01_meta"
+    ],
+    "title": "\"Unset type is web-app\" is stated twice; the flow choice is described twice",
+    "detail": "`concept-scope` and `concept-onboard` both state that an unset project type reads as `web-app`. `concept-scope` step 4 describes how the flow is chosen, and `skaileup` describes it again and names the host's profile picker as a second chooser.",
+    "evidence": [
+      {
+        "at": "skills/concept-scope/SKILL.md:44",
+        "quote": "unset it reads as `web-app`"
+      },
+      {
+        "at": "skills/concept-onboard/SKILL.md:39",
+        "quote": "a project whose type is unset behaves as `web-app`"
+      },
+      {
+        "at": "skills/concept-scope/SKILL.md:45",
+        "quote": "**Record the flow, and derive it only when nothing else has.**"
+      },
+      {
+        "at": "skills/skaileup/SKILL.md:17",
+        "quote": "belongs to `concept-scope` step 4, and to the host's profile picker before that"
+      }
+    ],
+    "recommendation": "Give each fact one owner: `concept-scope` owns the `web-app` default and the flow choice, and `skaileup` only points at it."
+  }
+]

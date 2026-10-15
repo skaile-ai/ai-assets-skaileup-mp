@@ -1,0 +1,176 @@
+[
+ {
+  "id": "c-acceptance_criteria",
+  "file": "contracts/acceptance_criteria.md",
+  "lines": 91,
+  "readers": [
+   "build-implement",
+   "build-plan",
+   "experience-journeys",
+   "quality-e2e",
+   "quality-review",
+   "spec-feature"
+  ],
+  "readers_n": 6
+ },
+ {
+  "id": "c-agent_patterns",
+  "file": "contracts/agent_patterns.md",
+  "lines": 120,
+  "readers": [
+   "architecture-datamodel",
+   "architecture-system",
+   "architecture-techstack",
+   "concept-onboard",
+   "concept-research",
+   "concept-scope",
+   "skaileup"
+  ],
+  "readers_n": 7
+ },
+ {
+  "id": "c-artifact_frontmatter",
+  "file": "contracts/artifact_frontmatter.md",
+  "lines": 283,
+  "readers": [
+   "architecture-system",
+   "architecture-techstack",
+   "concept-brief",
+   "concept-research",
+   "concept-reverse",
+   "design-brand",
+   "experience-shell",
+   "ops-review",
+   "quality-review",
+   "spec-feature"
+  ],
+  "readers_n": 10
+ },
+ {
+  "id": "c-concept_structure",
+  "file": "contracts/concept_structure.md",
+  "lines": 210,
+  "readers": [
+   "architecture-datamodel",
+   "architecture-system",
+   "architecture-techstack",
+   "build-plan",
+   "concept-brief",
+   "concept-onboard",
+   "concept-research",
+   "concept-reverse",
+   "concept-scope",
+   "design-brand",
+   "experience-behaviors",
+   "experience-journeys",
+   "experience-shell",
+   "ops-review",
+   "skaileup",
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "readers_n": 17
+ },
+ {
+  "id": "c-domain_model",
+  "file": "contracts/domain_model.md",
+  "lines": 146,
+  "readers": [
+   "architecture-datamodel",
+   "concept-brief",
+   "spec-feature"
+  ],
+  "readers_n": 3
+ },
+ {
+  "id": "c-elements_block",
+  "file": "contracts/elements_block.md",
+  "lines": 401,
+  "readers": [
+   "experience-shell",
+   "spec-feature"
+  ],
+  "readers_n": 2
+ },
+ {
+  "id": "c-evaluator",
+  "file": "contracts/evaluator.md",
+  "lines": 99,
+  "readers": [
+   "ops-review",
+   "quality-release",
+   "quality-review"
+  ],
+  "readers_n": 3
+ },
+ {
+  "id": "c-feedback_loop",
+  "file": "contracts/feedback_loop.md",
+  "lines": 131,
+  "readers": [
+   "architecture-datamodel",
+   "build-implement",
+   "experience-journeys",
+   "ops-review",
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "readers_n": 6
+ },
+ {
+  "id": "c-golden_principles",
+  "file": "contracts/golden_principles.md",
+  "lines": 112,
+  "readers": [
+   "architecture-datamodel",
+   "experience-behaviors",
+   "ops-review"
+  ],
+  "readers_n": 3
+ },
+ {
+  "id": "c-seed_data",
+  "file": "contracts/seed_data.md",
+  "lines": 154,
+  "readers": [
+   "architecture-datamodel",
+   "build-database",
+   "quality-e2e",
+   "quality-test"
+  ],
+  "readers_n": 4
+ },
+ {
+  "id": "c-semantic_types",
+  "file": "contracts/semantic_types.md",
+  "lines": 132,
+  "readers": [
+   "architecture-datamodel",
+   "build-database",
+   "concept-reverse"
+  ],
+  "readers_n": 3
+ },
+ {
+  "id": "c-slice_loop",
+  "file": "contracts/slice_loop.md",
+  "lines": 49,
+  "readers": [
+   "build-implement",
+   "build-plan",
+   "spec-feature"
+  ],
+  "readers_n": 3
+ },
+ {
+  "id": "c-walkthrough_renderer",
+  "file": "contracts/walkthrough_renderer.md",
+  "lines": 445,
+  "readers": [
+   "experience-shell",
+   "mockup-annotate",
+   "mockup-walkthrough"
+  ],
+  "readers_n": 3
+ }
+]

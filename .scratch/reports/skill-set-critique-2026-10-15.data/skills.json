@@ -1,0 +1,1557 @@
+[
+ {
+  "id": "architecture-datamodel",
+  "dir": "architecture-datamodel",
+  "domain": "architecture",
+  "lines": 93,
+  "steps": 8,
+  "description": "Use when the features are specified and the project needs a schema — derives entities, relationships and enums from the feature specs, writes the stack-neutral model with its seed scenarios, and pins the vocabulary it just named. Triggers on 'data model', 'design the schema', 'what entities do we need', 'seed data'.",
+  "requires": [
+   "brief",
+   "features",
+   "techstack",
+   "journeys"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/05_features",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/architecture-datamodel/SKILL.md:16"
+   },
+   {
+    "path": "_concept/10_blueprint/techstack.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/architecture-datamodel/SKILL.md:17"
+   },
+   {
+    "path": "_concept/04_journeys/stories.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/architecture-datamodel/SKILL.md:18"
+   },
+   {
+    "path": "_concept/06_behaviors",
+    "gate": "soft",
+    "min_entries": 1,
+    "at": "skills/architecture-datamodel/SKILL.md:19"
+   }
+  ],
+  "hard_n": 1,
+  "soft_n": 3,
+  "inputs_optional": [],
+  "contracts": [
+   "c-agent_patterns",
+   "c-concept_structure",
+   "c-domain_model",
+   "c-feedback_loop",
+   "c-golden_principles",
+   "c-seed_data",
+   "c-semantic_types"
+  ],
+  "contracts_n": 7,
+  "question_steps": 2,
+  "glossary_mentions": 7,
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-reverse"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 9,
+  "findings": [
+   "F07",
+   "F08",
+   "F14",
+   "F17",
+   "F19",
+   "F30",
+   "F31",
+   "F33",
+   "F34"
+  ]
+ },
+ {
+  "id": "architecture-system",
+  "dir": "architecture-system",
+  "domain": "architecture",
+  "lines": 85,
+  "steps": 7,
+  "description": "Use when the stack is chosen and the features need more than the stack ships with — records the custom modules, protocols and external integrations this project adds, and stops there. Triggers on 'architecture', 'system design', 'do we need a websocket', 'which modules', 'how does this talk to Stripe'.",
+  "requires": [
+   "brief",
+   "features",
+   "techstack"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/brief.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/architecture-system/SKILL.md:15"
+   },
+   {
+    "path": "_concept/05_features",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/architecture-system/SKILL.md:16"
+   },
+   {
+    "path": "_concept/10_blueprint/techstack.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/architecture-system/SKILL.md:17"
+   },
+   {
+    "path": "_concept/06_behaviors",
+    "gate": "soft",
+    "min_entries": 1,
+    "at": "skills/architecture-system/SKILL.md:18"
+   }
+  ],
+  "hard_n": 3,
+  "soft_n": 1,
+  "inputs_optional": [],
+  "contracts": [
+   "c-agent_patterns",
+   "c-artifact_frontmatter",
+   "c-concept_structure"
+  ],
+  "contracts_n": 3,
+  "question_steps": 2,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-reverse"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 3,
+  "findings": [
+   "F14",
+   "F31",
+   "F32"
+  ]
+ },
+ {
+  "id": "architecture-techstack",
+  "dir": "architecture-techstack",
+  "domain": "architecture",
+  "lines": 89,
+  "steps": 8,
+  "description": "Use when a project has a brief but no technology decided — scans the stack templates on disk, asks what the project actually constrains, and records the winner as the one id every later skill resolves. Triggers on 'tech stack', 'what should we build this with', 'pick a framework', 'which template'.",
+  "requires": [
+   "brief",
+   "scope",
+   "features"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/brief.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/architecture-techstack/SKILL.md:15"
+   },
+   {
+    "path": "_concept/01_meta/scope.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/architecture-techstack/SKILL.md:16"
+   },
+   {
+    "path": "_concept/05_features",
+    "gate": "soft",
+    "min_entries": 1,
+    "at": "skills/architecture-techstack/SKILL.md:17"
+   }
+  ],
+  "hard_n": 1,
+  "soft_n": 2,
+  "inputs_optional": [
+   "framework_experience",
+   "hosting"
+  ],
+  "contracts": [
+   "c-agent_patterns",
+   "c-artifact_frontmatter",
+   "c-concept_structure"
+  ],
+  "contracts_n": 3,
+  "question_steps": 4,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 5,
+  "findings": [
+   "F02",
+   "F09",
+   "F14",
+   "F16",
+   "F32"
+  ]
+ },
+ {
+  "id": "build-branch",
+  "dir": "build-branch",
+  "domain": "build",
+  "lines": 59,
+  "steps": 9,
+  "description": "Use when implementation work needs somewhere to live or somewhere to go — opens the build branch and optional worktree before the first slice, and merges, PRs, keeps or discards it after the last. Triggers on 'start implementing', 'set up the branch', 'finish the branch', 'merge the work'.",
+  "requires": [
+   "brief"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/brief.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/build-branch/SKILL.md:11"
+   }
+  ],
+  "hard_n": 1,
+  "soft_n": 0,
+  "inputs_optional": [],
+  "contracts": [],
+  "contracts_n": 0,
+  "question_steps": 0,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard"
+  ],
+  "phase": "implementation",
+  "findings_n": 2,
+  "findings": [
+   "F38",
+   "F39"
+  ]
+ },
+ {
+  "id": "build-database",
+  "dir": "build-database",
+  "domain": "build",
+  "lines": 83,
+  "steps": 9,
+  "description": "Use when the data model is settled and the app needs a real database — translates the model into the stack's schema, migrates it, and generates one runnable seed script per scenario. Triggers on 'migrate', 'generate the schema', 'seed the database', 'set up the data layer'.",
+  "requires": [
+   "datamodel",
+   "techstack"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/10_blueprint/datamodel",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/build-database/SKILL.md:14"
+   },
+   {
+    "path": "_concept/10_blueprint/techstack.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/build-database/SKILL.md:15"
+   }
+  ],
+  "hard_n": 2,
+  "soft_n": 0,
+  "inputs_optional": [],
+  "contracts": [
+   "c-seed_data",
+   "c-semantic_types"
+  ],
+  "contracts_n": 2,
+  "question_steps": 0,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard"
+  ],
+  "phase": "implementation",
+  "findings_n": 2,
+  "findings": [
+   "F31",
+   "F39"
+  ]
+ },
+ {
+  "id": "build-implement",
+  "dir": "build-implement",
+  "domain": "build",
+  "lines": 77,
+  "steps": 8,
+  "description": "Use when a planned vertical slice is ready to build — implements it test-first, reviews it against its spec, then commits it and freezes its dossier. Triggers on 'build this slice', 'implement the next slice', 'land it'.",
+  "requires": [
+   "slice-plan",
+   "acceptance-criteria",
+   "features",
+   "screens",
+   "datamodel"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/11_build/slices",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/build-implement/SKILL.md:17"
+   },
+   {
+    "path": "_concept/05_features",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/build-implement/SKILL.md:18"
+   },
+   {
+    "path": "_concept/07_screens",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/build-implement/SKILL.md:19"
+   }
+  ],
+  "hard_n": 3,
+  "soft_n": 0,
+  "inputs_optional": [],
+  "contracts": [
+   "c-acceptance_criteria",
+   "c-feedback_loop",
+   "c-slice_loop"
+  ],
+  "contracts_n": 3,
+  "question_steps": 1,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard"
+  ],
+  "phase": "implementation",
+  "findings_n": 4,
+  "findings": [
+   "F01",
+   "F35",
+   "F36",
+   "F37"
+  ]
+ },
+ {
+  "id": "build-plan",
+  "dir": "build-plan",
+  "domain": "build",
+  "lines": 92,
+  "steps": 8,
+  "description": "Use when a frozen feature spec needs breaking into buildable work — cuts the feature into vertical slices, gives each its blocking edges, and writes one slice dossier per slice. Triggers on 'plan this feature', 'break it into slices', 'what do we build first'.",
+  "requires": [
+   "features",
+   "screens",
+   "techstack",
+   "datamodel"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/05_features",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/build-plan/SKILL.md:16"
+   },
+   {
+    "path": "_concept/07_screens",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/build-plan/SKILL.md:17"
+   },
+   {
+    "path": "_concept/10_blueprint/techstack.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/build-plan/SKILL.md:18"
+   },
+   {
+    "path": "_concept/10_blueprint/datamodel",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/build-plan/SKILL.md:19"
+   }
+  ],
+  "hard_n": 2,
+  "soft_n": 2,
+  "inputs_optional": [],
+  "contracts": [
+   "c-acceptance_criteria",
+   "c-concept_structure",
+   "c-slice_loop"
+  ],
+  "contracts_n": 3,
+  "question_steps": 1,
+  "glossary_mentions": 1,
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard"
+  ],
+  "phase": "implementation",
+  "findings_n": 5,
+  "findings": [
+   "F01",
+   "F20",
+   "F35",
+   "F37",
+   "F38"
+  ]
+ },
+ {
+  "id": "build-scaffold",
+  "dir": "build-scaffold",
+  "domain": "build",
+  "lines": 90,
+  "steps": 8,
+  "description": "Use when the stack is chosen and no project exists yet — runs the template's scaffold recipe, then themes it, wires auth and builds the app shell, leaving a running app to build features into. Triggers on 'scaffold', 'bootstrap the project', 'set up the repo', 'create the app'.",
+  "requires": [
+   "brief",
+   "techstack",
+   "brand-tokens",
+   "screens"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/brief.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/build-scaffold/SKILL.md:14"
+   },
+   {
+    "path": "_concept/10_blueprint/techstack.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/build-scaffold/SKILL.md:15"
+   },
+   {
+    "path": "_concept/03_brand/tokens.json",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/build-scaffold/SKILL.md:16"
+   },
+   {
+    "path": "_concept/07_screens",
+    "gate": "soft",
+    "min_entries": 1,
+    "at": "skills/build-scaffold/SKILL.md:17"
+   }
+  ],
+  "hard_n": 2,
+  "soft_n": 2,
+  "inputs_optional": [],
+  "contracts": [],
+  "contracts_n": 0,
+  "question_steps": 3,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard"
+  ],
+  "phase": "implementation",
+  "findings_n": 1,
+  "findings": [
+   "F39"
+  ]
+ },
+ {
+  "id": "concept-brief",
+  "dir": "concept-brief",
+  "domain": "concept",
+  "lines": 71,
+  "steps": 6,
+  "description": "Use when a concept has no _concept/brief.md yet, or the user wants to redefine one. Writes the pitch, the goals and the comparables — the three root files everything downstream reads. Triggers on 'I have an app idea', 'new project', 'start from scratch', 'redo the brief'.",
+  "requires": [
+   "scope"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/01_meta/scope.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/concept-brief/SKILL.md:13"
+   }
+  ],
+  "hard_n": 0,
+  "soft_n": 1,
+  "inputs_optional": [
+   "raw_description",
+   "elevator_pitch",
+   "target_audience",
+   "problem_statement",
+   "hero_flow",
+   "comparable_products",
+   "success_criteria"
+  ],
+  "contracts": [
+   "c-artifact_frontmatter",
+   "c-concept_structure",
+   "c-domain_model"
+  ],
+  "contracts_n": 3,
+  "question_steps": 2,
+  "glossary_mentions": 1,
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 5,
+  "findings": [
+   "F08",
+   "F09",
+   "F10",
+   "F12",
+   "F13"
+  ]
+ },
+ {
+  "id": "concept-onboard",
+  "dir": "concept-onboard",
+  "domain": "concept",
+  "lines": 76,
+  "steps": 6,
+  "description": "Use at the start of a project to capture what the pipeline needs and the user already knows — technology preferences, an existing brand, the material they are bringing with them. Also when they say 'I have existing docs', 'use these files', or an answer needs someone who is not in the room. Triggers on 'onboard', 'set up the project', 'ingest my seeds'.",
+  "requires": [
+   "scope"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/01_meta/scope.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/concept-onboard/SKILL.md:13"
+   }
+  ],
+  "hard_n": 0,
+  "soft_n": 1,
+  "inputs_optional": [
+   "framework",
+   "database",
+   "ui_library",
+   "auth",
+   "has_brand"
+  ],
+  "contracts": [
+   "c-agent_patterns",
+   "c-concept_structure"
+  ],
+  "contracts_n": 2,
+  "question_steps": 3,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 5,
+  "findings": [
+   "F06",
+   "F13",
+   "F14",
+   "F15",
+   "F16"
+  ]
+ },
+ {
+  "id": "concept-research",
+  "dir": "concept-research",
+  "domain": "concept",
+  "lines": 67,
+  "steps": 6,
+  "description": "Use when a decision needs grounding in something other than the room's opinion — the domain, the competitors, the audience, or the visual references screens will be designed against. Runs beside any other step rather than after it. Triggers on 'research this', 'what do competitors do', 'find inspiration', 'who are the users really'.",
+  "requires": [
+   "brief"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/brief.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/concept-research/SKILL.md:13"
+   }
+  ],
+  "hard_n": 0,
+  "soft_n": 1,
+  "inputs_optional": [
+   "research_scope"
+  ],
+  "contracts": [
+   "c-agent_patterns",
+   "c-artifact_frontmatter",
+   "c-concept_structure"
+  ],
+  "contracts_n": 3,
+  "question_steps": 0,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 3,
+  "findings": [
+   "F10",
+   "F11",
+   "F12"
+  ]
+ },
+ {
+  "id": "concept-reverse",
+  "dir": "concept-reverse",
+  "domain": "concept",
+  "lines": 99,
+  "steps": 9,
+  "description": "Use when a repository already exists and the concept has to be extracted from it rather than designed. Detects the stack, the brand, the routes and the schema, and writes what the code actually says plus the evidence the rest of the pipeline reads. Triggers on 'reverse engineer this project', 'extract the concept from this codebase', 'document this existing app'.",
+  "requires": [
+   "scope"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/01_meta/scope.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/concept-reverse/SKILL.md:13"
+   }
+  ],
+  "hard_n": 0,
+  "soft_n": 1,
+  "inputs_optional": [
+   "repo_path",
+   "app_hint"
+  ],
+  "contracts": [
+   "c-artifact_frontmatter",
+   "c-concept_structure",
+   "c-semantic_types"
+  ],
+  "contracts_n": 3,
+  "question_steps": 1,
+  "glossary_mentions": 0,
+  "flows": [
+   "skaileup-concept-reverse"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 4,
+  "findings": [
+   "F03",
+   "F09",
+   "F13",
+   "F16"
+  ]
+ },
+ {
+  "id": "concept-scope",
+  "dir": "concept-scope",
+  "domain": "concept",
+  "lines": 84,
+  "steps": 5,
+  "description": "Use when a project has no _concept/01_meta/scope.yaml yet, or the recorded sizing is wrong. Records the flow the project is sized by and resolves its project type. Triggers on 'new project', 'scope this', 'how big is this', 're-scope'.",
+  "requires": [],
+  "prereqs": [],
+  "hard_n": 0,
+  "soft_n": 0,
+  "inputs_optional": [
+   "project_description",
+   "project_type"
+  ],
+  "contracts": [
+   "c-agent_patterns",
+   "c-concept_structure"
+  ],
+  "contracts_n": 2,
+  "question_steps": 2,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 2,
+  "findings": [
+   "F14",
+   "F15"
+  ]
+ },
+ {
+  "id": "design-brand",
+  "dir": "design-brand",
+  "domain": "design",
+  "lines": 68,
+  "steps": 6,
+  "description": "Use when the brief is approved and the project has no visual identity yet, or the user wants to change it. Discovers a direction in plain language, extracts from reference sites, and writes the palette, tokens and brandbook. Triggers on 'brand', 'colors', 'fonts', 'design tokens', 'make it look good'.",
+  "requires": [
+   "brief",
+   "research-design-inspiration"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/brief.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/design-brand/SKILL.md:14"
+   },
+   {
+    "path": "_concept/02_grounding/research/design-inspiration.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/design-brand/SKILL.md:15"
+   }
+  ],
+  "hard_n": 1,
+  "soft_n": 1,
+  "inputs_optional": [
+   "reference_urls",
+   "mood",
+   "light_dark"
+  ],
+  "contracts": [
+   "c-artifact_frontmatter",
+   "c-concept_structure"
+  ],
+  "contracts_n": 2,
+  "question_steps": 3,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 5,
+  "findings": [
+   "F09",
+   "F11",
+   "F13",
+   "F14",
+   "F43"
+  ]
+ },
+ {
+  "id": "experience-behaviors",
+  "dir": "experience-behaviors",
+  "domain": "experience",
+  "lines": 64,
+  "steps": 6,
+  "description": "Use when the featuresets are settled and an entity's lifecycle has enough states that prose stops being precise about it. Writes the state machines and rules the data model and the screens are built against. Triggers on 'state machine', 'behavioral rules', 'formalize the lifecycle', 'what states can this be in'.",
+  "requires": [
+   "featuresets",
+   "research-behavioral-patterns"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/05_features",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/experience-behaviors/SKILL.md:14"
+   },
+   {
+    "path": "_concept/02_grounding/research/behavioral-patterns.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/experience-behaviors/SKILL.md:15"
+   }
+  ],
+  "hard_n": 1,
+  "soft_n": 1,
+  "inputs_optional": [],
+  "contracts": [
+   "c-concept_structure",
+   "c-golden_principles"
+  ],
+  "contracts_n": 2,
+  "question_steps": 1,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 4,
+  "findings": [
+   "F18",
+   "F19",
+   "F20",
+   "F23"
+  ]
+ },
+ {
+  "id": "experience-journeys",
+  "dir": "experience-journeys",
+  "domain": "experience",
+  "lines": 67,
+  "steps": 7,
+  "description": "Use when the brief is approved and nothing has mapped what users actually do yet. Defines the personas and the staged story map that features are derived from. Triggers on 'map the journeys', 'user stories', 'what do users do', 'story map'.",
+  "requires": [
+   "brief",
+   "goals",
+   "research-audiences"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/brief.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/experience-journeys/SKILL.md:15"
+   },
+   {
+    "path": "_concept/goals.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/experience-journeys/SKILL.md:16"
+   },
+   {
+    "path": "_concept/02_grounding/research/audiences.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/experience-journeys/SKILL.md:17"
+   }
+  ],
+  "hard_n": 1,
+  "soft_n": 2,
+  "inputs_optional": [],
+  "contracts": [
+   "c-acceptance_criteria",
+   "c-concept_structure",
+   "c-feedback_loop"
+  ],
+  "contracts_n": 3,
+  "question_steps": 0,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 3,
+  "findings": [
+   "F18",
+   "F20",
+   "F23"
+  ]
+ },
+ {
+  "id": "experience-shell",
+  "dir": "experience-shell",
+  "domain": "experience",
+  "lines": 69,
+  "steps": 7,
+  "description": "Use when the featuresets are settled and the app needs its frame before individual screens are specified — navigation, layout areas, breakpoints, and the patterns every screen reuses. Triggers on 'app shell', 'navigation structure', 'what does the layout look like', 'design the frame'.",
+  "requires": [
+   "brief",
+   "featuresets",
+   "journeys",
+   "brand-tokens"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/brief.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/experience-shell/SKILL.md:16"
+   },
+   {
+    "path": "_concept/05_features",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/experience-shell/SKILL.md:17"
+   },
+   {
+    "path": "_concept/04_journeys/stories.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/experience-shell/SKILL.md:18"
+   },
+   {
+    "path": "_concept/03_brand/tokens.json",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/experience-shell/SKILL.md:19"
+   }
+  ],
+  "hard_n": 2,
+  "soft_n": 2,
+  "inputs_optional": [],
+  "contracts": [
+   "c-artifact_frontmatter",
+   "c-concept_structure",
+   "c-elements_block",
+   "c-walkthrough_renderer"
+  ],
+  "contracts_n": 4,
+  "question_steps": 1,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 4,
+  "findings": [
+   "F07",
+   "F21",
+   "F24",
+   "F25"
+  ]
+ },
+ {
+  "id": "mockup-annotate",
+  "dir": "mockup-annotate",
+  "domain": "mockup",
+  "lines": 95,
+  "steps": 6,
+  "description": "Use when a built walkthrough is ready for stakeholders to comment on. Injects the annotation overlay so a reader can click any element and leave a note, and prepares the session directory their notes come back to. Run mockup-feedback once the notes are in.",
+  "requires": [
+   "walkthrough"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/09_mockup/walkthrough",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/mockup-annotate/SKILL.md:13"
+   }
+  ],
+  "hard_n": 1,
+  "soft_n": 0,
+  "inputs_optional": [],
+  "contracts": [
+   "c-walkthrough_renderer"
+  ],
+  "contracts_n": 1,
+  "question_steps": 0,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 1,
+  "findings": [
+   "F27"
+  ]
+ },
+ {
+  "id": "mockup-feedback",
+  "dir": "mockup-feedback",
+  "domain": "mockup",
+  "lines": 108,
+  "steps": 7,
+  "description": "Use when stakeholder annotations have come back from an annotated walkthrough and need to land in the concept. Routes each annotation to the file it belongs in, authors a reviewable diff for it, and — after you approve the review file — applies the approved diffs in one commit.",
+  "requires": [
+   "feedback-sessions"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/09_mockup/feedback/sessions",
+    "gate": "soft",
+    "min_entries": 1,
+    "at": "skills/mockup-feedback/SKILL.md:13"
+   }
+  ],
+  "hard_n": 0,
+  "soft_n": 1,
+  "inputs_optional": [],
+  "contracts": [],
+  "contracts_n": 0,
+  "question_steps": 1,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 3,
+  "findings": [
+   "F26",
+   "F27",
+   "F28"
+  ]
+ },
+ {
+  "id": "mockup-storybook",
+  "dir": "mockup-storybook",
+  "domain": "mockup",
+  "lines": 90,
+  "steps": 6,
+  "description": "Use when screen specs are approved and stakeholders want a living component library — Storybook stories for custom components, full-page screen compositions, and clickable journey walkthroughs. Framework-agnostic: the addon, story format and component library come from the project's template.",
+  "requires": [
+   "screens",
+   "brand-tokens",
+   "techstack",
+   "journeys",
+   "datamodel"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/07_screens",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/mockup-storybook/SKILL.md:15"
+   },
+   {
+    "path": "_concept/03_brand/tokens.json",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/mockup-storybook/SKILL.md:16"
+   },
+   {
+    "path": "_concept/10_blueprint/techstack.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/mockup-storybook/SKILL.md:17"
+   },
+   {
+    "path": "_concept/04_journeys/stories.yaml",
+    "gate": "soft",
+    "min_entries": 1,
+    "at": "skills/mockup-storybook/SKILL.md:18"
+   }
+  ],
+  "hard_n": 3,
+  "soft_n": 1,
+  "inputs_optional": [],
+  "contracts": [],
+  "contracts_n": 0,
+  "question_steps": 3,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 2,
+  "findings": [
+   "F02",
+   "F26"
+  ]
+ },
+ {
+  "id": "mockup-walkthrough",
+  "dir": "mockup-walkthrough",
+  "domain": "mockup",
+  "lines": 96,
+  "steps": 6,
+  "description": "Use when stakeholders need a clickable walkthrough of the application — one page per screen and per journey, openable in a browser, plus the manifest.json mockup-annotate reads. Renders zero-build static HTML or a built Astro site; the renderer comes from the project, not from you.",
+  "requires": [
+   "screens",
+   "journeys",
+   "brand-tokens",
+   "features"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/07_screens",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/mockup-walkthrough/SKILL.md:16"
+   },
+   {
+    "path": "_concept/04_journeys/stories.yaml",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/mockup-walkthrough/SKILL.md:17"
+   },
+   {
+    "path": "_concept/03_brand/tokens.json",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/mockup-walkthrough/SKILL.md:18"
+   },
+   {
+    "path": "_concept/05_features",
+    "gate": "soft",
+    "min_entries": 1,
+    "at": "skills/mockup-walkthrough/SKILL.md:19"
+   }
+  ],
+  "hard_n": 3,
+  "soft_n": 1,
+  "inputs_optional": [],
+  "contracts": [
+   "c-walkthrough_renderer"
+  ],
+  "contracts_n": 1,
+  "question_steps": 0,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 2,
+  "findings": [
+   "F26",
+   "F29"
+  ]
+ },
+ {
+  "id": "ops-review",
+  "dir": "ops-review",
+  "domain": "ops",
+  "lines": 111,
+  "steps": 12,
+  "description": "Use when _concept/ needs a health check, its cross-references have drifted, or you want to know whether every feature is actually built and shipped. Produces the review verdict and the feature-to-code trace matrix, each finding naming the skill that fixes it. Triggers on 'audit the concept', 'check for issues', 'fix the links', 'is every feature done', 'what code belongs to no feature'.",
+  "requires": [
+   "brief",
+   "features",
+   "screens",
+   "datamodel"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/brief.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/ops-review/SKILL.md:16"
+   },
+   {
+    "path": "_concept/05_features",
+    "gate": "soft",
+    "min_entries": 1,
+    "at": "skills/ops-review/SKILL.md:17"
+   },
+   {
+    "path": "_concept/11_build/slices",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/ops-review/SKILL.md:18"
+   },
+   {
+    "path": "_concept/10_blueprint/datamodel",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/ops-review/SKILL.md:19"
+   }
+  ],
+  "hard_n": 1,
+  "soft_n": 3,
+  "inputs_optional": [],
+  "contracts": [
+   "c-artifact_frontmatter",
+   "c-concept_structure",
+   "c-evaluator",
+   "c-feedback_loop",
+   "c-golden_principles"
+  ],
+  "contracts_n": 5,
+  "question_steps": 0,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "phase": "review",
+  "findings_n": 2,
+  "findings": [
+   "F36",
+   "F41"
+  ]
+ },
+ {
+  "id": "quality-e2e",
+  "dir": "quality-e2e",
+  "domain": "quality",
+  "lines": 74,
+  "steps": 8,
+  "description": "Use when the app runs and its journeys need proving end to end in a real browser — drives every story from stories.yaml with agent-browser, screenshots each step, checks the database behind it, and flips the acceptance-criteria ledger. Triggers on 'test the app', 'e2e tests', 'browser testing', 'walk the journeys'.",
+  "requires": [
+   "journeys",
+   "features",
+   "screens",
+   "datamodel"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/04_journeys/stories.yaml",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/quality-e2e/SKILL.md:16"
+   },
+   {
+    "path": "_concept/05_features",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/quality-e2e/SKILL.md:17"
+   },
+   {
+    "path": "_concept/07_screens",
+    "gate": "soft",
+    "min_entries": 1,
+    "at": "skills/quality-e2e/SKILL.md:18"
+   },
+   {
+    "path": "_concept/10_blueprint/datamodel",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/quality-e2e/SKILL.md:19"
+   }
+  ],
+  "hard_n": 2,
+  "soft_n": 2,
+  "inputs_optional": [],
+  "contracts": [
+   "c-acceptance_criteria",
+   "c-seed_data"
+  ],
+  "contracts_n": 2,
+  "question_steps": 3,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard"
+  ],
+  "phase": "review",
+  "findings_n": 3,
+  "findings": [
+   "F20",
+   "F37",
+   "F39"
+  ]
+ },
+ {
+  "id": "quality-release",
+  "dir": "quality-release",
+  "domain": "quality",
+  "lines": 83,
+  "steps": 8,
+  "description": "Use as the last gate before a release — walks the whole running application against the brief and goals it started from and grades it on seven axes, then writes the release verdict. Triggers on 'is this ready to release', 'grade the app', 'final gate', 'release review'.",
+  "requires": [
+   "brief",
+   "goals",
+   "journeys",
+   "brand-tokens",
+   "acceptance-criteria"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/brief.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/quality-release/SKILL.md:17"
+   },
+   {
+    "path": "_concept/11_build/trace.yaml",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/quality-release/SKILL.md:18"
+   },
+   {
+    "path": "_concept/goals.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/quality-release/SKILL.md:19"
+   },
+   {
+    "path": "_concept/03_brand/tokens.json",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/quality-release/SKILL.md:20"
+   }
+  ],
+  "hard_n": 2,
+  "soft_n": 2,
+  "inputs_optional": [],
+  "contracts": [
+   "c-evaluator"
+  ],
+  "contracts_n": 1,
+  "question_steps": 0,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard"
+  ],
+  "phase": "review",
+  "findings_n": 3,
+  "findings": [
+   "F36",
+   "F41",
+   "F42"
+  ]
+ },
+ {
+  "id": "quality-review",
+  "dir": "quality-review",
+  "domain": "quality",
+  "lines": 95,
+  "steps": 8,
+  "description": "Use when a feature's slices are frozen and its code needs an adversarial review before it ships — resolves the fixed point and the spec from the feature's own back-links, runs `code-review`, and adds the security, accessibility and acceptance-criteria axes. Triggers on 'review this feature', 'code review the login feature', 'is this ready to ship'.",
+  "requires": [
+   "features",
+   "slice-plan",
+   "acceptance-criteria"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/05_features",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/quality-review/SKILL.md:15"
+   },
+   {
+    "path": "_concept/11_build/slices",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/quality-review/SKILL.md:16"
+   },
+   {
+    "path": "_concept/11_build/acceptance-criteria",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/quality-review/SKILL.md:17"
+   }
+  ],
+  "hard_n": 2,
+  "soft_n": 1,
+  "inputs_optional": [],
+  "contracts": [
+   "c-acceptance_criteria",
+   "c-artifact_frontmatter",
+   "c-evaluator"
+  ],
+  "contracts_n": 3,
+  "question_steps": 0,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-standard"
+  ],
+  "phase": "review",
+  "findings_n": 3,
+  "findings": [
+   "F36",
+   "F37",
+   "F41"
+  ]
+ },
+ {
+  "id": "quality-standards",
+  "dir": "quality-standards",
+  "domain": "quality",
+  "lines": 61,
+  "steps": 5,
+  "description": "Use when work is starting against an existing codebase and its conventions have not been written down — scans the code for the patterns it already follows and records them as standards the build skills read. Triggers on 'discover standards', 'what conventions does this codebase use', 'analyse the codebase'.",
+  "requires": [],
+  "prereqs": [],
+  "hard_n": 0,
+  "soft_n": 0,
+  "inputs_optional": [],
+  "contracts": [],
+  "contracts_n": 0,
+  "question_steps": 1,
+  "glossary_mentions": 0,
+  "flows": [
+   "skaileup-concept-reverse"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 1,
+  "findings": [
+   "F40"
+  ]
+ },
+ {
+  "id": "quality-test",
+  "dir": "quality-test",
+  "domain": "quality",
+  "lines": 85,
+  "steps": 7,
+  "description": "Use when built features need a test suite that traces back to their specs — learns the project's test conventions from its existing tests, then writes unit tests and, where there is a data layer, integration tests. Triggers on 'generate tests', 'add test coverage', 'write integration tests'.",
+  "requires": [
+   "scope",
+   "features"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/01_meta/scope.yaml",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/quality-test/SKILL.md:14"
+   },
+   {
+    "path": "_concept/05_features",
+    "gate": "hard",
+    "min_entries": 1,
+    "at": "skills/quality-test/SKILL.md:15"
+   }
+  ],
+  "hard_n": 2,
+  "soft_n": 0,
+  "inputs_optional": [],
+  "contracts": [
+   "c-seed_data"
+  ],
+  "contracts_n": 1,
+  "question_steps": 2,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard"
+  ],
+  "phase": "review",
+  "findings_n": 0,
+  "findings": []
+ },
+ {
+  "id": "skaileup",
+  "dir": "skaileup",
+  "domain": "collection",
+  "lines": 72,
+  "steps": 4,
+  "description": "Use when no flow is running and the next skill is unclear — work arriving from outside the collection, or a `_concept/` tree opened cold. Triggers on 'which skill', 'what do I run next', 'where do I start', 'I have a bug report', 'a feature was requested'.",
+  "requires": [],
+  "prereqs": [],
+  "hard_n": 0,
+  "soft_n": 0,
+  "inputs_optional": [],
+  "contracts": [
+   "c-agent_patterns",
+   "c-concept_structure"
+  ],
+  "contracts_n": 2,
+  "question_steps": 1,
+  "glossary_mentions": 0,
+  "flows": [],
+  "phase": "none",
+  "findings_n": 3,
+  "findings": [
+   "F05",
+   "F15",
+   "F44"
+  ]
+ },
+ {
+  "id": "spec-feature",
+  "dir": "spec-feature",
+  "domain": "spec",
+  "lines": 107,
+  "steps": 9,
+  "description": "Use when one feature needs its permanent spec — grills the user, draws the in/out line, then writes the feature spec and every screen it needs. Triggers on 'spec this feature', 'design a new feature', 'lock down acceptance criteria', 'what is in vs out'.",
+  "requires": [
+   "scope",
+   "brief",
+   "journeys",
+   "brand-tokens",
+   "datamodel"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/01_meta/scope.yaml",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/spec-feature/SKILL.md:17"
+   },
+   {
+    "path": "_concept/brief.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/spec-feature/SKILL.md:18"
+   },
+   {
+    "path": "_concept/04_journeys/stories.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/spec-feature/SKILL.md:19"
+   },
+   {
+    "path": "_concept/10_blueprint/datamodel",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/spec-feature/SKILL.md:20"
+   }
+  ],
+  "hard_n": 2,
+  "soft_n": 2,
+  "inputs_optional": [],
+  "contracts": [
+   "c-acceptance_criteria",
+   "c-artifact_frontmatter",
+   "c-concept_structure",
+   "c-domain_model",
+   "c-elements_block",
+   "c-feedback_loop",
+   "c-slice_loop"
+  ],
+  "contracts_n": 7,
+  "question_steps": 6,
+  "glossary_mentions": 1,
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 10,
+  "findings": [
+   "F03",
+   "F07",
+   "F08",
+   "F17",
+   "F18",
+   "F19",
+   "F20",
+   "F21",
+   "F22",
+   "F23"
+  ]
+ },
+ {
+  "id": "spec-featuresets",
+  "dir": "spec-featuresets",
+  "domain": "spec",
+  "lines": 71,
+  "steps": 7,
+  "description": "Use when the journeys are approved and nothing has decided what the app's features are or how they group. Derives the feature roster from the stories and cuts it into featuresets, one entry per feature the loop will then specify. Triggers on 'what features do we need', 'group the features', 'plan the feature set'.",
+  "requires": [
+   "brief",
+   "goals",
+   "journeys",
+   "research-competitors"
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/brief.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/spec-featuresets/SKILL.md:16"
+   },
+   {
+    "path": "_concept/04_journeys/stories.yaml",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/spec-featuresets/SKILL.md:17"
+   },
+   {
+    "path": "_concept/02_grounding/research/competitors.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/spec-featuresets/SKILL.md:18"
+   }
+  ],
+  "hard_n": 2,
+  "soft_n": 1,
+  "inputs_optional": [
+   "feature_scope"
+  ],
+  "contracts": [
+   "c-concept_structure",
+   "c-feedback_loop"
+  ],
+  "contracts_n": 2,
+  "question_steps": 1,
+  "glossary_mentions": 0,
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 6,
+  "findings": [
+   "F01",
+   "F18",
+   "F19",
+   "F22",
+   "F24",
+   "F35"
+  ]
+ }
+]

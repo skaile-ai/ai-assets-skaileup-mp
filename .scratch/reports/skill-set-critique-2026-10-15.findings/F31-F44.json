@@ -1,0 +1,290 @@
+[
+  {
+    "id": "F31",
+    "sev": "medium",
+    "lens": "order",
+    "stage": "s-architecture",
+    "skills": ["architecture-datamodel", "architecture-system", "build-database"],
+    "contracts": ["c-concept_structure"],
+    "flows": [],
+    "artifacts": ["a-10_blueprint", "a-06_behaviors"],
+    "title": "architecture-datamodel reads architecture.md without declaring it",
+    "detail": "Step 1 reads `10_blueprint/architecture.md` for module entities, but the prerequisites and `artifacts.requires` do not list it; only `06_behaviors` is declared (soft). `concept_structure.md` puts stack-specific schema files such as `schema.prisma` under `datamodel/`. The skill defers that translation to `build-database`, which takes the schema location from the template.",
+    "evidence": [
+      {"at": "skills/architecture-datamodel/SKILL.md:45", "quote": "`10_blueprint/architecture.md` — a custom module"},
+      {"at": "skills/architecture-datamodel/SKILL.md:14-19", "quote": "_concept/06_behaviors"},
+      {"at": "contracts/concept_structure.md:194-196", "quote": "`model.dbml` first, then the stack-specific format"},
+      {"at": "skills/architecture-datamodel/SKILL.md:34", "quote": "Translating any of it into a stack is `build-database`'s step"},
+      {"at": "skills/build-database/SKILL.md:42", "quote": "that template's `## Migration / ORM` gives the schema file"}
+    ],
+    "recommendation": "Declare `architecture.md` as a soft prerequisite of `architecture-datamodel`. Name one owner for the stack-specific schema file in `concept_structure.md`."
+  },
+  {
+    "id": "F32",
+    "sev": "medium",
+    "lens": "dup",
+    "stage": "s-architecture",
+    "skills": ["architecture-techstack", "architecture-system"],
+    "contracts": ["c-agent_patterns"],
+    "flows": [],
+    "artifacts": ["a-10_blueprint"],
+    "title": "External integrations are recorded in techstack.md and architecture.md",
+    "detail": "`architecture-techstack` writes `## Additional Integrations` (payments, mail, file storage) and shows the outside services at approval. `architecture-system` then asks about external services in step 3 and records them as `external_integrations`; its step 1 reads `techstack.md` only for `tech_stack_skill`. The `framework_experience` and `hosting` input fields repeat topics that step 3 asks again.",
+    "evidence": [
+      {"at": "skills/architecture-techstack/SKILL.md:72", "quote": "which outside services it will talk to and what for"},
+      {"at": "skills/architecture-techstack/SKILL.md:82", "quote": "`## Additional Integrations` covering payments, mail and SMS"},
+      {"at": "skills/architecture-system/SKILL.md:48", "quote": "live updates, external services"},
+      {"at": "skills/architecture-system/SKILL.md:66", "quote": "`external_integrations`"},
+      {"at": "skills/architecture-techstack/SKILL.md:19", "quote": "{ id: framework_experience, label: \"Framework experience\""},
+      {"at": "skills/architecture-techstack/SKILL.md:52", "quote": "existing framework"}
+    ],
+    "recommendation": "Give integrations one home, `architecture.md`, and drop the section from `techstack.md`. Make step 3 skip every question that an input field already answered."
+  },
+  {
+    "id": "F33",
+    "sev": "medium",
+    "lens": "alt",
+    "stage": "s-architecture",
+    "skills": ["architecture-datamodel"],
+    "contracts": ["c-seed_data", "c-feedback_loop", "c-concept_structure"],
+    "flows": [],
+    "artifacts": ["a-10_blueprint", "a-05_features"],
+    "title": "The entity-feature link is written twice: feature-map.json, data_entities[]",
+    "detail": "Step 5 writes `feature-map.json` (model to feature files); step 7 writes `data_entities[]` into each feature (feature to models). That is one relation in two files, and `ops-review` and `feedback_loop.md` must keep the pair in sync. Step 4 also restates `seed_data.md` rules (timestamps, locales, string lengths) after it cites the contract.",
+    "evidence": [
+      {"at": "skills/architecture-datamodel/SKILL.md:70", "quote": "**Write `feature-map.json`**, mapping each model to the feature files it came from."},
+      {"at": "skills/architecture-datamodel/SKILL.md:83", "quote": "`data_entities[]` lists the entities that serve it"},
+      {"at": "contracts/feedback_loop.md:68", "quote": "mapping each model to the features it serves"},
+      {"at": "contracts/feedback_loop.md:70", "quote": "Set `data_entities:` to the list of model names"},
+      {"at": "skills/ops-review/SKILL.md:59", "quote": "every model has a `feature-map.json` entry"},
+      {"at": "skills/architecture-datamodel/SKILL.md:64", "quote": "data-quality rules are `contracts/seed_data.md`'s"},
+      {"at": "contracts/seed_data.md:107", "quote": "MUST include `created_at` and `updated_at` timestamps"}
+    ],
+    "recommendation": "Keep `data_entities[]` as the link and derive `feature-map.json` from it, or drop the file. In step 4, cite `seed_data.md` and delete the restated rules."
+  },
+  {
+    "id": "F34",
+    "sev": "medium",
+    "lens": "wayfinding",
+    "stage": "s-architecture",
+    "skills": ["architecture-datamodel"],
+    "contracts": ["c-semantic_types", "c-golden_principles", "c-seed_data", "c-concept_structure", "c-agent_patterns", "c-domain_model", "c-feedback_loop"],
+    "flows": [],
+    "artifacts": ["a-10_blueprint"],
+    "title": "architecture-datamodel reads 7 inputs and cites 7 contracts",
+    "detail": "Step 1 reads the features, `brief.md`, `glossary.md`, `techstack.md`, `stories.yaml`, `architecture.md` and `06_behaviors/`. The skill cites seven contracts; only `spec-feature` also cites seven, `ops-review` cites five. The glossary reconciliation (step 6) and the feature scan come from other stages (F08, F17).",
+    "evidence": [
+      {"at": "skills/architecture-datamodel/SKILL.md:41-46", "quote": "`10_blueprint/glossary.md`"},
+      {"at": "skills/architecture-datamodel/SKILL.md:31-33", "quote": "Types are `contracts/semantic_types.md`'s"},
+      {"at": "skills/architecture-datamodel/SKILL.md:74", "quote": "**Pin the vocabulary in `10_blueprint/glossary.md`**, per `contracts/domain_model.md`."},
+      {"at": "skills/architecture-datamodel/SKILL.md:82", "quote": "per `contracts/feedback_loop.md`"}
+    ],
+    "recommendation": "Move glossary pinning (F08) and the feature scan (F17) out of this skill. Cite contract sections, not whole files."
+  },
+  {
+    "id": "F35",
+    "sev": "high",
+    "lens": "order",
+    "stage": "s-build",
+    "skills": ["build-plan", "build-implement", "spec-featuresets"],
+    "contracts": [],
+    "flows": ["appbuilder-mvp", "appbuilder-standard"],
+    "artifacts": ["a-04_journeys", "a-07_screens"],
+    "title": "Hard gates require artifacts that four profiles say they never grow",
+    "detail": "`cli-tool`, `api-service`, `library` and `data-pipeline` list `journeys` and `screens` under `not_grown`. `build-plan` and `build-implement` hard-gate `07_screens`; `spec-featuresets` and `quality-e2e` hard-gate `stories.yaml`. A search of `forge/` finds 0 uses of `not_grown`, so the host does not read it; in `appbuilder-mvp` no node produces `07_screens/`.",
+    "evidence": [
+      {"at": "profiles/cli-tool.yaml:13", "quote": "- screens"},
+      {"at": "profiles/api-service.yaml:13", "quote": "- screens"},
+      {"at": "profiles/library.yaml:13", "quote": "- screens"},
+      {"at": "profiles/data-pipeline.yaml:13", "quote": "- screens"},
+      {"at": "profiles/cli-tool.yaml:4-5", "quote": "has found a project shaped this way, not a gap to report"},
+      {"at": "skills/build-plan/SKILL.md:17", "quote": "{ path: \"_concept/07_screens\", gate: hard"},
+      {"at": "skills/build-implement/SKILL.md:19", "quote": "{ path: \"_concept/07_screens\", gate: hard"},
+      {"at": "skills/spec-featuresets/SKILL.md:17", "quote": "{ path: \"_concept/04_journeys/stories.yaml\", gate: hard }"},
+      {"at": "skills/quality-e2e/SKILL.md:16", "quote": "{ path: \"_concept/04_journeys/stories.yaml\", gate: hard }"},
+      {"at": "docs/skill-template.md:62", "quote": "A declared path is joined to the *project* root"}
+    ],
+    "recommendation": "Make gates on `not_grown` artifacts `soft` and state in the step what changes without them. Add a `check.py` rule that cross-checks hard gates against `profiles/*.yaml`."
+  },
+  {
+    "id": "F36",
+    "sev": "medium",
+    "lens": "alt",
+    "stage": "s-build",
+    "skills": ["build-implement", "ops-review", "quality-release", "quality-review"],
+    "contracts": ["c-slice_loop", "c-feedback_loop"],
+    "flows": [],
+    "artifacts": ["a-05_features", "a-11_build"],
+    "title": "The feature-to-commit link lives in three places, each read by another skill",
+    "detail": "`build-implement` step 8 writes the commits twice: in the slice `index.md` and in the spec frontmatter. `ops-review` step 8 rebuilds them from the slice dossiers into `trace.yaml`. `quality-review` reads the frontmatter copy and `quality-release` reads `trace.yaml`. The spec is also reviewed twice: `build-implement` step 3 and the Spec axis of `quality-review`.",
+    "evidence": [
+      {"at": "skills/build-implement/SKILL.md:68", "quote": "`11_build/slices/<slice_id>/index.md` per `contracts/slice_loop.md`"},
+      {"at": "skills/build-implement/SKILL.md:70", "quote": "frontmatter with the slice reference, the commit SHAs and the source files"},
+      {"at": "skills/ops-review/SKILL.md:79", "quote": "the union of the commits and source files those slices recorded"},
+      {"at": "skills/ops-review/SKILL.md:102", "quote": "**Write the trace file.** `11_build/trace.yaml`"},
+      {"at": "skills/quality-review/SKILL.md:33", "quote": "Read `commits[]`, `source_files[]`"},
+      {"at": "skills/quality-release/SKILL.md:36", "quote": "Read `11_build/trace.yaml`"},
+      {"at": "skills/build-implement/SKILL.md:42", "quote": "**Review against the spec before reviewing the code.**"},
+      {"at": "skills/quality-review/SKILL.md:50", "quote": "merging Standards and Spec into one ranked list"}
+    ],
+    "recommendation": "Make `trace.yaml` the one derived join and let readers use it. Keep a single spec review, in `quality-review`."
+  },
+  {
+    "id": "F37",
+    "sev": "medium",
+    "lens": "alt",
+    "stage": "s-build",
+    "skills": ["build-plan", "build-implement", "quality-e2e", "quality-review"],
+    "contracts": ["c-acceptance_criteria"],
+    "flows": [],
+    "artifacts": ["a-11_build"],
+    "title": "Two skills flip acceptance-ledger rows with no overwrite rule",
+    "detail": "`build-plan` creates the ledger; `build-implement` and `quality-e2e` both flip rows. `quality-review` and `ops-review` only read it. The contract says a skill flips only rows it evaluated, but not what happens when a row is already `PASS` or `FAIL`; `quality-e2e` also continues when no ledger exists.",
+    "evidence": [
+      {"at": "contracts/acceptance_criteria.md:52", "quote": "creates the file when it cuts the feature into slices"},
+      {"at": "contracts/acceptance_criteria.md:53", "quote": "flips the rows its slice gate actually exercised"},
+      {"at": "contracts/acceptance_criteria.md:54", "quote": "flips the rows a journey evaluated end to end"},
+      {"at": "contracts/acceptance_criteria.md:58", "quote": "A skill flips only the rows it evaluated."},
+      {"at": "skills/quality-e2e/SKILL.md:65", "quote": "ledger is missing, warn and continue"},
+      {"at": "skills/quality-review/SKILL.md:27", "quote": "The verdict file is the only thing this skill"}
+    ],
+    "recommendation": "Add a rule to the contract: the later evaluation overwrites a row and stamps its own evidence, and `FAIL` beats `PASS`. Make `quality-e2e` stop when the ledger is missing."
+  },
+  {
+    "id": "F38",
+    "sev": "low",
+    "lens": "dup",
+    "stage": "s-build",
+    "skills": ["build-plan", "build-branch"],
+    "contracts": ["c-domain_model"],
+    "flows": [],
+    "artifacts": ["a-11_build", "a-10_blueprint"],
+    "title": "build-plan names both decision files; build-branch is mostly git commands",
+    "detail": "`build-plan` step 1 names `10_blueprint/decisions.md` and `11_build/decisions.md` by path, which `domain_model.md` already defines. `build-branch` adds two rules to plain git: the unlanded-slice check (step 5) and the typed word for merge and discard (step 7). The other steps are git commands.",
+    "evidence": [
+      {"at": "skills/build-plan/SKILL.md:41", "quote": "`10_blueprint/decisions.md` and `11_build/decisions.md`"},
+      {"at": "contracts/domain_model.md:9", "quote": "`10_blueprint/decisions.md` (design-time)"},
+      {"at": "skills/build-branch/SKILL.md:41", "quote": "Any directory under `11_build/slices/` without an"},
+      {"at": "skills/build-branch/SKILL.md:50", "quote": "Merge and discard each need the word typed"}
+    ],
+    "recommendation": "Cite `domain_model.md` in `build-plan` instead of naming both paths. State in `build-branch` that the two rules are its job."
+  },
+  {
+    "id": "F39",
+    "sev": "medium",
+    "lens": "disk",
+    "stage": "s-build",
+    "skills": ["build-scaffold", "build-branch", "build-database", "quality-e2e"],
+    "contracts": [],
+    "flows": [],
+    "artifacts": ["a-11_build"],
+    "title": "Database and e2e results end in chat; scaffold and branch leave only git",
+    "detail": "`build-database` step 9 and `quality-e2e` step 8 end with a chat report. Per-journey pass or fail reaches the ledger only through rows; screenshots stay in the codebase by design. `build-scaffold` and `build-branch` leave the scaffold approval and the chosen ending to git; ADR 0010 rejects a status file for the scaffold.",
+    "evidence": [
+      {"at": "skills/build-database/SKILL.md:78", "quote": "**Run each scenario end to end, then report**"},
+      {"at": "skills/quality-e2e/SKILL.md:68", "quote": "**Report** per journey: pass or fail"},
+      {"at": "skills/quality-e2e/SKILL.md:29", "quote": "Screenshots are test output and live beside the tests in the"},
+      {"at": "skills/build-scaffold/SKILL.md:83", "quote": "Approve, or name what to change and fix it here"},
+      {"at": "skills/build-scaffold/SKILL.md:30", "quote": "the scaffold's record is its commit (ADR 0010)"},
+      {"at": "skills/build-branch/SKILL.md:50", "quote": "Merge and discard each need the word typed"}
+    ],
+    "recommendation": "Persist the per-journey verdict where `quality-release` can read it; `quality-release` re-walks the journeys today. Leave scaffold and branch to git, as ADR 0010 says."
+  },
+  {
+    "id": "F40",
+    "sev": "medium",
+    "lens": "order",
+    "stage": "s-quality",
+    "skills": ["quality-standards"],
+    "contracts": [],
+    "flows": ["skaileup-concept-reverse", "appbuilder-standard"],
+    "artifacts": ["a-02_grounding"],
+    "title": "quality-standards runs only in the reverse flow; build skills never read it",
+    "detail": "`quality-standards` appears in `skaileup-concept-reverse` and in no other flow. It says code-writing skills read its index themselves, and its example lists `build-implement` and `build-plan` as readers. Among skills only `quality-review` names `02_grounding/standards/`, so in `appbuilder-*` the index never exists and neither build skill looks for it.",
+    "evidence": [
+      {"at": "flows/skaileup-concept-reverse/skaileup-concept-reverse.flow.yaml:74", "quote": "skill: quality-standards"},
+      {"at": "skills/quality-standards/SKILL.md:11", "quote": "skills that write code read `02_grounding/standards/index.yml` themselves when they need it"},
+      {"at": "skills/quality-standards/SKILL.md:33", "quote": "applies_to: [build-implement, build-plan]"},
+      {"at": "skills/quality-review/SKILL.md:47", "quote": "Hand it `02_grounding/standards/` alongside"},
+      {"at": "skills/quality-standards/SKILL.md:14", "quote": "is the one part of the pipeline that works on a repository with no concept at all"}
+    ],
+    "recommendation": "Add `quality-standards` to `appbuilder-standard` after scaffold, with a step in `build-plan` and `build-implement` that reads the index. Or state that the index exists only in the reverse flow."
+  },
+  {
+    "id": "F41",
+    "sev": "medium",
+    "lens": "dup",
+    "stage": "s-ops",
+    "skills": ["ops-review", "quality-review", "quality-release"],
+    "contracts": ["c-evaluator", "c-golden_principles", "c-concept_structure"],
+    "flows": [],
+    "artifacts": ["a-11_build"],
+    "title": "ops-review is the longest skill and half of it is mechanical rule checks",
+    "detail": "`ops-review` has 111 lines and 12 steps, the most of any skill. Steps 2, 3, 5 and 7 check structure, frontmatter, naming and decay against rules the contracts state mechanically. Three skills then act on the same acceptance state: `ops-review` turns a failing row red, `quality-release` refuses on a red row, `quality-review` re-runs `PASS` rows.",
+    "evidence": [
+      {"at": "skills/ops-review/SKILL.md:47", "quote": "2. **Check the structure.**"},
+      {"at": "skills/ops-review/SKILL.md:53", "quote": "3. **Check the frontmatter**"},
+      {"at": "skills/ops-review/SKILL.md:62", "quote": "5. **Check the mechanical rules** in `golden_principles.md`"},
+      {"at": "skills/ops-review/SKILL.md:81", "quote": "slice is unfrozen, or commits or source files are empty, or an acceptance criterion is"},
+      {"at": "skills/quality-release/SKILL.md:37", "quote": "Any red feature row means something claimed"},
+      {"at": "skills/quality-review/SKILL.md:54", "quote": "**Check the ledger's honesty.**"},
+      {"at": "skills/quality-release/SKILL.md:53", "quote": "criteria here is duplicated work"}
+    ],
+    "recommendation": "Move the mechanical half into a `check_concept.py` that `ops-review` calls, as `scripts/check.py` does for this collection. Keep judgement and the trace in the skill."
+  },
+  {
+    "id": "F42",
+    "sev": "low",
+    "lens": "disk",
+    "stage": "s-quality",
+    "skills": ["quality-release"],
+    "contracts": ["c-evaluator"],
+    "flows": [],
+    "artifacts": ["a-11_build"],
+    "title": "Release thresholds sit in the skill body, not in the evaluator contract",
+    "detail": "`quality-release` fixes design average >= 7, accessibility >= 70 and LCP under 4s in steps 6 and 7. `evaluator.md` refers to a \"pass threshold\" and a \"failure floor\" and gives no number. The contract also says a skill that pins its own version of a rule will disagree with itself.",
+    "evidence": [
+      {"at": "skills/quality-release/SKILL.md:72", "quote": "design average ≥ 7"},
+      {"at": "skills/quality-release/SKILL.md:73", "quote": "accessibility ≥ 70, LCP under 4s"},
+      {"at": "skills/quality-release/SKILL.md:61", "quote": "LCP under 2.5s good, 2.5-4s warn"},
+      {"at": "contracts/evaluator.md:77", "quote": "every dimension ≥ its pass threshold"},
+      {"at": "contracts/evaluator.md:82", "quote": "a skill that pins its own version of it has"}
+    ],
+    "recommendation": "Move the numeric thresholds to a table in `contracts/evaluator.md` and cite it at step 7."
+  },
+  {
+    "id": "F43",
+    "sev": "low",
+    "lens": "dup",
+    "stage": "s-design",
+    "skills": ["design-brand"],
+    "contracts": ["c-concept_structure"],
+    "flows": [],
+    "artifacts": ["a-03_brand"],
+    "title": "identity.md contract lists tone; design-brand disclaims tone",
+    "detail": "`concept_structure.md` says `identity.md` holds colours, fonts, tone and copy guidelines. `design-brand` says copy and tone of voice are not its job, and its step 5 lists no tone. No skill claims tone, so the contract names a content that nobody writes.",
+    "evidence": [
+      {"at": "contracts/concept_structure.md:47", "quote": "colours, fonts, tone — and copy guidelines when asked for"},
+      {"at": "skills/design-brand/SKILL.md:27", "quote": "Copy and tone of voice are not this skill's"},
+      {"at": "skills/design-brand/SKILL.md:54", "quote": "`identity.md` carries the direction, the colour usage rules"}
+    ],
+    "recommendation": "Write one sentence in `concept_structure.md` that names who owns tone and copy, or remove them from the `identity.md` line."
+  },
+  {
+    "id": "F44",
+    "sev": "medium",
+    "lens": "wayfinding",
+    "stage": "s-collection",
+    "skills": ["skaileup"],
+    "contracts": [],
+    "flows": ["appbuilder-standard"],
+    "artifacts": [],
+    "title": "skaileup finds the next skill by scanning the tree, not by lookup",
+    "detail": "Step 3.2 walks the flow and picks \"the first node whose artifacts are not yet in the tree\". Flow nodes carry only `skill`, `label` and `phase`; no skill and no flow declares what it produces. The router must open each skill to learn what its output looks like.",
+    "evidence": [
+      {"at": "skills/skaileup/SKILL.md:60", "quote": "The first node whose artifacts are not yet in the tree is the"},
+      {"at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:83-86", "quote": "skill: concept-scope"}
+    ],
+    "recommendation": "Resolve through the `produces` list of F05: the router then compares one list per node against the tree."
+  }
+]
