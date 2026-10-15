@@ -1,0 +1,12 @@
+{
+ "profile": "critique",
+ "features": [
+  "tree",
+  "data",
+  "flow",
+  "charts",
+  "crossfilter",
+  "badge-chart",
+  "map"
+ ]
+}

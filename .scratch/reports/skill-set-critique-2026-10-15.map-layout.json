@@ -1,0 +1,181 @@
+{
+ "pos": {
+  "concept-scope": [
+   0,
+   0
+  ],
+  "concept-onboard": [
+   0,
+   84
+  ],
+  "concept-brief": [
+   0,
+   168
+  ],
+  "concept-research": [
+   0,
+   252
+  ],
+  "design-brand": [
+   0,
+   336
+  ],
+  "experience-journeys": [
+   0,
+   420
+  ],
+  "spec-featuresets": [
+   0,
+   504
+  ],
+  "experience-behaviors": [
+   0,
+   588
+  ],
+  "experience-shell": [
+   0,
+   672
+  ],
+  "spec-feature": [
+   0,
+   756
+  ],
+  "mockup-walkthrough": [
+   0,
+   840
+  ],
+  "mockup-storybook": [
+   0,
+   924
+  ],
+  "mockup-annotate": [
+   0,
+   1008
+  ],
+  "mockup-feedback": [
+   0,
+   1092
+  ],
+  "concept-reverse": [
+   0,
+   1176
+  ],
+  "architecture-techstack": [
+   980,
+   0
+  ],
+  "architecture-system": [
+   980,
+   84
+  ],
+  "architecture-datamodel": [
+   980,
+   168
+  ],
+  "build-scaffold": [
+   980,
+   252
+  ],
+  "build-database": [
+   980,
+   336
+  ],
+  "build-plan": [
+   980,
+   420
+  ],
+  "build-implement": [
+   980,
+   504
+  ],
+  "build-branch": [
+   980,
+   588
+  ],
+  "quality-test": [
+   980,
+   672
+  ],
+  "quality-e2e": [
+   980,
+   756
+  ],
+  "quality-review": [
+   980,
+   840
+  ],
+  "ops-review": [
+   980,
+   924
+  ],
+  "quality-release": [
+   980,
+   1008
+  ],
+  "quality-standards": [
+   980,
+   1092
+  ],
+  "skaileup": [
+   980,
+   1176
+  ],
+  "a-brief": [
+   470,
+   0
+  ],
+  "a-goals": [
+   470,
+   90
+  ],
+  "a-comparable": [
+   470,
+   181
+  ],
+  "a-01_meta": [
+   470,
+   271
+  ],
+  "a-02_grounding": [
+   470,
+   362
+  ],
+  "a-03_brand": [
+   470,
+   452
+  ],
+  "a-04_journeys": [
+   470,
+   543
+  ],
+  "a-05_features": [
+   470,
+   633
+  ],
+  "a-06_behaviors": [
+   470,
+   724
+  ],
+  "a-07_screens": [
+   470,
+   814
+  ],
+  "a-08_dossiers": [
+   470,
+   905
+  ],
+  "a-09_mockup": [
+   470,
+   995
+  ],
+  "a-10_blueprint": [
+   470,
+   1086
+  ],
+  "a-11_build": [
+   470,
+   1176
+  ]
+ },
+ "off": []
+}

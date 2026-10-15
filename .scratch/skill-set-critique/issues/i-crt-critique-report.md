@@ -6,7 +6,7 @@
 
 **Blocked by:** i-crt-critique-dump
 
-**Status:** claimed (orchestrator session, 2026-10-16) — generator drafted in parallel against the dump's data contract
+**Status:** resolved 2026-10-16 — `--check-choice` and `--strict` exit 0 with `lint: 0 findings` (crossfilter/badge-chart print `used=no` by design: build.py reports wiring-only keys and never marks them used). Browser at 1280 and 390 px: no console errors; scrollWidth is 390 at 390 px. Toggling the `low` badge takes the counter to 37/44, and the charts and the stage flow follow. Clicking the critical bar leaves 3 rows (F01, F02, F17); a background click restores 44. Gates search `storybook` finds 4 rows, and sorting by satisfied puts the 5 unmet hard gates first. The map legend hides soft gates, a dragged box keeps its position after reload, and Reset layout restores it; the legend's kind toggle is not persisted by the template. CSV export downloads `findings.csv`. With the CDN blocked, tables and bars render plain and the charts show their fallback. The map layout is kept in `skill-set-critique-2026-10-15.map-layout.json`.
 
 Approved breakdown (2026-10-15): 2 tickets — i-crt-critique-dump, then this one (verification merged in here).
 
