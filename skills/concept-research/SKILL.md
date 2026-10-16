@@ -1,13 +1,13 @@
 ---
 name: concept-research
-description: "Use when a decision needs grounding in something other than the room's opinion — the domain, the competitors, the audience, or the visual references screens will be designed against. Runs beside any other step rather than after it. Triggers on 'research this', 'what do competitors do', 'find inspiration', 'who are the users really'."
+description: "Use when a decision needs grounding in something other than the room's opinion — the domain, the competitors, the audience, or the visual references screens will be designed against. Runs after onboarding and before the brief, and again beside any later step that needs grounding. Triggers on 'research this', 'what do competitors do', 'find inspiration', 'who are the users really'."
 version: "0.1.0"
 metadata:
   requires:
     - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
-      - { id: brief }
+      - { id: onboarding-answers }
     produces:
       - { id: research-domain, path: "_concept/02_grounding/research/domain.md" }
       - { id: research-competitors, path: "_concept/02_grounding/research/competitors.md" }
@@ -20,6 +20,7 @@ metadata:
       - { id: grounding-findings, path: "_concept/02_grounding/findings/" }
   prerequisites:
     files:
+      - { path: "_concept/02_grounding/onboarding/answers.json", gate: soft }
       - { path: "_concept/brief.md", gate: soft }
     inputs_optional:
       - { id: research_scope, label: "What to research", type: multiselect, options: [domain, competitors, audiences, design, patterns, colors, behavioral], hint: "Leave empty for the four defaults" }
@@ -28,21 +29,24 @@ metadata:
 # concept-research
 
 Fills `02_grounding/research/` with findings that other skills design against, and
-`02_grounding/findings/` with the raw material behind them. It is not a pipeline step with a
-place in the order — it runs alongside whichever step needs grounding, and nothing waits on
-it. It writes findings only: no brief, no features, no tokens.
+`02_grounding/findings/` with the raw material behind them. It is a pipeline step: it runs
+after `concept-onboard` and before `concept-brief`, so the brief, the glossary and the brand
+are written against what it found. It can also be run again beside any later step that needs
+grounding. It writes findings only: no brief, no features, no tokens.
 
 Paths are `contracts/concept_structure.md`'s; subagent dispatch is
 `contracts/agent_patterns.md § Subagent Dispatch`.
 
 ## Steps
 
-1. **Scope the research against the brief.** Read `brief.md` (its `## Comparables` section
-   included) and `goals.md` where they exist, and pull out the domain, the audience segments and the
-   products already named — the user's own comparables go on the list before anything you
-   found. Present the plan as who and what you will investigate, and let them add or cut.
-   Research that answers a question nobody asked spends the same tokens as research that
-   does.
+1. **Scope the research against what the project has said so far.** Read
+   `02_grounding/onboarding/answers.json`: the brief does not exist on a first run, so the
+   domain, the audience segments and the products already named come from the user's
+   answers. On a re-run `brief.md` (its `## Comparables` section included) and `goals.md` are
+   there too, and they override the answers where the two differ. The user's own comparables
+   go on the list before anything you found. Present the plan as who and what you will
+   investigate, and let them add or cut. Research that answers a question nobody asked spends
+   the same tokens as research that does.
 2. **Dispatch one background agent per topic** and keep working while they read. Each is
    pointed at **primary sources** — official documentation, the product itself, first-party
    pricing and changelogs, the spec — and follows every claim back to whoever owns it. A

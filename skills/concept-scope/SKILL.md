@@ -17,9 +17,10 @@ metadata:
 # concept-scope
 
 Writes `01_meta/scope.yaml`, the first file a project grows and the one eleven skills read
-to decide how deep to go. Two values and the evidence behind them: the **flow** the project
-is sized by, and its **project type**. It sizes and stops — every artifact after this is
-some other skill's.
+to decide how deep to go. It is the entry of every flow — `skaileup-concept-reverse` included,
+where `concept-reverse` runs after it. Two values and the evidence behind them: the **flow**
+the project is sized by, and its **project type**. It sizes and stops — every artifact after
+this is some other skill's.
 
 Paths are `contracts/concept_structure.md`'s. Ask each question as its own message per
 `contracts/agent_patterns.md § Questions Are Standalone Messages`; a question buried under a
@@ -56,7 +57,7 @@ paragraph of status gets skimmed past, and a guessed answer here mis-sizes every
    | `appbuilder-mvp` | one capability, single user, no data layer to design |
    | `appbuilder-standard` | anything else that gets built |
    | `skaileup-concept-only` | the design is the deliverable; no code follows |
-   | `skaileup-concept-reverse` | a repository already exists and the concept is extracted from it |
+   | `skaileup-concept-reverse` | a repository already exists and the concept is extracted from it; `concept-reverse` runs right after this skill |
 
    The four names are the whole vocabulary — a fifth value is a flow that will not load.
 5. **Show the decision, then write.** Present flow, project type, the signals literally, and

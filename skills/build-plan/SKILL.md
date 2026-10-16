@@ -11,6 +11,7 @@ metadata:
       - { id: screens }
       - { id: techstack }
       - { id: datamodel }
+      - { id: standards }
     produces:
       - { id: slice-plan, path: "_concept/11_build/slices/<slice_id>/plan.md" }
       - { id: acceptance-criteria, path: "_concept/11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md" }
@@ -20,6 +21,7 @@ metadata:
       - { path: "_concept/07_screens", gate: soft, min_entries: 1 }
       - { path: "_concept/10_blueprint/techstack.md", gate: soft }
       - { path: "_concept/10_blueprint/datamodel", gate: soft }
+      - { path: "_concept/02_grounding/standards/index.yml", gate: soft }
 ---
 
 # build-plan
@@ -44,7 +46,10 @@ Paths are `contracts/concept_structure.md`'s; `slice_id` and the dossier lifecyc
    plan from the spec and the featureset roster `05_features/featuresets.md`: the roster
    places the feature among its neighbours, the spec's behaviour and criteria give the seams,
    and a slice's UI row becomes the entry point the product has (endpoint, command, public
-   function). Then explore the codebase for what is already there. Slice titles and
+   function). Then explore the codebase for what is already there; where
+   `02_grounding/standards/index.yml` exists, match its entries on `applies_to: build-plan` and
+   the feature's keywords and load the hits, so the slices' seams and names follow the
+   conventions the code already has. Slice titles and
    descriptions use the vocabulary of `glossary.md` at the concept root and respect the
    decisions in `10_blueprint/decisions.md` and `11_build/decisions.md` — a plan written in
    different words than the code is a plan the implementer has to translate. Look for

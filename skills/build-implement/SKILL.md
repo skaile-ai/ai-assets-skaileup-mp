@@ -12,6 +12,7 @@ metadata:
       - { id: features }
       - { id: screens }
       - { id: datamodel }
+      - { id: standards }
     produces:
       - { id: slice-index, path: "_concept/11_build/slices/<slice_id>/index.md" }
       - { id: acceptance-criteria, path: "_concept/11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md" }
@@ -20,6 +21,7 @@ metadata:
       - { path: "_concept/11_build/slices", gate: hard, min_entries: 1 }
       - { path: "_concept/05_features", gate: hard, min_entries: 1 }
       - { path: "_concept/07_screens", gate: soft, min_entries: 1 }
+      - { path: "_concept/02_grounding/standards/index.yml", gate: soft }
 ---
 
 # build-implement
@@ -38,7 +40,10 @@ test loop or a review.
    public function to build instead. Refuse to start while any `blocked_by` slice is
    unfrozen — its dossier has no `index.md`, so the thing this slice builds on does not exist
    yet. Resume from `progress.yaml` if one is there.
-2. **Build the rows, one at a time.** Call the Skill tool with "tdd" for each row. A row is
+2. **Build the rows, one at a time.** Where `02_grounding/standards/index.yml` exists, match
+   its entries on `applies_to: build-implement` and the slice's keywords and load the hits
+   before the first test, so the code written follows the conventions the codebase already has.
+   Call the Skill tool with "tdd" for each row. A row is
    done when its UI renders real data, its handler is callable from that UI, its data layer
    round-trips, and its tests are green — then the next row starts. Confirm the seams with
    the user before the first test,
