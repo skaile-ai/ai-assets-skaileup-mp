@@ -152,6 +152,11 @@ A data file, not a markdown artifact — no frontmatter. Structure:
 ```yaml
 version: "1.0"
 last_updated: YYYY-MM-DD
+stages:                         # definitions owned by experience-journeys; the one place stages are defined
+  hero: "The one journey that, if it fails, leaves the product with no reason to exist."
+  vital: "Other journeys that make the product usable day to day."
+  hygiene: "Operational flows the product cannot run without: onboarding, settings, roles, import/export."
+  backlog: "Journeys deliberately out of this scope."
 personas:
   - id: persona_id
     name: Persona Name
@@ -161,7 +166,7 @@ journeys:
   - id: journey_id
     persona: persona_id
     title: Journey Title
-    stage: hero | vital | hygiene | backlog
+    stage: hero | vital | hygiene | backlog   # an id from stages: above
     steps:
       - action: What the user does
         system_response: What the system does
@@ -188,9 +193,6 @@ agent_notes: |
   Used for context across sessions.
 screens: []                     # populated by spec-feature when it writes the screens
 data_entities: []               # written by spec-feature: model names from 10_blueprint/datamodel/model.json
-slice_ref: ""                   # populated by build-implement: 11_build/slices/<slice_id>/
-commits: []                     # populated by build-implement: git SHAs that shipped this feature
-source_files: []                # populated by build-implement: code files from the slice recap
 last_updated: YYYY-MM-DD
 ---
 ```
@@ -215,22 +217,6 @@ data_entities: [User, Session]
 Written by `spec-feature` at its step 5. Each name is a model in
 `10_blueprint/datamodel/model.json`; this list is the single join between a feature and the
 entities it uses.
-
-### back-link format (populated by build-implement on freeze)
-
-Forward-built features get code back-links when their slice is frozen — the same shape
-`concept-reverse` writes for imported repos:
-
-```yaml
-slice_ref: 11_build/slices/login/
-commits: [abc1234, deadbeef1234567]      # 7-40 hex chars each
-source_files:
-  - src/routes/login.ts
-  - src/components/LoginForm.tsx
-```
-
-`ops-review`'s trace treats an empty `commits`/`source_files` on a frozen slice's feature as
-a red trace row.
 
 ---
 

@@ -49,7 +49,7 @@ _concept/
 │       └── *.png · *.md            screenshots, page saves, excerpts (concept-research, design-brand)
 │
 ├── 03_brand/
-│   ├── identity.md                 colours, fonts, tone — and copy guidelines when asked for
+│   ├── identity.md                 colours, fonts, tone of voice and copy guidelines (design-brand owns all of it)
 │   ├── tokens.json                 machine-readable design tokens
 │   └── brandbook.html              self-contained visual reference
 │
@@ -83,7 +83,7 @@ _concept/
 │
 └── 11_build/
     ├── slices/<slice_id>/          one vertical slice's dossier, frozen on commit
-    ├── trace.yaml                  feature → slices → commits → code, plus orphan code
+    ├── trace.yaml                  feature → slices → commits → code (build-implement writes it as each slice commits)
     ├── acceptance-criteria/        <featureset>/<feature_slug>.ac.md — the criteria status ledger
     ├── reviews/                    <feature_slug>.yaml — one feature's code-review verdict
     └── decisions.md                build-time decision records, append-only

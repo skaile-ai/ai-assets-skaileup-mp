@@ -1,6 +1,6 @@
 ---
 name: ops-review
-description: "Use when _concept/ needs a health check, its cross-references have drifted, or you want to know whether every feature is actually built and shipped. Produces the review verdict and the feature-to-code trace matrix, each finding naming the skill that fixes it. Triggers on 'audit the concept', 'check for issues', 'fix the links', 'is every feature done', 'what code belongs to no feature'."
+description: "Use when _concept/ needs a health check, its cross-references have drifted, or you want to know whether every feature is actually built and shipped. Produces the review verdict and a build-coverage matrix read from the trace, each finding naming the skill that fixes it. Triggers on 'audit the concept', 'check for issues', 'fix the links', 'is every feature done', 'what code belongs to no feature'."
 version: "0.1.0"
 metadata:
   requires:
@@ -11,25 +11,27 @@ metadata:
       - { id: features }
       - { id: screens }
       - { id: datamodel }
-    produces:
-      - { id: trace, path: "_concept/11_build/trace.yaml" }
+      - { id: trace }
+    produces: []
   prerequisites:
     files:
       - { path: "_concept/brief.md", gate: hard }
       - { path: "_concept/05_features", gate: soft, min_entries: 1 }
       - { path: "_concept/11_build/slices", gate: soft }
+      - { path: "_concept/11_build/trace.yaml", gate: soft }
       - { path: "_concept/10_blueprint/datamodel", gate: soft }
 ---
 
 # ops-review
 
 Inspects `_concept/` and reports what is wrong with it, in two halves. **Review** is the
-tree's integrity: structure, frontmatter, cross-references, naming, coverage and decay — a
-verdict recomputed from the tree every run, delivered as the report and never written to
-disk. **Trace** — `11_build/trace.yaml` — is build coverage: for every feature, the slices
-that built it, the commits behind them and the code they touched, plus the tracked files
-that belong to no feature at all. It writes that one file and the cross-reference repairs
-the user approved; every other artifact belongs to the skill that owns it.
+tree's integrity: structure, frontmatter, cross-references, naming, coverage and decay.
+**Coverage** is build coverage: for every feature, the slices that built it, the commits
+behind them and the code they touched, read from `11_build/trace.yaml` — which
+`build-implement` writes as each slice commits — plus the tracked files that belong to no
+feature at all. Both are verdicts recomputed from the tree every run, delivered as the report
+and never written to disk; the only writes are the cross-reference repairs the user approved,
+and every other artifact belongs to the skill that owns it.
 
 The stance, the flag shape and the verdict tiers are `contracts/evaluator.md`'s — read it
 first and take its `blocking` / `warning` severities as the vocabulary. Paths are
@@ -42,7 +44,7 @@ those checks and does not restate them.
 
 1. **Inventory first, judge second.** Walk `_concept/` once and build the registry every
    check below reads: every markdown file with its frontmatter, every featureset and feature,
-   every screen, the data model and its feature map, every slice dossier under
+   every screen, the data model, every slice dossier under
    `11_build/slices/`, and `git ls-files`. Gather it all before scoring anything — a check
    that reads files as it goes reports findings in the order it happened to walk the tree
    rather than in the order they matter.
@@ -74,40 +76,38 @@ those checks and does not restate them.
    orphans; a file whose `last_updated` sits far behind its siblings is stale beside work that
    moved on without it. Report both; deleting is the user's call, since an orphan is as often
    planned work as it is a leftover.
-8. **Build the trace matrix, one row per feature and N slices per row.** A feature's slices
-   are the dossiers under `11_build/slices/` whose `plan.md` frontmatter names that feature —
-   a feature has as many as it was cut into, and looking one up by a single reference finds
-   the first and misses the rest. Per row: whether every slice is frozen (its `index.md`
-   exists), the union of the commits and source files those slices recorded, the acceptance
-   criteria and their status, and whether any doc page cites its source files. **Red** when a
-   slice is unfrozen, or commits or source files are empty, or an acceptance criterion is
-   failing or untested. **Amber** when the hard checks pass but the documentation does not.
-   **Green** otherwise. `overall` is green exactly when no row is red; amber is surfaced, not
-   blocking.
+8. **Build the coverage matrix, one row per feature**, computed here from the trace and the
+   dossiers and never stored. Read `11_build/trace.yaml`; a feature's
+   slices are its entries there, cross-checked against the dossiers under `11_build/slices/`
+   whose `plan.md` frontmatter names the feature — a dossier the trace has no entry for is a
+   slice that committed without recording itself, reported against `build-implement`. No
+   trace file at all is itself the finding when any slice dossier exists, and on a project
+   that has built nothing it is simply the missing step. Per row: whether every slice is
+   frozen (its `index.md` exists), the union of the commits and code the trace recorded, the
+   ledger rows of the feature's criteria (`contracts/acceptance_criteria.md § Ledger
+   updates`) and their status, and whether any doc page cites its source files. **Red** when
+   a slice is unfrozen, or commits or code are empty, or a ledger row is `FAIL` or untested.
+   **Amber** when the hard checks pass but the documentation does not. **Green** otherwise.
+   `overall` is green exactly when no row is red; amber is surfaced, not blocking.
 9. **Scan the other direction for orphan code.** Every file `git ls-files` reports under the
-   source directories, minus the union of all features' source files, minus tests, build
-   output, configuration, dotfiles and `_concept/` itself. What remains is code no feature
-   claims. This half is advisory and never deletes anything: an orphan is a question for the
-   user, and a skill that answers it by removing files is a skill nobody runs twice.
+   source directories, minus the union of every feature's `code` in the trace, minus tests,
+   build output, configuration, dotfiles and `_concept/` itself. What remains is code no
+   feature claims. This half is advisory and never deletes anything: an orphan is a question
+   for the user, and a skill that answers it by removing files is a skill nobody runs twice.
 10. **Name the fixing skill on every finding.** A missing screen is `spec-feature`; a missing
     shell is `experience-shell`; missing tokens are `design-brand`; a missing stack or model is
     `architecture-techstack` or `architecture-datamodel`; an unplanned feature is `build-plan`;
-    an unfrozen slice or empty back-links are `build-implement` and `build-branch`; a feature
+    an unfrozen slice or a missing trace entry are `build-implement` and `build-branch`; a feature
     with no featureset is `spec-featuresets`. A finding without a next command is a finding
     the reader has to triage themselves, which is the work this skill was supposed to do.
 11. **Show everything, then offer the repairs.** Present the review findings by severity and
-    the trace matrix as a table with its orphan list, then offer only the fixes that are
-    mechanical: adding a missing back-link, removing a reference to a file that no longer
-    exists. Show the exact diff and get a yes before writing. Everything else — missing
-    content, a renamed entity, a naming violation inside the model — is reported and left
-    alone, because repairing it means deciding what it should have said.
-12. **Write the trace file.** `11_build/trace.yaml`: the matrix rows, the orphan list, the
-    summary counts and `overall`. It is written after the report, not before it — the report is
-    what the user acts on, and a file written first is a verdict issued before it was shown.
-    The review half writes nothing: its verdict, scores and findings are a reading of the tree
-    as it stands this minute, so a copy on disk can only be a stale one. A reader who wants
-    yesterday's verdict runs the skill again.
+    the coverage matrix as a table with its orphan list and `overall`, then offer only the
+    fixes that are mechanical: adding a missing back-link, removing a reference to a file
+    that no longer exists. Show the exact diff and get a yes before writing. Everything else
+    — missing content, a renamed entity, a naming violation inside the model, a missing trace
+    entry — is reported and left alone, because repairing it means deciding what it should
+    have said, or rebuilding a record only the committing skill can vouch for.
 
-**Done when** `trace.yaml` is on disk, every feature has exactly one trace row, every review
-finding was reported with its severity and its fixing skill, and any repair that was applied
-was shown as a diff first.
+**Done when** every feature has exactly one coverage row, every review finding was reported
+with its severity and its fixing skill, and any repair that was applied was shown as a diff
+first. A reader who wants yesterday's verdict runs the skill again.

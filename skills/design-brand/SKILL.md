@@ -31,8 +31,8 @@ metadata:
 Writes `03_brand/` — `identity.md`, `tokens.json` and `brandbook.html`; the reference
 screenshots behind them go to `02_grounding/findings/`. Every downstream skill that renders
 anything reads `tokens.json`, and both mockup renderers hard-gate on it, so this is the file
-the visual half of the project stands on. Copy and tone of voice are not this skill's: it
-settles what the product looks like.
+the visual half of the project stands on. This skill settles what the product looks like and
+how it sounds: `identity.md` is the one home of the tone of voice and the copy guidelines.
 
 Paths are `contracts/concept_structure.md`'s and frontmatter shapes are
 `contracts/artifact_frontmatter.md`'s.
@@ -64,8 +64,12 @@ Paths are `contracts/concept_structure.md`'s and frontmatter shapes are
    default any project would get, which is exactly why it says nothing about this one.
    Iterate until they approve in words.
 5. **Write the three files.** `identity.md` carries the direction, the colour usage rules,
-   the type hierarchy, spacing, elevation, atmosphere and the memorable element, and — for the
-   approval from step 4 — `approved: <date>` in its frontmatter.
+   the type hierarchy, spacing, elevation, atmosphere and the memorable element, a short
+   **Tone and copy** section, and — for the approval from step 4 — `approved: <date>` in its
+   frontmatter. Tone and copy: how the product speaks (three or four adjectives with what each
+   rules out), how it addresses the user, how errors, empty states and buttons read, and words
+   it avoids. Take it from the brief and the direction the user approved; ask only when those
+   leave the voice open, as one question built on the feeling they chose in step 2.
    `tokens.json` carries the machine-readable form: `colors` (primary, secondary, accent,
    background, surface, text, text_muted, border, error, success, warning), `fonts`,
    `radius`, `mode`, `spacing_base`, `shadows`, `atmosphere`, and a `tailwind` block of CSS

@@ -16,7 +16,9 @@ metadata:
 
 The bookend around a run of slices: it opens the branch the slices are committed to, and it
 closes it. Nothing between the two ends is its business — `build-implement` commits, and this
-skill never does.
+skill never does. Most of the steps are plain git; the skill earns its place by two rules of
+its own, each stated at the step it binds: no close while a slice is unlanded (step 5), and no
+merge or discard without the word typed back (step 7).
 
 ## Steps
 
@@ -39,17 +41,18 @@ skill never does.
 
 ## Closing
 
-5. **Check that every slice landed.** Any directory under `11_build/slices/` without an
-   `index.md` is a slice whose commits never happened — name them and stop, because closing
-   the branch is how that work gets lost. Frozen dossiers are expected to stay; they are the
-   documentation.
+5. **Rule one — close only when every slice landed.** Any directory under `11_build/slices/`
+   without an `index.md` is a slice whose commits never happened — name them and stop, because
+   closing the branch is how that work gets lost. Frozen dossiers are expected to stay; they
+   are the documentation.
 6. **Run the full suite** and stop on a failure. Merging or opening a PR on red asks somebody
    else to discover it.
 7. **Offer the four endings and let the user choose one.** **merge** squash-merges to the base
    branch and deletes the branch; **pull-request** opens a PR with the slice commits and their
    feature specs in the body and leaves the branch for review; **keep** leaves everything as it
-   is; **discard** deletes the branch and its work. Merge and discard each need the word typed
-   back before anything runs — they are the two that cannot be undone from here.
+   is; **discard** deletes the branch and its work. **Rule two — merge and discard each need
+   the word typed back** before anything runs: they are the two that cannot be undone from
+   here. The chosen ending is a git state, and git is its only record.
 8. **Resolve conflicts with `resolving-merge-conflicts`** if the merge hits any. Both sides of
    a conflict here are deliberate work: one is a landed slice with a spec behind it, and that
    spec is the intent the resolution preserves.

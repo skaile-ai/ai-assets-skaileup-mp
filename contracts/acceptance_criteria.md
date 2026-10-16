@@ -28,8 +28,8 @@ last_updated: YYYY-MM-DD
 # Criteria — <Feature Name>
 
 - [ ] AC-checkout_flow-01
-- [PASS] AC-checkout_flow-02 — tests/checkout/total.test.ts · build-implement · 2026-09-05
-- [FAIL] AC-checkout_flow-03 — journey "checkout" step 4: total unchanged · quality-e2e · 2026-09-05
+- [PASS] AC-checkout_flow-02 — tests/checkout/total.test.ts · build-implement · 4f2a9c1 · 2026-09-05
+- [FAIL] AC-checkout_flow-03 — journey "checkout" step 4: total unchanged · quality-e2e · 4f2a9c1 · 2026-09-05
 - [ ] AC-cart-01
 ```
 
@@ -40,22 +40,47 @@ frontmatter is what every other build artifact is joined on — without it the i
 the directory name, which is the featureset.
 
 - The marker is the status: empty is untested, `PASS` and `FAIL` are what they say.
-- The text after the id is the **evidence**: the check that flipped the row, the skill that
-  flipped it, and the date. An untested row carries the id alone.
+- The text after the id is the **evidence**, `<pointer> · <evaluator> · <commit> · <date>`:
+  the check that set the row (a test path, or a journey and step), the skill that set it, the
+  short commit the evaluated tree was at, and the date. An untested row carries the id alone.
 - The id is a criterion id per `## Criterion ids`; the row never carries the criterion's text.
 
 ## Ownership
 
 | Skill | What it does to the ledger |
 |---|---|
-| `build-plan` | creates the file when it cuts the feature into slices — one row per criterion in the spec, every one untested |
-| `build-implement` | flips the rows its slice gate actually exercised, each with the check behind it |
-| `quality-e2e` | flips the rows a journey evaluated end to end |
-| `quality-review` | reads it — a `PASS` row it cannot reproduce against the running app is a `high` finding |
-| `ops-review` | reads it — any `FAIL` or untested row makes the feature's trace row red |
+| `build-plan` | creates the file when it cuts the feature into slices — one row per criterion id in the spec, every one untested |
+| `build-implement` | evaluates the rows its slice gate exercised, each with the check behind it |
+| `quality-e2e` | evaluates the rows a journey covered, end to end in the browser |
+| `quality-review` | evaluates the rows it re-checks against the running app |
+| `quality-release` | reads the rows — it does not re-walk journeys |
+| `ops-review` | reads the rows — any `FAIL` or untested row makes the feature's coverage row red |
 
-A skill flips only the rows it evaluated. A row flipped on inference costs the ledger its
-whole value: every reader downstream trusts it instead of re-reading the code.
+## Ledger updates
+
+Every skill that writes a row follows the same rule, so two evaluations of one criterion
+cannot leave the ledger telling two stories.
+
+1. **One row per criterion id, created once.** `build-plan` creates the rows; no other skill
+   adds, removes or renumbers one. An evaluator that finds no ledger for a feature stops and
+   names `build-plan` as the missing step — a ledger built afterwards holds whatever happened
+   to get tested.
+2. **An evaluation overwrites.** The evaluator replaces the row's marker with `PASS` or
+   `FAIL` and replaces its evidence with its own — pointer, evaluator, commit, date. The
+   earlier verdict is not kept in the row; git history holds it.
+3. **Only evaluated rows change.** A row the run did not exercise stays exactly as it was. A
+   row set on inference costs the ledger its value: every reader downstream trusts it instead
+   of re-reading the code.
+4. **`FAIL` beats `PASS` at the same commit.** When two evaluations of one commit disagree,
+   the row ends `FAIL`, carrying the failing evaluation's evidence; a later `PASS` at the
+   same commit does not overwrite it. At a newer commit, rule 2 applies and the newer
+   evaluation wins either way.
+5. **`quality-e2e` writes its journey verdict into the rows.** The verdict on each criterion
+   id a journey evaluated goes into that id's row, with the journey and step as the pointer;
+   an id the journey never reached stays as it was. The rows are the record: a report cites
+   them and keeps no second verdict.
+6. **`quality-release` reads the rows.** It takes each feature's status from its ledger and
+   does not walk the journeys again; an untested or `FAIL` row is what blocks the release.
 
 ## EARS template
 

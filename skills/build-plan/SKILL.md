@@ -49,10 +49,10 @@ Paths are `contracts/concept_structure.md`'s; `slice_id` and the dossier lifecyc
    function). Then explore the codebase for what is already there; where
    `02_grounding/standards/index.yml` exists, match its entries on `applies_to: build-plan` and
    the feature's keywords and load the hits, so the slices' seams and names follow the
-   conventions the code already has. Slice titles and
-   descriptions use the vocabulary of `glossary.md` at the concept root and respect the
-   decisions in `10_blueprint/decisions.md` and `11_build/decisions.md` — a plan written in
-   different words than the code is a plan the implementer has to translate. Look for
+   conventions the code already has. Slice titles and descriptions use the glossary's terms
+   and respect the decision records in the area they touch, read as
+   `contracts/domain_model.md § The discipline — who writes what, when` says — a plan written
+   in different words than the code is a plan the implementer has to translate. Look for
    prefactoring that makes the change easy first; it becomes the slice everything else is
    blocked by.
 2. **Cut vertical slices.** Each slice is a **tracer bullet**: a narrow but complete path
@@ -97,9 +97,11 @@ Paths are `contracts/concept_structure.md`'s; `slice_id` and the dossier lifecyc
 7. **Create the acceptance-criteria ledger** at
    `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`, one row per criterion id
    the spec carries — story-derived and spec-added alike — every one untested, per
-   `contracts/acceptance_criteria.md`. Step 2 already claimed every criterion into a slice,
-   so this is the only point at which the full set is known before anything is built; a
-   ledger created later is created from whatever happened to get tested.
+   `contracts/acceptance_criteria.md § Ledger updates`: this is the one point where rows are
+   created, and every later evaluation overwrites a row and never adds one. Step 2 already
+   claimed every criterion into a slice, so this is the only point at which the full set is
+   known before anything is built; a ledger created later is created from whatever happened
+   to get tested.
 8. **Report the frontier** — the slices whose blockers are all satisfied, in the order they
    can start. That list is what `build-implement` is handed.
 

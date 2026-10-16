@@ -12,6 +12,7 @@ metadata:
       - { id: journeys }
       - { id: brand-tokens }
       - { id: acceptance-criteria }
+      - { id: trace }
     produces:
       - { id: release-verdict, path: "_concept/11_build/release.yaml" }
   prerequisites:
@@ -35,24 +36,29 @@ which here means walking the app as a user rather than reading what it was suppo
 
 ## Steps
 
-1. **Refuse on an incomplete trace.** Read `11_build/trace.yaml`. A missing matrix means
-   `ops-review` has not run — say so and stop. Any red feature row means something claimed
-   done is not: list each row with the check that failed and stop. Carry the amber rows
-   forward: they are not blocking, and a report that hides them grades an app whose gaps
-   nobody restated. Then read `11_build/reviews/*.yaml`; a feature still at
-   `changes-requested` is the same refusal.
+1. **Refuse on an incomplete trace or ledger.** Read `11_build/trace.yaml`. A missing file
+   means `build-implement` has recorded no slice — say so and stop. Every feature under
+   `05_features/` needs an entry with commits, and every slice in it a frozen dossier (its
+   `index.md` exists); list each feature that falls short and stop. Then read each feature's
+   ledger under `11_build/acceptance-criteria/` (`contracts/acceptance_criteria.md § Ledger
+   updates`, which `quality-e2e` and `quality-review` have already written their verdicts
+   into): a `FAIL` or untested row is the same refusal, listed by criterion id with its
+   evidence. Then read `11_build/reviews/*.yaml`; a feature still at `changes-requested` is
+   the same refusal.
 2. **Extract the intent.** From `brief.md` and `goals.md`, list every goal, success metric,
    constraint and stated non-goal, one line each. Where there is no `goals.md`, the brief's
    problem statement and hero flow are the goal set. This list is the grading sheet, and it
    is written down before the app is opened so the app cannot supply it.
-3. **Walk the whole product, not the features.** Enter where a new user enters and follow
-   the journeys in `04_journeys/stories.yaml` in the order a person would, without jumping
-   straight to a route. What this catches is only visible from the seams: a journey that
-   works but leaves the user with no idea what to do next, two features that each pass and
-   contradict each other, a dead end between them.
+3. **Walk the whole product, not the features.** Enter where a new user enters and pursue
+   each goal from step 2 through the app in the order a person would, without jumping
+   straight to a route; `04_journeys/stories.yaml` says where people start. Each journey's
+   own verdict is already in the ledger rows, so this walk does not re-run its steps — what
+   it catches is only visible from the seams: a journey that works but leaves the user with
+   no idea what to do next, two features that each pass and contradict each other, a dead end
+   between them.
 4. **Score goal achievement** — for each goal from step 2, `achieved`, `partial` or
-   `not_achieved`, with what you did in the app as the evidence. Re-testing acceptance
-   criteria here is duplicated work: `quality-review` and `quality-e2e` already own them.
+   `not_achieved`, with what you did in the app as the evidence. Criteria status comes from
+   the ledger rows read in step 1; re-testing them here is duplicated work.
 5. **Score the four design axes** — quality, originality, craft, functionality — 0-10 each,
    strictly, per `references/rubrics.md`. Read the rubric before scoring rather than
    afterwards, cite the exact screens and elements behind every number, and check the surface
@@ -76,9 +82,9 @@ which here means walking the app as a user rather than reading what it was suppo
    - **needs_iteration** — any goal `not_achieved`, or design average under 7, or
      accessibility under 70.
    - **fail** — most goals `not_achieved`, or LCP over 4s together with CLS over 0.25.
-8. **Report** the verdict, the goal tally, the seven scores on one line, the amber trace rows
-   carried from step 1, and the ranked improvements — each naming the skill that owns the
-   fix, so the verdict routes somewhere instead of ending the run.
+8. **Report** the verdict, the goal tally, the seven scores on one line and the ranked
+   improvements — each naming the skill that owns the fix, so the verdict routes somewhere
+   instead of ending the run.
 
 **Done when** `11_build/release.yaml` is on disk, every goal in it carries evidence from the
 running app, every design score cites the elements behind it, and the verdict follows the

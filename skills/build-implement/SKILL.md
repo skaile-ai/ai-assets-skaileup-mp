@@ -16,6 +16,7 @@ metadata:
     produces:
       - { id: slice-index, path: "_concept/11_build/slices/<slice_id>/index.md" }
       - { id: acceptance-criteria, path: "_concept/11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md" }
+      - { id: trace, path: "_concept/11_build/trace.yaml" }
   prerequisites:
     files:
       - { path: "_concept/11_build/slices", gate: hard, min_entries: 1 }
@@ -49,20 +50,17 @@ test loop or a review.
    the user before the first test,
    as `tdd` requires; the plan's test tags say which level, not where. Mark each finished row
    in `progress.yaml`.
-3. **Review against the spec before reviewing the code.** Read the feature spec against what
-   was actually built, assuming the implementer finished suspiciously quickly: every
-   acceptance criterion present in the code, not merely implied by a passing test. Fix gaps
-   and re-run before going further — a quality review of the wrong feature is wasted work.
-   Then call the Skill tool with "code-review".
+3. **Review the code.** Call the Skill tool with "code-review". Whether the finished feature
+   conforms to its spec is `quality-review`'s verdict, the one place that question is asked;
+   a second read here would be a second verdict on the same question. What guards this
+   slice meanwhile is the ledger in step 7: a criterion with no check behind it stays untested.
 4. **Run the gate in `plan.md`.** Its manual checks are questions for the user, one at a
    time; its automated tests are commands. Add what using it felt like — awkward flow, hidden
    state, a screen doing too much — and close on **Done**, **Needs more work**, or
    **Blocked**, the last two naming what has to change and who owns it. Only Done continues.
-   Then flip the ledger at `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`,
-   per `contracts/acceptance_criteria.md`: set to `PASS` or `FAIL` only the rows a check in
-   this gate actually exercised, each carrying that check as its evidence. Rows nothing here
-   touched stay untested — everything downstream reads this file instead of re-deriving what
-   was proved, so a row flipped on a hunch is worse than no row at all.
+   Note which criterion ids (`contracts/acceptance_criteria.md § Criterion ids`) each check
+   exercised and whether it passed; step 7 writes them to the ledger once there is a commit
+   to stamp.
 5. **Recap** in the dossier: one to three sentences of what a user can now do, in their
    words rather than the code's; the files touched; and where the outcome differed from the
    plan, with the reason. This is what the next reader gets instead of this session.
@@ -70,18 +68,34 @@ test loop or a review.
    improvements — a deletion, a simplification, a clarification — each with what verifies the
    behaviour survived, and let the user pick. Additions are proposals for the next slice, not
    for this one; the value here is subtraction while the code is still fresh.
-7. **Commit atomically.** Propose the decomposition — migration, logic, UI, tests — and stage
-   an explicit file list per commit after the user approves it, never `.` or `-A`. Each commit
-   body names the slice and its feature spec; that trailer is how a commit is traced back to
-   the artifact that asked for it.
-8. **Freeze the dossier and back-link the spec.** Once every commit has landed, write
+7. **Commit atomically, then record the slice in the trace.** Propose the decomposition —
+   migration, logic, UI, tests — and stage an explicit file list per commit after the user
+   approves it, never `.` or `-A`. Each commit body names the slice and its feature spec;
+   that trailer is how a commit is traced back to the artifact that asked for it. Once the
+   last commit has landed, write the slice into `11_build/trace.yaml` — the one
+   feature→commit join, which `quality-review`, `quality-release` and `ops-review` read
+   instead of rebuilding it from dossiers. Create the file with the first slice; a feature
+   cut into several slices has one entry each, and an entry for the same slice id is
+   replaced, not duplicated. `code` is the source files the commits touched, tests excluded.
+   Then update the ledger at `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`
+   per `contracts/acceptance_criteria.md § Ledger updates`, stamping the last commit's short
+   sha: only the rows step 4's checks exercised, each carrying its check as the pointer.
+
+   ```yaml
+   features:
+     <feature_slug>:
+       featureset: <featureset>
+       slices:
+         - { id: <slice_id>, commits: [<sha>, ...], code: [<path>, ...] }
+   last_updated: YYYY-MM-DD
+   ```
+8. **Freeze the dossier.** Once every commit has landed, write
    `11_build/slices/<slice_id>/index.md` per `contracts/slice_loop.md` — the commits, the
-   feature spec, the recap — and remove `progress.yaml`. Then patch the feature spec's
-   frontmatter with the slice reference, the commit SHAs and the source files, per
-   `contracts/feedback_loop.md`; leave that edit in the working tree for the next commit.
-   Everything else under `_concept/` was read, not rewritten: this back-link and the slice's
-   own dossier are the only things this skill writes there, and a spec quietly edited to
-   match the code stops being the thing the code is checked against.
+   feature spec, the recap — and remove `progress.yaml`. Everything else under `_concept/`
+   was read, not rewritten: the ledger rows, the trace entry and the slice's own dossier are
+   the only things this skill writes there, and a spec quietly edited to match the code
+   stops being the thing the code is checked against. The spec carries no pointer to its
+   commits; the trace is the one join.
 
 **Done when** the slice's commits are on the branch, `index.md` exists beside `plan.md`, and
-the feature spec points back at both.
+`trace.yaml` carries the slice's entry.

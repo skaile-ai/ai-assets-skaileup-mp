@@ -4,8 +4,9 @@ The two axes `code-review` does not carry. Its Standards axis reads the diff aga
 repo's documented conventions and the Fowler smell baseline, and its Spec axis reads it
 against the feature spec — neither looks for an unauthorised route or an unlabelled input.
 
-Walk each list against the review scope (the `commits[]` diffs plus the current contents of
-`source_files[]`). A hit is a finding only with a file, a line and the specific change that
+Walk each list against the review scope: the `commits` diffs plus the current contents of the
+`code` files, both from the feature's row in `11_build/trace.yaml`. A hit is a finding only
+with a file, a line and the specific change that
 clears it; "consider reviewing auth here" is a note to nobody.
 
 ## Security and data integrity

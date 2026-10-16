@@ -1,6 +1,6 @@
 ---
 name: quality-e2e
-description: "Use when the app runs and its journeys need proving end to end in a real browser — drives every story from stories.yaml with agent-browser, screenshots each step, checks the database behind it, and flips the acceptance-criteria ledger. Triggers on 'test the app', 'e2e tests', 'browser testing', 'walk the journeys'."
+description: "Use when the app runs and its journeys need proving end to end in a real browser — drives every story from stories.yaml with agent-browser, screenshots each step, checks the database behind it, and writes each journey's verdict into the acceptance-criteria ledger. Triggers on 'test the app', 'e2e tests', 'browser testing', 'walk the journeys'."
 version: "0.1.0"
 metadata:
   requires:
@@ -49,7 +49,10 @@ what one run of it looked like.
    look for; without them, discover routes from the running app's own navigation and record
    in the report that they were inferred. Read `10_blueprint/datamodel/` for the entities a
    journey writes and the queries that confirm them, and note that a project with no data
-   model gets journeys proved through the UI alone.
+   model gets journeys proved through the UI alone. Then open the ledger
+   `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md` of every feature the
+   journeys cover; if one does not exist, stop and name `build-plan` as the missing step — the
+   verdicts have nowhere to land, and a ledger built after the walk holds only what was walked.
 3. **Start the app and pin the seed.** Install, start the dev server in the background, wait
    until it answers, then open it. Every input a journey types comes from a named scenario in
    `10_blueprint/datamodel/seed.json` per `contracts/seed_data.md`. Invented test data proves
@@ -63,19 +66,21 @@ what one run of it looked like.
    named by the id of the first criterion that did not.
 5. **Test the key pages responsively** at 375×812, 768×1024 and 1440×900. A layout that
    works at one width is one third of a claim.
-6. **Flip the ledger.** For every feature a journey covered, open
-   `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md` and set the rows, found
-   by criterion id, that this run actually evaluated to `PASS` or `FAIL` per
-   `contracts/acceptance_criteria.md`, stamped with this skill and today's date and the
-   journey as evidence. Rows the run did not evaluate stay exactly as they were — a row
-   flipped on inference is what makes the whole ledger unusable to `quality-review`. Where a
-   ledger is missing, warn and continue; `build-plan` creates it.
+6. **Write the verdicts into the ledger.** For every feature a journey covered, set the rows,
+   found by criterion id, that this run evaluated to `PASS` or `FAIL` per
+   `contracts/acceptance_criteria.md § Ledger updates`: the journey and step as the pointer,
+   `quality-e2e` as evaluator, the commit under test and today's date. The ledger is the
+   record of each journey's verdict and `quality-release` reads it from there. Rows the run did
+   not evaluate stay exactly as they were — a row set on inference is what makes the whole
+   ledger unusable to `quality-review`; where this run and an earlier one at the same commit
+   disagree, the row ends `FAIL`.
 7. **Stop the dev server and close the browser session**, whatever the outcome. A server
    left running is the next run's mystery port conflict.
 8. **Report** per journey: pass or fail, the failing criterion id, the screenshots, the
-   console errors, and any record the database did not hold. Group the failures by feature so
-   the next reader knows which spec to reopen.
+   console errors, and any record the database did not hold. The pass or fail cites the ledger
+   rows it was written to rather than standing as a second verdict. Group the failures by
+   feature so the next reader knows which spec to reopen.
 
 **Done when** every story in `stories.yaml` (or, without journeys, every derived path) has been
 run, each with a pass or a fail and a criterion id behind it, the ledger rows this run
-evaluated are flipped, and no dev server or browser session is left alive.
+evaluated carry that verdict and its evidence, and no dev server or browser session is left alive.

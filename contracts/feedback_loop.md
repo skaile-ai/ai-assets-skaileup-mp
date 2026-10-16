@@ -90,15 +90,16 @@ data_entities: [User, Session]
    - What triggers it → screen user actions
    - Its `requires` guard → state-dependent UI elements
 
-### When `build-implement` freezes a slice:
+### When `build-implement` commits a slice:
 
-1. Read the recap in `11_build/slices/<slice_id>/` for the files the slice touched
-2. Resolve the feature file by globbing `05_features/*/<feature_slug>.md`, per
-   `contracts/slice_loop.md`
-3. Set `slice_ref: 11_build/slices/<slice_id>/`, `commits:` (landed SHAs),
-   `source_files:` (code paths from the recap, excluding everything under `_concept/`)
-   in the feature frontmatter
-4. Show the frontmatter diff before writing; update `last_updated` on the feature file
+1. Resolve the feature file by globbing `05_features/*/<feature_slug>.md`, per
+   `contracts/slice_loop.md`, to read its featureset and slug
+2. Write the slice into `11_build/trace.yaml` under `features.<feature_slug>.slices[]`:
+   `id`, `commits` (landed SHAs) and `code` (code paths from the recap, excluding tests and
+   everything under `_concept/`); an entry for the same slice id is replaced
+3. Leave the feature spec alone — it holds no commits or code paths. Readers (`quality-review`,
+   `quality-release`, `ops-review`) take them from `features.<feature_slug>.slices[].commits`
+   and `.code`; the trace is the one feature→commit join
 
 ### When a screen is deleted or renamed:
 
