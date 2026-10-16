@@ -514,11 +514,16 @@ def _gate_segments(path: str) -> list[str]:
     return [s for s in path.removeprefix(ARTIFACT_ROOT + "/").split("/") if s]
 
 
+def _is_placeholder(segment: str) -> bool:
+    """A `<name>` or `*` segment stands for any one real segment."""
+    return "<" in segment or segment == "*"
+
+
 def _paths_overlap(a: str, b: str) -> bool:
-    """True when one path equals, contains or lies under the other. A `<...>` segment matches any
-    one segment, so a gate on `07_screens` meets `07_screens/<feature_slug>/<screen>.md`."""
+    """True when one path equals, contains or lies under the other. A `<...>` or `*` segment
+    matches any one segment, so a gate on `07_screens` meets `07_screens/<feature_slug>/<screen>.md`."""
     return all(
-        x == y or "<" in x or "<" in y
+        x == y or _is_placeholder(x) or _is_placeholder(y)
         for x, y in zip(_gate_segments(a), _gate_segments(b))
     )
 
@@ -720,18 +725,21 @@ def _check_skill_contract_dep(fm: dict, cited: set[str], where: str, rep: Report
         )
 
 
-def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]]:
+def check_skills(
+    repo: Path, rep: Report
+) -> tuple[set[str], dict[str, set[str]], dict[str, dict]]:
     """Check every skill.
 
-    Returns `(installable skill names, contracts cited per skill directory)`. The
-    second is what makes a flow's `contract:` manifest checkable for exactness rather
-    than only for existence.
+    Returns `(installable skill names, contracts cited per skill directory, parsed frontmatter
+    per skill directory)`. The second is what makes a flow's `contract:` manifest checkable for
+    exactness rather than only for existence; the third is what a flow's hard gates are held
+    against the writers upstream of them.
     """
     skills_dir = repo / "skills"
     names: set[str] = set()
     contracts: dict[str, set[str]] = {}
     if not skills_dir.is_dir():
-        return names, contracts
+        return names, contracts, {}
 
     tree = _fenced_tree_nodes(repo)
     produced: set[str] = set()
@@ -873,7 +881,7 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
     for where, body in bodies:
         _check_skill_calls(body, where, names, rep)
 
-    return names, contracts
+    return names, contracts, dict(skill_fms)
 
 
 def _check_skill_calls(body: str, where: str, names: set[str], rep: Report) -> None:
@@ -970,7 +978,11 @@ def check_contracts(repo: Path, rep: Report) -> None:
 # --------------------------------------------------------------------------
 
 def check_flows(
-    repo: Path, skill_names: set[str], skill_contracts: dict[str, set[str]], rep: Report
+    repo: Path,
+    skill_names: set[str],
+    skill_contracts: dict[str, set[str]],
+    skill_fms: dict[str, dict],
+    rep: Report,
 ) -> None:
     flows_dir = repo / "flows"
     if not flows_dir.is_dir():
@@ -994,7 +1006,7 @@ def check_flows(
         if not isinstance(flow, dict):
             rep.error(where, "does not contain a mapping")
             continue
-        _check_one_flow(repo, flow, text, flow_file, where, skill_names, skill_contracts, rep)
+        _check_one_flow(repo, flow, text, flow_file, where, skill_names, skill_contracts, skill_fms, rep)
 
 
 def _slugify_asset_name(raw: str) -> str:
@@ -1016,6 +1028,7 @@ def _check_one_flow(
     where: str,
     skill_names: set[str],
     skill_contracts: dict[str, set[str]],
+    skill_fms: dict[str, dict],
     rep: Report,
 ) -> None:
     stem = flow_file.name[: -len(".flow.yaml")]
@@ -1117,6 +1130,9 @@ def _check_one_flow(
     # reachability under flow-typed edges — a disconnected subgraph is still possible
     # with every edge correctly typed.
     _check_reachability(flow, by_id, edges, where, rep)
+
+    # a hard gate needs a writer upstream of its node — the order half of F04.
+    _check_gate_writers(flow, by_id, edges, skill_fms, where, rep)
 
     # requires: exactness. A missing entry is not a house-rule violation — the
     # skill is then never installed, and the node runs with an empty prompt.
@@ -1407,6 +1423,83 @@ def _check_reachability(flow: dict, by_id: dict, edges: list, where: str, rep: R
             )
 
 
+def _check_gate_writers(
+    flow: dict, by_id: dict, edges: list, skill_fms: dict[str, dict], where: str, rep: Report
+) -> None:
+    """Rule: every `hard` prerequisite of a node's skill has a writer upstream of that node.
+
+    A hard gate on an artifact no earlier node writes is a node that can never open (F04): the
+    host reports `satisfied: true` or blocks forever, and neither raises. "Upstream" is every node
+    that lies on a path from `entry` to the node along `type: flow` edges, the node itself
+    excluded — a node later in the run, or on a branch that never reaches it, writes too late.
+    A writer's `produces[].path` meets the gate when the two are equal or one is a directory
+    prefix of the other, a placeholder segment matching any one. Paths outside `_concept/`
+    (the named project-root gates) are the project's, not a node's, and are not held to this.
+    A node unreachable from `entry` is reported by `_check_reachability` and skipped here."""
+    entry = flow.get("entry")
+    if entry not in by_id:
+        return
+
+    forward: dict[str, list[str]] = {}
+    for edge in edges:
+        if isinstance(edge, dict) and edge.get("type") == FLOW_EDGE:
+            forward.setdefault(edge.get("source"), []).append(edge.get("target"))
+
+    def reach(start: str, blocked: str | None = None) -> set[str]:
+        seen, stack = {start}, [start]
+        while stack:
+            for nxt in forward.get(stack.pop(), []):
+                if nxt in by_id and nxt != blocked and nxt not in seen:
+                    seen.add(nxt)
+                    stack.append(nxt)
+        return seen
+
+    reached = reach(entry)
+    ahead = {nid: reach(nid) for nid in reached}
+
+    def upstream(nid: str) -> set[str]:
+        if nid == entry:
+            return set()
+        return {x for x in reach(entry, nid) - {nid} if nid in ahead[x]}
+
+    skill_of = {
+        nid: node["data"]["skill"]
+        for nid, node in by_id.items()
+        if node.get("type") == "skill"
+        and isinstance(node.get("data"), dict)
+        and isinstance(node["data"].get("skill"), str)
+    }
+    writes = {
+        nid: [path for _, path in _produced_entries(skill_fms[skill])]
+        for nid, skill in skill_of.items()
+        if skill in skill_fms
+    }
+
+    flow_id = flow.get("id")
+    for nid in sorted(reached):
+        skill = skill_of.get(nid)
+        if skill not in skill_fms:
+            continue
+        before = sorted(upstream(nid))
+        written = [path for u in before for path in writes.get(u, [])]
+        for item in _prerequisite_items(skill_fms[skill]):
+            if item.get("gate") != "hard":
+                continue
+            gate = str(item["path"]).lstrip("/")
+            if not gate.startswith(ARTIFACT_ROOT + "/"):
+                continue
+            if any(_paths_overlap(gate, path) for path in written):
+                continue
+            rep.error(
+                where,
+                f"flow {flow_id!r}: node {nid!r} runs skill {skill!r}, which has a `hard` "
+                f"prerequisite on {gate!r}, but no upstream node produces it "
+                f"(upstream: {', '.join(before) or 'none'}) — the node can never open; add a node "
+                f"that writes it before this one, or make the gate `soft` and state in the skill "
+                f"what it does without the file",
+            )
+
+
 REF_RE = re.compile(r"^(skill|flow|contract):@([A-Za-z0-9_-]+)/([A-Za-z0-9_.-]+)(?:#(.+))?$")
 
 
@@ -1533,11 +1626,11 @@ def check_docs(repo: Path, skill_names: set[str], rep: Report) -> None:
 
 def run(repo: Path) -> Report:
     rep = Report()
-    skill_names, skill_contracts = check_skills(repo, rep)
+    skill_names, skill_contracts, skill_fms = check_skills(repo, rep)
     check_contracts(repo, rep)
     check_contract_manifest(repo, rep)
     check_tree_names(repo, rep)
-    check_flows(repo, skill_names, skill_contracts, rep)
+    check_flows(repo, skill_names, skill_contracts, skill_fms, rep)
     check_docs(repo, skill_names, rep)
     return rep
 

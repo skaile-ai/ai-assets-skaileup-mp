@@ -50,7 +50,7 @@ version: "0.1.0"
 metadata:
   prerequisites:
     files:
-      - {{ path: "_concept/07_screens", gate: hard }}
+      - {{ path: "_concept/07_screens", gate: soft }}
   artifacts:
     produces:
       - {{ id: brief, path: "_concept/brief.md" }}
@@ -251,8 +251,8 @@ def test_prerequisites_at_the_frontmatter_root(tmp_path):
     skill = root / "skills" / "spec-feature" / "SKILL.md"
     skill.write_text(
         skill.read_text().replace(
-            'metadata:\n  prerequisites:\n    files:\n      - { path: "_concept/07_screens", gate: hard }\n',
-            "prerequisites:\n  files:\n    - { path: \"_concept/07_screens\", gate: hard }\nmetadata:\n",
+            'metadata:\n  prerequisites:\n    files:\n      - { path: "_concept/07_screens", gate: soft }\n',
+            "prerequisites:\n  files:\n    - { path: \"_concept/07_screens\", gate: soft }\nmetadata:\n",
         )
     )
     only(root, "must sit under `metadata:`")
@@ -387,10 +387,11 @@ SCREENS = '    produces:\n      - { id: screens, path: "_concept/07_screens/<fea
 
 
 def set_gate(root: Path, skill: str, gate: str) -> None:
-    """Swap the fixture skill's one prerequisite gate (the default is `hard` on `07_screens`)."""
+    """Swap the fixture skill's one prerequisite gate (the default is `soft` on `07_screens`)."""
     p = root / "skills" / skill / "SKILL.md"
-    assert "gate: hard" in p.read_text()
-    p.write_text(p.read_text().replace("gate: hard", f"gate: {gate}", 1))
+    text = p.read_text()
+    assert re.search(r"gate: (hard|soft)", text)
+    p.write_text(re.sub(r"gate: (hard|soft)", f"gate: {gate}", text, count=1))
 
 
 def write_profile(root: Path, name: str, not_grown: list[str]) -> None:
@@ -399,11 +400,11 @@ def write_profile(root: Path, name: str, not_grown: list[str]) -> None:
 
 
 def not_grown_repo(root: Path, skills=("spec-feature", "zeta-producer")) -> Path:
-    """`zeta-producer` writes the screens, so the profile's `screens` id resolves; it has no hard
-    gate of its own, and `spec-feature` keeps the fixture's `hard` gate on `07_screens`."""
+    """`zeta-producer` writes the screens, so the profile's `screens` id resolves; it has a
+    `soft` gate of its own, and `spec-feature` gets a `hard` gate on `07_screens`."""
     write_repo(root, skills=skills)
     set_produces(root, SCREENS, "zeta-producer")
-    set_gate(root, "zeta-producer", "soft")
+    set_gate(root, "spec-feature", "hard")
     return root
 
 
@@ -438,8 +439,105 @@ def test_not_grown_entry_that_resolves_to_nothing(tmp_path):
 def test_skill_in_a_not_grown_domain_is_not_held_to_its_own_gates(tmp_path):
     """`mockup-view` never runs where `mockup` is not grown, so its hard gate on screens is moot."""
     root = not_grown_repo(tmp_path, skills=("spec-feature", "zeta-producer", "mockup-view"))
+    set_gate(root, "mockup-view", "hard")
     set_gate(root, "spec-feature", "soft")
     write_profile(root, "api-service", ["screens", "mockup"])
+    assert errors(root) == []
+
+
+# -- hard gates need a writer upstream ---------------------------------------
+
+def gate_flow(first: str, second: str) -> dict:
+    """`a` runs `first`, `b` runs `second`, in that order — the two nodes of `good_flow`."""
+    flow = good_flow()
+    node(flow, "a")["data"]["skill"] = first
+    node(flow, "b")["data"]["skill"] = second
+    flow["requires"] = [f"skill:@skaile-ai/{s}" for s in sorted({first, second})]
+    return flow
+
+
+def gate_repo(root: Path, *, gate="_concept/07_screens", writes=SCREENS) -> Path:
+    """`spec-feature` holds a `hard` gate on `gate`; `zeta-producer` writes `writes`."""
+    write_repo(root, skills=("spec-feature", "zeta-producer"))
+    set_produces(root, writes, "zeta-producer")
+    set_gate(root, "spec-feature", "hard")
+    skill = root / "skills" / "spec-feature" / "SKILL.md"
+    skill.write_text(skill.read_text().replace('path: "_concept/07_screens"', f'path: "{gate}"'))
+    return root
+
+
+def test_hard_gate_with_no_upstream_writer(tmp_path):
+    """The writer is in the flow and writes something else: the gate has nothing to open it."""
+    root = gate_repo(tmp_path, writes='    produces:\n      - { id: brief, path: "_concept/brief.md" }\n')
+    write_flow(root, gate_flow("zeta-producer", "spec-feature"))
+    only(root, "no upstream node produces it")
+    assert "node 'b' runs skill 'spec-feature'" in errors(root)[0]
+    assert "'_concept/07_screens'" in errors(root)[0]
+    assert "flow 'tiny'" in errors(root)[0]
+
+
+def test_hard_gate_with_the_writer_upstream_is_clean(tmp_path):
+    root = gate_repo(tmp_path)
+    write_flow(root, gate_flow("zeta-producer", "spec-feature"))
+    assert errors(root) == []
+
+
+def test_hard_gate_whose_writer_only_runs_downstream(tmp_path):
+    """Order matters: the writer exists in the flow, but after the node that needs it."""
+    root = gate_repo(tmp_path)
+    write_flow(root, gate_flow("spec-feature", "zeta-producer"))
+    only(root, "no upstream node produces it")
+    assert "node 'a' runs skill 'spec-feature'" in errors(root)[0]
+    assert "upstream: none" in errors(root)[0]
+
+
+def test_hard_gate_on_the_entry_node_has_no_upstream(tmp_path):
+    root = gate_repo(tmp_path)
+    flow = good_flow()
+    node(flow, "b")["data"]["skill"] = "spec-feature"
+    write_flow(root, flow)
+    errs = errors(root)
+    assert len(errs) == 2 and all("no upstream node produces it" in e for e in errs), errs
+
+
+@pytest.mark.parametrize(
+    "gate, written",
+    [
+        ("_concept/07_screens", "_concept/07_screens/<feature_slug>/<screen>.md"),  # file under the gated directory
+        ("_concept/07_screens/shell.md", "_concept/07_screens/"),  # the directory holding the gated file
+        ("_concept/07_screens/checkout/pay.md", "_concept/07_screens/<feature_slug>/<screen>.md"),  # placeholders
+        ("_concept/07_screens/*", "_concept/07_screens/shell.md"),  # `*` matches one segment
+        ("_concept/07_screens", "_concept/07_screens"),  # equal
+    ],
+)
+def test_hard_gate_met_by_a_directory_prefix_match(tmp_path, gate, written):
+    root = gate_repo(tmp_path, gate=gate, writes=f'    produces:\n      - {{ id: screens, path: "{written}" }}\n')
+    write_flow(root, gate_flow("zeta-producer", "spec-feature"))
+    assert errors(root) == []
+
+
+def test_hard_gate_on_a_sibling_path_is_not_met(tmp_path):
+    """Prefix matching is by whole segment: `shell.md` does not open a gate on `07_screens/checkout`."""
+    root = gate_repo(
+        tmp_path,
+        gate="_concept/07_screens/checkout",
+        writes='    produces:\n      - { id: shell, path: "_concept/07_screens/shell.md" }\n',
+    )
+    write_flow(root, gate_flow("zeta-producer", "spec-feature"))
+    only(root, "no upstream node produces it")
+
+
+def test_soft_gate_needs_no_upstream_writer(tmp_path):
+    root = gate_repo(tmp_path, writes='    produces:\n      - { id: brief, path: "_concept/brief.md" }\n')
+    set_gate(root, "spec-feature", "soft")
+    write_flow(root, gate_flow("spec-feature", "zeta-producer"))
+    assert errors(root) == []
+
+
+def test_project_root_gate_is_not_held_to_an_upstream_writer(tmp_path):
+    """`package.json` is the project's, not a node's — the rule is about `_concept/` artifacts."""
+    root = gate_repo(tmp_path, gate="package.json")
+    write_flow(root, gate_flow("spec-feature", "zeta-producer"))
     assert errors(root) == []
 
 
