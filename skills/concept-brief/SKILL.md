@@ -8,6 +8,11 @@ metadata:
   artifacts:
     requires:
       - { id: scope }
+    produces:
+      - { id: brief, path: "_concept/brief.md" }
+      - { id: goals, path: "_concept/goals.md" }
+      - { id: comparable, path: "_concept/comparable.md" }
+      - { id: glossary, path: "_concept/10_blueprint/glossary.md" }
   prerequisites:
     files:
       - { path: "_concept/01_meta/scope.yaml", gate: soft }

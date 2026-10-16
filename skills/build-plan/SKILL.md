@@ -11,6 +11,9 @@ metadata:
       - { id: screens }
       - { id: techstack }
       - { id: datamodel }
+    produces:
+      - { id: slice-plan, path: "_concept/11_build/slices/<slice_id>/plan.md" }
+      - { id: acceptance-criteria, path: "_concept/11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md" }
   prerequisites:
     files:
       - { path: "_concept/05_features", gate: hard, min_entries: 1 }

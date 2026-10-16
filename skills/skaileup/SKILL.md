@@ -5,6 +5,8 @@ version: "0.1.0"
 metadata:
   requires:
     - contract:@skaile-ai/shared-contracts
+  artifacts:
+    produces: []
 ---
 
 # skaileup

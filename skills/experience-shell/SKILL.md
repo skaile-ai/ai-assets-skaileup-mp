@@ -11,6 +11,8 @@ metadata:
       - { id: featuresets }
       - { id: journeys }
       - { id: brand-tokens }
+    produces:
+      - { id: app-shell, path: "_concept/07_screens/shell.md" }
   prerequisites:
     files:
       - { path: "_concept/brief.md", gate: hard }

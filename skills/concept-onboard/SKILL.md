@@ -8,6 +8,9 @@ metadata:
   artifacts:
     requires:
       - { id: scope }
+    produces:
+      - { id: onboarding-answers, path: "_concept/02_grounding/onboarding/answers.json" }
+      - { id: onboarding-questions, path: "_concept/02_grounding/onboarding/questions.md" }
   prerequisites:
     files:
       - { path: "_concept/01_meta/scope.yaml", gate: soft }

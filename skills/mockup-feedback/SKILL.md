@@ -8,6 +8,8 @@ metadata:
       # Soft, not hard: step 1 adopts a session that has not landed yet, so a hard
       # gate would refuse the skill in exactly the case it exists to handle.
       - { id: feedback-sessions }
+    produces:
+      - { id: feedback-applied, path: "_concept/09_mockup/feedback/" }
   prerequisites:
     files:
       - { path: "_concept/09_mockup/feedback/sessions", gate: soft, min_entries: 1 }

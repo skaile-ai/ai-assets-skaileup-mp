@@ -6,6 +6,7 @@ metadata:
   artifacts:
     requires:
       - { id: brief }
+    produces: []
   prerequisites:
     files:
       - { path: "_concept/brief.md", gate: hard }

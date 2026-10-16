@@ -9,6 +9,7 @@ metadata:
     requires:
       - { id: datamodel }
       - { id: techstack }
+    produces: []
   prerequisites:
     files:
       - { path: "_concept/10_blueprint/datamodel", gate: hard, min_entries: 1 }

@@ -12,6 +12,8 @@ metadata:
       - { id: journeys }
       - { id: brand-tokens }
       - { id: acceptance-criteria }
+    produces:
+      - { id: release-verdict, path: "_concept/11_build/release.yaml" }
   prerequisites:
     files:
       - { path: "_concept/brief.md", gate: hard }

@@ -5,6 +5,9 @@ version: "0.1.0"
 metadata:
   requires:
     - contract:@skaile-ai/shared-contracts
+  artifacts:
+    produces:
+      - { id: scope, path: "_concept/01_meta/scope.yaml" }
   prerequisites:
     inputs_optional:
       - { id: project_description, label: "What are you building?", type: textarea, hint: "One or two sentences — the signals below can be inferred from it" }

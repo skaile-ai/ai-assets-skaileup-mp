@@ -35,7 +35,8 @@ _concept/
 │   └── scope.yaml                  flow + project_type
 │
 ├── 07_screens/
-│   └── shell.md                    the app shell
+│   ├── shell.md                    the app shell
+│   └── <feature_slug>/<screen>.md  one spec per screen
 ```
 
 ## Numbering
@@ -50,6 +51,9 @@ metadata:
   prerequisites:
     files:
       - {{ path: "_concept/07_screens", gate: hard }}
+  artifacts:
+    produces:
+      - {{ id: brief, path: "_concept/brief.md" }}
 ---
 
 # {name}
@@ -247,7 +251,8 @@ def test_prerequisites_at_the_frontmatter_root(tmp_path):
     skill = root / "skills" / "spec-feature" / "SKILL.md"
     skill.write_text(
         skill.read_text().replace(
-            "metadata:\n  prerequisites:\n    files:\n      - ", "prerequisites:\n  files:\n    - "
+            'metadata:\n  prerequisites:\n    files:\n      - { path: "_concept/07_screens", gate: hard }\n',
+            "prerequisites:\n  files:\n    - { path: \"_concept/07_screens\", gate: hard }\nmetadata:\n",
         )
     )
     only(root, "must sit under `metadata:`")
@@ -260,6 +265,122 @@ def test_artifacts_at_the_frontmatter_root(tmp_path):
         skill.read_text().replace("metadata:\n", "artifacts:\n  requires:\n    - { id: screens }\nmetadata:\n")
     )
     only(root, "must sit under `metadata:`")
+
+
+def set_produces(root: Path, block: str, skill: str = "spec-feature") -> None:
+    """Swap the fixture skill's `produces` block (the default is one `brief` entry)."""
+    p = root / "skills" / skill / "SKILL.md"
+    default = '    produces:\n      - { id: brief, path: "_concept/brief.md" }\n'
+    assert default in p.read_text()
+    p.write_text(p.read_text().replace(default, block, 1))
+
+
+def test_skill_without_produces(tmp_path):
+    root = write_repo(tmp_path)
+    set_produces(root, "    requires: []\n")
+    only(root, "has no `metadata.artifacts.produces` list")
+
+
+def test_skill_without_an_artifacts_block(tmp_path):
+    root = write_repo(tmp_path)
+    skill = root / "skills" / "spec-feature" / "SKILL.md"
+    skill.write_text(skill.read_text().replace("  artifacts:\n    produces:\n", "").replace(
+        '      - { id: brief, path: "_concept/brief.md" }\n', ""
+    ))
+    only(root, "has no `metadata.artifacts.produces` list")
+
+
+def test_produces_that_is_not_a_list(tmp_path):
+    root = write_repo(tmp_path)
+    set_produces(root, "    produces: brief\n")
+    only(root, "`metadata.artifacts.produces` is a str, not a list")
+
+
+def test_empty_produces_is_legal(tmp_path):
+    """A skill that writes only code or git state declares `[]`; the key is what is mandatory."""
+    root = write_repo(tmp_path)
+    set_produces(root, "    produces: []\n")
+    assert errors(root) == []
+
+
+def test_produces_entry_without_a_path(tmp_path):
+    root = write_repo(tmp_path)
+    set_produces(root, "    produces:\n      - { id: brief }\n")
+    only(root, "must be a map with a string `id` and a string `path`")
+
+
+def test_produces_id_must_be_kebab_case(tmp_path):
+    root = write_repo(tmp_path)
+    set_produces(root, '    produces:\n      - { id: Brief_Doc, path: "_concept/brief.md" }\n')
+    only(root, "is not kebab-case")
+
+
+def test_produces_path_without_the_concept_prefix(tmp_path):
+    root = write_repo(tmp_path)
+    set_produces(root, '    produces:\n      - { id: brief, path: "brief.md" }\n')
+    only(root, "does not start with '_concept/'")
+
+
+def test_produces_path_outside_the_tree(tmp_path):
+    root = write_repo(tmp_path)
+    set_produces(root, '    produces:\n      - { id: brief, path: "_concept/pitch.md" }\n')
+    only(root, "is not in the tree fenced in `contracts/concept_structure.md`")
+
+
+@pytest.mark.parametrize(
+    "path",
+    [
+        "_concept/brief.md",
+        "_concept/07_screens/",
+        "_concept/07_screens/<feature_slug>/<screen>.md",
+        "_concept/07_screens/checkout/payment.md",  # a placeholder entry matches any one segment
+        "_concept/07_screens/shell.md",
+        "_concept/01_meta/extra.yaml",  # lies under a directory entry
+    ],
+)
+def test_produces_paths_that_resolve(tmp_path, path):
+    root = write_repo(tmp_path)
+    set_produces(root, f'    produces:\n      - {{ id: brief, path: "{path}" }}\n')
+    assert errors(root) == []
+
+
+@pytest.mark.parametrize(
+    "path",
+    [
+        "_concept/brief.md/extra",  # below a file entry
+        "_concept/09_nothing/",  # not a root entry
+        "_concept/",  # names nothing
+    ],
+)
+def test_produces_paths_that_do_not_resolve(tmp_path, path):
+    root = write_repo(tmp_path)
+    set_produces(root, f'    produces:\n      - {{ id: brief, path: "{path}" }}\n')
+    assert len(errors(root)) == 1, errors(root)
+
+
+def test_required_artifact_nobody_produces(tmp_path):
+    root = write_repo(tmp_path)
+    skill = root / "skills" / "spec-feature" / "SKILL.md"
+    skill.write_text(
+        skill.read_text().replace(
+            "  artifacts:\n", "  artifacts:\n    requires:\n      - { id: screens }\n", 1
+        )
+    )
+    only(root, "requires artifact 'screens'")
+    assert "skills/spec-feature" in errors(root)[0]
+
+
+def test_required_artifact_produced_by_another_skill(tmp_path):
+    """The producer may sit later in the directory order than the reader."""
+    root = write_repo(tmp_path, skills=("spec-feature", "zeta-producer"))
+    set_produces(root, '    produces:\n      - { id: screens, path: "_concept/07_screens/" }\n', "zeta-producer")
+    skill = root / "skills" / "spec-feature" / "SKILL.md"
+    skill.write_text(
+        skill.read_text().replace(
+            "  artifacts:\n", "  artifacts:\n    requires:\n      - { id: screens }\n", 1
+        )
+    )
+    assert errors(root) == []
 
 
 def test_top_level_set_comes_from_the_contract(tmp_path):

@@ -10,6 +10,8 @@ metadata:
       - { id: brief }
       - { id: scope }
       - { id: features }
+    produces:
+      - { id: techstack, path: "_concept/10_blueprint/techstack.md" }
   prerequisites:
     files:
       - { path: "_concept/brief.md", gate: hard }

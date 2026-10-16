@@ -8,6 +8,14 @@ metadata:
   artifacts:
     requires:
       - { id: scope }
+    produces:
+      - { id: brief, path: "_concept/brief.md" }
+      - { id: goals, path: "_concept/goals.md" }
+      - { id: comparable, path: "_concept/comparable.md" }
+      - { id: techstack, path: "_concept/10_blueprint/techstack.md" }
+      - { id: brand-identity, path: "_concept/03_brand/identity.md" }
+      - { id: brand-tokens, path: "_concept/03_brand/tokens.json" }
+      - { id: grounding-findings, path: "_concept/02_grounding/findings/" }
   prerequisites:
     files:
       - { path: "_concept/01_meta/scope.yaml", gate: soft }

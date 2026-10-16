@@ -10,6 +10,8 @@ metadata:
       - { id: techstack }
       - { id: journeys }
       - { id: datamodel }
+    produces:
+      - { id: storybook, path: "_concept/09_mockup/storybook/" }
   prerequisites:
     files:
       - { path: "_concept/07_screens", gate: hard, min_entries: 1 }

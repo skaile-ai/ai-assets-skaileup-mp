@@ -12,6 +12,12 @@ metadata:
       - { id: journeys }
       - { id: brand-tokens }
       - { id: datamodel }
+    produces:
+      - { id: features, path: "_concept/05_features/<featureset>/<feature>.md" }
+      - { id: screens, path: "_concept/07_screens/<feature_slug>/<screen>.md" }
+      - { id: dossier, path: "_concept/08_dossiers/<feature_slug>/index.md" }
+      - { id: glossary, path: "_concept/10_blueprint/glossary.md" }
+      - { id: decisions, path: "_concept/10_blueprint/decisions.md" }
   prerequisites:
     files:
       - { path: "_concept/01_meta/scope.yaml", gate: hard }

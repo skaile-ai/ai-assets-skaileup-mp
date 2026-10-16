@@ -10,6 +10,8 @@ metadata:
       - { id: brief }
       - { id: goals }
       - { id: research-audiences }
+    produces:
+      - { id: journeys, path: "_concept/04_journeys/stories.yaml" }
   prerequisites:
     files:
       - { path: "_concept/brief.md", gate: hard }

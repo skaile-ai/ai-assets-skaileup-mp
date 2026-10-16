@@ -14,6 +14,8 @@ metadata:                            # everything a machine reads sits under thi
   artifacts:                         # `parseSkillRequirements` and `extractSkillRequires`
     requires:                        # both read `metadata.` and never fall back to the root
       - { id: <artifact> }           # id only; no code has ever read a `gate:` here
+    produces:                        # what this skill writes, mandatory; `[]` writes nothing
+      - { id: <artifact>, path: "_concept/<tree entry>/..." }   # under `_concept/`
   prerequisites:
     files:                           # the live gate: `_concept/`-prefixed, `hard` or `soft`
       - { path: "_concept/<tree entry>/...", gate: hard, min_entries: 1 }
@@ -63,6 +65,13 @@ Siblings, in `references/`:
   `_concept/`, so every concept path carries the prefix. `scripts/check.py` enforces both
   halves: a path either starts with `_concept/` and names a real top-level entry of the
   artifact tree, or is one of the named project-root gates in `PROJECT_ROOT_PREREQUISITES`.
+- **A skill declares what it writes** (ADR 0013). `metadata.artifacts.produces` is a list of
+  `{ id, path }`, mandatory on every skill: `id` is the kebab-case artifact id other skills
+  name in `artifacts.requires` (every required id must be produced by some skill), and
+  `path` starts with `_concept/` and sits in `concept_structure.md`'s fenced tree — a file, a
+  directory with a trailing slash, or a pattern with the tree's `<placeholder>` segments. A
+  skill that writes nothing under `_concept/` says `produces: []`. `scripts/check.py`
+  enforces all three; the host's node done-state read is `host:node-done-from-produced-by`.
 - **A `soft` gate renders nowhere** — it is excluded from `satisfied` and never warned on. If
   its absence changes what the skill does, the step says so; the frontmatter alone tells the
   human nothing.

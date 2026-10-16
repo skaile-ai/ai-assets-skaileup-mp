@@ -11,6 +11,9 @@ metadata:
       - { id: features }
       - { id: techstack }
       - { id: journeys }
+    produces:
+      - { id: datamodel, path: "_concept/10_blueprint/datamodel/" }
+      - { id: glossary, path: "_concept/10_blueprint/glossary.md" }
   prerequisites:
     files:
       - { path: "_concept/05_features", gate: hard, min_entries: 1 }

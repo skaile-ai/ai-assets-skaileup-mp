@@ -9,6 +9,7 @@ metadata:
       - { id: techstack }
       - { id: brand-tokens }
       - { id: screens }
+    produces: []
   prerequisites:
     files:
       - { path: "_concept/brief.md", gate: hard }

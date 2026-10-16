@@ -9,6 +9,7 @@ metadata:
     requires:
       - { id: scope }
       - { id: features }
+    produces: []
   prerequisites:
     files:
       - { path: "_concept/01_meta/scope.yaml", gate: hard }

@@ -339,6 +339,18 @@ FACTS: tuple[Fact, ...] = (
         verified="2026-10-16",
         seen_at="L175",
     ),
+    # -- skaile-forge: node done-state ---------------------------------------------
+    Fact(
+        id="host:node-done-from-produced-by",
+        host="skaile-forge",
+        path="server/utils/artifact-contract.ts",
+        signature="const canonical = producedBy[0];",
+        expect=PRESENT,
+        claim="The editor marks a flow node done by mapping its skill to the artifact whose first `produced_by` entry names it in `contracts/artifacts.yaml`, a registry this collection no longer ships, so each skill's `metadata.artifacts.produces` list is the declaration that read has to switch to (ADR 0013).",
+        rules=("skill-declares-what-it-produces",),
+        verified="2026-10-16",
+        seen_at="L152",
+    ),
 )
 
 

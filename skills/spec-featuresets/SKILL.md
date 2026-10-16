@@ -11,6 +11,8 @@ metadata:
       - { id: goals }
       - { id: journeys }
       - { id: research-competitors }
+    produces:
+      - { id: featuresets, path: "_concept/05_features/featuresets.md" }
   prerequisites:
     files:
       - { path: "_concept/brief.md", gate: hard }

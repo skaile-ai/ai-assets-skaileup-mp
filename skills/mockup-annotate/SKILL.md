@@ -8,6 +8,8 @@ metadata:
   artifacts:
     requires:
       - { id: walkthrough }
+    produces:
+      - { id: feedback-sessions, path: "_concept/09_mockup/feedback/sessions/" }
   prerequisites:
     files:
       - { path: "_concept/09_mockup/walkthrough", gate: hard, min_entries: 1 }

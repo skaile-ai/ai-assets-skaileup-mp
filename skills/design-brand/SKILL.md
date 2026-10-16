@@ -9,6 +9,11 @@ metadata:
     requires:
       - { id: brief }
       - { id: research-design-inspiration }
+    produces:
+      - { id: brand-identity, path: "_concept/03_brand/identity.md" }
+      - { id: brand-tokens, path: "_concept/03_brand/tokens.json" }
+      - { id: brand-book, path: "_concept/03_brand/brandbook.html" }
+      - { id: brand-references, path: "_concept/03_brand/references/" }
   prerequisites:
     files:
       - { path: "_concept/brief.md", gate: hard }

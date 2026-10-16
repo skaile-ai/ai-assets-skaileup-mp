@@ -11,6 +11,8 @@ metadata:
       - { id: journeys }
       - { id: brand-tokens }
       - { id: features }
+    produces:
+      - { id: walkthrough, path: "_concept/09_mockup/walkthrough/" }
   prerequisites:
     files:
       - { path: "_concept/07_screens", gate: hard, min_entries: 1 }

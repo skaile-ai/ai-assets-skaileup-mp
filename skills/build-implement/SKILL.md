@@ -12,6 +12,9 @@ metadata:
       - { id: features }
       - { id: screens }
       - { id: datamodel }
+    produces:
+      - { id: slice-index, path: "_concept/11_build/slices/<slice_id>/index.md" }
+      - { id: acceptance-criteria, path: "_concept/11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md" }
   prerequisites:
     files:
       - { path: "_concept/11_build/slices", gate: hard, min_entries: 1 }

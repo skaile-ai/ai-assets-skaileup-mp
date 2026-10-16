@@ -358,6 +358,143 @@ def check_tree_names(repo: Path, rep: Report) -> None:
                     )
 
 
+class _TreeNode:
+    """One entry of the contract's fenced tree. `wild` entries (`<slug>`, `*.md`) match any
+    one path segment; `is_dir` is a trailing slash, a slash inside the entry, or children."""
+
+    def __init__(self, seg: str, is_dir: bool) -> None:
+        self.seg = seg
+        self.wild = "<" in seg or "*" in seg
+        self.is_dir = is_dir
+        self.kids: list[_TreeNode] = []
+
+
+def _fenced_tree_nodes(repo: Path) -> list[_TreeNode]:
+    """The tree under `_concept/` with its nesting, read from `concept_structure.md`'s first
+    fence — the same fence `_fenced_tree` and `check_tree_names` read, never restated here.
+    An entry like `<featureset>/<feature>.md` becomes a chain of two nodes."""
+    contract = repo / "contracts" / "concept_structure.md"
+    if not contract.is_file():
+        return []
+    top: list[_TreeNode] = []
+    stack: list[_TreeNode] = []  # the deepest node of each tree row above the current one
+    inside = False
+    for line in contract.read_text().splitlines():
+        if line.strip().startswith("```"):
+            if inside:
+                break
+            inside = True
+            continue
+        if not inside:
+            continue
+        m = TREE_NODE_RE.match(line)
+        if not m:
+            continue
+        depth = len(m.group("indent")) // 4
+        raw = m.group("name")
+        parts = [p for p in raw.split("/") if p]
+        if not parts:
+            continue
+        del stack[depth:]
+        siblings = stack[-1].kids if stack else top
+        chain = [_TreeNode(p, i < len(parts) - 1 or raw.endswith("/")) for i, p in enumerate(parts)]
+        siblings.append(chain[0])
+        for upper, lower in zip(chain, chain[1:]):
+            upper.kids.append(lower)
+        if stack:
+            stack[-1].is_dir = True
+        stack.append(chain[-1])
+    return top
+
+
+def _path_resolves_in_tree(top: list[_TreeNode], segments: list[str]) -> bool:
+    """Walk `segments` down the tree: a placeholder entry matches any one segment, an exact
+    entry wins over one. A path equal to a tree node, or lying under a tree directory node,
+    is legal; one that leaves the tree at the root, or below a file, is not."""
+    kids = top
+    node: _TreeNode | None = None
+    for seg in segments:
+        match = next((k for k in kids if k.seg == seg), None) or next((k for k in kids if k.wild), None)
+        if match is None:
+            return node is not None and node.is_dir
+        node = match
+        kids = node.kids
+    return node is not None
+
+
+KEBAB_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+
+
+def _artifacts_block(fm: dict) -> dict | None:
+    """`metadata.artifacts`, the one place the host reads it from; None when absent or not a map."""
+    meta = fm.get("metadata") if isinstance(fm.get("metadata"), dict) else {}
+    block = meta.get("artifacts")
+    return block if isinstance(block, dict) else None
+
+
+def _check_produces(
+    fm: dict, where: str, tree: list[_TreeNode], rep: Report
+) -> set[str]:
+    """A skill declares what it writes: `metadata.artifacts.produces: [{ id, path }]`.
+
+    Returns the ids it declares well-formed. The list is mandatory (`[]` for a skill that
+    writes nothing under `_concept/`), each entry names a kebab-case `id` and a `path` that
+    starts with `_concept/` and resolves against the contract's tree (ADR 0013)."""
+    block = _artifacts_block(fm)
+    produces = block.get("produces") if block is not None else None
+    if not isinstance(produces, list):
+        rep.error(
+            where,
+            "has no `metadata.artifacts.produces` list — it is the declaration {host}'s node "
+            "done-state read has to switch to; write `produces: []` for a skill that writes "
+            "nothing under `_concept/`" if produces is None else
+            f"`metadata.artifacts.produces` is a {type(produces).__name__}, not a list of "
+            "`{ id, path }` entries — {host}'s node done-state read has to switch to it",
+            fact="host:node-done-from-produced-by",
+            rule="skill-declares-what-it-produces",
+        )
+        return set()
+
+    ids: set[str] = set()
+    for i, entry in enumerate(produces):
+        label = f"`produces[{i}]`"
+        ident = entry.get("id") if isinstance(entry, dict) else None
+        path = entry.get("path") if isinstance(entry, dict) else None
+        if not isinstance(ident, str) or not isinstance(path, str) or not ident or not path:
+            rep.error(
+                where,
+                f"{label} must be a map with a string `id` and a string `path`, got {entry!r}",
+                fact="host:node-done-from-produced-by",
+                rule="skill-declares-what-it-produces",
+            )
+            continue
+        if not KEBAB_RE.match(ident):
+            rep.error(where, f"{label} id {ident!r} is not kebab-case — it is the id other skills name in `artifacts.requires`")
+        else:
+            ids.add(ident)
+        if not path.startswith(ARTIFACT_ROOT + "/"):
+            rep.error(where, f"{label} path {path!r} does not start with {ARTIFACT_ROOT + '/'!r}")
+            continue
+        segments = [s for s in path[len(ARTIFACT_ROOT) + 1:].split("/") if s]
+        if not segments:
+            rep.error(where, f"{label} path {path!r} names no artifact below `{ARTIFACT_ROOT}/`")
+        elif tree and not _path_resolves_in_tree(tree, segments):
+            rep.error(
+                where,
+                f"{label} path {path!r} is not in the tree fenced in `contracts/concept_structure.md` "
+                f"(a placeholder entry matches any one segment, and a path may lie under a directory entry)",
+            )
+    return ids
+
+
+def _required_artifact_ids(fm: dict) -> list[str]:
+    block = _artifacts_block(fm)
+    requires = block.get("requires") if block is not None else None
+    if not isinstance(requires, list):
+        return []
+    return [str(e["id"]) for e in requires if isinstance(e, dict) and e.get("id")]
+
+
 # --------------------------------------------------------------------------
 # citations — every asset kind cites contracts, and contracts are pruned hard
 # --------------------------------------------------------------------------
@@ -493,6 +630,9 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
     if not skills_dir.is_dir():
         return names, contracts
 
+    tree = _fenced_tree_nodes(repo)
+    produced: set[str] = set()
+    required: list[tuple[str, str]] = []
     top_level = _fenced_tree(repo)
     bodies: list[tuple[str, str]] = []
 
@@ -588,6 +728,10 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
                         rule="prerequisite-tree-segment",
                     )
 
+        # 5b. what the skill writes, and which artifacts it reads by id (ADR 0013).
+        produced |= _check_produces(fm, where, tree, rep)
+        required += [(where, ident) for ident in _required_artifact_ids(fm)]
+
         # 6. cited contracts must exist.
         _check_citations(text, where, repo, rep)
 
@@ -604,6 +748,16 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
             )
 
         bodies.append((where, body))
+
+    # 7a. every artifact id a skill requires is produced by some skill — a second pass, as
+    #     the producer may come later in the directory order.
+    for where, ident in required:
+        if ident not in produced:
+            rep.error(
+                where,
+                f"requires artifact {ident!r} in `metadata.artifacts.requires`, which no skill "
+                f"declares in `metadata.artifacts.produces` — add it to the skill that writes it",
+            )
 
     # 7. a skill is called one way, and only if it exists here or in EXTERNAL_SKILLS —
     #    a second pass, so a call to a skill later in the directory order resolves.

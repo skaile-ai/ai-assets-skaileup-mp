@@ -9,6 +9,8 @@ metadata:
     requires:
       - { id: featuresets }
       - { id: research-behavioral-patterns }
+    produces:
+      - { id: behaviors, path: "_concept/06_behaviors/<featureset>.md" }
   prerequisites:
     files:
       - { path: "_concept/05_features", gate: hard, min_entries: 1 }

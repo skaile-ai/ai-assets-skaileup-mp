@@ -11,6 +11,8 @@ metadata:
       - { id: features }
       - { id: screens }
       - { id: datamodel }
+    produces:
+      - { id: trace, path: "_concept/11_build/trace.yaml" }
   prerequisites:
     files:
       - { path: "_concept/brief.md", gate: hard }

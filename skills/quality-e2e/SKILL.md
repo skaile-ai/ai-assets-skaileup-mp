@@ -11,6 +11,8 @@ metadata:
       - { id: features }
       - { id: screens }
       - { id: datamodel }
+    produces:
+      - { id: acceptance-criteria, path: "_concept/11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md" }
   prerequisites:
     files:
       - { path: "_concept/04_journeys/stories.yaml", gate: hard }

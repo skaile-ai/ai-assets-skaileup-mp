@@ -2,6 +2,10 @@
 name: quality-standards
 description: "Use when work is starting against an existing codebase and its conventions have not been written down — scans the code for the patterns it already follows and records them as standards the build skills read. Triggers on 'discover standards', 'what conventions does this codebase use', 'analyse the codebase'."
 version: "0.1.0"
+metadata:
+  artifacts:
+    produces:
+      - { id: standards, path: "_concept/02_grounding/standards/" }
 ---
 
 # quality-standards

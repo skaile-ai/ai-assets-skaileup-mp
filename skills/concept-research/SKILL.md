@@ -8,6 +8,16 @@ metadata:
   artifacts:
     requires:
       - { id: brief }
+    produces:
+      - { id: research-domain, path: "_concept/02_grounding/research/domain.md" }
+      - { id: research-competitors, path: "_concept/02_grounding/research/competitors.md" }
+      - { id: research-audiences, path: "_concept/02_grounding/research/audiences.md" }
+      - { id: research-design-inspiration, path: "_concept/02_grounding/research/design-inspiration.md" }
+      - { id: research-patterns, path: "_concept/02_grounding/research/patterns.md" }
+      - { id: research-colors-fonts, path: "_concept/02_grounding/research/colors-fonts.md" }
+      - { id: research-behavioral-patterns, path: "_concept/02_grounding/research/behavioral-patterns.md" }
+      - { id: research-step, path: "_concept/02_grounding/research/step/<skill-name>/" }
+      - { id: grounding-findings, path: "_concept/02_grounding/findings/" }
   prerequisites:
     files:
       - { path: "_concept/brief.md", gate: soft }

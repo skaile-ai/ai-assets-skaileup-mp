@@ -6,10 +6,12 @@
 
 **Blocked by:** i-ssi-adr-produces-glossary
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] `metadata.artifacts.produces` present on all 30 skills, sourced from the report's writer map (`writes.json`).
-- [ ] `docs/skill-template.md` shows the `produces` block.
-- [ ] Three gate rules: non-empty `produces` for every `_concept/` writer; each `path` in the tree fence; each `requires[].id` resolves to some `produces[].id`.
-- [ ] One failing fixture per rule plus a passing fixture in `scripts/test_check.py`, asserting on message text.
-- [ ] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+- [x] `metadata.artifacts.produces` present on all 30 skills, sourced from the report's writer map (`writes.json`).
+- [x] `docs/skill-template.md` shows the `produces` block.
+- [x] Three gate rules: non-empty `produces` for every `_concept/` writer; each `path` in the tree fence; each `requires[].id` resolves to some `produces[].id`.
+- [x] One failing fixture per rule plus a passing fixture in `scripts/test_check.py`, asserting on message text.
+- [x] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+
+**Resolution (2026-10-16):** `metadata.artifacts.produces` on all 30 skills (today's writes; duplicates allowed until phases 2-3 dedupe; `[]` for build-scaffold, build-database, build-branch, quality-test, skaileup). Rules: `skill-declares-what-it-produces` (key + entry shape, kebab ids), path resolves in the concept_structure tree fence, every requires id produced. Host fact `host:node-done-from-produced-by` (skaile-forge `server/utils/artifact-contract.ts` L152) holds. Template shows the block. check.py green, 144 fixtures.

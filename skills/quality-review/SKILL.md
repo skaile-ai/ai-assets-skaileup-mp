@@ -10,6 +10,8 @@ metadata:
       - { id: features }
       - { id: slice-plan }
       - { id: acceptance-criteria }
+    produces:
+      - { id: review, path: "_concept/11_build/reviews/<feature_slug>.yaml" }
   prerequisites:
     files:
       - { path: "_concept/05_features", gate: hard, min_entries: 1 }
