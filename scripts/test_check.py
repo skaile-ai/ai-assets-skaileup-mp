@@ -1408,3 +1408,76 @@ def test_verifier_expires_when_the_host_file_is_gone(tmp_path):
     verdict, detail, _ = verify_host.check_fact(a_fact(), tmp_path)
     assert verdict == verify_host.EXPIRED
     assert "no such file" in detail
+
+
+# --- skills/ops-review/scripts/check_concept.py: the mechanical half of ops-review ---------
+
+def load_check_concept():
+    import importlib.util
+
+    script = Path(__file__).resolve().parent.parent / "skills/ops-review/scripts/check_concept.py"
+    spec = importlib.util.spec_from_file_location("check_concept", script)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module, script
+
+
+def concept_tree(root: Path) -> Path:
+    """A minimal valid `_concept/`: one journey, one model, one feature, one screen, one ledger."""
+    files = {
+        "brief.md": "---\nelevator_pitch: p\naudience: a\nproblem: q\nhero_flow: h\nlast_updated: 2026-09-05\n---\n",
+        "goals.md": "---\nsuccess_criteria: []\nkpis: []\nconstraints: []\nnon_goals: []\nlast_updated: 2026-09-05\n---\n",
+        "glossary.md": "---\nlast_updated: 2026-09-05\napproved: 2026-09-05\n---\n",
+        "04_journeys/stories.yaml": (
+            "version: '1.0'\nlast_updated: 2026-09-05\njourneys:\n  - id: login\n    steps:\n"
+            "      - action: sign in\n        acceptance:\n          - { id: AC-login-01, ears: 'WHEN x, THE SYSTEM SHALL y' }\n"
+        ),
+        "10_blueprint/datamodel/model.json": '{"models": [{"name": "User"}]}',
+        "05_features/auth/login.md": (
+            "---\npriority: must-have\npermissions: {member: [view]}\nscreens:\n  - path: 07_screens/login/login.md\n"
+            "data_entities: [User]\nlast_updated: 2026-09-05\n---\n\n## Criteria\n\n- AC-login-01\n"
+        ),
+        "07_screens/login/login.md": (
+            "---\nimplements:\n  - 05_features/auth/login.md\nlast_updated: 2026-09-05\n---\n"
+        ),
+        "11_build/acceptance-criteria/auth/login.ac.md": (
+            "---\nfeature: login\nfeature_ref: _concept/05_features/auth/login.md\nlast_updated: 2026-09-05\n---\n\n"
+            "# Criteria — Login\n\n"
+            "- [PASS] AC-login-01 — tests/login.test.ts · build-implement · 4f2a9c1 · 2026-09-05\n"
+        ),
+    }
+    concept = root / "_concept"
+    for rel, text in files.items():
+        path = concept / rel
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+    return concept
+
+
+def test_check_concept_passes_a_minimal_valid_tree(tmp_path):
+    module, script = load_check_concept()
+    assert module.check(concept_tree(tmp_path), script) == []
+
+
+def test_check_concept_reports_one_broken_screens_link(tmp_path):
+    module, script = load_check_concept()
+    concept = concept_tree(tmp_path)
+    feature = concept / "05_features/auth/login.md"
+    feature.write_text(
+        feature.read_text().replace(
+            "  - path: 07_screens/login/login.md\n",
+            "  - path: 07_screens/login/login.md\n  - path: 07_screens/login/missing.md\n",
+        )
+    )
+    problems = module.check(concept, script)
+    assert len(problems) == 1, problems
+    assert "05_features/auth/login.md" in problems[0] and "07_screens/login/missing.md" in problems[0]
+
+
+def test_check_concept_reports_the_retired_comparable_file_as_unowned(tmp_path):
+    module, script = load_check_concept()
+    concept = concept_tree(tmp_path)
+    (concept / "comparable.md").write_text("---\nlast_updated: 2026-09-05\n---\n")
+    problems = module.check(concept, script)
+    assert len(problems) == 1, problems
+    assert "comparable.md" in problems[0] and "unowned" in problems[0]

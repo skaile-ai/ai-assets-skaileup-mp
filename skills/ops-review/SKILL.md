@@ -30,83 +30,68 @@ tree's integrity: structure, frontmatter, cross-references, naming, coverage and
 behind them and the code they touched, read from `11_build/trace.yaml` — which
 `build-implement` writes as each slice commits — plus the tracked files that belong to no
 feature at all. Both are verdicts recomputed from the tree every run, delivered as the report
-and never written to disk; the only writes are the cross-reference repairs the user approved,
-and every other artifact belongs to the skill that owns it.
+and never written to disk; the only writes are the cross-reference repairs the user approved.
 
 The stance, the flag shape and the verdict tiers are `contracts/evaluator.md`'s — read it
 first and take its `blocking` / `warning` severities as the vocabulary. Paths are
-`contracts/concept_structure.md`'s, frontmatter fields are
-`contracts/artifact_frontmatter.md`'s, the link protocol is `contracts/feedback_loop.md`'s,
-and the mechanical naming rules are `contracts/golden_principles.md`'s. This file sequences
-those checks and does not restate them.
+`contracts/concept_structure.md`'s, frontmatter fields `contracts/artifact_frontmatter.md`'s,
+the link protocol `contracts/feedback_loop.md`'s, and the mechanical naming rules
+`contracts/golden_principles.md`'s. This file sequences those checks and does not restate them.
 
 ## Steps
 
-1. **Inventory first, judge second.** Walk `_concept/` once and build the registry every
-   check below reads: every markdown file with its frontmatter, every featureset and feature,
-   every screen, the data model, every slice dossier under
-   `11_build/slices/`, and `git ls-files`. Gather it all before scoring anything — a check
-   that reads files as it goes reports findings in the order it happened to walk the tree
-   rather than in the order they matter.
-2. **Check the structure.** Every path in the tree resolves to one of the eleven numbered
-   top-level entries or the three root files; anything else is a file some skill invented a
-   home for, and no reader will find it. A featureset directory under `05_features/` has a
-   matching one under `07_screens/` only if a feature in it needed screens — the two trees
-   are not required to mirror, because one writer owns both and screens follow features
-   rather than featuresets.
-3. **Check the frontmatter** of every markdown file against the contract for its artifact
-   type: the fields that type requires, `last_updated` present and a real ISO date, and no
-   `status:` field, which no artifact carries and which means somebody's template is stale.
-4. **Check the cross-references, both directions.** A feature's `screens:` names files that
-   exist, and each of those screens' `implements:` names it back. A screen's `implements:`
-   names features that exist. Every name in a `data_entities:` array resolves to a model in
-   `model.json`, and every model in `model.json` is listed in some feature spec's
-   `data_entities[]`. A one-directional link is a screen the feature it belongs to cannot
-   find, which is invisible until a renderer or a plan silently omits it.
-5. **Check the mechanical rules** in `golden_principles.md` — entity, field, enum and relation
-   naming, and the body structure a feature spec is required to have. These are the rules a
-   generated or reverse-engineered concept fails first, because nothing enforced them while
-   it was written.
-6. **Check coverage.** Per feature: a spec, at least one screen that implements it, and an
+1. **Run the mechanical check.** `python3 <skill-dir>/scripts/check_concept.py <project>`
+   prints one `path: message` line per problem: entries the tree does not own (the retired
+   `comparable.md`, `10_blueprint/glossary.md` and `datamodel/feature-map.json` included),
+   frontmatter fields and dates, `screens:` and `implements:` links in both directions,
+   `data_entities[]` against `model.json`, criterion ids against `stories.yaml`, and the
+   ledger rows' format. Take every line as a `blocking` finding, unedited; reading the files
+   again to second-guess it spends the run on what the script already settled. A project
+   with no `_concept/` is the missing step, not a finding.
+2. **Inventory what the script does not read**, once and before scoring anything: every
+   featureset, feature and screen, the data model, the `11_build/slices/` dossiers and
+   `git ls-files`. Then **check the naming rules** in `golden_principles.md` — entity, field,
+   enum and relation naming, and the body a feature spec must have — which a generated or
+   reverse-engineered concept fails first, because nothing enforced them while it was written.
+3. **Check coverage.** Per feature: a spec, at least one screen that implements it, and an
    entity it reads or writes or an explicit statement that it needs none. Globally:
    `03_brand/tokens.json` and `10_blueprint/techstack.md` exist, since the renderers and the
-   planner hard-gate on them. A gap here is not a defect in what was written — it is work
-   that has not been done, and it is reported as the missing step rather than as a fault.
-7. **Check for decay.** A screen no feature implements and a model no feature references are
-   orphans; a file whose `last_updated` sits far behind its siblings is stale beside work that
-   moved on without it. Report both; deleting is the user's call, since an orphan is as often
-   planned work as it is a leftover.
-8. **Build the coverage matrix, one row per feature**, computed here from the trace and the
-   dossiers and never stored. Read `11_build/trace.yaml`; a feature's
-   slices are its entries there, cross-checked against the dossiers under `11_build/slices/`
-   whose `plan.md` frontmatter names the feature — a dossier the trace has no entry for is a
-   slice that committed without recording itself, reported against `build-implement`. No
-   trace file at all is itself the finding when any slice dossier exists, and on a project
-   that has built nothing it is simply the missing step. Per row: whether every slice is
-   frozen (its `index.md` exists), the union of the commits and code the trace recorded, the
-   ledger rows of the feature's criteria (`contracts/acceptance_criteria.md § Ledger
-   updates`) and their status, and whether any doc page cites its source files. **Red** when
-   a slice is unfrozen, or commits or code are empty, or a ledger row is `FAIL` or untested.
-   **Amber** when the hard checks pass but the documentation does not. **Green** otherwise.
-   `overall` is green exactly when no row is red; amber is surfaced, not blocking.
-9. **Scan the other direction for orphan code.** Every file `git ls-files` reports under the
+   planner hard-gate on them. A gap here is work not yet done, reported as the missing step
+   rather than as a fault.
+4. **Check for decay.** A screen no feature implements and a model no feature's
+   `data_entities[]` lists are orphans; a file whose `last_updated` sits far behind its
+   siblings is stale beside work that moved on without it. Report both; deleting is the
+   user's call, since an orphan is as often planned work as it is a leftover.
+5. **Build the coverage matrix, one row per feature**, from the trace and the dossiers,
+   never stored. A feature's slices are its `11_build/trace.yaml` entries, cross-checked
+   against the `11_build/slices/` dossiers whose `plan.md` frontmatter names the feature — a
+   dossier the trace lacks is a slice that committed without recording itself, reported
+   against `build-implement`. No trace at all is the finding when any slice dossier exists,
+   and the missing step on a project that has built nothing. Per row: whether every slice is
+   frozen (its `index.md` exists), the commits and code the trace recorded, the ledger rows
+   of the feature's criteria (`contracts/acceptance_criteria.md § Ledger updates`) and their
+   status, and whether any doc page cites its source files. **Red** when a slice is
+   unfrozen, commits or code are empty, or a ledger row is `FAIL` or untested. **Amber** when
+   the hard checks pass but the documentation does not. **Green** otherwise. `overall` is
+   green exactly when no row is red; amber is surfaced, not blocking.
+6. **Scan the other direction for orphan code.** Every file `git ls-files` reports under the
    source directories, minus the union of every feature's `code` in the trace, minus tests,
-   build output, configuration, dotfiles and `_concept/` itself. What remains is code no
-   feature claims. This half is advisory and never deletes anything: an orphan is a question
-   for the user, and a skill that answers it by removing files is a skill nobody runs twice.
-10. **Name the fixing skill on every finding.** A missing screen is `spec-feature`; a missing
-    shell is `experience-shell`; missing tokens are `design-brand`; a missing stack or model is
-    `architecture-techstack` or `architecture-datamodel`; an unplanned feature is `build-plan`;
-    an unfrozen slice or a missing trace entry are `build-implement` and `build-branch`; a feature
-    with no featureset is `spec-featuresets`. A finding without a next command is a finding
-    the reader has to triage themselves, which is the work this skill was supposed to do.
-11. **Show everything, then offer the repairs.** Present the review findings by severity and
-    the coverage matrix as a table with its orphan list and `overall`, then offer only the
-    fixes that are mechanical: adding a missing back-link, removing a reference to a file
-    that no longer exists. Show the exact diff and get a yes before writing. Everything else
-    — missing content, a renamed entity, a naming violation inside the model, a missing trace
-    entry — is reported and left alone, because repairing it means deciding what it should
-    have said, or rebuilding a record only the committing skill can vouch for.
+   build output, configuration, dotfiles and `_concept/`. What remains is code no feature
+   claims — advisory, never deleted: an orphan is a question for the user.
+7. **Name the fixing skill on every finding**, the script's included. A missing screen is
+   `spec-feature`; a missing shell is `experience-shell`; missing tokens are `design-brand`;
+   a missing stack or model is `architecture-techstack` or `architecture-datamodel`; a
+   retired path or missing glossary is `concept-brief` or `concept-glossary`; an unplanned
+   feature is `build-plan`; an unfrozen slice or missing trace entry is `build-implement` or
+   `build-branch`; a feature with no featureset is `spec-featuresets`. A finding without a
+   next command leaves the reader to triage it themselves.
+8. **Show everything, then offer the repairs.** Present the findings by severity and the
+   coverage matrix as a table with its orphan list and `overall`, then offer only the
+   mechanical fixes: adding a missing back-link, removing a reference to a file that no
+   longer exists. Show the exact diff and get a yes before writing. Everything else — missing
+   content, a renamed entity, a naming violation in the model, a missing trace entry — is
+   reported and left alone, because repairing it means deciding what it should have said, or
+   rebuilding a record only the committing skill can vouch for.
 
 **Done when** every feature has exactly one coverage row, every review finding was reported
 with its severity and its fixing skill, and any repair that was applied was shown as a diff
