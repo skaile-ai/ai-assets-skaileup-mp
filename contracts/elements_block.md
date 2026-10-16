@@ -24,12 +24,24 @@ an empty list) triggers the auto-slug fallback (see *Hybrid ID strategy*
 below). An empty list (`elements: []`) and an absent key are semantically
 identical.
 
-That fallback is a **safety net, not the primary path.** `spec-feature` is the sole
-writer of screen specs and of this block, and it writes one for every screen it names —
-covering every interactive or structural thing under `### UI Elements`, `## Actions` and
-`## Information Displayed`, including `target:` for every action that names a destination
-screen. Renderers still never hard-fail on a missing or partial block: the obligation is
-the author's, at authoring time, not the renderer's at render time.
+That fallback is a **safety net, not the primary path.** Renderers never hard-fail on a
+missing or partial block: the obligation is the author's, at authoring time, not the
+renderer's at render time.
+
+## Writers
+
+Two skills write `elements:` blocks, each in one place:
+
+- **`spec-feature`** writes the block in every screen spec
+  (`07_screens/<feature_slug>/<screen>.md`), one entry per screen it names — covering every
+  interactive or structural thing under `### UI Elements`, `## Actions` and
+  `## Information Displayed`, including `target:` for every action that names a destination
+  screen.
+- **`experience-shell`** writes the `kind: nav` elements in the app shell's own frontmatter
+  (`07_screens/shell.md`), mirroring its `## Navigation` section.
+
+Nothing else writes the block, except `mockup-feedback`'s id promotion (see § Hybrid ID
+strategy).
 
 ---
 

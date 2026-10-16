@@ -57,8 +57,8 @@ Paths are `contracts/concept_structure.md`'s; `story_refs` back to the journeys 
    pretending to be a grouping. Names are lowercase, hyphenated slugs and become the
    directory each feature spec is written into, so renaming one later rewrites every
    cross-reference to it.
-4. **Prioritise from the story stage.** Hero, vital and hygiene stories give must-have
-   features; backlog stories give nice-to-have. The scope answer calibrates what survives:
+4. **Prioritise from the story stage** (`stories.yaml § stages` defines them). Hero, vital
+   and hygiene stories give must-have features; backlog stories give nice-to-have. The scope answer calibrates what survives:
    must-have only cuts everything backlog-derived, and comprehensive keeps it all. Whatever
    is cut is written down as cut rather than dropped, so the next reader can tell a decision
    from an oversight. Without stories there is no stage: the brief's hero flow gives

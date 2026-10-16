@@ -49,12 +49,14 @@ Paths are `contracts/concept_structure.md`'s; the EARS grammar is
    criteria. Stop and get this one approved before mapping anything else — a hero journey the
    user disagrees with makes every other journey the wrong shape. Exactly one journey carries
    `stage: hero`; a second one means the product's core has not been decided.
-4. **Map the rest, staged by what they are for.** `vital` — the other journeys that make the
-   product usable day to day. `hygiene` — the operational flows nobody buys the product for
-   and it cannot run without: onboarding, settings, roles, import and export. `backlog` —
-   journeys deliberately out of this scope, sourced from the goals' non-goals and the gaps
-   research found. The stage is what sets each story's priority, and it is what
-   `spec-featuresets` reads to decide what gets specified now.
+4. **Map the rest, staged by what they are for, and write the `stages:` section.** The
+   stage definitions live in `stories.yaml § stages` — one entry per stage id with a
+   one-line definition — and nowhere else; every other skill cites them. `vital` — the other
+   journeys that make the product usable day to day. `hygiene` — the operational flows
+   nobody buys the product for and it cannot run without: onboarding, settings, roles,
+   import and export. `backlog` — journeys deliberately out of this scope, sourced from the
+   goals' non-goals and the gaps research found. The stage is what sets each story's
+   priority, and what `spec-featuresets` and `experience-shell` read.
 5. **Write acceptance criteria in EARS for every story** — at least two on a hero story, one
    everywhere else — using the pattern that fits: ubiquitous, event-driven, state-driven,
    optional-feature or complex. Give each criterion its id at write time, `AC-<story-id>-<nn>`
@@ -69,7 +71,9 @@ Paths are `contracts/concept_structure.md`'s; the EARS grammar is
    `candidate_entities` are read from `glossary.md`, never coined, and a concept with no term
    is handed back, with the flow re-entering `concept-glossary`.
 7. **Write `04_journeys/stories.yaml`** — the project name, problem and success metrics from
-   the brief, the personas, then the journeys with their stage, stories, criteria and hints.
+   the brief, the personas, the `stages:` section (`hero`, `vital`, `hygiene`, `backlog`,
+   each with its definition from steps 3 and 4), then the journeys with their stage,
+   stories, criteria and hints.
    Show the map as a table by stage with counts, and iterate until the user approves.
 
 **Done when** `stories.yaml` exists with exactly one hero journey, every story has an `id` and

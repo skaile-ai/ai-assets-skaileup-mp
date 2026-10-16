@@ -32,8 +32,8 @@ metadata:
 One feature, from a sentence to a spec somebody can build: the interview, the scope line,
 then the two permanent artifacts — the feature spec and its screen specs — and the feature
 dossier, opened with the grill and frozen last. This skill is the **only writer of screen
-specs and of the `elements:` block**; `experience-shell` owns `07_screens/shell.md` and
-nothing else under that tree. It handles **one** feature per run and is re-entered once per
+specs and their `elements:` blocks**; `experience-shell` writes the shell's nav elements in
+`07_screens/shell.md`, nothing else under that tree. It handles **one** feature per run and is re-entered once per
 feature in `05_features/featuresets.md`: the flow graph draws that node once, because
 iteration is not something a flow edge can express, so the repetition lives here.
 

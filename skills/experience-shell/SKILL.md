@@ -54,8 +54,8 @@ Paths are `contracts/concept_structure.md`'s, the frontmatter shape is
    a nav invented here.
 2. **Derive the navigation from those screens.** Every destination is a screen a spec or a
    finding names, under the screen id it already has; a destination nothing backs is dropped
-   rather than added. Group them by featureset, and let journey stage decide prominence: the
-   hero and vital journeys earn primary navigation, hygiene flows sit behind a settings or
+   rather than added. Group them by featureset, and let the journey stage (`stories.yaml §
+   stages`) decide prominence: the hero and vital journeys earn primary navigation, hygiene flows sit behind a settings or
    admin entry. A nav with one item per screen is a menu of the file system rather than of
    the product.
 3. **Describe the layout areas** — header, primary navigation, content region, and anything
@@ -67,7 +67,8 @@ Paths are `contracts/concept_structure.md`'s, the frontmatter shape is
    breadcrumbs go, what an empty state, a loading state and an error look like, where
    confirmations and destructive actions surface. Each of these is a decision a feature spec
    would otherwise make alone, and inconsistently.
-6. **Mirror the navigation into the `elements:` block.** `shell.md`'s own frontmatter carries
+6. **Mirror the navigation into the `elements:` block**, written to `elements_block.md §
+   Schema` with `items[]` shaped per `§ Content fidelity`. `shell.md`'s own frontmatter carries
    a `kind: nav` element whose `items[]` are the destinations from step 2, in the same order,
    each with its `target`. The walkthrough renderers treat that block as authoritative for
    the app nav and derive one per rendered screen when it is absent — so an unmirrored
