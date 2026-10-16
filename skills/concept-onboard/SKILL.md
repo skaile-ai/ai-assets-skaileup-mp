@@ -43,8 +43,8 @@ Paths are `contracts/concept_structure.md`'s. Everything this skill writes lands
    that carries `approved:` means this ran before: show what it holds and ask whether to
    continue with it, change specific answers, or start over. Carry it forward on every write.
    Read `01_meta/scope.yaml` for `project_type` and the flow; this skill confirms that value
-   rather than collecting it again, and a project whose type is unset behaves as `web-app`
-   everywhere downstream.
+   rather than collecting it again. `concept-scope` owns both, and the default that applies
+   when the type is unset.
 2. **Collect the technology preferences**, one question at a time per
    `contracts/agent_patterns.md § Questions Are Standalone Messages`: framework or language,
    data access and database, UI component library, authentication, and the overall

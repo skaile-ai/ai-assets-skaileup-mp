@@ -15,8 +15,8 @@ The collection's front door: it names the one skill to run next and stops there.
 no artifact and enters no flow — a router that also did the work would be a second place
 where a skill's job is defined.
 
-It answers only where nothing else already does. **Which flow** a project is sized by
-belongs to `concept-scope` step 4, and to the host's profile picker before that. **What
+It answers only where nothing else already does. **Which flow** a project is sized by, and
+its project type with the default that goes with it, belong to `concept-scope`. **What
 runs after a skill completes** belongs to `contracts/agent_patterns.md § Next-Step
 Suggestion`, which every skill already follows. What is left is the two cold cases below.
 
@@ -53,22 +53,28 @@ Paths are `contracts/concept_structure.md`'s.
    sending it to `build-plan` gets the code corrected against a spec that still describes the
    old promise.
 
-3. **Cold start — read the sizing, then walk the flow.** In order, stopping at the first
-   that answers:
+3. **Cold start — read the sizing, then compare each node's `produces` with the tree.** In
+   order, stopping at the first that answers:
 
    1. **No `_concept/01_meta/scope.yaml`** — the project is unsized, so no flow is chosen and
       no order exists to walk. `concept-scope` is next, and nothing else can be.
-   2. **A `flow:` in that file** — open `flows/<flow>/<flow>.flow.yaml` and walk its edges
-      from the entry node. The first node whose artifacts are not yet in the tree is the
-      answer. Read the graph; never restate it from memory, and never carry a remembered
-      order between projects — the flow file is the only place the sequence lives, and a
-      router that recites it becomes wrong the first time an edge moves.
+   2. **A `flow:` in that file** — open `flows/<flow>/<flow>.flow.yaml` and visit its nodes
+      along the `type: flow` edges from `entry`, in edge order. For each node read its
+      skill's `metadata.artifacts.produces` — that list is the node's output, so no skill
+      body needs reading to learn what it leaves behind. A node is **done** when every path
+      in its list is present in `_concept/`: a file path exists, a directory path is
+      non-empty, and a path with a placeholder (`<slug>.md`) has at least one match. The
+      first node that is not done is the answer. A node whose list is empty writes nothing
+      under `_concept/` and cannot be told apart by the tree, so it is skipped. Read the
+      graph and the lists; never restate either from memory, and never carry a remembered
+      order between projects — the flow file holds the sequence and each skill holds its
+      own output, and a router that recites either becomes wrong the first time one moves.
    3. **A `flow:` naming no such file** — say so plainly rather than guessing a neighbour.
       A wrong flow re-sizes every skill after it.
 
 4. **Answer with one name and its evidence.** Name a single skill, and the sentence that
-   chose it: which file was absent, which edge was walked, which door the work came in
-   through. A list of candidates hands the decision back, and the user came here because
-   they did not have it.
+   chose it: which file was absent, which node's `produces` path was missing, which door
+   the work came in through. A list of candidates hands the decision back, and the user
+   came here because they did not have it.
 
 **Done when** the user has one skill name and can see what chose it.
