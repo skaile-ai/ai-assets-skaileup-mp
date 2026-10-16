@@ -76,8 +76,8 @@ _concept/
 │   └── feedback/                   sessions · triage · patches · applied · devlog.md
 │
 ├── 10_blueprint/
-│   ├── techstack.md                chosen technologies and why
-│   ├── architecture.md             system architecture, modules, data flow, protocols
+│   ├── techstack.md                chosen technologies and why — no third-party services
+│   ├── architecture.md             modules, protocols, data flow, and every external integration
 │   ├── decisions.md                design-time decision records, append-only
 │   └── datamodel/                  model.dbml · model.json · seed.json
 │

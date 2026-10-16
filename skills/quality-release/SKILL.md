@@ -65,10 +65,8 @@ which here means walking the app as a user rather than reading what it was suppo
    against `03_brand/tokens.json` where it exists. "Looks clean" is the absence of a score,
    and originality above 7 needs named distinctive choices or it is a generic app being
    graded politely.
-6. **Score the three technical axes.**
-   - **Performance**, from the browser's own tooling: LCP under 2.5s good, 2.5-4s warn, over
-     4s poor; CLS under 0.1 / 0.1-0.25 / over 0.25; first interaction under 100ms / 100-300ms
-     / over 300ms.
+6. **Score the three technical axes**, banded by `contracts/evaluator.md § Release thresholds`.
+   - **Performance**, from the browser's own tooling: LCP, CLS and first interaction.
    - **Accessibility**, 0-100: every journey completable without a mouse, interactive
      elements labelled, text and controls meeting contrast against their real background.
    - **Mobile**, 0-100, at 375px: all content reachable, no horizontal scroll, touch targets
@@ -76,16 +74,12 @@ which here means walking the app as a user rather than reading what it was suppo
 7. **Write the verdict** to `11_build/release.yaml` — goals with their evidence, the seven
    scores, the blocking findings, and `improvement_priorities` ranked by impact on the goals
    rather than by how easy each is to fix. Severities are `contracts/evaluator.md` § Flag
-   shape; the verdict names here are `pass`, `needs_iteration` and `fail`:
-   - **pass** — at least two thirds of goals `achieved` or `partial`, design average ≥ 7,
-     accessibility ≥ 70, LCP under 4s, and no blocking finding.
-   - **needs_iteration** — any goal `not_achieved`, or design average under 7, or
-     accessibility under 70.
-   - **fail** — most goals `not_achieved`, or LCP over 4s together with CLS over 0.25.
+   shape; the verdict names here are `pass`, `needs_iteration` and `fail`, and which one the
+   scores earn is read off `contracts/evaluator.md § Release thresholds`, not recomputed here.
 8. **Report** the verdict, the goal tally, the seven scores on one line and the ranked
    improvements — each naming the skill that owns the fix, so the verdict routes somewhere
    instead of ending the run.
 
 **Done when** `11_build/release.yaml` is on disk, every goal in it carries evidence from the
-running app, every design score cites the elements behind it, and the verdict follows the
-thresholds above rather than an impression of the app.
+running app, every design score cites the elements behind it, and the verdict follows
+`contracts/evaluator.md § Release thresholds` rather than an impression of the app.

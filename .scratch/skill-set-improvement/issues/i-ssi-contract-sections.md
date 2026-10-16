@@ -6,10 +6,12 @@
 
 **Blocked by:** i-ssi-spec-truth, i-ssi-screens-shell, i-ssi-build-quality-joins
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] `§` cites in the three skills resolve to existing headings.
-- [ ] No skill body restates the one-question rule.
-- [ ] Integrations only in `architecture.md`; techstack question skipping described.
-- [ ] Thresholds table in `contracts/evaluator.md`, cited by `quality-release`.
-- [ ] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+- [x] `§` cites in the three skills resolve to existing headings.
+- [x] No skill body restates the one-question rule.
+- [x] Integrations only in `architecture.md`; techstack question skipping described.
+- [x] Thresholds table in `contracts/evaluator.md`, cited by `quality-release`.
+- [x] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+
+**Resolution (2026-10-16):** § cites in spec-feature (136 lines), architecture-datamodel, experience-shell (elements_block § Schema, walkthrough_renderer § App-shell navigation, …); one-question rule cited from agent_patterns § Questions Are Standalone Messages in the six skills, restatements gone; integrations only in architecture.md (architecture-system § External Integrations), techstack step 3 skips locked answers; `evaluator.md § Release thresholds` table (metric/good/warn/block + verdicts; LCP > 4s alone and blocking findings now map to needs_iteration) cited by quality-release with no numbers. One whole-file cite remains in spec-feature step 5 (heading with backticks is not citable). check.py green.

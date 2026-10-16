@@ -42,28 +42,31 @@ and its section headings are `templates/README.md`'s; read it before scoring.
    whom; `01_meta/scope.yaml` for `flow` and `project_type`; every
    feature under `05_features/` that exists, for complexity signals; and
    `02_grounding/onboarding/answers.json` for the technology answers and their `confidence`
-   — **locked** is honoured as given, **preferred** can be overruled by a better fit,
-   **open** is yours to recommend from. `project_type` decides
+   (step 3 says what each grade settles). `project_type` decides
    which axes carry weight — `cli-tool`, `api-service`, `library` and `data-pipeline` grow no
    screens, so the UI-library axis is dead for them and the choice is a runtime and a data
    layer. A `techstack.md` that is already there is a handed-off concept: read it back to the
    user and confirm it instead of re-running the selection, since regenerating a stack the
    project was already built against invalidates everything downstream of it without saying
-   so. When `02_grounding/findings/stack.md` exists — the reverse flow — its graded values
-   are the starting answers: show them as proposals, let an `extracted` one answer its
-   question in step 3 once the user confirms it, and ask about every `inferred` or
-   `needs_review` one — the chosen template still has to be scored and approved here.
+   so. When `02_grounding/findings/stack.md` exists — the reverse flow — its graded values are
+   proposals, never answers: show them to the user, then step 3 asks about every one, an
+   `extracted` one as a confirmation — the chosen template still has to be scored and approved
+   here.
 2. **Discover the candidates at runtime.** Scan `templates/*/TEMPLATE.md` and read only each
    one's `## Identity` table and `## When to Use`. The candidate set is whatever is on disk
    and the id is the directory name character for character — a list of ids written into this
    file is a list that goes wrong the day a template lands.
-3. **Ask in plain language, one question per message**, per
+3. **Ask in plain language**, per
    `contracts/agent_patterns.md § Questions Are Standalone Messages`: existing framework
    experience, web / mobile / desktop / API, how data-heavy the app is, whether it needs a CMS
-   or admin panel, self-hosted or managed, and any budget constraint. Skip whatever the
-   `answers.json` already settled and adjust each question to the last answer.
-   `appbuilder-mvp` settles this in a round or two — one capability and a single user rarely
-   argue with the default — while the other three flows work the whole list.
+   or admin panel, self-hosted or managed, and any budget constraint. Skip every question an
+   input field already answered: a `locked` value in `answers.json` is honoured as given and
+   its question is not asked, a `preferred` one is offered as the default and can be overruled
+   by a better fit, an `open` one is yours to recommend from and still asked. Adjust each
+   remaining question to the last answer. `appbuilder-mvp` settles this in a round or two — one
+   capability and a single user rarely argue with the default — while the other three flows
+   work the whole list. Outside services are not asked about here: they are
+   `architecture-system`'s.
 4. **Score every candidate on four weighted axes**: frontend framework ×3, UI library ×2,
    backend ×1, database ×1. Frontend dominates deliberately, because a Nuxt project never
    lands on a Next template whatever the other three score.
@@ -78,20 +81,19 @@ and its section headings are `templates/README.md`'s; read it before scoring.
    Svelte onto a Next template costs the entire build; a stack with no template is a gap in
    `templates/`, recorded as one.
 7. **Approve the stack and its template together, once.** Show it in the user's language —
-   what the app will be built on, which outside services it will talk to and what for — with
-   the technical line under it: frontend, UI library, backend, database, auth, the winning
-   template id and its one-line identity, and the runner-up with the gap that lost it. One id
-   is on the table, not two: a second checkpoint over the same field asks the same person the
-   same question twice and lets the two answers disagree.
+   what the app will be built on — with the technical line under it: frontend, UI library,
+   backend, database, auth, the winning template id and its one-line identity, and the runner-up
+   with the gap that lost it. One id is on the table, not two: a second checkpoint over the
+   same field asks the same person the same question twice and lets the two answers disagree.
 8. **Check the id resolves, then write.** `test -d templates/<id>` before anything is written
    — a `tech_stack_skill` naming a directory that is not there fails at `build-scaffold`,
    several steps and one approval later, with nothing to fall back on. Then write
    `10_blueprint/techstack.md`: the frontmatter fields from the contract plus
    `tech_stack_skill`, a short section per axis saying why that choice fits *this* project,
-   `## Additional Integrations` covering payments, mail and SMS, file storage, analytics and
-   error tracking, and anything domain-specific the features named — "None identified" when
-   there are none — and `## Trade-offs Considered`, which is what a reader six months later
-   opens this file for. Names and reasons only: a Prisma schema or a line of SQL here is
+   and `## Trade-offs Considered`, which is what a reader six months later opens this file for.
+   Third-party services — payments, mail and SMS, file storage, analytics, error tracking, auth
+   providers beyond the template's own — are not recorded here: `architecture-system` owns them
+   in `architecture.md`. Names and reasons only: a Prisma schema or a line of SQL here is
    `architecture-datamodel`'s output written in the wrong file, and stale as soon as it exists.
 
 **Done when** `10_blueprint/techstack.md` exists, its `tech_stack_skill` names either a real

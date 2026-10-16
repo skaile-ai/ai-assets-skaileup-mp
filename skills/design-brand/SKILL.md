@@ -34,8 +34,8 @@ anything reads `tokens.json`, and both mockup renderers hard-gate on it, so this
 the visual half of the project stands on. This skill settles what the product looks like and
 how it sounds: `identity.md` is the one home of the tone of voice and the copy guidelines.
 
-Paths are `contracts/concept_structure.md`'s and frontmatter shapes are
-`contracts/artifact_frontmatter.md`'s.
+Paths are `contracts/concept_structure.md § The tree`; frontmatter shapes are
+`contracts/artifact_frontmatter.md § 03_brand/identity.md`.
 
 ## Steps
 
@@ -47,10 +47,12 @@ Paths are `contracts/concept_structure.md`'s and frontmatter shapes are
    flow — seed the draft from it and show each graded value as a proposal: only `extracted`
    values are what the code says, and `inferred` or `needs_review` ones are the user's to
    settle before they reach `tokens.json`.
-2. **Discover the direction, one question at a time.** A site whose look they love; the
-   feeling the product should give, offered as a spectrum rather than a dropdown; a
-   calibration between two opposing examples that both fit this kind of app; light, dark or
-   both; and any font they are bound to. Build each question on the last answer.
+2. **Discover the direction**, per
+   `contracts/agent_patterns.md § Questions Are Standalone Messages`: a site whose look
+   they love; the feeling the product should give, offered as a spectrum rather than a
+   dropdown; a calibration between two opposing examples that both fit this kind of app;
+   light, dark or both; and any font they are bound to. Build each question on the last
+   answer.
 3. **Extract from any reference URL they give.** Open it, screenshot it into
    `02_grounding/findings/` with a row in `findings/index.md` (source, date, `step:
    design-brand`), and read off the dominant colours, the type pairing, the density,
@@ -69,7 +71,7 @@ Paths are `contracts/concept_structure.md`'s and frontmatter shapes are
    frontmatter. Tone and copy: how the product speaks (three or four adjectives with what each
    rules out), how it addresses the user, how errors, empty states and buttons read, and words
    it avoids. Take it from the brief and the direction the user approved; ask only when those
-   leave the voice open, as one question built on the feeling they chose in step 2.
+   leave the voice open, built on the feeling they chose in step 2.
    `tokens.json` carries the machine-readable form: `colors` (primary, secondary, accent,
    background, surface, text, text_muted, border, error, success, warning), `fonts`,
    `radius`, `mode`, `spacing_base`, `shadows`, `atmosphere`, and a `tailwind` block of CSS

@@ -29,7 +29,7 @@ arrives with, before any artifact is designed against them. It collects and reco
 designs nothing. The vision is `concept-brief`'s, the sizing is `concept-scope`'s, and every
 technology named here is a preference a later skill weighs, not a decision it inherits.
 
-Paths are `contracts/concept_structure.md`'s. Everything this skill writes lands under
+Paths are `contracts/concept_structure.md § The tree`. Everything this skill writes lands under
 `02_grounding/`, which every skill may read at any point.
 
 ## Steps
@@ -45,7 +45,7 @@ Paths are `contracts/concept_structure.md`'s. Everything this skill writes lands
    Read `01_meta/scope.yaml` for `project_type` and the flow; this skill confirms that value
    rather than collecting it again. `concept-scope` owns both, and the default that applies
    when the type is unset.
-2. **Collect the technology preferences**, one question at a time per
+2. **Collect the technology preferences**, per
    `contracts/agent_patterns.md § Questions Are Standalone Messages`: framework or language,
    data access and database, UI component library, authentication, and the overall
    architecture pattern. Each answer carries its confidence — **locked** (decided, not open

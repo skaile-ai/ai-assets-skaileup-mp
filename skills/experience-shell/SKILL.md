@@ -34,10 +34,8 @@ in the reverse flow, where it runs before `spec-feature`, it is drawn around the
 codebase already has. `spec-feature` is the sole writer of individual screen specs and of the
 rest of `07_screens/`; this skill never writes one, and `shell` is a reserved slug there.
 
-Paths are `contracts/concept_structure.md`'s, the frontmatter shape is
-`contracts/artifact_frontmatter.md`'s, and the `elements:` block is
-`contracts/elements_block.md`'s — with the app-shell nav case owned by
-`contracts/walkthrough_renderer.md`.
+Paths are `contracts/concept_structure.md § The tree`; the frontmatter shape is
+`contracts/artifact_frontmatter.md § 07_screens/shell.md`.
 
 ## Steps
 
@@ -67,11 +65,11 @@ Paths are `contracts/concept_structure.md`'s, the frontmatter shape is
    breadcrumbs go, what an empty state, a loading state and an error look like, where
    confirmations and destructive actions surface. Each of these is a decision a feature spec
    would otherwise make alone, and inconsistently.
-6. **Mirror the navigation into the `elements:` block**, written to `elements_block.md §
-   Schema` with `items[]` shaped per `§ Content fidelity`. `shell.md`'s own frontmatter carries
-   a `kind: nav` element whose `items[]` are the destinations from step 2, in the same order,
-   each with its `target`. The walkthrough renderers treat that block as authoritative for
-   the app nav and derive one per rendered screen when it is absent — so an unmirrored
+6. **Mirror the navigation into the `elements:` block**: `shell.md`'s own frontmatter carries
+   a `kind: nav` element whose `items[]` are the destinations from step 2, in the same
+   order, each with its `target`. The block is written to `contracts/elements_block.md §
+   Schema` with `items[]` shaped per `§ Content fidelity`, and the renderers treat it as the
+   app nav per `contracts/walkthrough_renderer.md § App-shell navigation` — an unmirrored
    `## Navigation` section renders as a nav the user never designed. A target taken from the
    findings resolves once `spec-feature` writes that screen under the same id; until then it
    is reported as an unresolved target rather than a failure.

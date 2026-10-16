@@ -33,7 +33,7 @@ feature spec lists the models it uses in its own `data_entities[]`.
 The model is **stack-neutral**. Types come from `contracts/semantic_types.md § Scalar Types`
 and are never SQL or Prisma types, and translating the model into a stack is `build-database`'s
 step. Doing it here would freeze a schema into the concept tree before the stack's migration
-tool has seen it. Paths are `contracts/concept_structure.md`'s.
+tool has seen it. Paths are `contracts/concept_structure.md § The tree`.
 
 ## Steps
 
@@ -56,8 +56,8 @@ tool has seen it. Paths are `contracts/concept_structure.md`'s.
    is not appended here: name it and hand back, and the flow re-enters `concept-glossary`,
    which pins it before this step goes on. Entities with no journey behind them — sessions,
    audit logs, job records — are named in the same list and checked the same way.
-3. **Ask what the journeys left ambiguous**, one question per message per
-   `contracts/agent_patterns.md § Pattern: Questions Are Standalone Messages`: what each
+3. **Ask what the journeys left ambiguous**, per
+   `contracts/agent_patterns.md § Questions Are Standalone Messages`: what each
    journey stores, how things connect ("a user has many tasks"), and which roles may see or
    change what. The last answer, taken from the journeys' roles, is what the seed's
    `permissions` scenario and the fields that rules evaluate on come from. The grants

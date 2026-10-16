@@ -33,19 +33,18 @@ One feature, from a sentence to a spec somebody can build: the interview, the sc
 then the two permanent artifacts — the feature spec and its screen specs — and the feature
 dossier, opened with the grill and frozen last. This skill is the **only writer of screen
 specs and their `elements:` blocks**; `experience-shell` writes the shell's nav elements in
-`07_screens/shell.md`, nothing else under that tree. It handles **one** feature per run and is re-entered once per
-feature in `05_features/featuresets.md`: the flow graph draws that node once, because
-iteration is not something a flow edge can express, so the repetition lives here.
+`07_screens/shell.md`, nothing else under that tree. It handles **one** feature per run and
+is re-entered once per feature in `05_features/featuresets.md`: the flow graph draws that
+node once, because iteration is not something a flow edge can express, so the repetition
+lives here.
 
-Paths are `contracts/concept_structure.md`'s. The slug rule and the freeze are
-`contracts/slice_loop.md`'s, the `elements:` schema is `contracts/elements_block.md`'s, the
-frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS grammar is
-`contracts/acceptance_criteria.md § EARS template`. Read each at the step that uses it.
+Paths are `contracts/concept_structure.md § The tree`. Each step names the contract section
+it writes to; read that section at the step, not before.
 
 ## Steps
 
 1. **Resolve the feature and its slug.** Take a one-sentence title, derive `feature_slug`
-   per `contracts/slice_loop.md`, and place it in exactly one featureset under
+   per `contracts/slice_loop.md § Slug rule`, and place it in exactly one featureset under
    `05_features/`. A glob that already resolves means this is a refinement of an existing
    spec: load it and say so before asking anything, so the user answers against what is
    written rather than from memory, and carry its existing `screens:` array through
@@ -88,36 +87,35 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
    what was considered — a later reader looks there to tell a considered item from a forgotten
    one, and the dossier links to it rather than copying it. A DEFER names the feature or slice
    that will pick it up, or it is an OUT wearing a friendlier word. `10_blueprint/decisions.md`
-   takes only decisions that pass the three-test gate: an OUT that clears it appends with
-   Status `rejected`, per `contracts/domain_model.md`, because a refusal that binds the whole
-   design stays invisible to the next feature unless it is logged where that feature reads.
-5. **Write the feature spec** to `05_features/<featureset>/<feature_slug>.md`: frontmatter
-   per the contract, `## Permissions`, `## Scope` from step 4, and the acceptance criteria.
-   `## Permissions` is the role × action table from the grill, in the form
-   `contracts/concept_structure.md` gives for the `05_features/` permissions section
-   (frontmatter `permissions:` block plus the table), with roles from `featuresets.md`'s
+   takes only decisions that pass `contracts/domain_model.md § The ADR gate — record
+   sparingly`: an OUT that clears it appends with Status `rejected`, because a refusal that
+   binds the whole design stays invisible to the next feature unless it is logged where that
+   feature reads.
+5. **Write the feature spec** to `05_features/<featureset>/<feature_slug>.md`: frontmatter per
+   `contracts/artifact_frontmatter.md § 05_features/\<featureset\>/\<feature\>.md`,
+   `## Permissions`, `## Scope` from step 4, and the acceptance criteria. `## Permissions`
+   is the role × action table from the grill, in the form `contracts/concept_structure.md`
+   gives for the `05_features/` permissions section, with roles from `featuresets.md`'s
    vocabulary. This spec is the one record of who may do what; `experience-behaviors`, the
    seed and scaffolding cite it, so none restates it. Criteria from `stories.yaml` are cited
-   by id (`AC-…`, per
-   `contracts/acceptance_criteria.md § Criterion ids`), never retyped; one the feature needs
-   that its journeys lack stops the write and hands back to `experience-journeys`. A criterion
-   the grill adds that no story carries takes an id in the same grammar under the feature
-   slug. Set
-   `data_entities: [<ModelName>, …]` to the `model.json` models the feature reads or writes,
-   each name copied from the model — this list is the one feature↔entity join. An entity the
-   feature needs that the model lacks stops the write and hands back to
-   `architecture-datamodel`; with no `model.json` at all, hand back the same way when the flow
-   has that node, otherwise leave the list empty and name entities by glossary term in the
-   body. Every criterion traces to something the user confirmed in the grill — an invented
-   one reads exactly like a real one to the implementer, and gets built.
+   by id (`AC-…`, `contracts/acceptance_criteria.md § Criterion ids`), never retyped; one the
+   feature needs that its journeys lack stops the write and hands back to
+   `experience-journeys`. A criterion the grill adds that no story carries takes an id in
+   the same grammar under the feature slug. Set `data_entities: [<ModelName>, …]` to the
+   `model.json` models the feature reads or writes, each name copied from the model — the
+   one feature↔entity join. An entity the model lacks stops the write and hands back to
+   `architecture-datamodel`; with no `model.json`, hand back the same way when the flow has
+   that node, otherwise leave the list empty and name entities by glossary term. Every
+   criterion traces to something the user confirmed in the grill — an invented one reads
+   exactly like a real one to the implementer, and gets built.
 6. **Write one screen spec per screen the feature needs**, at
    `07_screens/<feature_slug>/<screen>.md`. Each carries `implements:` pointing back at the
-   feature file and an `elements:` block per `contracts/elements_block.md` — that block is
-   what the walkthrough renderers, the annotator and the feedback pass all read, so a screen
+   feature file and an `elements:` block per `contracts/elements_block.md § Schema` — the
+   block the walkthrough renderers, the annotator and the feedback pass all read, so a screen
    without it renders as an auto-slugged guess. Name only screens the scope line put IN.
-7. **Register both directions**, per `contracts/feedback_loop.md`: the feature's `screens:`
-   lists the files just written, each screen's `implements:` names the feature. A
-   one-directional link is a screen nothing can find from the feature it belongs to.
+7. **Register both directions**, per `contracts/feedback_loop.md § Registration Protocol`:
+   the feature's `screens:` lists the files just written, each screen's `implements:` names
+   the feature. A one-directional link is a screen nothing can find from its feature.
 8. **Show the whole write set and the blast radius, then write.** An existing file gets its
    diff shown and its own answer — the user's earlier edits are the case this catches. Beside
    the diffs, name which already-written artifacts this feature just invalidated and whose
@@ -129,10 +127,10 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
    one writer per artifact exists to avoid. When the project is already built, `build-plan`
    is the next command: the feature is specified, not planned.
 9. **Freeze the feature dossier.** Append the links forward to the spec (its `## Scope`
-   included) and the screens, then set `status: frozen` — frozen by that status, per
-   `contracts/slice_loop.md`. Steps 2–8 already put the framing and the grill's answers on
-   disk; the scope line stays the spec's, linked rather than copied. Skip the dossier and the
-   next reader has the decisions without any of the reasons.
+   included) and the screens, then set `status: frozen` per
+   `contracts/slice_loop.md § Freeze lifecycle`. Steps 2–8 already put the framing and the
+   grill's answers on disk; the scope line stays the spec's, linked rather than copied. Skip
+   the dossier and the next reader has the decisions without any of the reasons.
 
 **Done when** the spec, every screen it names, and the frozen dossier are on disk, and the
 feature's `screens:` and each screen's `implements:` resolve to each other.

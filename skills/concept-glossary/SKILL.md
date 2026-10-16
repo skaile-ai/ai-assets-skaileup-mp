@@ -25,12 +25,9 @@ brief because everything after it names things — journeys, features, screens, 
 tests — and each of them coins its own words when no glossary exists to read. It writes
 words and nothing else: no fields, no types, no paths.
 
-Format, rules and the opinionated-term stance are
-`contracts/domain_model.md § Glossary format`'s; the path is
-`contracts/concept_structure.md`'s and the frontmatter is
-`contracts/artifact_frontmatter.md`'s. Interview conduct is
-`contracts/agent_patterns.md § Questions Are Standalone Messages` and
-`contracts/agent_patterns.md § Answers persist`.
+Format, rules and the opinionated-term stance are `contracts/domain_model.md § Glossary
+format`'s; the path is `contracts/concept_structure.md § The tree`'s and the frontmatter is
+`contracts/artifact_frontmatter.md § glossary.md`'s.
 
 ## Steps
 
@@ -38,7 +35,8 @@ Format, rules and the opinionated-term stance are
    `## Comparables` — and `02_grounding/research/{domain,competitors,audiences}.md` where
    research ran, since that is where the field's own words are. Where a repository was reverse
    engineered, `02_grounding/findings/` carries names the code already uses, each with its
-   grade. `02_grounding/onboarding/answers.json` may already hold terms the user gave. If
+   grade. `02_grounding/onboarding/answers.json` may already hold terms the user gave
+   (`contracts/agent_patterns.md § Answers persist`). If
    `glossary.md` exists this is a re-entry: go to step 6.
 2. **List the candidates.** Every noun the product keeps, every role of a person, every
    event or state a user would name aloud, drawn from those files and marked with where it
@@ -46,7 +44,8 @@ Format, rules and the opinionated-term stance are
    cache, retry) stays out however heavily the product uses it. A name taken from code
    findings goes in as a candidate, never as settled, because code names drift from what the
    people say.
-3. **Grill the words.** Take the candidates one at a time, as a message of its own, with
+3. **Grill the words.** Take the candidates per
+   `contracts/agent_patterns.md § Questions Are Standalone Messages`, each with
    your recommended term and a one-line reason. Two words for one concept: ask which wins
    and list the loser under `_Avoid_`. One word for two concepts: split it and name both.
    An invented term is indistinguishable from the user's by the time a spec quotes it, so a

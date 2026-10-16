@@ -45,7 +45,7 @@ Paths are `contracts/concept_structure.md`'s; the frontmatter is
    (event logs, multi-step workflows, pipelines). Where `06_behaviors/<featureset>.md` exists,
    its state tables sharpen all three: a transition on a timer is background work, one that
    two actors race for is real-time, and one that waits on an outside system names an adapter.
-3. **Ask only what the features left open**, one question per message per
+3. **Ask only what the features left open**, per
    `contracts/agent_patterns.md § Questions Are Standalone Messages`: background or
    scheduled work, live updates, external services, streaming or instant communication, and
    any non-standard handling of data. A question the feature specs already answer spends the
@@ -66,7 +66,10 @@ Paths are `contracts/concept_structure.md`'s; the frontmatter is
    worth fixing here rather than per slice.
 6. **Write `10_blueprint/architecture.md`.** Frontmatter per the contract — `apps`,
    `custom_services`, `custom_modules`, `protocols`, `external_integrations`, `last_updated` —
-   and one body section per addition, in that order. Prose and diagrams, no code: this file is
+   and one body section per addition, in that order; the `## External Integrations` section
+   is the only place in `_concept/` that records third-party services — payments, mail and
+   SMS, file storage, analytics, error tracking, auth providers beyond the template's own —
+   and `techstack.md` carries none of them. Prose and diagrams, no code: this file is
    read by `architecture-datamodel` for the entities a module implies, by `build-plan` for the
    work a slice has to cross, and by `build-implement` for what to build against. An empty
    frontmatter list is a real result — say in the body that the stack covers this project as

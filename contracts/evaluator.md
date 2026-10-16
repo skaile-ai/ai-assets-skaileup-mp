@@ -82,6 +82,31 @@ The top band and "zero blocking findings" are the same statement as § Flag shap
 boundary, said from the verdict's side; a skill that pins its own version of it has
 written the rule twice and will eventually disagree with itself.
 
+## Release thresholds
+
+The numbers `quality-release` grades against — the skill scores, this section decides what a
+score means. A **good** value leaves the verdict alone, a **warn** value is reported in the
+improvement list, and a **block** value refuses the top band where the verdict table below names
+that metric.
+
+| Metric | Good | Warn | Block |
+|---|---|---|---|
+| Largest contentful paint (LCP) | under 2.5s | 2.5–4s | over 4s |
+| Cumulative layout shift (CLS) | under 0.1 | 0.1–0.25 | over 0.25 |
+| First interaction | under 100ms | 100–300ms | over 300ms |
+| Accessibility (0–100) | 70 or more | — | under 70 |
+| Design average (0–10) | 7 or more | — | under 7 |
+| Goals `achieved` or `partial` | two thirds or more | — | under two thirds |
+
+| Verdict | Holds when |
+|---|---|
+| `pass` | goals, design average, accessibility and LCP are all outside the block band, and there is no blocking finding |
+| `needs_iteration` | any goal `not_achieved`, or design average, accessibility or LCP in the block band, or any blocking finding |
+| `fail` | most goals `not_achieved`, or LCP and CLS both in the block band |
+
+CLS on its own, first interaction and Mobile (0–100) are reported and ranked in
+`improvement_priorities`; none of them moves the verdict alone.
+
 ## Report format
 
 First line: `[<skill-short-name>] <scope, if any> → <verdict> (overall: <n>/100)`
