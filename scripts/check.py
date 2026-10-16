@@ -495,6 +495,109 @@ def _required_artifact_ids(fm: dict) -> list[str]:
     return [str(e["id"]) for e in requires if isinstance(e, dict) and e.get("id")]
 
 
+def _produced_entries(fm: dict) -> list[tuple[str, str]]:
+    """The well-formed `(id, path)` pairs of `metadata.artifacts.produces`; the shape itself is
+    reported by `_check_produces`."""
+    block = _artifacts_block(fm)
+    produces = block.get("produces") if block is not None else None
+    if not isinstance(produces, list):
+        return []
+    return [
+        (e["id"], e["path"])
+        for e in produces
+        if isinstance(e, dict) and isinstance(e.get("id"), str) and isinstance(e.get("path"), str)
+    ]
+
+
+def _gate_segments(path: str) -> list[str]:
+    """A `_concept/`-prefixed path as its segments below the root."""
+    return [s for s in path.removeprefix(ARTIFACT_ROOT + "/").split("/") if s]
+
+
+def _paths_overlap(a: str, b: str) -> bool:
+    """True when one path equals, contains or lies under the other. A `<...>` segment matches any
+    one segment, so a gate on `07_screens` meets `07_screens/<feature_slug>/<screen>.md`."""
+    return all(
+        x == y or "<" in x or "<" in y
+        for x, y in zip(_gate_segments(a), _gate_segments(b))
+    )
+
+
+def _check_not_grown_gates(repo: Path, skills: list[tuple[str, dict]], rep: Report) -> None:
+    """Rule `hard-gate-on-not-grown`: a project of a profile that never grows an artifact must
+    not be blocked by a `hard` prerequisite on it (F35).
+
+    A profile's `not_grown` entry is an artifact id from some skill's `produces`, a skill name,
+    or a domain (a name prefix, `mockup` for `mockup-*`). A skill that is itself a named skill
+    or lies in a named domain never runs under that profile, so its gates are not held to it.
+    An entry that resolves to nothing is an error — the rule could not see what it excludes."""
+    profiles_dir = repo / "profiles"
+    if not profiles_dir.is_dir():
+        return
+
+    def covers(entry: str, skill: str) -> bool:
+        return skill == entry or skill.startswith(entry + "-")
+
+    def resolve(entry: str) -> list[str] | None:
+        """The paths an entry names, or None when it names nothing at all."""
+        paths = [
+            path
+            for skill, fm in skills
+            for ident, path in _produced_entries(fm)
+            if ident == entry or covers(entry, skill)
+        ]
+        return paths if paths or any(covers(entry, skill) for skill, _ in skills) else None
+
+    left_out: dict[str, dict[str, list[str]]] = {}  # profile -> entry -> paths it names
+    for profile in sorted(profiles_dir.glob("*.yaml")):
+        where = f"profiles/{profile.name}"
+        try:
+            data = yaml.safe_load(profile.read_text())
+        except yaml.YAMLError as exc:
+            rep.error(where, f"is not parseable YAML: {exc}")
+            continue
+        entries = data.get("not_grown") if isinstance(data, dict) else None
+        if entries is None:
+            continue
+        if not isinstance(entries, list):
+            rep.error(where, f"`not_grown` is a {type(entries).__name__}, not a list of artifact ids")
+            continue
+        left_out[profile.stem] = {}
+        for entry in map(str, entries):
+            paths = resolve(entry)
+            if paths is None:
+                rep.error(
+                    where,
+                    f"`not_grown` lists {entry!r}, which is no artifact id in any skill's "
+                    f"`metadata.artifacts.produces`, no skill and no domain — the gate rule cannot "
+                    f"tell which paths this profile leaves out",
+                )
+                continue
+            left_out[profile.stem][entry] = paths
+
+    for skill, fm in skills:
+        for item in _prerequisite_items(fm):
+            if item.get("gate") != "hard":
+                continue
+            gate = str(item["path"]).lstrip("/")
+            named: list[str] = []
+            for profile, entries in left_out.items():
+                if any(covers(entry, skill) for entry in entries):
+                    continue
+                named += [
+                    f"{entry!r} in profile {profile}"
+                    for entry, paths in entries.items()
+                    if any(_paths_overlap(gate, p) for p in paths)
+                ]
+            if named:
+                rep.error(
+                    f"skills/{skill}",
+                    f"has a `hard` prerequisite on {gate!r}, which a profile never grows "
+                    f"({'; '.join(named)}) — make it `soft` and state in the step that reads it "
+                    f"what the skill does without the file",
+                )
+
+
 # --------------------------------------------------------------------------
 # citations — every asset kind cites contracts, and contracts are pruned hard
 # --------------------------------------------------------------------------
@@ -633,6 +736,7 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
     tree = _fenced_tree_nodes(repo)
     produced: set[str] = set()
     required: list[tuple[str, str]] = []
+    skill_fms: list[tuple[str, dict]] = []
     top_level = _fenced_tree(repo)
     bodies: list[tuple[str, str]] = []
 
@@ -731,6 +835,7 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
         # 5b. what the skill writes, and which artifacts it reads by id (ADR 0013).
         produced |= _check_produces(fm, where, tree, rep)
         required += [(where, ident) for ident in _required_artifact_ids(fm)]
+        skill_fms.append((directory, fm))
 
         # 6. cited contracts must exist.
         _check_citations(text, where, repo, rep)
@@ -758,6 +863,10 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
                 f"requires artifact {ident!r} in `metadata.artifacts.requires`, which no skill "
                 f"declares in `metadata.artifacts.produces` — add it to the skill that writes it",
             )
+
+    # 7b. a hard gate on an artifact a profile never grows — needs every skill's declarations,
+    #     so it is a second pass too.
+    _check_not_grown_gates(repo, skill_fms, rep)
 
     # 7. a skill is called one way, and only if it exists here or in EXTERNAL_SKILLS —
     #    a second pass, so a call to a skill later in the directory order resolves.
@@ -796,19 +905,21 @@ def _check_skill_calls(body: str, where: str, names: set[str], rep: Report) -> N
             )
 
 
-def _prerequisite_paths(fm: dict) -> list[str]:
-    """Declared file gates, read the way the resolver reads them — and also from the root,
-    so a misplaced block is checked for its paths rather than silently skipped."""
+def _prerequisite_items(fm: dict) -> list[dict]:
+    """The `metadata.prerequisites.files` entries that name a path, read the way the resolver
+    reads them — and also from the root, so a misplaced block is checked for its paths rather
+    than silently skipped."""
     meta = fm.get("metadata") if isinstance(fm.get("metadata"), dict) else {}
     prereq = meta.get("prerequisites") or fm.get("prerequisites") or {}
     if not isinstance(prereq, dict):
         return []
     files = prereq.get("files") or []
-    out = []
-    for item in files:
-        if isinstance(item, dict) and item.get("path"):
-            out.append(str(item["path"]).lstrip("/"))
-    return out
+    return [item for item in files if isinstance(item, dict) and item.get("path")]
+
+
+def _prerequisite_paths(fm: dict) -> list[str]:
+    """Declared file gates' paths, as the resolver joins them."""
+    return [str(item["path"]).lstrip("/") for item in _prerequisite_items(fm)]
 
 
 # --------------------------------------------------------------------------

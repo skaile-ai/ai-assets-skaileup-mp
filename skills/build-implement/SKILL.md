@@ -19,7 +19,7 @@ metadata:
     files:
       - { path: "_concept/11_build/slices", gate: hard, min_entries: 1 }
       - { path: "_concept/05_features", gate: hard, min_entries: 1 }
-      - { path: "_concept/07_screens", gate: hard, min_entries: 1 }
+      - { path: "_concept/07_screens", gate: soft, min_entries: 1 }
 ---
 
 # build-implement
@@ -33,9 +33,11 @@ test loop or a review.
 ## Steps
 
 1. **Load the slice.** Read `plan.md`, the feature spec it names, and the screens under
-   `07_screens/<feature_slug>/`. Refuse to start while any `blocked_by` slice is unfrozen —
-   its dossier has no `index.md`, so the thing this slice builds on does not exist yet.
-   Resume from `progress.yaml` if one is there.
+   `07_screens/<feature_slug>/`. A project whose profile grows no screens has none: the spec
+   alone is then the source of truth, and the plan's UI rows name the endpoint, command or
+   public function to build instead. Refuse to start while any `blocked_by` slice is
+   unfrozen — its dossier has no `index.md`, so the thing this slice builds on does not exist
+   yet. Resume from `progress.yaml` if one is there.
 2. **Build the rows, one at a time.** Call the Skill tool with "tdd" for each row. A row is
    done when its UI renders real data, its handler is callable from that UI, its data layer
    round-trips, and its tests are green — then the next row starts. Confirm the seams with

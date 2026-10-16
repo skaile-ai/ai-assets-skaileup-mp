@@ -6,9 +6,11 @@
 
 **Blocked by:** i-ssi-produces-list
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] `07_screens` / `stories.yaml` gates in the three skills are `soft` where any profile marks them `not_grown`.
-- [ ] Each affected step states its no-file behaviour.
-- [ ] Gate rule: `hard` gate on a not-grown path is an error; failing + passing fixture.
-- [ ] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+- [x] `07_screens` / `stories.yaml` gates in the three skills are `soft` where any profile marks them `not_grown`.
+- [x] Each affected step states its no-file behaviour.
+- [x] Gate rule: `hard` gate on a not-grown path is an error; failing + passing fixture.
+- [x] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+
+**Resolution (2026-10-16):** `07_screens`/`stories.yaml`/datamodel gates soft in build-plan, build-implement, spec-featuresets, quality-e2e, build-database, each step stating its no-file fallback. Rule `_check_not_grown_gates`: profile `not_grown` entries resolve as artifact id, skill name or domain prefix; a hard gate overlapping a not-grown path is an error (skills covered by the entry are exempt per profile); unknown entry is an error. Five fixtures. build-plan cites root `glossary.md`. check.py green.

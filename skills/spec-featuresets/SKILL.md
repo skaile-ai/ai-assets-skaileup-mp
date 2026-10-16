@@ -16,7 +16,7 @@ metadata:
   prerequisites:
     files:
       - { path: "_concept/brief.md", gate: hard }
-      - { path: "_concept/04_journeys/stories.yaml", gate: hard }
+      - { path: "_concept/04_journeys/stories.yaml", gate: soft }
       - { path: "_concept/02_grounding/research/competitors.md", gate: soft }
     inputs_optional:
       - { id: feature_scope, label: "How broad should the feature set be?", type: select, options: ["must-have only", "must-have + nice-to-have", "comprehensive"] }
@@ -39,7 +39,10 @@ Paths are `contracts/concept_structure.md`'s; `story_refs` back to the journeys 
    collect every `candidate_features` hint across every journey; read `brief.md` and
    `goals.md` for what is in scope at all. A feature that traces to no story and no line of
    the brief is one you thought of rather than one the product needs — either find the
-   journey it serves, or leave it out and let the user add it back deliberately.
+   journey it serves, or leave it out and let the user add it back deliberately. A profile
+   that grows no journeys (`api-service`, `cli-tool`, `data-pipeline`, `library`) has no
+   `stories.yaml`: derive the roster from the brief's hero flow and goals instead, trace each
+   feature to a line of the brief, and write that line where steps 4 and 6 say story ids.
 2. **Let the competitor findings sharpen the list**, where research ran: a gap users complain
    about in `02_grounding/research/competitors.md` is a candidate with evidence behind it,
    and a feature every competitor has that no journey mentions is a question worth asking
@@ -54,7 +57,8 @@ Paths are `contracts/concept_structure.md`'s; `story_refs` back to the journeys 
    features; backlog stories give nice-to-have. The scope answer calibrates what survives:
    must-have only cuts everything backlog-derived, and comprehensive keeps it all. Whatever
    is cut is written down as cut rather than dropped, so the next reader can tell a decision
-   from an oversight.
+   from an oversight. Without stories there is no stage: the brief's hero flow gives
+   must-have, everything else nice-to-have, and the user confirms the split in step 7.
 5. **Settle the role vocabulary once**, here: the roles this product has, across every
    featureset. Each feature spec restates its own role × action table, and they only line up
    if the words were agreed in one place first — `admin` in one spec and `owner` in the next

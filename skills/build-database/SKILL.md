@@ -12,7 +12,7 @@ metadata:
     produces: []
   prerequisites:
     files:
-      - { path: "_concept/10_blueprint/datamodel", gate: hard, min_entries: 1 }
+      - { path: "_concept/10_blueprint/datamodel", gate: soft, min_entries: 1 }
       - { path: "_concept/10_blueprint/techstack.md", gate: hard }
 ---
 
@@ -34,7 +34,9 @@ It is optional by flow. `appbuilder-mvp` designs no data model and grows its sch
 
 ## Steps
 
-1. **Read the model and cross-check its two halves.** `model.dbml` is authoritative for
+1. **Find the model, then cross-check its two halves.** Without `10_blueprint/datamodel/` the
+   profile grows no data model: report that to the user and stop, writing no schema and no
+   seed. Otherwise `model.dbml` is authoritative for
    structure, `model.json` for relationship and enum metadata. Both came out of one skill, so
    they diverge only where something was hand-edited — name every disagreement to the user
    rather than silently preferring one, because the edit was somebody's intent and picking

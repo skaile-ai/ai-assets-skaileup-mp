@@ -15,7 +15,7 @@ metadata:
       - { id: acceptance-criteria, path: "_concept/11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md" }
   prerequisites:
     files:
-      - { path: "_concept/04_journeys/stories.yaml", gate: hard }
+      - { path: "_concept/04_journeys/stories.yaml", gate: soft }
       - { path: "_concept/05_features", gate: hard, min_entries: 1 }
       - { path: "_concept/07_screens", gate: soft, min_entries: 1 }
       - { path: "_concept/10_blueprint/datamodel", gate: soft }
@@ -40,7 +40,9 @@ what one run of it looked like.
    answers; install it if it does not.
 2. **Build the journey list.** Read every story in `stories.yaml` — hero and vital stages
    first — and carry each story's acceptance criteria forward as that journey's explicit pass
-   conditions. Screen specs under `07_screens/` give the routes and the per-state elements to
+   conditions. A profile that grows no journeys has no `stories.yaml`: derive one end-to-end
+   path per feature from the feature specs' acceptance criteria and the acceptance ledger,
+   and treat those criteria as the pass conditions. Screen specs under `07_screens/` give the routes and the per-state elements to
    look for; without them, discover routes from the running app's own navigation and record
    in the report that they were inferred. Read `10_blueprint/datamodel/` for the entities a
    journey writes and the queries that confirm them, and note that a project with no data
@@ -71,6 +73,6 @@ what one run of it looked like.
    errors, and any record the database did not hold. Group the failures by feature so the
    next reader knows which spec to reopen.
 
-**Done when** every story in `stories.yaml` has been run, each with a pass or a fail and a
+**Done when** every story in `stories.yaml` (or, without journeys, every derived path) has been run, each with a pass or a fail and a
 named criterion behind it, the ledger rows this run evaluated are flipped, and no dev server
 or browser session is left alive.

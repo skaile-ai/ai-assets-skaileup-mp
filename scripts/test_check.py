@@ -383,6 +383,66 @@ def test_required_artifact_produced_by_another_skill(tmp_path):
     assert errors(root) == []
 
 
+SCREENS = '    produces:\n      - { id: screens, path: "_concept/07_screens/<feature_slug>/<screen>.md" }\n'
+
+
+def set_gate(root: Path, skill: str, gate: str) -> None:
+    """Swap the fixture skill's one prerequisite gate (the default is `hard` on `07_screens`)."""
+    p = root / "skills" / skill / "SKILL.md"
+    assert "gate: hard" in p.read_text()
+    p.write_text(p.read_text().replace("gate: hard", f"gate: {gate}", 1))
+
+
+def write_profile(root: Path, name: str, not_grown: list[str]) -> None:
+    (root / "profiles").mkdir(exist_ok=True)
+    (root / "profiles" / f"{name}.yaml").write_text(yaml.safe_dump({"profile": name, "not_grown": not_grown}))
+
+
+def not_grown_repo(root: Path, skills=("spec-feature", "zeta-producer")) -> Path:
+    """`zeta-producer` writes the screens, so the profile's `screens` id resolves; it has no hard
+    gate of its own, and `spec-feature` keeps the fixture's `hard` gate on `07_screens`."""
+    write_repo(root, skills=skills)
+    set_produces(root, SCREENS, "zeta-producer")
+    set_gate(root, "zeta-producer", "soft")
+    return root
+
+
+def test_hard_gate_on_a_path_a_profile_never_grows(tmp_path):
+    root = not_grown_repo(tmp_path)
+    write_profile(root, "api-service", ["screens"])
+    only(root, "has a `hard` prerequisite on '_concept/07_screens'")
+    assert "skills/spec-feature" in errors(root)[0]
+    assert "api-service" in errors(root)[0]
+
+
+def test_soft_gate_on_a_path_a_profile_never_grows_is_clean(tmp_path):
+    root = not_grown_repo(tmp_path)
+    set_gate(root, "spec-feature", "soft")
+    write_profile(root, "api-service", ["screens"])
+    assert errors(root) == []
+
+
+def test_hard_gate_on_a_path_no_profile_leaves_out_is_clean(tmp_path):
+    root = not_grown_repo(tmp_path)
+    write_profile(root, "web-app", [])
+    assert errors(root) == []
+
+
+def test_not_grown_entry_that_resolves_to_nothing(tmp_path):
+    root = not_grown_repo(tmp_path)
+    set_gate(root, "spec-feature", "soft")
+    write_profile(root, "api-service", ["nonesuch"])
+    only(root, "`not_grown` lists 'nonesuch'")
+
+
+def test_skill_in_a_not_grown_domain_is_not_held_to_its_own_gates(tmp_path):
+    """`mockup-view` never runs where `mockup` is not grown, so its hard gate on screens is moot."""
+    root = not_grown_repo(tmp_path, skills=("spec-feature", "zeta-producer", "mockup-view"))
+    set_gate(root, "spec-feature", "soft")
+    write_profile(root, "api-service", ["screens", "mockup"])
+    assert errors(root) == []
+
+
 def test_top_level_set_comes_from_the_contract(tmp_path):
     """Rename a directory in the contract and the check follows it."""
     root = write_repo(tmp_path)
