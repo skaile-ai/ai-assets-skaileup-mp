@@ -3,8 +3,11 @@ name: mockup-storybook
 description: "Use when screen specs are approved and stakeholders want a living component library — Storybook stories for custom components, full-page screen compositions, and clickable journey walkthroughs. Framework-agnostic: the addon, story format and component library come from the project's template."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
+      - { id: walkthrough }
       - { id: screens }
       - { id: brand-tokens }
       - { id: techstack }
@@ -18,6 +21,9 @@ metadata:
       - { path: "_concept/03_brand/tokens.json", gate: hard }
       - { path: "_concept/10_blueprint/techstack.md", gate: hard }
       - { path: "_concept/04_journeys/stories.yaml", gate: soft, min_entries: 1 }
+      # Soft: the manifest is the shortcut to screens and journeys already resolved once;
+      # without it the spec files are read directly (see "Where the screens come from").
+      - { path: "_concept/09_mockup/walkthrough", gate: soft, min_entries: 1 }
 ---
 
 # mockup-storybook
@@ -31,6 +37,19 @@ app that wants its own Storybook gets it as ordinary build work behind the templ
 Nothing here is framework-specific except the values step 1 resolves. Directory layout, story
 titles, variant names and the page manifest are the same on every stack —
 `references/story-conventions.md` holds them, and steps 3–5 assume you have read it.
+
+## Where the screens come from
+
+`mockup-walkthrough` already resolved the screen set and every journey's screen sequence once,
+into `_concept/09_mockup/walkthrough/<renderer>/manifest.json` (`<renderer>` is the
+subdirectory holding it; shape: `contracts/walkthrough_renderer.md § Manifest schema`). Read
+it first and take `screens[]` (`screen_path`, `screen_id`, `elements[]`) and `journeys[]`
+(`journey_id`, `screen_sequence`) from it, so this skill and the walkthrough cannot disagree
+about what a screen or a journey is. The manifest carries no state lists, persona or stage —
+those still come from the screen spec and from `stories.yaml`, found by `journeys[].source`.
+
+No manifest yet? Read `07_screens/*/*.md` (one level; `shell.md` is not a screen) and
+`stories.yaml` directly, and say in the report that the walkthrough was not built first.
 
 ## Steps
 
@@ -52,8 +71,9 @@ titles, variant names and the page manifest are the same on every stack —
    viewport presets come from `07_screens/shell.md`: a hardcoded breakpoint
    or an invented colour makes the prototype disagree with the brand it exists to show.
    Present already? Leave it alone and go to step 3 — the scaffold is the user's by then.
-3. **Build the components layer.** Read every screen spec's `UI Elements` section and take the
-   deduplicated union. Split it against what the component library actually exports — read the
+3. **Build the components layer.** Take the deduplicated union of `elements[]` across the
+   manifest's screens — the screen specs' `UI Elements` sections when there is no manifest.
+   Split it against what the component library actually exports — read the
    installed package's type declarations rather than guessing — into *library* elements, which
    pages import directly and which get no story, and *custom* elements, which you build. Show
    both lists and confirm the split before building. For each custom element write the
@@ -65,13 +85,15 @@ titles, variant names and the page manifest are the same on every stack —
    with a comment is the right output when the library covered everything.
 4. **Build the pages layer.** `AppShell` first, from `07_screens/shell.md`, with its nav items
    derived from the shell spec: it is the frame every page renders inside, so a page built
-   before it gets composed twice. Then one page component and one story per screen spec, with
-   a named variant for every state the spec lists and `Mobile` / `Tablet` variants alongside.
-   Close with `src/pages/manifest.json` mapping each screen spec path to its component and
-   route — step 5 reads it to turn a journey's `candidate_screens` into imports.
-5. **Build the journeys layer**, when `04_journeys/stories.yaml` exists. One story per
-   `hero`, `vital` and `hygiene` story map — `backlog` maps are out of scope by stage, and
-   there is exactly one hero. Each is a single interactive story that renders the AppShell and
+   before it gets composed twice. Then one page component and one story per manifest screen,
+   with a named variant for every state the spec lists and `Mobile` / `Tablet` variants
+   alongside. Close with `src/pages/manifest.json` mapping each screen spec path to its
+   component and route — step 5 reads it to turn a journey's `screen_sequence` into imports.
+5. **Build the journeys layer**, when the manifest lists journeys or `04_journeys/stories.yaml`
+   exists. Journeys come from `journeys[]` — `screen_sequence` gives the steps, and the story
+   map at `source` gives stage, persona and step descriptions. One story per `hero`, `vital`
+   and `hygiene` story map — `backlog` maps are out of scope by stage, and there is exactly
+   one hero. Each is a single interactive story that renders the AppShell and
    swaps the page component as the reader clicks: navigation happens through the real nav
    items and the real action buttons, never through added Prev/Next controls, because a
    walkthrough with its own navigation is not evidence that the design's navigation works.

@@ -74,8 +74,9 @@ One entry per screen spec, keyed by the spec's path relative to `_concept/`:
 }
 ```
 
-The journeys layer resolves each story map's `candidate_screens` through this file; a screen
-missing from it falls back to matching on route or purpose against the screen specs.
+The journeys layer resolves each journey's walkthrough-manifest `screen_sequence` through this
+file (the story map's `candidate_screens` when no manifest exists); a screen missing from it
+falls back to matching on route or purpose against the screen specs.
 
 ## The click-dummy pattern
 

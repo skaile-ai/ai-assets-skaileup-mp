@@ -40,16 +40,17 @@ below sequence it and never restate it.
 1. **Resolve the renderer, once, before anything else.** `02_grounding/onboarding/answers.json`
    key `renderer` wins when set (`static-html` | `astro`). Absent, the flow in
    `01_meta/scope.yaml` decides: `appbuilder-mvp` gets **static-html**, `appbuilder-standard`
-   and `skaileup-concept-only` get **astro**. The answer names both the
-   output root `_concept/09_mockup/walkthrough/<renderer>/` and the reference directory you work
-   from — read `references/<renderer>/RENDERER.md` now; it carries the render steps this one
-   only outlines. A flow the table does not list is a project that has not been scoped: say so
-   and stop, rather than guessing a renderer whose output the annotator may not find.
-2. **Preserve intent.** If `_concept/09_mockup/feedback/devlog.md` exists, read it. Each session block
-   lists the screen and feature files it touched under `### <file>` headers, with one applied
-   line per patch. Treat every applied line for a file you are about to render as a constraint:
-   a stakeholder already asked for that change and a regeneration that quietly reverts it reads
-   as the tool ignoring the feedback round.
+   and `skaileup-concept-only` get **astro**. The answer names both the output root
+   `_concept/09_mockup/walkthrough/<renderer>/` and the one reference directory you work from,
+   `references/<renderer>/`. A flow the table does not list is a project that has not been
+   scoped: say so and stop, rather than guessing a renderer whose output the annotator may
+   not find.
+2. **Read that renderer's references, and only those.** `references/<renderer>/RENDERER.md`
+   carries the render steps this one only outlines, the places it reads the shared contract
+   differently, and the devlog check that keeps earlier feedback edits from being reverted; it
+   names any further file of its directory at the step that needs it. The other renderer's
+   directory stays closed — its rules (hrefs, build step, styling) differ from this one's and
+   would leak into the output.
 3. **Read the inputs and build one in-memory model.** Glob `07_screens/*/*.md`
    — one level, so the root `shell.md` is not a screen — sorted by path, and **build the set of rendered screen ids before
    resolving any `target`** — resolution then never depends on parse order. Resolve every
@@ -82,17 +83,13 @@ below sequence it and never restate it.
    _concept/09_mockup/walkthrough/<renderer>` from the repo root. Exit 0 is ready for
    `mockup-annotate`; exit 2 prints the violations as `<file>:<line>: <message>`.
 
-## What sits in `references/`
+## What sits in `references/<renderer>/`
 
-- **`<renderer>/RENDERER.md`** — the render steps that renderer alone performs, and the
-  handful of places it reads the shared contract differently.
-- **`astro/scaffold/`** — the seven real files the astro renderer copies at init, plus
-  `astro/specs-json.md`, the shape of the pre-resolved data the templates read.
-- **`<renderer>/validator.py`** — step 6's check, and the executable statement of what the
-  contract requires of output.
-- **`<renderer>/tests/`** — a fixture project and a hand-curated expected snapshot for that
-  validator. Worth reading when a contract rule is ambiguous: the snapshot is what correct
-  output looks like.
+Read only the resolved renderer's directory (step 2). Each one holds the same kinds of file:
+`RENDERER.md` (read first), a `validator.py` — step 6's check and the executable statement of
+what the contract requires of output — and `tests/`, a fixture project with a hand-curated
+expected snapshot, worth reading when a contract rule is ambiguous. Anything else in the
+directory is named by `RENDERER.md` where it is used.
 
 **Done when** the validator exits 0 and `manifest.json` names every screen under
 `07_screens/` and every journey in `stories.yaml`.

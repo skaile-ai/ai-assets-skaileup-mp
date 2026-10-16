@@ -4,7 +4,10 @@ A zero-build site at `_concept/09_mockup/walkthrough/static-html/`, openable fro
 with no toolchain. This is the shared contract's reference implementation: where the contract
 is ambiguous, this renderer's output under `tests/expected/` is the tie-breaker.
 
-Step 4 of `../../SKILL.md` expands into the render rules below.
+Step 4 of `../../SKILL.md` expands into the render rules below. Before rendering, read
+`_concept/09_mockup/feedback/devlog.md` when it exists and treat each applied line for a
+screen or feature file you are about to render as a constraint — a regeneration that reverts a
+change a stakeholder already asked for reads as the tool ignoring the feedback round.
 
 ## What this renderer does differently
 

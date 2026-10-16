@@ -90,8 +90,9 @@ host implements that listener today** — forge-concept has none — so the wiri
 but the browser path above is the one that works.
 
 Each annotation carries the element, screen, journey and route it was made against, the
-reader's text, one of `change` / `add` / `remove` / `question`, and whether the element's id
-was provisional. `references/session.schema.json` is the shape `mockup-feedback` expects.
+reader's text, a category, and whether the element's id was provisional.
+`references/session.schema.json` is the one session schema — field names and the allowed
+`category` and `status` values — and `mockup-feedback` validates against it by this path.
 
 **Done when** the validator exits 0, `_concept/09_mockup/feedback/sessions/` exists, and the user has
 the site root and the reader instruction in front of them.

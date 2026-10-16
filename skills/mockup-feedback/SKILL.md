@@ -3,6 +3,8 @@ name: mockup-feedback
 description: "Use when stakeholder annotations have come back from an annotated walkthrough and need to land in the concept. Routes each annotation to the file it belongs in, authors a reviewable diff for it, and — after you approve the review file — applies the approved diffs in one commit."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       # Soft, not hard: step 1 adopts a session that has not landed yet, so a hard
@@ -32,7 +34,8 @@ step 4.
 
 1. **Adopt, if the file has not landed yet.** A reader's download sits wherever they sent it —
    a downloads folder, an attachment, a shared drive — and filing it is this skill's job, not
-   theirs. Given a path, check it against `references/session.schema.json`, then copy it to
+   theirs. Given a path, check it against `skills/mockup-annotate/references/session.schema.json`
+   — the one session schema, owned by the skill that writes the file — then copy it to
    `_concept/09_mockup/feedback/sessions/<sessionId>.json`, **taking the name from the file's own
    `sessionId` field and never from the path you were handed**: everything downstream keys on
    that field, so a stem that disagrees produces a round that reads as unapplied forever. Then
@@ -58,24 +61,25 @@ step 4.
    script still exits 0 — report the count and each reason, since an unresolved annotation is a
    comment nobody will ever see again. An annotation made on `index.html` is unresolved by
    design: the site root carries no screen and no journey.
-4. **Author a patch per annotation.** Work one triage group — one target file — at a time.
-   Read the file first; write the diff in that file's own voice, anchored to the section it
-   changes. **`04_journeys/stories.yaml` is the exception: it takes no patches.** Every diff
-   here anchors on a literal markdown heading, and `apply.py`'s no-removes path appends to the
-   end of the file — against YAML that is a silent corruption, not a failed patch. Journey
+4. **Author a patch per annotation**, under `contracts/feedback_loop.md § mockup-feedback` —
+   it says which files a patch may touch, which annotations become `needs_manual`, and how
+   ids are promoted. Work one triage group — one target file — at a time. Read the file
+   first; write the diff in that file's own voice, anchored to the section it changes.
+   **`04_journeys/stories.yaml` is the exception: it takes no patches.** Every diff here
+   anchors on a literal markdown heading, and `apply.py`'s no-removes path appends to the end
+   of the file — against YAML that is a silent corruption, not a failed patch. Journey
    annotations become `needs_manual` entries quoting what was asked, so the reader's comment
    reaches a human instead of a `stories.yaml` rewritten as prose.
 
    `change` is the one category that needs judgement: read the section the annotated element
    appears in and rewrite it to carry the annotation's intent, scoped to the lines that
-   actually move. `add`, `remove` and `question` follow the templates in
-   `references/patch-format.md` — an LLM rewrite of a one-line append invents variation where
-   the reader asked for none. Copy each annotation's `body` verbatim into its patch: the
-   session file is gitignored and rotates, so this copy is the only lasting record of what was
-   asked. Two patches are derived rather than requested — promoting a provisional element id
-   once a human has annotated it, and promoting a navigation intent into a `target:` — and an
-   annotation you cannot patch becomes a `needs_manual` entry naming why. Write
-   `patches/<sid>.json` and `patches/<sid>.review.md` together.
+   actually move. Every other category follows its template in `references/patch-format.md`
+   — an LLM rewrite of a one-line append invents variation where the reader asked for none.
+   Copy each annotation's `body` verbatim into its patch: the session file is gitignored and
+   rotates, so this copy is the only lasting record of what was asked. The two derived
+   patches (id promotion, `target:` promotion) follow the contract; an annotation you cannot
+   patch becomes a `needs_manual` entry naming why. Write `patches/<sid>.json` and
+   `patches/<sid>.review.md` together.
 5. **Hand over the review file and wait.** Every proposed patch is listed pre-checked in
    `patches/<sid>.review.md`; the user unchecks what to skip and may edit a diff in place. Say
    plainly that nothing is applied until they come back, and name any `needs_manual` bullets so

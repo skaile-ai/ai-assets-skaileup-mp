@@ -113,6 +113,39 @@ data_entities: [User, Session]
 3. Nothing to update in the model: it holds no list of features, and the deleted spec's
    `data_entities` goes with the file
 
+## mockup-feedback
+
+`mockup-feedback` is the one place a stakeholder's comment becomes an edit to a spec. It
+registers nothing new in either direction: no screen is created, deleted or renamed, so the
+`implements:` / `screens:` links stay as they are.
+
+### Screen edits
+
+1. A session annotation routes by its `specRef` to one file, `07_screens/<group>/<screen>.md`.
+   The patch edits that file alone, anchored to a heading, and nothing else under
+   `07_screens/` or `05_features/`.
+2. A feature spec is `spec-feature`'s artifact. Feedback never patches it: an annotation that
+   asks for a different rule, scope line or permission becomes a `needs_manual` entry naming
+   the screen's `implements:` feature file, and the human re-enters `spec-feature` for that
+   feature. A journey annotation becomes `needs_manual` the same way; `stories.yaml` is
+   `experience-journeys`' to re-enter.
+3. The rendered walkthrough is derived from the screens, so it is stale after an apply;
+   `mockup-walkthrough` re-renders it, reading the devlog so the applied edits survive.
+
+### Id promotion
+
+1. An element id the renderer auto-slugged is `provisional: true` in the screen's
+   `elements:` frontmatter. The first time a human annotates it the id is worth keeping, so the
+   promotion patch flips it to `provisional: false`. The id never changes; only its standing
+   does.
+2. A navigation annotation on an element with no `target:` is promoted to a `target:` only when
+   the destination resolves to exactly one `screen_id` in the walkthrough manifest.
+3. A session annotation id is unique within its session only. It becomes a tracked id as the
+   `annotationId` of the patches derived from it (`p-<annotationId>-<kind>`) and again in
+   `applied/<sid>.json`, which is the lasting record once `sessions/` rotates.
+
+The patch and review-file formats are `mockup-feedback`'s `references/patch-format.md`.
+
 ## Validation
 
 `ops-review` checks for broken cross-references:

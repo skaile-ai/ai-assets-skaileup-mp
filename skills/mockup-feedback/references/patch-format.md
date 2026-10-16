@@ -34,7 +34,8 @@ What `apply.py` does with these, and what it therefore requires:
 
 ## Categories
 
-`change` is authored; the other three are templates. Match them.
+One diff shape per `category` value of `skills/mockup-annotate/references/session.schema.json`.
+`change` is authored; the rest are templates. Match them.
 
 | Category | Diff |
 |---|---|

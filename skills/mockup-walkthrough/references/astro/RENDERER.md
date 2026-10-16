@@ -24,6 +24,11 @@ Three consequences, all astro-only:
   the contract's (`walkthrough_renderer.md` § `items[]` id derivation) — this renderer only
   changes *when* it runs.
 
+Before the steps, read `_concept/09_mockup/feedback/devlog.md` when it exists and treat each
+applied line for a screen or feature file you are about to render as a constraint — a
+regeneration that reverts a change a stakeholder already asked for reads as the tool ignoring
+the feedback round.
+
 ## Steps
 
 1. **Detect the mode.** `astro.config.mjs` absent → **init**: copy `scaffold/` into the project
