@@ -38,15 +38,20 @@ _concept/
 │   ├── standards/
 │   │   ├── index.yml               fast matching by applies_to + keywords
 │   │   └── <domain>/               conventions discovered in an existing codebase
-│   └── findings/
-│       ├── index.md                catalogue of raw findings with source and date
-│       └── *.png · *.md            screenshots, page saves, excerpts, detection evidence
+│   └── findings/                   graded evidence and raw material from outside the room
+│       ├── index.md                catalogue: file, source, date, `step` (the skill that took it)
+│       ├── routes.md               concept-reverse — every route, the file defining it, what a user does there
+│       ├── screens.md              concept-reverse — page components, bindings, interactions, states
+│       ├── datamodel.md            concept-reverse — entities, fields, relations, enums
+│       ├── stack.md                concept-reverse — detected technology, per dimension
+│       ├── brand.md                concept-reverse — detected colours, type, radius, mode
+│       ├── brief-seeds.md          concept-reverse — pitch, audience, problem, goals, comparables from the docs
+│       └── *.png · *.md            screenshots, page saves, excerpts (concept-research, design-brand)
 │
 ├── 03_brand/
 │   ├── identity.md                 colours, fonts, tone — and copy guidelines when asked for
 │   ├── tokens.json                 machine-readable design tokens
-│   ├── brandbook.html              self-contained visual reference
-│   └── references/                 screenshots from reference URLs
+│   └── brandbook.html              self-contained visual reference
 │
 ├── 04_journeys/
 │   └── stories.yaml                personas, story map (hero/vital/hygiene/backlog), EARS criteria
@@ -63,7 +68,7 @@ _concept/
 │   └── <feature_slug>/<screen>.md  one spec per screen, carrying the `elements:` block
 │
 ├── 08_dossiers/
-│   └── <feature_slug>/index.md     the working record behind one feature; frozen when written
+│   └── <feature_slug>/index.md     the working record behind one feature; opened at the grill, frozen at the end
 │
 ├── 09_mockup/
 │   ├── walkthrough/                the clickable walkthrough — one output tree, renderer-agnostic
@@ -83,6 +88,16 @@ _concept/
     ├── reviews/                    <feature_slug>.yaml — one feature's code-review verdict
     └── decisions.md                build-time decision records, append-only
 ```
+
+## `02_grounding/findings/` — graded evidence
+
+`concept-reverse` writes `findings/` and nothing else: the six files above, each value
+graded `extracted`, `inferred` or `needs_review`. The skills that own the artifacts —
+`concept-brief` (`brief-seeds.md`), `design-brand` (`brand.md`), `architecture-techstack`
+(`stack.md`) — seed their drafts from them and show the graded values as proposals; the
+routes, screens and datamodel files are evidence the journeys, the feature loop, the shell
+and `architecture-datamodel` read. Screenshots and page saves live here and only here: each
+gets a row in `findings/index.md` whose `step` field names the skill that took it.
 
 ## Numbering
 

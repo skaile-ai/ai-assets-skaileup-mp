@@ -69,10 +69,13 @@ Paths are `contracts/concept_structure.md`'s; subagent dispatch is
    apply. Once `03_brand/tokens.json` exists the references stay inside it: an off-palette
    reference collected after the brand is chosen is a reference nothing can be built from.
 5. **Catalogue the raw material.** Screenshots, page saves and excerpts go under
-   `02_grounding/findings/` with `index.md` listing each one's source and date. Research
+   `02_grounding/findings/` — the only place screenshots live — with a row each in
+   `findings/index.md`: file, source, date and `step: concept-research`, the field that tells
+   a later reader which skill took it. Research
    dispatched alongside one particular skill goes to `02_grounding/research/step/<skill
    name>/` instead — the directory is that skill's `name:` character for character, which is
-   how it finds it again.
+   how it finds it again; only its text findings go there, and its screenshots still go to
+   `findings/` with that skill's name as `step`.
 6. **Report what changed the picture**, not what was collected: the competitor gap, the
    persona nobody had in mind, the regulation that constrains the data model. Point at the
    skills that should now be re-run or run for the first time.

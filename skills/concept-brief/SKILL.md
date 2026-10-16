@@ -8,12 +8,14 @@ metadata:
   artifacts:
     requires:
       - { id: scope }
+      - { id: grounding-findings }
     produces:
       - { id: brief, path: "_concept/brief.md" }
       - { id: goals, path: "_concept/goals.md" }
   prerequisites:
     files:
       - { path: "_concept/01_meta/scope.yaml", gate: soft }
+      - { path: "_concept/02_grounding/findings", gate: soft }
     inputs_optional:
       - { id: raw_description, label: "Describe your idea", type: textarea, hint: "Free-form — name, audience, problem and hero flow can all be mined from this" }
       - { id: elevator_pitch, label: "What does the app do?", type: text, hint: "One sentence: who it is for, what it does" }
@@ -43,6 +45,10 @@ only thing upstream of this skill.
    flow in `01_meta/scope.yaml` sets how hard steps 3 and 4 work: `appbuilder-mvp` takes one
    pass at each, `appbuilder-standard` and `skaileup-concept-only` work them until the user
    stops correcting.
+   When `02_grounding/findings/brief-seeds.md` exists — the reverse flow — seed the pitch,
+   goals and comparables from it and show each graded value to the user as a proposal:
+   `extracted` is what the repository says, `inferred` and `needs_review` are guesses that
+   only the user can settle, and none of them is a decision yet.
 2. **Get the pitch.** With a free-form description, mine it for everything it carries — name,
    pitch, audience, problem, hero flow, comparables, success criteria — and carry on with the
    gaps; step 5 is a cheaper place to fill one than an interview is. Otherwise ask, one at a

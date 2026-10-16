@@ -33,4 +33,4 @@ useful than a plausible default, because a default gets built on.
 Version constraints that will bite (a major pinned below current, a peer-dependency
 conflict), combinations that are unusual enough to be deliberate (two ORMs, a second
 frontend framework in one package), and anything the CI does that the manifests do not
-explain. These are what a person reading the stack file needs and what no field holds.
+explain. These are what a person reading `findings/stack.md` needs and what no field holds.

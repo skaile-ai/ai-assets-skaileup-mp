@@ -6,9 +6,11 @@
 
 **Blocked by:** i-ssi-approved-answers, i-ssi-flow-rewrite
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] `concept-reverse` steps 4–6 removed; step 7 writes the six graded findings files; `produces` updated.
-- [ ] Seed step in the three owner skills, conditional on findings existing.
-- [ ] `concept-research` and `design-brand` use `findings/index.md` with `step`.
-- [ ] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+- [x] `concept-reverse` steps 4–6 removed; step 7 writes the six graded findings files; `produces` updated.
+- [x] Seed step in the three owner skills, conditional on findings existing.
+- [x] `concept-research` and `design-brand` use `findings/index.md` with `step`.
+- [x] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+
+**Resolution (2026-10-16):** concept-reverse writes only `02_grounding/findings/` (brief-seeds, stack, brand, routes, screens, datamodel; graded extracted/inferred/needs_review; approved: on findings). concept-brief, design-brand, architecture-techstack seed from findings as proposals. Screenshots in findings/ with `index.md` `step`; `03_brand/references/` left the tree. concept_structure.md also carries the dossier line from i-ssi-spec-truth (opened at the grill, frozen at the end). check.py green.

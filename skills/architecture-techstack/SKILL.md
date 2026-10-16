@@ -10,6 +10,7 @@ metadata:
       - { id: brief }
       - { id: scope }
       - { id: features }
+      - { id: grounding-findings }
     produces:
       - { id: techstack, path: "_concept/10_blueprint/techstack.md" }
   prerequisites:
@@ -17,6 +18,7 @@ metadata:
       - { path: "_concept/brief.md", gate: hard }
       - { path: "_concept/01_meta/scope.yaml", gate: soft }
       - { path: "_concept/05_features", gate: soft, min_entries: 1 }
+      - { path: "_concept/02_grounding/findings", gate: soft }
     inputs_optional:
       - { id: framework_experience, label: "Framework experience", type: text, hint: "React, Vue, Svelte — or starting fresh?" }
       - { id: hosting, label: "Hosting", type: select, options: [self-hosted, managed] }
@@ -44,10 +46,13 @@ and its section headings are `templates/README.md`'s; read it before scoring.
    **open** is yours to recommend from. `project_type` decides
    which axes carry weight — `cli-tool`, `api-service`, `library` and `data-pipeline` grow no
    screens, so the UI-library axis is dead for them and the choice is a runtime and a data
-   layer. A `techstack.md` that is already there is a handed-off or reverse-engineered
-   concept: read it back to the user and confirm it instead of re-running the selection, since
-   regenerating a stack the project was already built against invalidates everything
-   downstream of it without saying so.
+   layer. A `techstack.md` that is already there is a handed-off concept: read it back to the
+   user and confirm it instead of re-running the selection, since regenerating a stack the
+   project was already built against invalidates everything downstream of it without saying
+   so. When `02_grounding/findings/stack.md` exists — the reverse flow — its graded values
+   are the starting answers: show them as proposals, let an `extracted` one answer its
+   question in step 3 once the user confirms it, and ask about every `inferred` or
+   `needs_review` one — the chosen template still has to be scored and approved here.
 2. **Discover the candidates at runtime.** Scan `templates/*/TEMPLATE.md` and read only each
    one's `## Identity` table and `## When to Use`. The candidate set is whatever is on disk
    and the id is the directory name character for character — a list of ids written into this

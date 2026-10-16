@@ -31,8 +31,9 @@ block actually defines values.
 
 A hex read from a config is `extracted`. A colour derived from usage frequency across
 components is `inferred`, and worth saying so. A repository with no theme layer at all gets
-`tokens.json` written with empty values and `needs_review` throughout — the file exists
-because the walkthrough and storybook renderers hard-gate on it, and a skeleton they can
-report against beats an absence they stop on. A palette assembled from taste, when the
-repository declares none, is the one output of this dimension that is worse than nothing:
-it is indistinguishable from a real one and it will be built against.
+`findings/brand.md` written with every field listed and `needs_review` throughout — a
+skeleton `design-brand` can report against beats an absence it has to rediscover, and it
+still writes `tokens.json` itself, since both mockup renderers hard-gate on that file. A
+palette assembled from taste, when the repository declares none, is the one output of this
+dimension that is worse than nothing: it is indistinguishable from a real one and it will be
+built against.
