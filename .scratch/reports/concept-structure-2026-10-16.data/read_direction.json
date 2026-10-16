@@ -1,0 +1,62 @@
+[
+ {
+  "writes_to": "`brief.md` · `goals.md`",
+  "may_read": "`02_grounding/`",
+  "line": 136
+ },
+ {
+  "writes_to": "`glossary.md`",
+  "may_read": "`02_grounding/`, `brief.md`",
+  "line": 137
+ },
+ {
+  "writes_to": "`03_brand/`",
+  "may_read": "`02_grounding/`, `brief.md`, `glossary.md`",
+  "line": 138
+ },
+ {
+  "writes_to": "`04_journeys/`",
+  "may_read": "`02_grounding/`, `brief.md`, `goals.md`, `glossary.md`",
+  "line": 139
+ },
+ {
+  "writes_to": "`10_blueprint/datamodel/`",
+  "may_read": "`02_grounding/`, `brief.md`, `glossary.md`, `04_journeys/`, and `10_blueprint/techstack.md` · `architecture.md` when they exist",
+  "line": 140
+ },
+ {
+  "writes_to": "`05_features/`",
+  "may_read": "the above, and `10_blueprint/datamodel/`",
+  "line": 141
+ },
+ {
+  "writes_to": "`06_behaviors/`",
+  "may_read": "the above + `05_features/`",
+  "line": 142
+ },
+ {
+  "writes_to": "`07_screens/`",
+  "may_read": "the above, and `10_blueprint/` when it exists",
+  "line": 143
+ },
+ {
+  "writes_to": "`08_dossiers/`",
+  "may_read": "everything the feature loop touched",
+  "line": 144
+ },
+ {
+  "writes_to": "`09_mockup/`",
+  "may_read": "`03_brand/`, `04_journeys/`, `05_features/`, `07_screens/`, `10_blueprint/datamodel/`",
+  "line": 145
+ },
+ {
+  "writes_to": "`10_blueprint/` (the rest)",
+  "may_read": "everything above it",
+  "line": 146
+ },
+ {
+  "writes_to": "`11_build/`",
+  "may_read": "everything",
+  "line": 147
+ }
+]

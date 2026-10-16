@@ -1,0 +1,462 @@
+[
+ {
+  "id": "f-appbuilder-mvp",
+  "name": "appbuilder-mvp",
+  "title": "Appbuilder MVP",
+  "file": "flows/appbuilder-mvp/appbuilder-mvp.flow.yaml",
+  "entry": "scope",
+  "nodes": 11,
+  "order": [
+   {
+    "node": "scope",
+    "skill": "concept-scope",
+    "phase": "conceptualization",
+    "position": 1
+   },
+   {
+    "node": "onboard",
+    "skill": "concept-onboard",
+    "phase": "conceptualization",
+    "position": 2
+   },
+   {
+    "node": "brief",
+    "skill": "concept-brief",
+    "phase": "conceptualization",
+    "position": 3
+   },
+   {
+    "node": "glossary",
+    "skill": "concept-glossary",
+    "phase": "conceptualization",
+    "position": 4
+   },
+   {
+    "node": "journeys",
+    "skill": "experience-journeys",
+    "phase": "conceptualization",
+    "position": 5
+   },
+   {
+    "node": "featuresets",
+    "skill": "spec-featuresets",
+    "phase": "conceptualization",
+    "position": 6
+   },
+   {
+    "node": "techstack",
+    "skill": "architecture-techstack",
+    "phase": "conceptualization",
+    "position": 7
+   },
+   {
+    "node": "scaffold",
+    "skill": "build-scaffold",
+    "phase": "implementation",
+    "position": 8
+   },
+   {
+    "node": "plan",
+    "skill": "build-plan",
+    "phase": "implementation",
+    "position": 9
+   },
+   {
+    "node": "implement",
+    "skill": "build-implement",
+    "phase": "implementation",
+    "position": 10
+   },
+   {
+    "node": "test",
+    "skill": "quality-test",
+    "phase": "review",
+    "position": 11
+   }
+  ]
+ },
+ {
+  "id": "f-appbuilder-standard",
+  "name": "appbuilder-standard",
+  "title": "Appbuilder Standard",
+  "file": "flows/appbuilder-standard/appbuilder-standard.flow.yaml",
+  "entry": "scope",
+  "nodes": 29,
+  "order": [
+   {
+    "node": "scope",
+    "skill": "concept-scope",
+    "phase": "conceptualization",
+    "position": 1
+   },
+   {
+    "node": "onboard",
+    "skill": "concept-onboard",
+    "phase": "conceptualization",
+    "position": 2
+   },
+   {
+    "node": "research",
+    "skill": "concept-research",
+    "phase": "conceptualization",
+    "position": 3
+   },
+   {
+    "node": "brief",
+    "skill": "concept-brief",
+    "phase": "conceptualization",
+    "position": 4
+   },
+   {
+    "node": "glossary",
+    "skill": "concept-glossary",
+    "phase": "conceptualization",
+    "position": 5
+   },
+   {
+    "node": "brand",
+    "skill": "design-brand",
+    "phase": "conceptualization",
+    "position": 6
+   },
+   {
+    "node": "journeys",
+    "skill": "experience-journeys",
+    "phase": "conceptualization",
+    "position": 7
+   },
+   {
+    "node": "datamodel",
+    "skill": "architecture-datamodel",
+    "phase": "conceptualization",
+    "position": 8
+   },
+   {
+    "node": "featuresets",
+    "skill": "spec-featuresets",
+    "phase": "conceptualization",
+    "position": 9
+   },
+   {
+    "node": "behaviors",
+    "skill": "experience-behaviors",
+    "phase": "conceptualization",
+    "position": 10
+   },
+   {
+    "node": "feature",
+    "skill": "spec-feature",
+    "phase": "conceptualization",
+    "position": 11
+   },
+   {
+    "node": "shell",
+    "skill": "experience-shell",
+    "phase": "conceptualization",
+    "position": 12
+   },
+   {
+    "node": "techstack",
+    "skill": "architecture-techstack",
+    "phase": "conceptualization",
+    "position": 13
+   },
+   {
+    "node": "system",
+    "skill": "architecture-system",
+    "phase": "conceptualization",
+    "position": 14
+   },
+   {
+    "node": "walkthrough",
+    "skill": "mockup-walkthrough",
+    "phase": "conceptualization",
+    "position": 15
+   },
+   {
+    "node": "storybook",
+    "skill": "mockup-storybook",
+    "phase": "conceptualization",
+    "position": 16
+   },
+   {
+    "node": "annotate",
+    "skill": "mockup-annotate",
+    "phase": "conceptualization",
+    "position": 17
+   },
+   {
+    "node": "feedback",
+    "skill": "mockup-feedback",
+    "phase": "conceptualization",
+    "position": 18
+   },
+   {
+    "node": "scaffold",
+    "skill": "build-scaffold",
+    "phase": "implementation",
+    "position": 19
+   },
+   {
+    "node": "database",
+    "skill": "build-database",
+    "phase": "implementation",
+    "position": 20
+   },
+   {
+    "node": "standards",
+    "skill": "quality-standards",
+    "phase": "implementation",
+    "position": 21
+   },
+   {
+    "node": "plan",
+    "skill": "build-plan",
+    "phase": "implementation",
+    "position": 22
+   },
+   {
+    "node": "implement",
+    "skill": "build-implement",
+    "phase": "implementation",
+    "position": 23
+   },
+   {
+    "node": "branch",
+    "skill": "build-branch",
+    "phase": "implementation",
+    "position": 24
+   },
+   {
+    "node": "test",
+    "skill": "quality-test",
+    "phase": "review",
+    "position": 25
+   },
+   {
+    "node": "e2e",
+    "skill": "quality-e2e",
+    "phase": "review",
+    "position": 26
+   },
+   {
+    "node": "review",
+    "skill": "quality-review",
+    "phase": "review",
+    "position": 27
+   },
+   {
+    "node": "ops-review",
+    "skill": "ops-review",
+    "phase": "review",
+    "position": 28
+   },
+   {
+    "node": "release",
+    "skill": "quality-release",
+    "phase": "review",
+    "position": 29
+   }
+  ]
+ },
+ {
+  "id": "f-skaileup-concept-only",
+  "name": "skaileup-concept-only",
+  "title": "Skaileup Concept Only",
+  "file": "flows/skaileup-concept-only/skaileup-concept-only.flow.yaml",
+  "entry": "scope",
+  "nodes": 16,
+  "order": [
+   {
+    "node": "scope",
+    "skill": "concept-scope",
+    "phase": "conceptualization",
+    "position": 1
+   },
+   {
+    "node": "onboard",
+    "skill": "concept-onboard",
+    "phase": "conceptualization",
+    "position": 2
+   },
+   {
+    "node": "research",
+    "skill": "concept-research",
+    "phase": "conceptualization",
+    "position": 3
+   },
+   {
+    "node": "brief",
+    "skill": "concept-brief",
+    "phase": "conceptualization",
+    "position": 4
+   },
+   {
+    "node": "glossary",
+    "skill": "concept-glossary",
+    "phase": "conceptualization",
+    "position": 5
+   },
+   {
+    "node": "brand",
+    "skill": "design-brand",
+    "phase": "conceptualization",
+    "position": 6
+   },
+   {
+    "node": "journeys",
+    "skill": "experience-journeys",
+    "phase": "conceptualization",
+    "position": 7
+   },
+   {
+    "node": "datamodel",
+    "skill": "architecture-datamodel",
+    "phase": "conceptualization",
+    "position": 8
+   },
+   {
+    "node": "featuresets",
+    "skill": "spec-featuresets",
+    "phase": "conceptualization",
+    "position": 9
+   },
+   {
+    "node": "behaviors",
+    "skill": "experience-behaviors",
+    "phase": "conceptualization",
+    "position": 10
+   },
+   {
+    "node": "feature",
+    "skill": "spec-feature",
+    "phase": "conceptualization",
+    "position": 11
+   },
+   {
+    "node": "shell",
+    "skill": "experience-shell",
+    "phase": "conceptualization",
+    "position": 12
+   },
+   {
+    "node": "walkthrough",
+    "skill": "mockup-walkthrough",
+    "phase": "conceptualization",
+    "position": 13
+   },
+   {
+    "node": "annotate",
+    "skill": "mockup-annotate",
+    "phase": "conceptualization",
+    "position": 14
+   },
+   {
+    "node": "feedback",
+    "skill": "mockup-feedback",
+    "phase": "conceptualization",
+    "position": 15
+   },
+   {
+    "node": "ops-review",
+    "skill": "ops-review",
+    "phase": "review",
+    "position": 16
+   }
+  ]
+ },
+ {
+  "id": "f-skaileup-concept-reverse",
+  "name": "skaileup-concept-reverse",
+  "title": "Skaileup Concept Reverse",
+  "file": "flows/skaileup-concept-reverse/skaileup-concept-reverse.flow.yaml",
+  "entry": "scope",
+  "nodes": 14,
+  "order": [
+   {
+    "node": "scope",
+    "skill": "concept-scope",
+    "phase": "conceptualization",
+    "position": 1
+   },
+   {
+    "node": "reverse",
+    "skill": "concept-reverse",
+    "phase": "conceptualization",
+    "position": 2
+   },
+   {
+    "node": "standards",
+    "skill": "quality-standards",
+    "phase": "conceptualization",
+    "position": 3
+   },
+   {
+    "node": "brief",
+    "skill": "concept-brief",
+    "phase": "conceptualization",
+    "position": 4
+   },
+   {
+    "node": "glossary",
+    "skill": "concept-glossary",
+    "phase": "conceptualization",
+    "position": 5
+   },
+   {
+    "node": "brand",
+    "skill": "design-brand",
+    "phase": "conceptualization",
+    "position": 6
+   },
+   {
+    "node": "journeys",
+    "skill": "experience-journeys",
+    "phase": "conceptualization",
+    "position": 7
+   },
+   {
+    "node": "datamodel",
+    "skill": "architecture-datamodel",
+    "phase": "conceptualization",
+    "position": 8
+   },
+   {
+    "node": "featuresets",
+    "skill": "spec-featuresets",
+    "phase": "conceptualization",
+    "position": 9
+   },
+   {
+    "node": "shell",
+    "skill": "experience-shell",
+    "phase": "conceptualization",
+    "position": 10
+   },
+   {
+    "node": "feature",
+    "skill": "spec-feature",
+    "phase": "conceptualization",
+    "position": 11
+   },
+   {
+    "node": "techstack",
+    "skill": "architecture-techstack",
+    "phase": "conceptualization",
+    "position": 12
+   },
+   {
+    "node": "system",
+    "skill": "architecture-system",
+    "phase": "conceptualization",
+    "position": 13
+   },
+   {
+    "node": "ops-review",
+    "skill": "ops-review",
+    "phase": "review",
+    "position": 14
+   }
+  ]
+ }
+]

@@ -1,0 +1,507 @@
+[
+ {
+  "id": "e-brief-md",
+  "path": "brief.md",
+  "name": "brief.md",
+  "depth": 0,
+  "line": 17,
+  "desc": "elevator pitch, audience, problem, hero flow, ## Comparables",
+  "kind": "file",
+  "parent": null,
+  "top": "e-brief-md",
+  "writers": [
+   "concept-brief"
+  ],
+  "readers": [
+   "architecture-datamodel",
+   "architecture-system",
+   "architecture-techstack",
+   "build-branch",
+   "build-scaffold",
+   "concept-glossary",
+   "concept-research",
+   "design-brand",
+   "experience-journeys",
+   "experience-shell",
+   "ops-review",
+   "quality-release",
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "hard_readers": [
+   "architecture-system",
+   "architecture-techstack",
+   "build-branch",
+   "build-scaffold",
+   "concept-glossary",
+   "design-brand",
+   "experience-journeys",
+   "experience-shell",
+   "ops-review",
+   "quality-release",
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "artifact_ids": [
+   "brief"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-brief"
+  ],
+  "owner": [
+   "concept-brief"
+  ],
+  "owner_declared_on": "brief.md",
+  "standard_step": 4
+ },
+ {
+  "id": "e-goals-md",
+  "path": "goals.md",
+  "name": "goals.md",
+  "depth": 0,
+  "line": 18,
+  "desc": "success criteria, KPIs, constraints, non-goals",
+  "kind": "file",
+  "parent": null,
+  "top": "e-goals-md",
+  "writers": [
+   "concept-brief"
+  ],
+  "readers": [
+   "experience-journeys",
+   "quality-release",
+   "spec-featuresets"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "goals"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-brief"
+  ],
+  "owner": [
+   "concept-brief"
+  ],
+  "owner_declared_on": "goals.md",
+  "standard_step": 4
+ },
+ {
+  "id": "e-glossary-md",
+  "path": "glossary.md",
+  "name": "glossary.md",
+  "depth": 0,
+  "line": 19,
+  "desc": "the project's ubiquitous language: terms, definitions, _Avoid_ lists",
+  "kind": "file",
+  "parent": null,
+  "top": "e-glossary-md",
+  "writers": [
+   "concept-glossary"
+  ],
+  "readers": [
+   "architecture-datamodel",
+   "experience-behaviors",
+   "experience-journeys",
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "hard_readers": [
+   "architecture-datamodel",
+   "spec-feature"
+  ],
+  "artifact_ids": [
+   "glossary"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-glossary"
+  ],
+  "owner": [
+   "concept-glossary"
+  ],
+  "owner_declared_on": "glossary.md",
+  "standard_step": 5
+ },
+ {
+  "id": "e-01-meta",
+  "path": "01_meta/",
+  "name": "01_meta/",
+  "depth": 0,
+  "line": 21,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-01-meta",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-scope"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 1
+ },
+ {
+  "id": "e-02-grounding",
+  "path": "02_grounding/",
+  "name": "02_grounding/",
+  "depth": 0,
+  "line": 24,
+  "desc": "everything that came from outside — read by every skill",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-02-grounding",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-onboard",
+   "concept-research",
+   "concept-reverse",
+   "design-brand",
+   "quality-standards"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 2
+ },
+ {
+  "id": "e-03-brand",
+  "path": "03_brand/",
+  "name": "03_brand/",
+  "depth": 0,
+  "line": 51,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-03-brand",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "design-brand"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 6
+ },
+ {
+  "id": "e-04-journeys",
+  "path": "04_journeys/",
+  "name": "04_journeys/",
+  "depth": 0,
+  "line": 56,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-04-journeys",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "experience-journeys"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 7
+ },
+ {
+  "id": "e-05-features",
+  "path": "05_features/",
+  "name": "05_features/",
+  "depth": 0,
+  "line": 59,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-05-features",
+  "writers": [],
+  "readers": [
+   "architecture-system",
+   "architecture-techstack",
+   "build-implement",
+   "build-plan",
+   "experience-behaviors",
+   "experience-shell",
+   "mockup-walkthrough",
+   "ops-review",
+   "quality-e2e",
+   "quality-review",
+   "quality-test"
+  ],
+  "hard_readers": [
+   "architecture-system",
+   "build-implement",
+   "build-plan",
+   "experience-behaviors",
+   "experience-shell",
+   "quality-e2e",
+   "quality-review",
+   "quality-test"
+  ],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 9
+ },
+ {
+  "id": "e-06-behaviors",
+  "path": "06_behaviors/",
+  "name": "06_behaviors/",
+  "depth": 0,
+  "line": 63,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-06-behaviors",
+  "writers": [],
+  "readers": [
+   "architecture-system"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "experience-behaviors"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 10
+ },
+ {
+  "id": "e-07-screens",
+  "path": "07_screens/",
+  "name": "07_screens/",
+  "depth": 0,
+  "line": 66,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-07-screens",
+  "writers": [],
+  "readers": [
+   "build-implement",
+   "build-plan",
+   "build-scaffold",
+   "experience-shell",
+   "mockup-storybook",
+   "mockup-walkthrough",
+   "quality-e2e"
+  ],
+  "hard_readers": [
+   "mockup-storybook",
+   "mockup-walkthrough"
+  ],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "experience-shell",
+   "spec-feature"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 11
+ },
+ {
+  "id": "e-08-dossiers",
+  "path": "08_dossiers/",
+  "name": "08_dossiers/",
+  "depth": 0,
+  "line": 70,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-08-dossiers",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "spec-feature"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 11
+ },
+ {
+  "id": "e-09-mockup",
+  "path": "09_mockup/",
+  "name": "09_mockup/",
+  "depth": 0,
+  "line": 73,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-09-mockup",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "mockup-annotate",
+   "mockup-feedback",
+   "mockup-storybook",
+   "mockup-walkthrough"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 15
+ },
+ {
+  "id": "e-10-blueprint",
+  "path": "10_blueprint/",
+  "name": "10_blueprint/",
+  "depth": 0,
+  "line": 78,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-10-blueprint",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "architecture-datamodel",
+   "architecture-system",
+   "architecture-techstack",
+   "spec-feature"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 8
+ },
+ {
+  "id": "e-11-build",
+  "path": "11_build/",
+  "name": "11_build/",
+  "depth": 0,
+  "line": 84,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-11-build",
+  "writers": [
+   "quality-release"
+  ],
+  "readers": [
+   "build-implement",
+   "ops-review",
+   "quality-review"
+  ],
+  "hard_readers": [
+   "build-implement",
+   "quality-review"
+  ],
+  "artifact_ids": [
+   "release-verdict"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "build-implement",
+   "build-plan",
+   "quality-e2e",
+   "quality-release",
+   "quality-review"
+  ],
+  "owner": [
+   "quality-release"
+  ],
+  "owner_declared_on": "11_build/",
+  "standard_step": 22
+ }
+]

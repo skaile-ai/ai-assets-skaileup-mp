@@ -1,0 +1,79 @@
+[
+ {
+  "id": "p-api-service",
+  "name": "api-service",
+  "description": "API service — endpoints instead of screens, no UI and no visual brand",
+  "not_grown": [
+   "journeys",
+   "screens",
+   "brand-identity",
+   "brand-tokens",
+   "behaviors",
+   "mockup",
+   "mockup-storybook"
+  ],
+  "file": "profiles/api-service.yaml"
+ },
+ {
+  "id": "p-cli-tool",
+  "name": "cli-tool",
+  "description": "CLI application — commands the user runs, no screens and no visual brand",
+  "not_grown": [
+   "journeys",
+   "screens",
+   "brand-identity",
+   "brand-tokens",
+   "behaviors",
+   "mockup",
+   "mockup-storybook"
+  ],
+  "file": "profiles/cli-tool.yaml"
+ },
+ {
+  "id": "p-data-pipeline",
+  "name": "data-pipeline",
+  "description": "Data pipeline — stages instead of user-facing features, no UI",
+  "not_grown": [
+   "journeys",
+   "screens",
+   "brand-identity",
+   "brand-tokens",
+   "behaviors",
+   "mockup",
+   "mockup-storybook"
+  ],
+  "file": "profiles/data-pipeline.yaml"
+ },
+ {
+  "id": "p-library",
+  "name": "library",
+  "description": "Library package — an API surface instead of features, no UI and nothing deployed",
+  "not_grown": [
+   "journeys",
+   "screens",
+   "brand-identity",
+   "brand-tokens",
+   "behaviors",
+   "datamodel",
+   "mockup",
+   "mockup-storybook"
+  ],
+  "file": "profiles/library.yaml"
+ },
+ {
+  "id": "p-mobile-app",
+  "name": "mobile-app",
+  "description": "Mobile application — the full artifact set; component stories do not apply",
+  "not_grown": [
+   "mockup-storybook"
+  ],
+  "file": "profiles/mobile-app.yaml"
+ },
+ {
+  "id": "p-web-app",
+  "name": "web-app",
+  "description": "Web application — the full artifact set, nothing excluded",
+  "not_grown": [],
+  "file": "profiles/web-app.yaml"
+ }
+]

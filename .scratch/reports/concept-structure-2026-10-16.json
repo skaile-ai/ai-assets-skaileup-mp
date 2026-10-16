@@ -1,0 +1,4596 @@
+{
+ "title": "The _concept/ folder: structure",
+ "lang": "en",
+ "profile": "structure",
+ "data_dir": "concept-structure-2026-10-16.data",
+ "meta": [
+  "Source: `contracts/concept_structure.md` (the tree fence), the `metadata` of 31 `skills/*/SKILL.md`, 4 flows, 6 profiles",
+  "Dump: `dump-concept-structure-2026-10-16.py`, read on 2026-10-16"
+ ],
+ "numbered": true,
+ "stats": [
+  [
+   "Tree entries",
+   {
+    "count": "entries"
+   }
+  ],
+  [
+   "First-level entries",
+   {
+    "count": "first_level"
+   }
+  ],
+  [
+   "Skills",
+   {
+    "count": "skills"
+   }
+  ],
+  [
+   "Flows",
+   {
+    "count": "flows"
+   }
+  ],
+  [
+   "Project types",
+   {
+    "count": "profiles"
+   }
+  ]
+ ],
+ "badges": {
+  "kind": {
+   "label": "Kind",
+   "shape": "square",
+   "values": {
+    "folder": {
+     "color": "gray",
+     "desc": "a directory"
+    },
+    "file": {
+     "color": "blue",
+     "desc": "one file with a fixed name"
+    },
+    "pattern": {
+     "color": "purple",
+     "desc": "one file per feature, screen or featureset"
+    }
+   }
+  },
+  "layer": {
+   "label": "Layer",
+   "shape": "pill",
+   "values": {
+    "input": {
+     "color": "teal",
+     "desc": "scope and material from outside the room"
+    },
+    "design": {
+     "color": "navy",
+     "desc": "the design half: brief to blueprint"
+    },
+    "build": {
+     "color": "orange",
+     "desc": "the build half: slices, ledger, trace, reviews"
+    }
+   }
+  },
+  "grows": {
+   "label": "Project type",
+   "shape": "dashed",
+   "filter": "hide",
+   "values": {
+    "some": {
+     "label": "not every type",
+     "color": "yellow",
+     "desc": "at least one profile never grows it"
+    }
+   }
+  }
+ },
+ "entities": [
+  {
+   "id": "e-brief-md",
+   "title": "brief.md",
+   "label": "brief.md",
+   "order": 17,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "elevator pitch, audience, problem, hero flow, ## Comparables",
+    "writer: [[s-concept-brief]]",
+    "readers: 14",
+    "first write: step 4 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:17`"
+   ],
+   "refs": [
+    "s-concept-brief"
+   ]
+  },
+  {
+   "id": "e-goals-md",
+   "title": "goals.md",
+   "label": "goals.md",
+   "order": 18,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "success criteria, KPIs, constraints, non-goals",
+    "writer: [[s-concept-brief]]",
+    "readers: 3",
+    "first write: step 4 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:18`"
+   ],
+   "refs": [
+    "s-concept-brief"
+   ]
+  },
+  {
+   "id": "e-glossary-md",
+   "title": "glossary.md",
+   "label": "glossary.md",
+   "order": 19,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "the project's ubiquitous language: terms, definitions, _Avoid_ lists",
+    "writer: [[s-concept-glossary]]",
+    "readers: 5",
+    "first write: step 5 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:19`"
+   ],
+   "refs": [
+    "s-concept-glossary"
+   ]
+  },
+  {
+   "id": "e-01-meta",
+   "title": "01_meta/",
+   "label": "01_meta/",
+   "order": 21,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "—",
+    "writer: none declared",
+    "readers: 0",
+    "first write: step 1 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:21`"
+   ],
+   "refs": []
+  },
+  {
+   "id": "e-01-meta-scope-yaml",
+   "title": "scope.yaml",
+   "label": "01_meta/scope.yaml",
+   "order": 22,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "flow + project_type; every skill reads its depth from here",
+    "writer: [[s-concept-scope]]",
+    "readers: 7",
+    "first write: step 1 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:22`"
+   ],
+   "refs": [
+    "s-concept-scope"
+   ],
+   "parent": "e-01-meta"
+  },
+  {
+   "id": "e-02-grounding",
+   "title": "02_grounding/",
+   "label": "02_grounding/",
+   "order": 24,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "everything that came from outside — read by every skill",
+    "writer: none declared",
+    "readers: 0",
+    "first write: step 2 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:24`"
+   ],
+   "refs": []
+  },
+  {
+   "id": "e-02-grounding-onboarding",
+   "title": "onboarding/",
+   "label": "02_grounding/onboarding/",
+   "order": 25,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "—",
+    "writer: none declared",
+    "readers: 0",
+    "first write: step 2 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:25`"
+   ],
+   "refs": [],
+   "parent": "e-02-grounding"
+  },
+  {
+   "id": "e-02-grounding-onboarding-answers-json",
+   "title": "answers.json",
+   "label": "02_grounding/onboarding/answers.json",
+   "order": 26,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "the one answer record: field values, confidence, seed inventory, approval",
+    "writer: [[s-concept-onboard]]",
+    "readers: 1",
+    "first write: step 2 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:26`"
+   ],
+   "refs": [
+    "s-concept-onboard"
+   ],
+   "parent": "e-02-grounding-onboarding"
+  },
+  {
+   "id": "e-02-grounding-onboarding-questions-md",
+   "title": "questions.md",
+   "label": "02_grounding/onboarding/questions.md",
+   "order": 27,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "open questions routed to someone who is not in the room",
+    "writer: [[s-concept-onboard]]",
+    "readers: 0",
+    "first write: step 2 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:27`"
+   ],
+   "refs": [
+    "s-concept-onboard"
+   ],
+   "parent": "e-02-grounding-onboarding"
+  },
+  {
+   "id": "e-02-grounding-research",
+   "title": "research/",
+   "label": "02_grounding/research/",
+   "order": 28,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "—",
+    "writer: none declared",
+    "readers: 0",
+    "first write: step 3 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:28`"
+   ],
+   "refs": [],
+   "parent": "e-02-grounding"
+  },
+  {
+   "id": "e-02-grounding-research-domain-md",
+   "title": "domain.md",
+   "label": "02_grounding/research/domain.md",
+   "order": 29,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "terminology, regulations, trends",
+    "writer: [[s-concept-research]]",
+    "readers: 0",
+    "first write: step 3 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:29`"
+   ],
+   "refs": [
+    "s-concept-research"
+   ],
+   "parent": "e-02-grounding-research"
+  },
+  {
+   "id": "e-02-grounding-research-competitors-md",
+   "title": "competitors.md",
+   "label": "02_grounding/research/competitors.md",
+   "order": 30,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "per-product analysis",
+    "writer: [[s-concept-research]]",
+    "readers: 1",
+    "first write: step 3 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:30`"
+   ],
+   "refs": [
+    "s-concept-research"
+   ],
+   "parent": "e-02-grounding-research"
+  },
+  {
+   "id": "e-02-grounding-research-audiences-md",
+   "title": "audiences.md",
+   "label": "02_grounding/research/audiences.md",
+   "order": 31,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "personas with design implications",
+    "writer: [[s-concept-research]]",
+    "readers: 1",
+    "first write: step 3 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:31`"
+   ],
+   "refs": [
+    "s-concept-research"
+   ],
+   "parent": "e-02-grounding-research"
+  },
+  {
+   "id": "e-02-grounding-research-design-inspiration-md",
+   "title": "design-inspiration.md",
+   "label": "02_grounding/research/design-inspiration.md",
+   "order": 32,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "layout, colour, typography, component patterns",
+    "writer: [[s-concept-research]]",
+    "readers: 1",
+    "first write: step 3 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:32`"
+   ],
+   "refs": [
+    "s-concept-research"
+   ],
+   "parent": "e-02-grounding-research"
+  },
+  {
+   "id": "e-02-grounding-research-patterns-md",
+   "title": "patterns.md",
+   "label": "02_grounding/research/patterns.md",
+   "order": 33,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "UX and architectural patterns for this domain",
+    "writer: [[s-concept-research]]",
+    "readers: 0",
+    "first write: step 3 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:33`"
+   ],
+   "refs": [
+    "s-concept-research"
+   ],
+   "parent": "e-02-grounding-research"
+  },
+  {
+   "id": "e-02-grounding-research-colors-fonts-md",
+   "title": "colors-fonts.md",
+   "label": "02_grounding/research/colors-fonts.md",
+   "order": 34,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "palette and typography research",
+    "writer: [[s-concept-research]]",
+    "readers: 0",
+    "first write: step 3 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:34`"
+   ],
+   "refs": [
+    "s-concept-research"
+   ],
+   "parent": "e-02-grounding-research"
+  },
+  {
+   "id": "e-02-grounding-research-behavioral-patterns-md",
+   "title": "behavioral-patterns.md",
+   "label": "02_grounding/research/behavioral-patterns.md",
+   "order": 35,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "state machines and lifecycles seen in the field",
+    "writer: [[s-concept-research]]",
+    "readers: 1",
+    "first write: step 3 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:35`"
+   ],
+   "refs": [
+    "s-concept-research"
+   ],
+   "parent": "e-02-grounding-research"
+  },
+  {
+   "id": "e-02-grounding-research-step-skill-name",
+   "title": "step/<skill-name>/",
+   "label": "02_grounding/research/step/<skill-name>/",
+   "order": 36,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "research dispatched alongside one skill",
+    "writer: [[s-concept-research]]",
+    "readers: 0",
+    "first write: step 3 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:36`"
+   ],
+   "refs": [
+    "s-concept-research"
+   ],
+   "parent": "e-02-grounding-research"
+  },
+  {
+   "id": "e-02-grounding-seeds",
+   "title": "seeds/",
+   "label": "02_grounding/seeds/",
+   "order": 37,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "material the user dropped in; nothing generates it",
+    "writer: none declared",
+    "readers: 0",
+    "first write: no step of `appbuilder-standard`",
+    "`contracts/concept_structure.md:37`"
+   ],
+   "refs": [],
+   "parent": "e-02-grounding"
+  },
+  {
+   "id": "e-02-grounding-standards",
+   "title": "standards/",
+   "label": "02_grounding/standards/",
+   "order": 38,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "—",
+    "writer: [[s-quality-standards]]",
+    "readers: 2",
+    "first write: step 21 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:38`"
+   ],
+   "refs": [
+    "s-quality-standards"
+   ],
+   "parent": "e-02-grounding"
+  },
+  {
+   "id": "e-02-grounding-standards-index-yml",
+   "title": "index.yml",
+   "label": "02_grounding/standards/index.yml",
+   "order": 39,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "fast matching by applies_to + keywords",
+    "writer: none declared, the folder `02_grounding/standards/` declares it",
+    "readers: 2",
+    "first write: no step of `appbuilder-standard`",
+    "`contracts/concept_structure.md:39`"
+   ],
+   "refs": [],
+   "parent": "e-02-grounding-standards"
+  },
+  {
+   "id": "e-02-grounding-standards-domain",
+   "title": "<domain>/",
+   "label": "02_grounding/standards/<domain>/",
+   "order": 40,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "conventions discovered in an existing codebase",
+    "writer: none declared, the folder `02_grounding/standards/` declares it",
+    "readers: 0",
+    "first write: no step of `appbuilder-standard`",
+    "`contracts/concept_structure.md:40`"
+   ],
+   "refs": [],
+   "parent": "e-02-grounding-standards"
+  },
+  {
+   "id": "e-02-grounding-findings",
+   "title": "findings/",
+   "label": "02_grounding/findings/",
+   "order": 41,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "graded evidence and raw material from outside the room",
+    "writer: [[s-concept-research]] · [[s-concept-reverse]] · [[s-design-brand]]",
+    "readers: 3",
+    "first write: step 3 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:41`"
+   ],
+   "refs": [
+    "s-concept-research",
+    "s-concept-reverse",
+    "s-design-brand"
+   ],
+   "parent": "e-02-grounding"
+  },
+  {
+   "id": "e-02-grounding-findings-index-md",
+   "title": "index.md",
+   "label": "02_grounding/findings/index.md",
+   "order": 42,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "catalogue: file, source, date, `step` (the skill that took it)",
+    "writer: none declared, the folder `02_grounding/findings/` declares it",
+    "readers: 0",
+    "first write: no step of `appbuilder-standard`",
+    "`contracts/concept_structure.md:42`"
+   ],
+   "refs": [],
+   "parent": "e-02-grounding-findings"
+  },
+  {
+   "id": "e-02-grounding-findings-routes-md",
+   "title": "routes.md",
+   "label": "02_grounding/findings/routes.md",
+   "order": 43,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "concept-reverse — every route, the file defining it, what a user does there",
+    "writer: none declared, the folder `02_grounding/findings/` declares it",
+    "readers: 0",
+    "first write: no step of `appbuilder-standard`",
+    "`contracts/concept_structure.md:43`"
+   ],
+   "refs": [],
+   "parent": "e-02-grounding-findings"
+  },
+  {
+   "id": "e-02-grounding-findings-screens-md",
+   "title": "screens.md",
+   "label": "02_grounding/findings/screens.md",
+   "order": 44,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "concept-reverse — page components, bindings, interactions, states",
+    "writer: none declared, the folder `02_grounding/findings/` declares it",
+    "readers: 0",
+    "first write: no step of `appbuilder-standard`",
+    "`contracts/concept_structure.md:44`"
+   ],
+   "refs": [],
+   "parent": "e-02-grounding-findings"
+  },
+  {
+   "id": "e-02-grounding-findings-datamodel-md",
+   "title": "datamodel.md",
+   "label": "02_grounding/findings/datamodel.md",
+   "order": 45,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "concept-reverse — entities, fields, relations, enums",
+    "writer: none declared, the folder `02_grounding/findings/` declares it",
+    "readers: 0",
+    "first write: no step of `appbuilder-standard`",
+    "`contracts/concept_structure.md:45`"
+   ],
+   "refs": [],
+   "parent": "e-02-grounding-findings"
+  },
+  {
+   "id": "e-02-grounding-findings-stack-md",
+   "title": "stack.md",
+   "label": "02_grounding/findings/stack.md",
+   "order": 46,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "concept-reverse — detected technology, per dimension",
+    "writer: none declared, the folder `02_grounding/findings/` declares it",
+    "readers: 0",
+    "first write: no step of `appbuilder-standard`",
+    "`contracts/concept_structure.md:46`"
+   ],
+   "refs": [],
+   "parent": "e-02-grounding-findings"
+  },
+  {
+   "id": "e-02-grounding-findings-brand-md",
+   "title": "brand.md",
+   "label": "02_grounding/findings/brand.md",
+   "order": 47,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "concept-reverse — detected colours, type, radius, mode",
+    "writer: none declared, the folder `02_grounding/findings/` declares it",
+    "readers: 0",
+    "first write: no step of `appbuilder-standard`",
+    "`contracts/concept_structure.md:47`"
+   ],
+   "refs": [],
+   "parent": "e-02-grounding-findings"
+  },
+  {
+   "id": "e-02-grounding-findings-brief-seeds-md",
+   "title": "brief-seeds.md",
+   "label": "02_grounding/findings/brief-seeds.md",
+   "order": 48,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "input"
+    ]
+   },
+   "meta": [
+    "concept-reverse — pitch, audience, problem, goals, comparables from the docs",
+    "writer: none declared, the folder `02_grounding/findings/` declares it",
+    "readers: 0",
+    "first write: no step of `appbuilder-standard`",
+    "`contracts/concept_structure.md:48`"
+   ],
+   "refs": [],
+   "parent": "e-02-grounding-findings"
+  },
+  {
+   "id": "e-03-brand",
+   "title": "03_brand/",
+   "label": "03_brand/",
+   "order": 51,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "—",
+    "writer: none declared",
+    "readers: 0",
+    "first write: step 6 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:51`"
+   ],
+   "refs": []
+  },
+  {
+   "id": "e-03-brand-identity-md",
+   "title": "identity.md",
+   "label": "03_brand/identity.md",
+   "order": 52,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "design"
+    ],
+    "grows": [
+     "some"
+    ]
+   },
+   "meta": [
+    "colours, fonts, tone of voice and copy guidelines (design-brand owns all of it)",
+    "writer: [[s-design-brand]]",
+    "readers: 0",
+    "first write: step 6 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:52`"
+   ],
+   "refs": [
+    "s-design-brand"
+   ],
+   "parent": "e-03-brand"
+  },
+  {
+   "id": "e-03-brand-tokens-json",
+   "title": "tokens.json",
+   "label": "03_brand/tokens.json",
+   "order": 53,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "design"
+    ],
+    "grows": [
+     "some"
+    ]
+   },
+   "meta": [
+    "machine-readable design tokens",
+    "writer: [[s-design-brand]]",
+    "readers: 6",
+    "first write: step 6 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:53`"
+   ],
+   "refs": [
+    "s-design-brand"
+   ],
+   "parent": "e-03-brand"
+  },
+  {
+   "id": "e-03-brand-brandbook-html",
+   "title": "brandbook.html",
+   "label": "03_brand/brandbook.html",
+   "order": 54,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "self-contained visual reference",
+    "writer: [[s-design-brand]]",
+    "readers: 0",
+    "first write: step 6 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:54`"
+   ],
+   "refs": [
+    "s-design-brand"
+   ],
+   "parent": "e-03-brand"
+  },
+  {
+   "id": "e-04-journeys",
+   "title": "04_journeys/",
+   "label": "04_journeys/",
+   "order": 56,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "—",
+    "writer: none declared",
+    "readers: 0",
+    "first write: step 7 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:56`"
+   ],
+   "refs": []
+  },
+  {
+   "id": "e-04-journeys-stories-yaml",
+   "title": "stories.yaml",
+   "label": "04_journeys/stories.yaml",
+   "order": 57,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "design"
+    ],
+    "grows": [
+     "some"
+    ]
+   },
+   "meta": [
+    "personas, story map (hero/vital/hygiene/backlog), EARS criteria",
+    "writer: [[s-experience-journeys]]",
+    "readers: 9",
+    "first write: step 7 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:57`"
+   ],
+   "refs": [
+    "s-experience-journeys"
+   ],
+   "parent": "e-04-journeys"
+  },
+  {
+   "id": "e-05-features",
+   "title": "05_features/",
+   "label": "05_features/",
+   "order": 59,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "—",
+    "writer: none declared",
+    "readers: 11",
+    "first write: step 9 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:59`"
+   ],
+   "refs": []
+  },
+  {
+   "id": "e-05-features-featuresets-md",
+   "title": "featuresets.md",
+   "label": "05_features/featuresets.md",
+   "order": 60,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "the roster: every featureset and the features in it",
+    "writer: [[s-spec-featuresets]]",
+    "readers: 2",
+    "first write: step 9 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:60`"
+   ],
+   "refs": [
+    "s-spec-featuresets"
+   ],
+   "parent": "e-05-features"
+  },
+  {
+   "id": "e-05-features-featureset-feature-md",
+   "title": "<featureset>/<feature>.md",
+   "label": "05_features/<featureset>/<feature>.md",
+   "order": 61,
+   "badges": {
+    "kind": [
+     "pattern"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "one file per feature; featureset is the only grouping level",
+    "writer: [[s-spec-feature]]",
+    "readers: 9",
+    "first write: step 11 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:61`"
+   ],
+   "refs": [
+    "s-spec-feature"
+   ],
+   "parent": "e-05-features"
+  },
+  {
+   "id": "e-06-behaviors",
+   "title": "06_behaviors/",
+   "label": "06_behaviors/",
+   "order": 63,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "—",
+    "writer: none declared",
+    "readers: 1",
+    "first write: step 10 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:63`"
+   ],
+   "refs": []
+  },
+  {
+   "id": "e-06-behaviors-featureset-md",
+   "title": "<featureset>.md",
+   "label": "06_behaviors/<featureset>.md",
+   "order": 64,
+   "badges": {
+    "kind": [
+     "pattern"
+    ],
+    "layer": [
+     "design"
+    ],
+    "grows": [
+     "some"
+    ]
+   },
+   "meta": [
+    "state machines and lifecycle rules, as markdown state tables",
+    "writer: [[s-experience-behaviors]]",
+    "readers: 0",
+    "first write: step 10 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:64`"
+   ],
+   "refs": [
+    "s-experience-behaviors"
+   ],
+   "parent": "e-06-behaviors"
+  },
+  {
+   "id": "e-07-screens",
+   "title": "07_screens/",
+   "label": "07_screens/",
+   "order": 66,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "—",
+    "writer: none declared",
+    "readers: 7",
+    "first write: step 11 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:66`"
+   ],
+   "refs": []
+  },
+  {
+   "id": "e-07-screens-shell-md",
+   "title": "shell.md",
+   "label": "07_screens/shell.md",
+   "order": 67,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "the app shell: nav, sidebar, header, breakpoints, shared patterns",
+    "writer: [[s-experience-shell]]",
+    "readers: 0",
+    "first write: step 12 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:67`"
+   ],
+   "refs": [
+    "s-experience-shell"
+   ],
+   "parent": "e-07-screens"
+  },
+  {
+   "id": "e-07-screens-feature-slug-screen-md",
+   "title": "<feature_slug>/<screen>.md",
+   "label": "07_screens/<feature_slug>/<screen>.md",
+   "order": 68,
+   "badges": {
+    "kind": [
+     "pattern"
+    ],
+    "layer": [
+     "design"
+    ],
+    "grows": [
+     "some"
+    ]
+   },
+   "meta": [
+    "one spec per screen, carrying the `elements:` block",
+    "writer: [[s-spec-feature]]",
+    "readers: 8",
+    "first write: step 11 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:68`"
+   ],
+   "refs": [
+    "s-spec-feature"
+   ],
+   "parent": "e-07-screens"
+  },
+  {
+   "id": "e-08-dossiers",
+   "title": "08_dossiers/",
+   "label": "08_dossiers/",
+   "order": 70,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "—",
+    "writer: none declared",
+    "readers: 0",
+    "first write: step 11 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:70`"
+   ],
+   "refs": []
+  },
+  {
+   "id": "e-08-dossiers-feature-slug-index-md",
+   "title": "<feature_slug>/index.md",
+   "label": "08_dossiers/<feature_slug>/index.md",
+   "order": 71,
+   "badges": {
+    "kind": [
+     "pattern"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "the working record behind one feature; opened at the grill, frozen at the end",
+    "writer: [[s-spec-feature]]",
+    "readers: 0",
+    "first write: step 11 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:71`"
+   ],
+   "refs": [
+    "s-spec-feature"
+   ],
+   "parent": "e-08-dossiers"
+  },
+  {
+   "id": "e-09-mockup",
+   "title": "09_mockup/",
+   "label": "09_mockup/",
+   "order": 73,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "—",
+    "writer: none declared",
+    "readers: 0",
+    "first write: step 15 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:73`"
+   ],
+   "refs": []
+  },
+  {
+   "id": "e-09-mockup-walkthrough",
+   "title": "walkthrough/",
+   "label": "09_mockup/walkthrough/",
+   "order": 74,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "design"
+    ],
+    "grows": [
+     "some"
+    ]
+   },
+   "meta": [
+    "the clickable walkthrough — one output tree, renderer-agnostic",
+    "writer: [[s-mockup-walkthrough]]",
+    "readers: 2",
+    "first write: step 15 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:74`"
+   ],
+   "refs": [
+    "s-mockup-walkthrough"
+   ],
+   "parent": "e-09-mockup"
+  },
+  {
+   "id": "e-09-mockup-storybook",
+   "title": "storybook/",
+   "label": "09_mockup/storybook/",
+   "order": 75,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "design"
+    ],
+    "grows": [
+     "some"
+    ]
+   },
+   "meta": [
+    "the standalone Storybook project",
+    "writer: [[s-mockup-storybook]]",
+    "readers: 0",
+    "first write: step 16 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:75`"
+   ],
+   "refs": [
+    "s-mockup-storybook"
+   ],
+   "parent": "e-09-mockup"
+  },
+  {
+   "id": "e-09-mockup-feedback",
+   "title": "feedback/",
+   "label": "09_mockup/feedback/",
+   "order": 76,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "design"
+    ],
+    "grows": [
+     "some"
+    ]
+   },
+   "meta": [
+    "sessions · triage · patches · applied · devlog.md",
+    "writer: [[s-mockup-annotate]] · [[s-mockup-feedback]]",
+    "readers: 0",
+    "first write: step 17 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:76`"
+   ],
+   "refs": [
+    "s-mockup-annotate",
+    "s-mockup-feedback"
+   ],
+   "parent": "e-09-mockup"
+  },
+  {
+   "id": "e-10-blueprint",
+   "title": "10_blueprint/",
+   "label": "10_blueprint/",
+   "order": 78,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "—",
+    "writer: none declared",
+    "readers: 0",
+    "first write: step 8 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:78`"
+   ],
+   "refs": []
+  },
+  {
+   "id": "e-10-blueprint-techstack-md",
+   "title": "techstack.md",
+   "label": "10_blueprint/techstack.md",
+   "order": 79,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "chosen technologies and why — no third-party services",
+    "writer: [[s-architecture-techstack]]",
+    "readers: 6",
+    "first write: step 13 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:79`"
+   ],
+   "refs": [
+    "s-architecture-techstack"
+   ],
+   "parent": "e-10-blueprint"
+  },
+  {
+   "id": "e-10-blueprint-architecture-md",
+   "title": "architecture.md",
+   "label": "10_blueprint/architecture.md",
+   "order": 80,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "modules, protocols, data flow, and every external integration",
+    "writer: [[s-architecture-system]]",
+    "readers: 1",
+    "first write: step 14 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:80`"
+   ],
+   "refs": [
+    "s-architecture-system"
+   ],
+   "parent": "e-10-blueprint"
+  },
+  {
+   "id": "e-10-blueprint-decisions-md",
+   "title": "decisions.md",
+   "label": "10_blueprint/decisions.md",
+   "order": 81,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "design"
+    ]
+   },
+   "meta": [
+    "design-time decision records, append-only",
+    "writer: [[s-spec-feature]]",
+    "readers: 0",
+    "first write: step 11 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:81`"
+   ],
+   "refs": [
+    "s-spec-feature"
+   ],
+   "parent": "e-10-blueprint"
+  },
+  {
+   "id": "e-10-blueprint-datamodel",
+   "title": "datamodel/",
+   "label": "10_blueprint/datamodel/",
+   "order": 82,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "design"
+    ],
+    "grows": [
+     "some"
+    ]
+   },
+   "meta": [
+    "model.dbml · model.json · seed.json",
+    "writer: [[s-architecture-datamodel]]",
+    "readers: 9",
+    "first write: step 8 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:82`"
+   ],
+   "refs": [
+    "s-architecture-datamodel"
+   ],
+   "parent": "e-10-blueprint"
+  },
+  {
+   "id": "e-11-build",
+   "title": "11_build/",
+   "label": "11_build/",
+   "order": 84,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "build"
+    ]
+   },
+   "meta": [
+    "—",
+    "writer: [[s-quality-release]]",
+    "readers: 3",
+    "first write: step 22 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:84`"
+   ],
+   "refs": [
+    "s-quality-release"
+   ]
+  },
+  {
+   "id": "e-11-build-slices-slice-id",
+   "title": "slices/<slice_id>/",
+   "label": "11_build/slices/<slice_id>/",
+   "order": 85,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "build"
+    ]
+   },
+   "meta": [
+    "one vertical slice's dossier, frozen on commit",
+    "writer: [[s-build-implement]] · [[s-build-plan]]",
+    "readers: 1",
+    "first write: step 22 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:85`"
+   ],
+   "refs": [
+    "s-build-implement",
+    "s-build-plan"
+   ],
+   "parent": "e-11-build"
+  },
+  {
+   "id": "e-11-build-trace-yaml",
+   "title": "trace.yaml",
+   "label": "11_build/trace.yaml",
+   "order": 86,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "build"
+    ]
+   },
+   "meta": [
+    "feature → slices → commits → code (build-implement writes it as each slice commits)",
+    "writer: [[s-build-implement]]",
+    "readers: 3",
+    "first write: step 23 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:86`"
+   ],
+   "refs": [
+    "s-build-implement"
+   ],
+   "parent": "e-11-build"
+  },
+  {
+   "id": "e-11-build-acceptance-criteria",
+   "title": "acceptance-criteria/",
+   "label": "11_build/acceptance-criteria/",
+   "order": 87,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "build"
+    ]
+   },
+   "meta": [
+    "<featureset>/<feature_slug>.ac.md — the criteria status ledger",
+    "writer: [[s-build-implement]] · [[s-build-plan]] · [[s-quality-e2e]] · [[s-quality-review]]",
+    "readers: 1",
+    "first write: step 22 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:87`"
+   ],
+   "refs": [
+    "s-build-implement",
+    "s-build-plan",
+    "s-quality-e2e",
+    "s-quality-review"
+   ],
+   "parent": "e-11-build"
+  },
+  {
+   "id": "e-11-build-reviews",
+   "title": "reviews/",
+   "label": "11_build/reviews/",
+   "order": 88,
+   "badges": {
+    "kind": [
+     "folder"
+    ],
+    "layer": [
+     "build"
+    ]
+   },
+   "meta": [
+    "<feature_slug>.yaml — one feature's code-review verdict",
+    "writer: [[s-quality-review]]",
+    "readers: 0",
+    "first write: step 27 of `appbuilder-standard`",
+    "`contracts/concept_structure.md:88`"
+   ],
+   "refs": [
+    "s-quality-review"
+   ],
+   "parent": "e-11-build"
+  },
+  {
+   "id": "e-11-build-decisions-md",
+   "title": "decisions.md",
+   "label": "11_build/decisions.md",
+   "order": 89,
+   "badges": {
+    "kind": [
+     "file"
+    ],
+    "layer": [
+     "build"
+    ]
+   },
+   "meta": [
+    "build-time decision records, append-only",
+    "writer: none declared, the folder `11_build/` declares it",
+    "readers: 0",
+    "first write: no step of `appbuilder-standard`",
+    "`contracts/concept_structure.md:89`"
+   ],
+   "refs": [],
+   "parent": "e-11-build"
+  },
+  {
+   "id": "s-architecture-datamodel",
+   "title": "architecture-datamodel",
+   "tree": false,
+   "meta": [
+    "domain: `architecture`",
+    "flows: 3",
+    "`skills/architecture-datamodel/SKILL.md`"
+   ],
+   "label": "architecture-datamodel"
+  },
+  {
+   "id": "s-architecture-system",
+   "title": "architecture-system",
+   "tree": false,
+   "meta": [
+    "domain: `architecture`",
+    "flows: 2",
+    "`skills/architecture-system/SKILL.md`"
+   ],
+   "label": "architecture-system"
+  },
+  {
+   "id": "s-architecture-techstack",
+   "title": "architecture-techstack",
+   "tree": false,
+   "meta": [
+    "domain: `architecture`",
+    "flows: 3",
+    "`skills/architecture-techstack/SKILL.md`"
+   ],
+   "label": "architecture-techstack"
+  },
+  {
+   "id": "s-build-branch",
+   "title": "build-branch",
+   "tree": false,
+   "meta": [
+    "domain: `build`",
+    "flows: 1",
+    "`skills/build-branch/SKILL.md`"
+   ],
+   "label": "build-branch"
+  },
+  {
+   "id": "s-build-database",
+   "title": "build-database",
+   "tree": false,
+   "meta": [
+    "domain: `build`",
+    "flows: 1",
+    "`skills/build-database/SKILL.md`"
+   ],
+   "label": "build-database"
+  },
+  {
+   "id": "s-build-implement",
+   "title": "build-implement",
+   "tree": false,
+   "meta": [
+    "domain: `build`",
+    "flows: 2",
+    "`skills/build-implement/SKILL.md`"
+   ],
+   "label": "build-implement"
+  },
+  {
+   "id": "s-build-plan",
+   "title": "build-plan",
+   "tree": false,
+   "meta": [
+    "domain: `build`",
+    "flows: 2",
+    "`skills/build-plan/SKILL.md`"
+   ],
+   "label": "build-plan"
+  },
+  {
+   "id": "s-build-scaffold",
+   "title": "build-scaffold",
+   "tree": false,
+   "meta": [
+    "domain: `build`",
+    "flows: 2",
+    "`skills/build-scaffold/SKILL.md`"
+   ],
+   "label": "build-scaffold"
+  },
+  {
+   "id": "s-concept-brief",
+   "title": "concept-brief",
+   "tree": false,
+   "meta": [
+    "domain: `concept`",
+    "flows: 4",
+    "`skills/concept-brief/SKILL.md`"
+   ],
+   "label": "concept-brief"
+  },
+  {
+   "id": "s-concept-glossary",
+   "title": "concept-glossary",
+   "tree": false,
+   "meta": [
+    "domain: `concept`",
+    "flows: 4",
+    "`skills/concept-glossary/SKILL.md`"
+   ],
+   "label": "concept-glossary"
+  },
+  {
+   "id": "s-concept-onboard",
+   "title": "concept-onboard",
+   "tree": false,
+   "meta": [
+    "domain: `concept`",
+    "flows: 3",
+    "`skills/concept-onboard/SKILL.md`"
+   ],
+   "label": "concept-onboard"
+  },
+  {
+   "id": "s-concept-research",
+   "title": "concept-research",
+   "tree": false,
+   "meta": [
+    "domain: `concept`",
+    "flows: 2",
+    "`skills/concept-research/SKILL.md`"
+   ],
+   "label": "concept-research"
+  },
+  {
+   "id": "s-concept-reverse",
+   "title": "concept-reverse",
+   "tree": false,
+   "meta": [
+    "domain: `concept`",
+    "flows: 1",
+    "`skills/concept-reverse/SKILL.md`"
+   ],
+   "label": "concept-reverse"
+  },
+  {
+   "id": "s-concept-scope",
+   "title": "concept-scope",
+   "tree": false,
+   "meta": [
+    "domain: `concept`",
+    "flows: 4",
+    "`skills/concept-scope/SKILL.md`"
+   ],
+   "label": "concept-scope"
+  },
+  {
+   "id": "s-design-brand",
+   "title": "design-brand",
+   "tree": false,
+   "meta": [
+    "domain: `design`",
+    "flows: 3",
+    "`skills/design-brand/SKILL.md`"
+   ],
+   "label": "design-brand"
+  },
+  {
+   "id": "s-experience-behaviors",
+   "title": "experience-behaviors",
+   "tree": false,
+   "meta": [
+    "domain: `experience`",
+    "flows: 2",
+    "`skills/experience-behaviors/SKILL.md`"
+   ],
+   "label": "experience-behaviors"
+  },
+  {
+   "id": "s-experience-journeys",
+   "title": "experience-journeys",
+   "tree": false,
+   "meta": [
+    "domain: `experience`",
+    "flows: 4",
+    "`skills/experience-journeys/SKILL.md`"
+   ],
+   "label": "experience-journeys"
+  },
+  {
+   "id": "s-experience-shell",
+   "title": "experience-shell",
+   "tree": false,
+   "meta": [
+    "domain: `experience`",
+    "flows: 3",
+    "`skills/experience-shell/SKILL.md`"
+   ],
+   "label": "experience-shell"
+  },
+  {
+   "id": "s-mockup-annotate",
+   "title": "mockup-annotate",
+   "tree": false,
+   "meta": [
+    "domain: `mockup`",
+    "flows: 2",
+    "`skills/mockup-annotate/SKILL.md`"
+   ],
+   "label": "mockup-annotate"
+  },
+  {
+   "id": "s-mockup-feedback",
+   "title": "mockup-feedback",
+   "tree": false,
+   "meta": [
+    "domain: `mockup`",
+    "flows: 2",
+    "`skills/mockup-feedback/SKILL.md`"
+   ],
+   "label": "mockup-feedback"
+  },
+  {
+   "id": "s-mockup-storybook",
+   "title": "mockup-storybook",
+   "tree": false,
+   "meta": [
+    "domain: `mockup`",
+    "flows: 1",
+    "`skills/mockup-storybook/SKILL.md`"
+   ],
+   "label": "mockup-storybook"
+  },
+  {
+   "id": "s-mockup-walkthrough",
+   "title": "mockup-walkthrough",
+   "tree": false,
+   "meta": [
+    "domain: `mockup`",
+    "flows: 2",
+    "`skills/mockup-walkthrough/SKILL.md`"
+   ],
+   "label": "mockup-walkthrough"
+  },
+  {
+   "id": "s-ops-review",
+   "title": "ops-review",
+   "tree": false,
+   "meta": [
+    "domain: `ops`",
+    "flows: 3",
+    "`skills/ops-review/SKILL.md`"
+   ],
+   "label": "ops-review"
+  },
+  {
+   "id": "s-quality-e2e",
+   "title": "quality-e2e",
+   "tree": false,
+   "meta": [
+    "domain: `quality`",
+    "flows: 1",
+    "`skills/quality-e2e/SKILL.md`"
+   ],
+   "label": "quality-e2e"
+  },
+  {
+   "id": "s-quality-release",
+   "title": "quality-release",
+   "tree": false,
+   "meta": [
+    "domain: `quality`",
+    "flows: 1",
+    "`skills/quality-release/SKILL.md`"
+   ],
+   "label": "quality-release"
+  },
+  {
+   "id": "s-quality-review",
+   "title": "quality-review",
+   "tree": false,
+   "meta": [
+    "domain: `quality`",
+    "flows: 1",
+    "`skills/quality-review/SKILL.md`"
+   ],
+   "label": "quality-review"
+  },
+  {
+   "id": "s-quality-standards",
+   "title": "quality-standards",
+   "tree": false,
+   "meta": [
+    "domain: `quality`",
+    "flows: 2",
+    "`skills/quality-standards/SKILL.md`"
+   ],
+   "label": "quality-standards"
+  },
+  {
+   "id": "s-quality-test",
+   "title": "quality-test",
+   "tree": false,
+   "meta": [
+    "domain: `quality`",
+    "flows: 2",
+    "`skills/quality-test/SKILL.md`"
+   ],
+   "label": "quality-test"
+  },
+  {
+   "id": "s-skaileup",
+   "title": "skaileup",
+   "tree": false,
+   "meta": [
+    "domain: `skaileup`",
+    "flows: 0",
+    "`skills/skaileup/SKILL.md`"
+   ],
+   "label": "skaileup"
+  },
+  {
+   "id": "s-spec-feature",
+   "title": "spec-feature",
+   "tree": false,
+   "meta": [
+    "domain: `spec`",
+    "flows: 3",
+    "`skills/spec-feature/SKILL.md`"
+   ],
+   "label": "spec-feature"
+  },
+  {
+   "id": "s-spec-featuresets",
+   "title": "spec-featuresets",
+   "tree": false,
+   "meta": [
+    "domain: `spec`",
+    "flows: 4",
+    "`skills/spec-featuresets/SKILL.md`"
+   ],
+   "label": "spec-featuresets"
+  },
+  {
+   "id": "f-appbuilder-mvp",
+   "title": "appbuilder-mvp",
+   "tree": false,
+   "meta": [
+    "11 nodes",
+    "entry: `scope`",
+    "`flows/appbuilder-mvp/appbuilder-mvp.flow.yaml`"
+   ],
+   "label": "appbuilder-mvp"
+  },
+  {
+   "id": "f-appbuilder-standard",
+   "title": "appbuilder-standard",
+   "tree": false,
+   "meta": [
+    "29 nodes",
+    "entry: `scope`",
+    "`flows/appbuilder-standard/appbuilder-standard.flow.yaml`"
+   ],
+   "label": "appbuilder-standard"
+  },
+  {
+   "id": "f-skaileup-concept-only",
+   "title": "skaileup-concept-only",
+   "tree": false,
+   "meta": [
+    "16 nodes",
+    "entry: `scope`",
+    "`flows/skaileup-concept-only/skaileup-concept-only.flow.yaml`"
+   ],
+   "label": "skaileup-concept-only"
+  },
+  {
+   "id": "f-skaileup-concept-reverse",
+   "title": "skaileup-concept-reverse",
+   "tree": false,
+   "meta": [
+    "14 nodes",
+    "entry: `scope`",
+    "`flows/skaileup-concept-reverse/skaileup-concept-reverse.flow.yaml`"
+   ],
+   "label": "skaileup-concept-reverse"
+  },
+  {
+   "id": "p-api-service",
+   "title": "api-service",
+   "tree": false,
+   "meta": [
+    "API service — endpoints instead of screens, no UI and no visual brand",
+    "`profiles/api-service.yaml`"
+   ],
+   "label": "api-service"
+  },
+  {
+   "id": "p-cli-tool",
+   "title": "cli-tool",
+   "tree": false,
+   "meta": [
+    "CLI application — commands the user runs, no screens and no visual brand",
+    "`profiles/cli-tool.yaml`"
+   ],
+   "label": "cli-tool"
+  },
+  {
+   "id": "p-data-pipeline",
+   "title": "data-pipeline",
+   "tree": false,
+   "meta": [
+    "Data pipeline — stages instead of user-facing features, no UI",
+    "`profiles/data-pipeline.yaml`"
+   ],
+   "label": "data-pipeline"
+  },
+  {
+   "id": "p-library",
+   "title": "library",
+   "tree": false,
+   "meta": [
+    "Library package — an API surface instead of features, no UI and nothing deployed",
+    "`profiles/library.yaml`"
+   ],
+   "label": "library"
+  },
+  {
+   "id": "p-mobile-app",
+   "title": "mobile-app",
+   "tree": false,
+   "meta": [
+    "Mobile application — the full artifact set; component stories do not apply",
+    "`profiles/mobile-app.yaml`"
+   ],
+   "label": "mobile-app"
+  },
+  {
+   "id": "p-web-app",
+   "title": "web-app",
+   "tree": false,
+   "meta": [
+    "Web application — the full artifact set, nothing excluded",
+    "`profiles/web-app.yaml`"
+   ],
+   "label": "web-app"
+  }
+ ],
+ "sections": [
+  {
+   "title": "The answer",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "`_concept/` is one root folder in the project. It holds 14 first-level entries: three root files ([[e-brief-md]], [[e-goals-md]], [[e-glossary-md]]) and eleven numbered folders from [[e-01-meta]] to [[e-11-build]]. 25 of 31 skills write into it. Each skill names its paths in `metadata.artifacts.produces`. 4 entries have more than one writer."
+    },
+    {
+     "type": "p",
+     "text": "The numbers sort the folders for the reader. They do not give the write order: [[e-10-blueprint-datamodel]] is written before [[e-05-features]], and [[e-09-mockup]] comes after the screens. Everything before [[e-11-build]] is design. Everything in [[e-11-build]] is build."
+    }
+   ]
+  },
+  {
+   "title": "What each folder holds and who writes it",
+   "sub": "What is in it",
+   "question": "q1",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The tree has 61 entries: 25 folders, 32 files and 4 patterns. A pattern is one file per feature, screen or featureset. Each row shows the description from the contract, the writer skill, the number of reader skills and the first write step. [[e-02-grounding]] holds everything from outside the project: [[e-02-grounding-onboarding]], [[e-02-grounding-research]] and the graded findings of `concept-reverse`: [[e-02-grounding-findings-index-md]], [[e-02-grounding-findings-routes-md]], [[e-02-grounding-findings-screens-md]], [[e-02-grounding-findings-datamodel-md]], [[e-02-grounding-findings-stack-md]], [[e-02-grounding-findings-brand-md]], [[e-02-grounding-findings-brief-seeds-md]]. The badges filter the tree and the map in the section on readers."
+    },
+    {
+     "type": "tree",
+     "filter": [
+      "kind",
+      "layer",
+      "grows"
+     ],
+     "count_label": "entries visible",
+     "hint": "Click a badge to hide or show entries. The map of readers below follows the same filter.",
+     "reset": "Show all",
+     "drives": [
+      "readers"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "What each project type never grows",
+   "sub": "What is in it",
+   "question": "q2",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "`concept-scope` reads `project_type` and resolves it against one of 6 profiles. A profile lists the artifacts a project of that type never grows. 4 types never grow journeys, screens, brand, behaviors or mockups: `api-service`, `cli-tool`, `data-pipeline`, `library`. A `library` also never grows a data model. A `web-app` grows the full tree."
+    },
+    {
+     "type": "table",
+     "columns": [
+      "Profile",
+      "Entries",
+      "Not grown",
+      "`not_grown` value"
+     ],
+     "numeric": [
+      1
+     ],
+     "rows": [
+      {
+       "anchor": "p-api-service",
+       "cells": [
+        "`api-service`",
+        8,
+        {
+         "refs": [
+          "e-03-brand-identity-md",
+          "e-03-brand-tokens-json",
+          "e-04-journeys-stories-yaml",
+          "e-06-behaviors-featureset-md",
+          "e-07-screens-feature-slug-screen-md",
+          "e-09-mockup-walkthrough",
+          "e-09-mockup-storybook",
+          "e-09-mockup-feedback"
+         ]
+        },
+        "`journeys` `screens` `brand-identity` `brand-tokens` `behaviors` `mockup` `mockup-storybook`"
+       ]
+      },
+      {
+       "anchor": "p-cli-tool",
+       "cells": [
+        "`cli-tool`",
+        8,
+        {
+         "refs": [
+          "e-03-brand-identity-md",
+          "e-03-brand-tokens-json",
+          "e-04-journeys-stories-yaml",
+          "e-06-behaviors-featureset-md",
+          "e-07-screens-feature-slug-screen-md",
+          "e-09-mockup-walkthrough",
+          "e-09-mockup-storybook",
+          "e-09-mockup-feedback"
+         ]
+        },
+        "`journeys` `screens` `brand-identity` `brand-tokens` `behaviors` `mockup` `mockup-storybook`"
+       ]
+      },
+      {
+       "anchor": "p-data-pipeline",
+       "cells": [
+        "`data-pipeline`",
+        8,
+        {
+         "refs": [
+          "e-03-brand-identity-md",
+          "e-03-brand-tokens-json",
+          "e-04-journeys-stories-yaml",
+          "e-06-behaviors-featureset-md",
+          "e-07-screens-feature-slug-screen-md",
+          "e-09-mockup-walkthrough",
+          "e-09-mockup-storybook",
+          "e-09-mockup-feedback"
+         ]
+        },
+        "`journeys` `screens` `brand-identity` `brand-tokens` `behaviors` `mockup` `mockup-storybook`"
+       ]
+      },
+      {
+       "anchor": "p-library",
+       "cells": [
+        "`library`",
+        9,
+        {
+         "refs": [
+          "e-03-brand-identity-md",
+          "e-03-brand-tokens-json",
+          "e-04-journeys-stories-yaml",
+          "e-06-behaviors-featureset-md",
+          "e-07-screens-feature-slug-screen-md",
+          "e-09-mockup-walkthrough",
+          "e-09-mockup-storybook",
+          "e-09-mockup-feedback",
+          "e-10-blueprint-datamodel"
+         ]
+        },
+        "`journeys` `screens` `brand-identity` `brand-tokens` `behaviors` `datamodel` `mockup` `mockup-storybook`"
+       ]
+      },
+      {
+       "anchor": "p-mobile-app",
+       "cells": [
+        "`mobile-app`",
+        1,
+        {
+         "refs": [
+          "e-09-mockup-storybook"
+         ]
+        },
+        "`mockup-storybook`"
+       ]
+      },
+      {
+       "anchor": "p-web-app",
+       "cells": [
+        "`web-app`",
+        0,
+        "nothing — the full tree",
+        "—"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Which flows grow which folders",
+   "sub": "What is in it",
+   "question": "q3",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A flow grows an entry when a writer of that entry is a node of the flow. [[f-appbuilder-standard]] grows all first-level entries. [[f-appbuilder-mvp]] has 11 nodes and skips 5 of them: [[e-03-brand]], [[e-06-behaviors]], [[e-07-screens]], [[e-08-dossiers]], [[e-09-mockup]]. The last column gives the step of [[f-appbuilder-standard]] that writes the entry first."
+    },
+    {
+     "type": "table",
+     "columns": [
+      "Entry",
+      "`appbuilder-mvp`",
+      "`appbuilder-standard`",
+      "`skaileup-concept-only`",
+      "`skaileup-concept-reverse`",
+      "First write (standard)"
+     ],
+     "numeric": [
+      5
+     ],
+     "rows": [
+      [
+       {
+        "ref": "e-brief-md"
+       },
+       "yes",
+       "yes",
+       "yes",
+       "yes",
+       4
+      ],
+      [
+       {
+        "ref": "e-goals-md"
+       },
+       "yes",
+       "yes",
+       "yes",
+       "yes",
+       4
+      ],
+      [
+       {
+        "ref": "e-glossary-md"
+       },
+       "yes",
+       "yes",
+       "yes",
+       "yes",
+       5
+      ],
+      [
+       {
+        "ref": "e-01-meta"
+       },
+       "yes",
+       "yes",
+       "yes",
+       "yes",
+       1
+      ],
+      [
+       {
+        "ref": "e-02-grounding"
+       },
+       "yes",
+       "yes",
+       "yes",
+       "yes",
+       2
+      ],
+      [
+       {
+        "ref": "e-03-brand"
+       },
+       "—",
+       "yes",
+       "yes",
+       "yes",
+       6
+      ],
+      [
+       {
+        "ref": "e-04-journeys"
+       },
+       "yes",
+       "yes",
+       "yes",
+       "yes",
+       7
+      ],
+      [
+       {
+        "ref": "e-05-features"
+       },
+       "yes",
+       "yes",
+       "yes",
+       "yes",
+       9
+      ],
+      [
+       {
+        "ref": "e-06-behaviors"
+       },
+       "—",
+       "yes",
+       "yes",
+       "—",
+       10
+      ],
+      [
+       {
+        "ref": "e-07-screens"
+       },
+       "—",
+       "yes",
+       "yes",
+       "yes",
+       11
+      ],
+      [
+       {
+        "ref": "e-08-dossiers"
+       },
+       "—",
+       "yes",
+       "yes",
+       "yes",
+       11
+      ],
+      [
+       {
+        "ref": "e-09-mockup"
+       },
+       "—",
+       "yes",
+       "yes",
+       "—",
+       15
+      ],
+      [
+       {
+        "ref": "e-10-blueprint"
+       },
+       "yes",
+       "yes",
+       "yes",
+       "yes",
+       8
+      ],
+      [
+       {
+        "ref": "e-11-build"
+       },
+       "yes",
+       "yes",
+       "—",
+       "—",
+       22
+      ]
+     ]
+    },
+    {
+     "type": "table",
+     "columns": [
+      "Flow",
+      "Nodes",
+      "Entry node",
+      "First-level entries grown"
+     ],
+     "numeric": [
+      1,
+      3
+     ],
+     "rows": [
+      {
+       "anchor": "f-appbuilder-mvp",
+       "cells": [
+        "`appbuilder-mvp`",
+        11,
+        "`scope`",
+        9
+       ]
+      },
+      {
+       "anchor": "f-appbuilder-standard",
+       "cells": [
+        "`appbuilder-standard`",
+        29,
+        "`scope`",
+        14
+       ]
+      },
+      {
+       "anchor": "f-skaileup-concept-only",
+       "cells": [
+        "`skaileup-concept-only`",
+        16,
+        "`scope`",
+        13
+       ]
+      },
+      {
+       "anchor": "f-skaileup-concept-reverse",
+       "cells": [
+        "`skaileup-concept-reverse`",
+        14,
+        "`scope`",
+        11
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "The order in which folders are written",
+   "sub": "How it fills up",
+   "question": "q4",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The diagram follows [[f-appbuilder-standard]] from `scope` to the end. Each box is a step that writes an entry for the first time. The order is domain language, then data model, then features and screens, then architecture, then mockups, then build. The data model (`10_blueprint/datamodel/`) comes before every feature, so no feature skill coins an entity name."
+    },
+    {
+     "type": "flow",
+     "id": "order",
+     "label": "First write of each entry in appbuilder-standard",
+     "dir": "down",
+     "nodes": [
+      {
+       "id": "scope",
+       "label": "01_meta/scope.yaml",
+       "sub": "step 1 · concept-scope",
+       "shape": "store",
+       "ref": "e-01-meta-scope-yaml"
+      },
+      {
+       "id": "onboard",
+       "label": "02_grounding/onboarding/answers.json +1",
+       "sub": "step 2 · concept-onboard",
+       "shape": "store",
+       "ref": "e-02-grounding-onboarding-answers-json"
+      },
+      {
+       "id": "research",
+       "label": "02_grounding/research/domain.md +8",
+       "sub": "step 3 · concept-research",
+       "shape": "store",
+       "ref": "e-02-grounding-research-domain-md"
+      },
+      {
+       "id": "brief",
+       "label": "brief.md +1",
+       "sub": "step 4 · concept-brief",
+       "shape": "store",
+       "ref": "e-brief-md"
+      },
+      {
+       "id": "glossary",
+       "label": "glossary.md",
+       "sub": "step 5 · concept-glossary",
+       "shape": "store",
+       "ref": "e-glossary-md"
+      },
+      {
+       "id": "brand",
+       "label": "03_brand/identity.md +2",
+       "sub": "step 6 · design-brand",
+       "shape": "store",
+       "ref": "e-03-brand-identity-md"
+      },
+      {
+       "id": "journeys",
+       "label": "04_journeys/stories.yaml",
+       "sub": "step 7 · experience-journeys",
+       "shape": "store",
+       "ref": "e-04-journeys-stories-yaml"
+      },
+      {
+       "id": "datamodel",
+       "label": "10_blueprint/datamodel/",
+       "sub": "step 8 · architecture-datamodel",
+       "shape": "store",
+       "ref": "e-10-blueprint-datamodel"
+      },
+      {
+       "id": "featuresets",
+       "label": "05_features/featuresets.md",
+       "sub": "step 9 · spec-featuresets",
+       "shape": "store",
+       "ref": "e-05-features-featuresets-md"
+      },
+      {
+       "id": "behaviors",
+       "label": "06_behaviors/<featureset>.md",
+       "sub": "step 10 · experience-behaviors",
+       "shape": "store",
+       "ref": "e-06-behaviors-featureset-md"
+      },
+      {
+       "id": "feature",
+       "label": "05_features/<featureset>/<feature>.md +3",
+       "sub": "step 11 · spec-feature",
+       "shape": "store",
+       "ref": "e-05-features-featureset-feature-md"
+      },
+      {
+       "id": "shell",
+       "label": "07_screens/shell.md",
+       "sub": "step 12 · experience-shell",
+       "shape": "store",
+       "ref": "e-07-screens-shell-md"
+      },
+      {
+       "id": "techstack",
+       "label": "10_blueprint/techstack.md",
+       "sub": "step 13 · architecture-techstack",
+       "shape": "store",
+       "ref": "e-10-blueprint-techstack-md"
+      },
+      {
+       "id": "system",
+       "label": "10_blueprint/architecture.md",
+       "sub": "step 14 · architecture-system",
+       "shape": "store",
+       "ref": "e-10-blueprint-architecture-md"
+      },
+      {
+       "id": "walkthrough",
+       "label": "09_mockup/walkthrough/",
+       "sub": "step 15 · mockup-walkthrough",
+       "shape": "store",
+       "ref": "e-09-mockup-walkthrough"
+      },
+      {
+       "id": "storybook",
+       "label": "09_mockup/storybook/",
+       "sub": "step 16 · mockup-storybook",
+       "shape": "store",
+       "ref": "e-09-mockup-storybook"
+      },
+      {
+       "id": "annotate",
+       "label": "09_mockup/feedback/",
+       "sub": "step 17 · mockup-annotate",
+       "shape": "store",
+       "ref": "e-09-mockup-feedback"
+      },
+      {
+       "id": "standards",
+       "label": "02_grounding/standards/",
+       "sub": "step 21 · quality-standards",
+       "shape": "store",
+       "ref": "e-02-grounding-standards"
+      },
+      {
+       "id": "plan",
+       "label": "11_build/slices/<slice_id>/ +1",
+       "sub": "step 22 · build-plan",
+       "shape": "store",
+       "ref": "e-11-build-slices-slice-id"
+      },
+      {
+       "id": "implement",
+       "label": "11_build/trace.yaml",
+       "sub": "step 23 · build-implement",
+       "shape": "store",
+       "ref": "e-11-build-trace-yaml"
+      },
+      {
+       "id": "review",
+       "label": "11_build/reviews/",
+       "sub": "step 27 · quality-review",
+       "shape": "store",
+       "ref": "e-11-build-reviews"
+      },
+      {
+       "id": "release",
+       "label": "11_build/",
+       "sub": "step 29 · quality-release",
+       "shape": "store",
+       "ref": "e-11-build"
+      }
+     ],
+     "edges": [
+      {
+       "from": "scope",
+       "to": "onboard",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:295"
+      },
+      {
+       "from": "onboard",
+       "to": "research",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:296"
+      },
+      {
+       "from": "research",
+       "to": "brief",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:297"
+      },
+      {
+       "from": "brief",
+       "to": "glossary",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:298"
+      },
+      {
+       "from": "glossary",
+       "to": "brand",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:299"
+      },
+      {
+       "from": "brand",
+       "to": "journeys",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:300"
+      },
+      {
+       "from": "journeys",
+       "to": "datamodel",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:301"
+      },
+      {
+       "from": "datamodel",
+       "to": "featuresets",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:302"
+      },
+      {
+       "from": "featuresets",
+       "to": "behaviors",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:303"
+      },
+      {
+       "from": "behaviors",
+       "to": "feature",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:302"
+      },
+      {
+       "from": "feature",
+       "to": "shell",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:305"
+      },
+      {
+       "from": "shell",
+       "to": "techstack",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:306"
+      },
+      {
+       "from": "techstack",
+       "to": "system",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:307"
+      },
+      {
+       "from": "system",
+       "to": "walkthrough",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:308"
+      },
+      {
+       "from": "walkthrough",
+       "to": "storybook",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:309"
+      },
+      {
+       "from": "storybook",
+       "to": "annotate",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:310"
+      },
+      {
+       "from": "annotate",
+       "to": "standards",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:314"
+      },
+      {
+       "from": "standards",
+       "to": "plan",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:315"
+      },
+      {
+       "from": "plan",
+       "to": "implement",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:316"
+      },
+      {
+       "from": "implement",
+       "to": "review",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:320"
+      },
+      {
+       "from": "review",
+       "to": "release",
+       "label": "next written",
+       "at": "flows/appbuilder-standard/appbuilder-standard.flow.yaml:322"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Which skills read and write each folder",
+   "sub": "How it fills up",
+   "question": "q6",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The map joins the 14 first-level entries with the skills that read or write them. A green edge is a write from `metadata.artifacts.produces`. A blue edge is a `hard` prerequisite: the skill stops without the file. A dashed edge is a `soft` prerequisite or a `requires` id. [[e-brief-md]] has the most readers: 14 skills."
+    },
+    {
+     "type": "map",
+     "id": "readers",
+     "label": "First-level entries and the skills that touch them",
+     "height": 720,
+     "kinds": {
+      "writes": {
+       "label": "writes",
+       "color": "green"
+      },
+      "hard": {
+       "label": "reads (hard gate)",
+       "color": "blue"
+      },
+      "soft": {
+       "label": "reads (soft or requires)",
+       "color": "gray",
+       "dash": "dash"
+      }
+     },
+     "nodes": [
+      {
+       "id": "e-brief-md",
+       "label": "brief.md",
+       "sub": "1 writers",
+       "ref": "e-brief-md"
+      },
+      {
+       "id": "e-goals-md",
+       "label": "goals.md",
+       "sub": "1 writers",
+       "ref": "e-goals-md"
+      },
+      {
+       "id": "e-glossary-md",
+       "label": "glossary.md",
+       "sub": "1 writers",
+       "ref": "e-glossary-md"
+      },
+      {
+       "id": "e-01-meta",
+       "label": "01_meta/",
+       "sub": "1 writers",
+       "ref": "e-01-meta"
+      },
+      {
+       "id": "e-02-grounding",
+       "label": "02_grounding/",
+       "sub": "5 writers",
+       "ref": "e-02-grounding"
+      },
+      {
+       "id": "e-03-brand",
+       "label": "03_brand/",
+       "sub": "1 writers",
+       "ref": "e-03-brand"
+      },
+      {
+       "id": "e-04-journeys",
+       "label": "04_journeys/",
+       "sub": "1 writers",
+       "ref": "e-04-journeys"
+      },
+      {
+       "id": "e-05-features",
+       "label": "05_features/",
+       "sub": "2 writers",
+       "ref": "e-05-features"
+      },
+      {
+       "id": "e-06-behaviors",
+       "label": "06_behaviors/",
+       "sub": "1 writers",
+       "ref": "e-06-behaviors"
+      },
+      {
+       "id": "e-07-screens",
+       "label": "07_screens/",
+       "sub": "2 writers",
+       "ref": "e-07-screens"
+      },
+      {
+       "id": "e-08-dossiers",
+       "label": "08_dossiers/",
+       "sub": "1 writers",
+       "ref": "e-08-dossiers"
+      },
+      {
+       "id": "e-09-mockup",
+       "label": "09_mockup/",
+       "sub": "4 writers",
+       "ref": "e-09-mockup"
+      },
+      {
+       "id": "e-10-blueprint",
+       "label": "10_blueprint/",
+       "sub": "4 writers",
+       "ref": "e-10-blueprint"
+      },
+      {
+       "id": "e-11-build",
+       "label": "11_build/",
+       "sub": "5 writers",
+       "ref": "e-11-build"
+      },
+      {
+       "id": "k-architecture-datamodel",
+       "label": "architecture-datamodel",
+       "sub": "architecture",
+       "shape": "external",
+       "ref": "s-architecture-datamodel"
+      },
+      {
+       "id": "k-architecture-system",
+       "label": "architecture-system",
+       "sub": "architecture",
+       "shape": "external",
+       "ref": "s-architecture-system"
+      },
+      {
+       "id": "k-architecture-techstack",
+       "label": "architecture-techstack",
+       "sub": "architecture",
+       "shape": "external",
+       "ref": "s-architecture-techstack"
+      },
+      {
+       "id": "k-build-branch",
+       "label": "build-branch",
+       "sub": "build",
+       "shape": "external",
+       "ref": "s-build-branch"
+      },
+      {
+       "id": "k-build-database",
+       "label": "build-database",
+       "sub": "build",
+       "shape": "external",
+       "ref": "s-build-database"
+      },
+      {
+       "id": "k-build-implement",
+       "label": "build-implement",
+       "sub": "build",
+       "shape": "external",
+       "ref": "s-build-implement"
+      },
+      {
+       "id": "k-build-plan",
+       "label": "build-plan",
+       "sub": "build",
+       "shape": "external",
+       "ref": "s-build-plan"
+      },
+      {
+       "id": "k-build-scaffold",
+       "label": "build-scaffold",
+       "sub": "build",
+       "shape": "external",
+       "ref": "s-build-scaffold"
+      },
+      {
+       "id": "k-concept-brief",
+       "label": "concept-brief",
+       "sub": "concept",
+       "shape": "external",
+       "ref": "s-concept-brief"
+      },
+      {
+       "id": "k-concept-glossary",
+       "label": "concept-glossary",
+       "sub": "concept",
+       "shape": "external",
+       "ref": "s-concept-glossary"
+      },
+      {
+       "id": "k-concept-onboard",
+       "label": "concept-onboard",
+       "sub": "concept",
+       "shape": "external",
+       "ref": "s-concept-onboard"
+      },
+      {
+       "id": "k-concept-research",
+       "label": "concept-research",
+       "sub": "concept",
+       "shape": "external",
+       "ref": "s-concept-research"
+      },
+      {
+       "id": "k-concept-reverse",
+       "label": "concept-reverse",
+       "sub": "concept",
+       "shape": "external",
+       "ref": "s-concept-reverse"
+      },
+      {
+       "id": "k-concept-scope",
+       "label": "concept-scope",
+       "sub": "concept",
+       "shape": "external",
+       "ref": "s-concept-scope"
+      },
+      {
+       "id": "k-design-brand",
+       "label": "design-brand",
+       "sub": "design",
+       "shape": "external",
+       "ref": "s-design-brand"
+      },
+      {
+       "id": "k-experience-behaviors",
+       "label": "experience-behaviors",
+       "sub": "experience",
+       "shape": "external",
+       "ref": "s-experience-behaviors"
+      },
+      {
+       "id": "k-experience-journeys",
+       "label": "experience-journeys",
+       "sub": "experience",
+       "shape": "external",
+       "ref": "s-experience-journeys"
+      },
+      {
+       "id": "k-experience-shell",
+       "label": "experience-shell",
+       "sub": "experience",
+       "shape": "external",
+       "ref": "s-experience-shell"
+      },
+      {
+       "id": "k-mockup-annotate",
+       "label": "mockup-annotate",
+       "sub": "mockup",
+       "shape": "external",
+       "ref": "s-mockup-annotate"
+      },
+      {
+       "id": "k-mockup-feedback",
+       "label": "mockup-feedback",
+       "sub": "mockup",
+       "shape": "external",
+       "ref": "s-mockup-feedback"
+      },
+      {
+       "id": "k-mockup-storybook",
+       "label": "mockup-storybook",
+       "sub": "mockup",
+       "shape": "external",
+       "ref": "s-mockup-storybook"
+      },
+      {
+       "id": "k-mockup-walkthrough",
+       "label": "mockup-walkthrough",
+       "sub": "mockup",
+       "shape": "external",
+       "ref": "s-mockup-walkthrough"
+      },
+      {
+       "id": "k-ops-review",
+       "label": "ops-review",
+       "sub": "ops",
+       "shape": "external",
+       "ref": "s-ops-review"
+      },
+      {
+       "id": "k-quality-e2e",
+       "label": "quality-e2e",
+       "sub": "quality",
+       "shape": "external",
+       "ref": "s-quality-e2e"
+      },
+      {
+       "id": "k-quality-release",
+       "label": "quality-release",
+       "sub": "quality",
+       "shape": "external",
+       "ref": "s-quality-release"
+      },
+      {
+       "id": "k-quality-review",
+       "label": "quality-review",
+       "sub": "quality",
+       "shape": "external",
+       "ref": "s-quality-review"
+      },
+      {
+       "id": "k-quality-standards",
+       "label": "quality-standards",
+       "sub": "quality",
+       "shape": "external",
+       "ref": "s-quality-standards"
+      },
+      {
+       "id": "k-quality-test",
+       "label": "quality-test",
+       "sub": "quality",
+       "shape": "external",
+       "ref": "s-quality-test"
+      },
+      {
+       "id": "k-spec-feature",
+       "label": "spec-feature",
+       "sub": "spec",
+       "shape": "external",
+       "ref": "s-spec-feature"
+      },
+      {
+       "id": "k-spec-featuresets",
+       "label": "spec-featuresets",
+       "sub": "spec",
+       "shape": "external",
+       "ref": "s-spec-featuresets"
+      }
+     ],
+     "edges": [
+      {
+       "from": "k-architecture-datamodel",
+       "to": "e-10-blueprint",
+       "kind": "writes",
+       "at": "skills/architecture-datamodel/SKILL.md:15"
+      },
+      {
+       "from": "e-04-journeys",
+       "to": "k-architecture-datamodel",
+       "kind": "soft",
+       "at": "skills/architecture-datamodel/SKILL.md:18"
+      },
+      {
+       "from": "e-glossary-md",
+       "to": "k-architecture-datamodel",
+       "kind": "hard",
+       "at": "skills/architecture-datamodel/SKILL.md:19"
+      },
+      {
+       "from": "e-brief-md",
+       "to": "k-architecture-datamodel",
+       "kind": "soft",
+       "at": "skills/architecture-datamodel/SKILL.md:6"
+      },
+      {
+       "from": "k-architecture-system",
+       "to": "e-10-blueprint",
+       "kind": "writes",
+       "at": "skills/architecture-system/SKILL.md:14"
+      },
+      {
+       "from": "e-brief-md",
+       "to": "k-architecture-system",
+       "kind": "hard",
+       "at": "skills/architecture-system/SKILL.md:17"
+      },
+      {
+       "from": "e-05-features",
+       "to": "k-architecture-system",
+       "kind": "hard",
+       "at": "skills/architecture-system/SKILL.md:18"
+      },
+      {
+       "from": "e-06-behaviors",
+       "to": "k-architecture-system",
+       "kind": "soft",
+       "at": "skills/architecture-system/SKILL.md:20"
+      },
+      {
+       "from": "k-architecture-techstack",
+       "to": "e-10-blueprint",
+       "kind": "writes",
+       "at": "skills/architecture-techstack/SKILL.md:15"
+      },
+      {
+       "from": "e-brief-md",
+       "to": "k-architecture-techstack",
+       "kind": "hard",
+       "at": "skills/architecture-techstack/SKILL.md:18"
+      },
+      {
+       "from": "e-01-meta",
+       "to": "k-architecture-techstack",
+       "kind": "soft",
+       "at": "skills/architecture-techstack/SKILL.md:19"
+      },
+      {
+       "from": "e-05-features",
+       "to": "k-architecture-techstack",
+       "kind": "soft",
+       "at": "skills/architecture-techstack/SKILL.md:20"
+      },
+      {
+       "from": "e-02-grounding",
+       "to": "k-architecture-techstack",
+       "kind": "soft",
+       "at": "skills/architecture-techstack/SKILL.md:21"
+      },
+      {
+       "from": "e-brief-md",
+       "to": "k-build-branch",
+       "kind": "hard",
+       "at": "skills/build-branch/SKILL.md:12"
+      },
+      {
+       "from": "e-10-blueprint",
+       "to": "k-build-database",
+       "kind": "hard",
+       "at": "skills/build-database/SKILL.md:16"
+      },
+      {
+       "from": "k-build-implement",
+       "to": "e-11-build",
+       "kind": "writes",
+       "at": "skills/build-implement/SKILL.md:17"
+      },
+      {
+       "from": "e-05-features",
+       "to": "k-build-implement",
+       "kind": "hard",
+       "at": "skills/build-implement/SKILL.md:23"
+      },
+      {
+       "from": "e-07-screens",
+       "to": "k-build-implement",
+       "kind": "soft",
+       "at": "skills/build-implement/SKILL.md:24"
+      },
+      {
+       "from": "e-02-grounding",
+       "to": "k-build-implement",
+       "kind": "soft",
+       "at": "skills/build-implement/SKILL.md:25"
+      },
+      {
+       "from": "e-10-blueprint",
+       "to": "k-build-implement",
+       "kind": "soft",
+       "at": "skills/build-implement/SKILL.md:6"
+      },
+      {
+       "from": "k-build-plan",
+       "to": "e-11-build",
+       "kind": "writes",
+       "at": "skills/build-plan/SKILL.md:16"
+      },
+      {
+       "from": "e-05-features",
+       "to": "k-build-plan",
+       "kind": "hard",
+       "at": "skills/build-plan/SKILL.md:20"
+      },
+      {
+       "from": "e-07-screens",
+       "to": "k-build-plan",
+       "kind": "soft",
+       "at": "skills/build-plan/SKILL.md:21"
+      },
+      {
+       "from": "e-10-blueprint",
+       "to": "k-build-plan",
+       "kind": "soft",
+       "at": "skills/build-plan/SKILL.md:23"
+      },
+      {
+       "from": "e-02-grounding",
+       "to": "k-build-plan",
+       "kind": "soft",
+       "at": "skills/build-plan/SKILL.md:24"
+      },
+      {
+       "from": "e-brief-md",
+       "to": "k-build-scaffold",
+       "kind": "hard",
+       "at": "skills/build-scaffold/SKILL.md:15"
+      },
+      {
+       "from": "e-10-blueprint",
+       "to": "k-build-scaffold",
+       "kind": "hard",
+       "at": "skills/build-scaffold/SKILL.md:16"
+      },
+      {
+       "from": "e-03-brand",
+       "to": "k-build-scaffold",
+       "kind": "soft",
+       "at": "skills/build-scaffold/SKILL.md:17"
+      },
+      {
+       "from": "e-07-screens",
+       "to": "k-build-scaffold",
+       "kind": "soft",
+       "at": "skills/build-scaffold/SKILL.md:18"
+      },
+      {
+       "from": "k-concept-brief",
+       "to": "e-brief-md",
+       "kind": "writes",
+       "at": "skills/concept-brief/SKILL.md:3"
+      },
+      {
+       "from": "k-concept-brief",
+       "to": "e-goals-md",
+       "kind": "writes",
+       "at": "skills/concept-brief/SKILL.md:14"
+      },
+      {
+       "from": "e-01-meta",
+       "to": "k-concept-brief",
+       "kind": "soft",
+       "at": "skills/concept-brief/SKILL.md:17"
+      },
+      {
+       "from": "e-02-grounding",
+       "to": "k-concept-brief",
+       "kind": "soft",
+       "at": "skills/concept-brief/SKILL.md:18"
+      },
+      {
+       "from": "k-concept-glossary",
+       "to": "e-glossary-md",
+       "kind": "writes",
+       "at": "skills/concept-glossary/SKILL.md:13"
+      },
+      {
+       "from": "e-brief-md",
+       "to": "k-concept-glossary",
+       "kind": "hard",
+       "at": "skills/concept-glossary/SKILL.md:16"
+      },
+      {
+       "from": "e-01-meta",
+       "to": "k-concept-glossary",
+       "kind": "soft",
+       "at": "skills/concept-glossary/SKILL.md:17"
+      },
+      {
+       "from": "k-concept-onboard",
+       "to": "e-02-grounding",
+       "kind": "writes",
+       "at": "skills/concept-onboard/SKILL.md:12"
+      },
+      {
+       "from": "e-01-meta",
+       "to": "k-concept-onboard",
+       "kind": "soft",
+       "at": "skills/concept-onboard/SKILL.md:16"
+      },
+      {
+       "from": "k-concept-research",
+       "to": "e-02-grounding",
+       "kind": "writes",
+       "at": "skills/concept-research/SKILL.md:12"
+      },
+      {
+       "from": "e-brief-md",
+       "to": "k-concept-research",
+       "kind": "soft",
+       "at": "skills/concept-research/SKILL.md:24"
+      },
+      {
+       "from": "k-concept-reverse",
+       "to": "e-02-grounding",
+       "kind": "writes",
+       "at": "skills/concept-reverse/SKILL.md:12"
+      },
+      {
+       "from": "e-01-meta",
+       "to": "k-concept-reverse",
+       "kind": "soft",
+       "at": "skills/concept-reverse/SKILL.md:15"
+      },
+      {
+       "from": "k-concept-scope",
+       "to": "e-01-meta",
+       "kind": "writes",
+       "at": "skills/concept-scope/SKILL.md:3"
+      },
+      {
+       "from": "k-design-brand",
+       "to": "e-03-brand",
+       "kind": "writes",
+       "at": "skills/design-brand/SKILL.md:14"
+      },
+      {
+       "from": "k-design-brand",
+       "to": "e-02-grounding",
+       "kind": "writes",
+       "at": "skills/design-brand/SKILL.md:17"
+      },
+      {
+       "from": "e-brief-md",
+       "to": "k-design-brand",
+       "kind": "hard",
+       "at": "skills/design-brand/SKILL.md:20"
+      },
+      {
+       "from": "k-experience-behaviors",
+       "to": "e-06-behaviors",
+       "kind": "writes",
+       "at": "skills/experience-behaviors/SKILL.md:16"
+      },
+      {
+       "from": "e-05-features",
+       "to": "k-experience-behaviors",
+       "kind": "hard",
+       "at": "skills/experience-behaviors/SKILL.md:19"
+      },
+      {
+       "from": "e-02-grounding",
+       "to": "k-experience-behaviors",
+       "kind": "soft",
+       "at": "skills/experience-behaviors/SKILL.md:20"
+      },
+      {
+       "from": "e-glossary-md",
+       "to": "k-experience-behaviors",
+       "kind": "soft",
+       "at": "skills/experience-behaviors/SKILL.md:21"
+      },
+      {
+       "from": "e-10-blueprint",
+       "to": "k-experience-behaviors",
+       "kind": "soft",
+       "at": "skills/experience-behaviors/SKILL.md:22"
+      },
+      {
+       "from": "e-04-journeys",
+       "to": "k-experience-behaviors",
+       "kind": "soft",
+       "at": "skills/experience-behaviors/SKILL.md:23"
+      },
+      {
+       "from": "k-experience-journeys",
+       "to": "e-04-journeys",
+       "kind": "writes",
+       "at": "skills/experience-journeys/SKILL.md:15"
+      },
+      {
+       "from": "e-brief-md",
+       "to": "k-experience-journeys",
+       "kind": "hard",
+       "at": "skills/experience-journeys/SKILL.md:18"
+      },
+      {
+       "from": "e-goals-md",
+       "to": "k-experience-journeys",
+       "kind": "soft",
+       "at": "skills/experience-journeys/SKILL.md:19"
+      },
+      {
+       "from": "e-02-grounding",
+       "to": "k-experience-journeys",
+       "kind": "soft",
+       "at": "skills/experience-journeys/SKILL.md:20"
+      },
+      {
+       "from": "e-glossary-md",
+       "to": "k-experience-journeys",
+       "kind": "soft",
+       "at": "skills/experience-journeys/SKILL.md:21"
+      },
+      {
+       "from": "k-experience-shell",
+       "to": "e-07-screens",
+       "kind": "writes",
+       "at": "skills/experience-shell/SKILL.md:17"
+      },
+      {
+       "from": "e-brief-md",
+       "to": "k-experience-shell",
+       "kind": "hard",
+       "at": "skills/experience-shell/SKILL.md:20"
+      },
+      {
+       "from": "e-05-features",
+       "to": "k-experience-shell",
+       "kind": "hard",
+       "at": "skills/experience-shell/SKILL.md:21"
+      },
+      {
+       "from": "e-02-grounding",
+       "to": "k-experience-shell",
+       "kind": "soft",
+       "at": "skills/experience-shell/SKILL.md:23"
+      },
+      {
+       "from": "e-04-journeys",
+       "to": "k-experience-shell",
+       "kind": "soft",
+       "at": "skills/experience-shell/SKILL.md:24"
+      },
+      {
+       "from": "e-03-brand",
+       "to": "k-experience-shell",
+       "kind": "soft",
+       "at": "skills/experience-shell/SKILL.md:25"
+      },
+      {
+       "from": "k-mockup-annotate",
+       "to": "e-09-mockup",
+       "kind": "writes",
+       "at": "skills/mockup-annotate/SKILL.md:12"
+      },
+      {
+       "from": "k-mockup-feedback",
+       "to": "e-09-mockup",
+       "kind": "writes",
+       "at": "skills/mockup-feedback/SKILL.md:14"
+      },
+      {
+       "from": "k-mockup-storybook",
+       "to": "e-09-mockup",
+       "kind": "writes",
+       "at": "skills/mockup-storybook/SKILL.md:17"
+      },
+      {
+       "from": "e-07-screens",
+       "to": "k-mockup-storybook",
+       "kind": "hard",
+       "at": "skills/mockup-storybook/SKILL.md:20"
+      },
+      {
+       "from": "e-03-brand",
+       "to": "k-mockup-storybook",
+       "kind": "hard",
+       "at": "skills/mockup-storybook/SKILL.md:21"
+      },
+      {
+       "from": "e-10-blueprint",
+       "to": "k-mockup-storybook",
+       "kind": "hard",
+       "at": "skills/mockup-storybook/SKILL.md:22"
+      },
+      {
+       "from": "e-04-journeys",
+       "to": "k-mockup-storybook",
+       "kind": "soft",
+       "at": "skills/mockup-storybook/SKILL.md:23"
+      },
+      {
+       "from": "k-mockup-walkthrough",
+       "to": "e-09-mockup",
+       "kind": "writes",
+       "at": "skills/mockup-walkthrough/SKILL.md:15"
+      },
+      {
+       "from": "e-07-screens",
+       "to": "k-mockup-walkthrough",
+       "kind": "hard",
+       "at": "skills/mockup-walkthrough/SKILL.md:18"
+      },
+      {
+       "from": "e-04-journeys",
+       "to": "k-mockup-walkthrough",
+       "kind": "hard",
+       "at": "skills/mockup-walkthrough/SKILL.md:19"
+      },
+      {
+       "from": "e-03-brand",
+       "to": "k-mockup-walkthrough",
+       "kind": "hard",
+       "at": "skills/mockup-walkthrough/SKILL.md:20"
+      },
+      {
+       "from": "e-05-features",
+       "to": "k-mockup-walkthrough",
+       "kind": "soft",
+       "at": "skills/mockup-walkthrough/SKILL.md:21"
+      },
+      {
+       "from": "e-brief-md",
+       "to": "k-ops-review",
+       "kind": "hard",
+       "at": "skills/ops-review/SKILL.md:18"
+      },
+      {
+       "from": "e-05-features",
+       "to": "k-ops-review",
+       "kind": "soft",
+       "at": "skills/ops-review/SKILL.md:19"
+      },
+      {
+       "from": "e-11-build",
+       "to": "k-ops-review",
+       "kind": "soft",
+       "at": "skills/ops-review/SKILL.md:21"
+      },
+      {
+       "from": "e-10-blueprint",
+       "to": "k-ops-review",
+       "kind": "soft",
+       "at": "skills/ops-review/SKILL.md:22"
+      },
+      {
+       "from": "e-07-screens",
+       "to": "k-ops-review",
+       "kind": "soft",
+       "at": "skills/ops-review/SKILL.md:6"
+      },
+      {
+       "from": "k-quality-e2e",
+       "to": "e-11-build",
+       "kind": "writes",
+       "at": "skills/quality-e2e/SKILL.md:15"
+      },
+      {
+       "from": "e-04-journeys",
+       "to": "k-quality-e2e",
+       "kind": "soft",
+       "at": "skills/quality-e2e/SKILL.md:18"
+      },
+      {
+       "from": "e-05-features",
+       "to": "k-quality-e2e",
+       "kind": "hard",
+       "at": "skills/quality-e2e/SKILL.md:19"
+      },
+      {
+       "from": "e-07-screens",
+       "to": "k-quality-e2e",
+       "kind": "soft",
+       "at": "skills/quality-e2e/SKILL.md:20"
+      },
+      {
+       "from": "e-10-blueprint",
+       "to": "k-quality-e2e",
+       "kind": "soft",
+       "at": "skills/quality-e2e/SKILL.md:21"
+      },
+      {
+       "from": "k-quality-release",
+       "to": "e-11-build",
+       "kind": "writes",
+       "at": "skills/quality-release/SKILL.md:17"
+      },
+      {
+       "from": "e-brief-md",
+       "to": "k-quality-release",
+       "kind": "hard",
+       "at": "skills/quality-release/SKILL.md:20"
+      },
+      {
+       "from": "e-goals-md",
+       "to": "k-quality-release",
+       "kind": "soft",
+       "at": "skills/quality-release/SKILL.md:22"
+      },
+      {
+       "from": "e-03-brand",
+       "to": "k-quality-release",
+       "kind": "soft",
+       "at": "skills/quality-release/SKILL.md:23"
+      },
+      {
+       "from": "e-04-journeys",
+       "to": "k-quality-release",
+       "kind": "soft",
+       "at": "skills/quality-release/SKILL.md:6"
+      },
+      {
+       "from": "k-quality-review",
+       "to": "e-11-build",
+       "kind": "writes",
+       "at": "skills/quality-review/SKILL.md:14"
+      },
+      {
+       "from": "e-05-features",
+       "to": "k-quality-review",
+       "kind": "hard",
+       "at": "skills/quality-review/SKILL.md:18"
+      },
+      {
+       "from": "k-quality-standards",
+       "to": "e-02-grounding",
+       "kind": "writes",
+       "at": "skills/quality-standards/SKILL.md:8"
+      },
+      {
+       "from": "e-01-meta",
+       "to": "k-quality-test",
+       "kind": "hard",
+       "at": "skills/quality-test/SKILL.md:15"
+      },
+      {
+       "from": "e-05-features",
+       "to": "k-quality-test",
+       "kind": "hard",
+       "at": "skills/quality-test/SKILL.md:16"
+      },
+      {
+       "from": "k-spec-feature",
+       "to": "e-05-features",
+       "kind": "writes",
+       "at": "skills/spec-feature/SKILL.md:17"
+      },
+      {
+       "from": "k-spec-feature",
+       "to": "e-07-screens",
+       "kind": "writes",
+       "at": "skills/spec-feature/SKILL.md:18"
+      },
+      {
+       "from": "k-spec-feature",
+       "to": "e-08-dossiers",
+       "kind": "writes",
+       "at": "skills/spec-feature/SKILL.md:19"
+      },
+      {
+       "from": "k-spec-feature",
+       "to": "e-10-blueprint",
+       "kind": "writes",
+       "at": "skills/spec-feature/SKILL.md:20"
+      },
+      {
+       "from": "e-01-meta",
+       "to": "k-spec-feature",
+       "kind": "hard",
+       "at": "skills/spec-feature/SKILL.md:23"
+      },
+      {
+       "from": "e-brief-md",
+       "to": "k-spec-feature",
+       "kind": "hard",
+       "at": "skills/spec-feature/SKILL.md:24"
+      },
+      {
+       "from": "e-glossary-md",
+       "to": "k-spec-feature",
+       "kind": "hard",
+       "at": "skills/spec-feature/SKILL.md:25"
+      },
+      {
+       "from": "e-04-journeys",
+       "to": "k-spec-feature",
+       "kind": "soft",
+       "at": "skills/spec-feature/SKILL.md:26"
+      },
+      {
+       "from": "e-03-brand",
+       "to": "k-spec-feature",
+       "kind": "soft",
+       "at": "skills/spec-feature/SKILL.md:6"
+      },
+      {
+       "from": "k-spec-featuresets",
+       "to": "e-05-features",
+       "kind": "writes",
+       "at": "skills/spec-featuresets/SKILL.md:17"
+      },
+      {
+       "from": "e-brief-md",
+       "to": "k-spec-featuresets",
+       "kind": "hard",
+       "at": "skills/spec-featuresets/SKILL.md:20"
+      },
+      {
+       "from": "e-04-journeys",
+       "to": "k-spec-featuresets",
+       "kind": "soft",
+       "at": "skills/spec-featuresets/SKILL.md:21"
+      },
+      {
+       "from": "e-02-grounding",
+       "to": "k-spec-featuresets",
+       "kind": "soft",
+       "at": "skills/spec-featuresets/SKILL.md:22"
+      },
+      {
+       "from": "e-glossary-md",
+       "to": "k-spec-featuresets",
+       "kind": "soft",
+       "at": "skills/spec-featuresets/SKILL.md:23"
+      },
+      {
+       "from": "e-10-blueprint",
+       "to": "k-spec-featuresets",
+       "kind": "soft",
+       "at": "skills/spec-featuresets/SKILL.md:24"
+      },
+      {
+       "from": "e-goals-md",
+       "to": "k-spec-featuresets",
+       "kind": "soft",
+       "at": "skills/spec-featuresets/SKILL.md:6"
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "columns": [
+      "Skill",
+      "Domain",
+      "Writes",
+      "Reads",
+      "Flows"
+     ],
+     "numeric": [
+      4
+     ],
+     "rows": [
+      {
+       "anchor": "s-architecture-datamodel",
+       "cells": [
+        "`architecture-datamodel`",
+        "`architecture`",
+        {
+         "refs": [
+          "e-10-blueprint-datamodel"
+         ]
+        },
+        {
+         "refs": [
+          "e-brief-md",
+          "e-glossary-md",
+          "e-04-journeys-stories-yaml",
+          "e-10-blueprint-techstack-md",
+          "e-10-blueprint-architecture-md"
+         ]
+        },
+        3
+       ]
+      },
+      {
+       "anchor": "s-architecture-system",
+       "cells": [
+        "`architecture-system`",
+        "`architecture`",
+        {
+         "refs": [
+          "e-10-blueprint-architecture-md"
+         ]
+        },
+        {
+         "refs": [
+          "e-brief-md",
+          "e-05-features",
+          "e-05-features-featureset-feature-md",
+          "e-06-behaviors",
+          "e-10-blueprint-techstack-md"
+         ]
+        },
+        2
+       ]
+      },
+      {
+       "anchor": "s-architecture-techstack",
+       "cells": [
+        "`architecture-techstack`",
+        "`architecture`",
+        {
+         "refs": [
+          "e-10-blueprint-techstack-md"
+         ]
+        },
+        {
+         "refs": [
+          "e-brief-md",
+          "e-01-meta-scope-yaml",
+          "e-02-grounding-findings",
+          "e-05-features",
+          "e-05-features-featureset-feature-md"
+         ]
+        },
+        3
+       ]
+      },
+      {
+       "anchor": "s-build-branch",
+       "cells": [
+        "`build-branch`",
+        "`build`",
+        "—",
+        {
+         "refs": [
+          "e-brief-md"
+         ]
+        },
+        1
+       ]
+      },
+      {
+       "anchor": "s-build-database",
+       "cells": [
+        "`build-database`",
+        "`build`",
+        "—",
+        {
+         "refs": [
+          "e-10-blueprint-techstack-md",
+          "e-10-blueprint-datamodel"
+         ]
+        },
+        1
+       ]
+      },
+      {
+       "anchor": "s-build-implement",
+       "cells": [
+        "`build-implement`",
+        "`build`",
+        {
+         "refs": [
+          "e-11-build-slices-slice-id",
+          "e-11-build-trace-yaml",
+          "e-11-build-acceptance-criteria"
+         ]
+        },
+        {
+         "refs": [
+          "e-02-grounding-standards",
+          "e-02-grounding-standards-index-yml",
+          "e-05-features",
+          "e-05-features-featureset-feature-md",
+          "e-07-screens",
+          "e-07-screens-feature-slug-screen-md",
+          "e-10-blueprint-datamodel",
+          "e-11-build"
+         ]
+        },
+        2
+       ]
+      },
+      {
+       "anchor": "s-build-plan",
+       "cells": [
+        "`build-plan`",
+        "`build`",
+        {
+         "refs": [
+          "e-11-build-slices-slice-id",
+          "e-11-build-acceptance-criteria"
+         ]
+        },
+        {
+         "refs": [
+          "e-02-grounding-standards",
+          "e-02-grounding-standards-index-yml",
+          "e-05-features",
+          "e-05-features-featureset-feature-md",
+          "e-07-screens",
+          "e-07-screens-feature-slug-screen-md",
+          "e-10-blueprint-techstack-md",
+          "e-10-blueprint-datamodel"
+         ]
+        },
+        2
+       ]
+      },
+      {
+       "anchor": "s-build-scaffold",
+       "cells": [
+        "`build-scaffold`",
+        "`build`",
+        "—",
+        {
+         "refs": [
+          "e-brief-md",
+          "e-03-brand-tokens-json",
+          "e-07-screens",
+          "e-07-screens-feature-slug-screen-md",
+          "e-10-blueprint-techstack-md"
+         ]
+        },
+        2
+       ]
+      },
+      {
+       "anchor": "s-concept-brief",
+       "cells": [
+        "`concept-brief`",
+        "`concept`",
+        {
+         "refs": [
+          "e-brief-md",
+          "e-goals-md"
+         ]
+        },
+        {
+         "refs": [
+          "e-01-meta-scope-yaml",
+          "e-02-grounding-findings"
+         ]
+        },
+        4
+       ]
+      },
+      {
+       "anchor": "s-concept-glossary",
+       "cells": [
+        "`concept-glossary`",
+        "`concept`",
+        {
+         "refs": [
+          "e-glossary-md"
+         ]
+        },
+        {
+         "refs": [
+          "e-brief-md",
+          "e-01-meta-scope-yaml"
+         ]
+        },
+        4
+       ]
+      },
+      {
+       "anchor": "s-concept-onboard",
+       "cells": [
+        "`concept-onboard`",
+        "`concept`",
+        {
+         "refs": [
+          "e-02-grounding-onboarding-answers-json",
+          "e-02-grounding-onboarding-questions-md"
+         ]
+        },
+        {
+         "refs": [
+          "e-01-meta-scope-yaml"
+         ]
+        },
+        3
+       ]
+      },
+      {
+       "anchor": "s-concept-research",
+       "cells": [
+        "`concept-research`",
+        "`concept`",
+        {
+         "refs": [
+          "e-02-grounding-research-domain-md",
+          "e-02-grounding-research-competitors-md",
+          "e-02-grounding-research-audiences-md",
+          "e-02-grounding-research-design-inspiration-md",
+          "e-02-grounding-research-patterns-md",
+          "e-02-grounding-research-colors-fonts-md",
+          "e-02-grounding-research-behavioral-patterns-md",
+          "e-02-grounding-research-step-skill-name",
+          "e-02-grounding-findings"
+         ]
+        },
+        {
+         "refs": [
+          "e-brief-md",
+          "e-02-grounding-onboarding-answers-json"
+         ]
+        },
+        2
+       ]
+      },
+      {
+       "anchor": "s-concept-reverse",
+       "cells": [
+        "`concept-reverse`",
+        "`concept`",
+        {
+         "refs": [
+          "e-02-grounding-findings"
+         ]
+        },
+        {
+         "refs": [
+          "e-01-meta-scope-yaml"
+         ]
+        },
+        1
+       ]
+      },
+      {
+       "anchor": "s-concept-scope",
+       "cells": [
+        "`concept-scope`",
+        "`concept`",
+        {
+         "refs": [
+          "e-01-meta-scope-yaml"
+         ]
+        },
+        "—",
+        4
+       ]
+      },
+      {
+       "anchor": "s-design-brand",
+       "cells": [
+        "`design-brand`",
+        "`design`",
+        {
+         "refs": [
+          "e-02-grounding-findings",
+          "e-03-brand-identity-md",
+          "e-03-brand-tokens-json",
+          "e-03-brand-brandbook-html"
+         ]
+        },
+        {
+         "refs": [
+          "e-brief-md",
+          "e-02-grounding-research-design-inspiration-md"
+         ]
+        },
+        3
+       ]
+      },
+      {
+       "anchor": "s-experience-behaviors",
+       "cells": [
+        "`experience-behaviors`",
+        "`experience`",
+        {
+         "refs": [
+          "e-06-behaviors-featureset-md"
+         ]
+        },
+        {
+         "refs": [
+          "e-glossary-md",
+          "e-02-grounding-research-behavioral-patterns-md",
+          "e-04-journeys-stories-yaml",
+          "e-05-features",
+          "e-05-features-featuresets-md",
+          "e-10-blueprint-datamodel"
+         ]
+        },
+        2
+       ]
+      },
+      {
+       "anchor": "s-experience-journeys",
+       "cells": [
+        "`experience-journeys`",
+        "`experience`",
+        {
+         "refs": [
+          "e-04-journeys-stories-yaml"
+         ]
+        },
+        {
+         "refs": [
+          "e-brief-md",
+          "e-goals-md",
+          "e-glossary-md",
+          "e-02-grounding-research-audiences-md"
+         ]
+        },
+        4
+       ]
+      },
+      {
+       "anchor": "s-experience-shell",
+       "cells": [
+        "`experience-shell`",
+        "`experience`",
+        {
+         "refs": [
+          "e-07-screens-shell-md"
+         ]
+        },
+        {
+         "refs": [
+          "e-brief-md",
+          "e-02-grounding-findings",
+          "e-03-brand-tokens-json",
+          "e-04-journeys-stories-yaml",
+          "e-05-features",
+          "e-05-features-featuresets-md",
+          "e-07-screens",
+          "e-07-screens-feature-slug-screen-md"
+         ]
+        },
+        3
+       ]
+      },
+      {
+       "anchor": "s-mockup-annotate",
+       "cells": [
+        "`mockup-annotate`",
+        "`mockup`",
+        {
+         "refs": [
+          "e-09-mockup-feedback"
+         ]
+        },
+        {
+         "refs": [
+          "e-09-mockup-walkthrough"
+         ]
+        },
+        2
+       ]
+      },
+      {
+       "anchor": "s-mockup-feedback",
+       "cells": [
+        "`mockup-feedback`",
+        "`mockup`",
+        {
+         "refs": [
+          "e-09-mockup-feedback"
+         ]
+        },
+        "—",
+        2
+       ]
+      },
+      {
+       "anchor": "s-mockup-storybook",
+       "cells": [
+        "`mockup-storybook`",
+        "`mockup`",
+        {
+         "refs": [
+          "e-09-mockup-storybook"
+         ]
+        },
+        {
+         "refs": [
+          "e-03-brand-tokens-json",
+          "e-04-journeys-stories-yaml",
+          "e-07-screens",
+          "e-07-screens-feature-slug-screen-md",
+          "e-09-mockup-walkthrough",
+          "e-10-blueprint-techstack-md",
+          "e-10-blueprint-datamodel"
+         ]
+        },
+        1
+       ]
+      },
+      {
+       "anchor": "s-mockup-walkthrough",
+       "cells": [
+        "`mockup-walkthrough`",
+        "`mockup`",
+        {
+         "refs": [
+          "e-09-mockup-walkthrough"
+         ]
+        },
+        {
+         "refs": [
+          "e-03-brand-tokens-json",
+          "e-04-journeys-stories-yaml",
+          "e-05-features",
+          "e-05-features-featureset-feature-md",
+          "e-07-screens",
+          "e-07-screens-feature-slug-screen-md"
+         ]
+        },
+        2
+       ]
+      },
+      {
+       "anchor": "s-ops-review",
+       "cells": [
+        "`ops-review`",
+        "`ops`",
+        "—",
+        {
+         "refs": [
+          "e-brief-md",
+          "e-05-features",
+          "e-05-features-featureset-feature-md",
+          "e-07-screens-feature-slug-screen-md",
+          "e-10-blueprint-datamodel",
+          "e-11-build",
+          "e-11-build-trace-yaml"
+         ]
+        },
+        3
+       ]
+      },
+      {
+       "anchor": "s-quality-e2e",
+       "cells": [
+        "`quality-e2e`",
+        "`quality`",
+        {
+         "refs": [
+          "e-11-build-acceptance-criteria"
+         ]
+        },
+        {
+         "refs": [
+          "e-04-journeys-stories-yaml",
+          "e-05-features",
+          "e-05-features-featureset-feature-md",
+          "e-07-screens",
+          "e-07-screens-feature-slug-screen-md",
+          "e-10-blueprint-datamodel"
+         ]
+        },
+        1
+       ]
+      },
+      {
+       "anchor": "s-quality-release",
+       "cells": [
+        "`quality-release`",
+        "`quality`",
+        {
+         "refs": [
+          "e-11-build"
+         ]
+        },
+        {
+         "refs": [
+          "e-brief-md",
+          "e-goals-md",
+          "e-03-brand-tokens-json",
+          "e-04-journeys-stories-yaml",
+          "e-11-build-trace-yaml",
+          "e-11-build-acceptance-criteria"
+         ]
+        },
+        1
+       ]
+      },
+      {
+       "anchor": "s-quality-review",
+       "cells": [
+        "`quality-review`",
+        "`quality`",
+        {
+         "refs": [
+          "e-11-build-acceptance-criteria",
+          "e-11-build-reviews"
+         ]
+        },
+        {
+         "refs": [
+          "e-05-features",
+          "e-05-features-featureset-feature-md",
+          "e-11-build",
+          "e-11-build-slices-slice-id",
+          "e-11-build-trace-yaml"
+         ]
+        },
+        1
+       ]
+      },
+      {
+       "anchor": "s-quality-standards",
+       "cells": [
+        "`quality-standards`",
+        "`quality`",
+        {
+         "refs": [
+          "e-02-grounding-standards"
+         ]
+        },
+        "—",
+        2
+       ]
+      },
+      {
+       "anchor": "s-quality-test",
+       "cells": [
+        "`quality-test`",
+        "`quality`",
+        "—",
+        {
+         "refs": [
+          "e-01-meta-scope-yaml",
+          "e-05-features",
+          "e-05-features-featureset-feature-md"
+         ]
+        },
+        2
+       ]
+      },
+      {
+       "anchor": "s-skaileup",
+       "cells": [
+        "`skaileup`",
+        "`skaileup`",
+        "—",
+        "—",
+        0
+       ]
+      },
+      {
+       "anchor": "s-spec-feature",
+       "cells": [
+        "`spec-feature`",
+        "`spec`",
+        {
+         "refs": [
+          "e-05-features-featureset-feature-md",
+          "e-07-screens-feature-slug-screen-md",
+          "e-08-dossiers-feature-slug-index-md",
+          "e-10-blueprint-decisions-md"
+         ]
+        },
+        {
+         "refs": [
+          "e-brief-md",
+          "e-glossary-md",
+          "e-01-meta-scope-yaml",
+          "e-03-brand-tokens-json",
+          "e-04-journeys-stories-yaml",
+          "e-10-blueprint-datamodel"
+         ]
+        },
+        3
+       ]
+      },
+      {
+       "anchor": "s-spec-featuresets",
+       "cells": [
+        "`spec-featuresets`",
+        "`spec`",
+        {
+         "refs": [
+          "e-05-features-featuresets-md"
+         ]
+        },
+        {
+         "refs": [
+          "e-brief-md",
+          "e-goals-md",
+          "e-glossary-md",
+          "e-02-grounding-research-competitors-md",
+          "e-04-journeys-stories-yaml",
+          "e-10-blueprint-datamodel"
+         ]
+        },
+        4
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "How one feature spreads across the tree",
+   "sub": "Rules and gaps",
+   "question": "q8",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A feature owns files in 6 places. It shares 4 more files with other features. The feature spec is the center. Its `<feature_slug>` names the screen folder and the dossier. Frontmatter fields join the rest: `story_refs`, `data_entities[]`, `screens:` and `implements:`. On the build side, the ledger names the spec in `feature_ref`, and [[e-11-build-trace-yaml]] joins the feature to its slices and commits."
+    },
+    {
+     "type": "flow",
+     "id": "feature",
+     "label": "The files of one feature and the fields that join them",
+     "dir": "down",
+     "gap": [
+      110,
+      60
+     ],
+     "nodes": [
+      {
+       "id": "spec",
+       "label": "05_features/<featureset>/<feature>.md",
+       "sub": "spec-feature",
+       "shape": "store",
+       "ref": "e-05-features-featureset-feature-md",
+       "col": 1,
+       "row": 1
+      },
+      {
+       "id": "stories",
+       "label": "04_journeys/stories.yaml",
+       "sub": "experience-journeys",
+       "shape": "store",
+       "ref": "e-04-journeys-stories-yaml",
+       "col": 0,
+       "row": 0
+      },
+      {
+       "id": "model",
+       "label": "10_blueprint/datamodel/",
+       "sub": "model.json",
+       "shape": "store",
+       "ref": "e-10-blueprint-datamodel",
+       "col": 1,
+       "row": 0
+      },
+      {
+       "id": "behav",
+       "label": "06_behaviors/<featureset>.md",
+       "sub": "experience-behaviors",
+       "shape": "store",
+       "ref": "e-06-behaviors-featureset-md",
+       "col": 1,
+       "row": 2
+      },
+      {
+       "id": "screen",
+       "label": "07_screens/<feature_slug>/<screen>.md",
+       "sub": "spec-feature",
+       "shape": "store",
+       "ref": "e-07-screens-feature-slug-screen-md",
+       "col": 0,
+       "row": 2
+      },
+      {
+       "id": "dossier",
+       "label": "08_dossiers/<feature_slug>/index.md",
+       "sub": "spec-feature",
+       "shape": "store",
+       "ref": "e-08-dossiers-feature-slug-index-md",
+       "col": 2,
+       "row": 2
+      },
+      {
+       "id": "ledger",
+       "label": "11_build/acceptance-criteria/",
+       "sub": "<featureset>/<feature_slug>.ac.md",
+       "shape": "store",
+       "ref": "e-11-build-acceptance-criteria",
+       "col": 0,
+       "row": 1
+      },
+      {
+       "id": "trace",
+       "label": "11_build/trace.yaml",
+       "sub": "build-implement",
+       "shape": "store",
+       "ref": "e-11-build-trace-yaml",
+       "col": 1,
+       "row": 3
+      },
+      {
+       "id": "slices",
+       "label": "11_build/slices/<slice_id>/",
+       "sub": "build-plan · build-implement",
+       "shape": "store",
+       "ref": "e-11-build-slices-slice-id",
+       "col": 0,
+       "row": 3
+      },
+      {
+       "id": "review",
+       "label": "11_build/reviews/",
+       "sub": "<feature_slug>.yaml",
+       "shape": "store",
+       "ref": "e-11-build-reviews",
+       "col": 2,
+       "row": 3
+      }
+     ],
+     "edges": [
+      {
+       "from": "stories",
+       "to": "spec",
+       "label": "story_refs",
+       "at": "contracts/artifact_frontmatter.md:191"
+      },
+      {
+       "from": "model",
+       "to": "spec",
+       "label": "data_entities[]",
+       "at": "contracts/artifact_frontmatter.md:196"
+      },
+      {
+       "from": "spec",
+       "to": "screen",
+       "label": "screens:",
+       "at": "contracts/artifact_frontmatter.md:195"
+      },
+      {
+       "from": "screen",
+       "to": "spec",
+       "label": "implements:",
+       "at": "contracts/artifact_frontmatter.md:250"
+      },
+      {
+       "from": "spec",
+       "to": "behav",
+       "label": "<featureset> name",
+       "at": "contracts/concept_structure.md:64"
+      },
+      {
+       "from": "spec",
+       "to": "dossier",
+       "label": "<feature_slug>",
+       "at": "contracts/slice_loop.md:13"
+      },
+      {
+       "from": "stories",
+       "to": "ledger",
+       "label": "AC-<story-id>-<nn>",
+       "at": "contracts/acceptance_criteria.md:100"
+      },
+      {
+       "from": "ledger",
+       "to": "spec",
+       "label": "feature_ref",
+       "at": "contracts/acceptance_criteria.md:24"
+      },
+      {
+       "from": "slices",
+       "to": "trace",
+       "label": "slices[]",
+       "at": "contracts/feedback_loop.md:97"
+      },
+      {
+       "from": "trace",
+       "to": "review",
+       "label": "commits",
+       "at": "contracts/feedback_loop.md:101"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Where the tree and the skills disagree",
+   "sub": "Rules and gaps",
+   "question": "q9",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The gate accepts a written path when it lies under a folder of the tree. So 9 written paths are valid but the tree does not name them. Most are files inside a folder the tree describes in words. The other direction also has gaps: entries that the tree lists and that no skill names on its own."
+    },
+    {
+     "type": "bullets",
+     "items": [
+      "[[s-build-implement]] writes `11_build/slices/<slice_id>/index.md`. The tree names only [[e-11-build-slices-slice-id]] (`skills/build-implement/SKILL.md:17`).",
+      "[[s-build-implement]] writes `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`. The tree names only [[e-11-build-acceptance-criteria]] (`skills/build-implement/SKILL.md:18`).",
+      "[[s-build-plan]] writes `11_build/slices/<slice_id>/plan.md`. The tree names only [[e-11-build-slices-slice-id]] (`skills/build-plan/SKILL.md:16`).",
+      "[[s-build-plan]] writes `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`. The tree names only [[e-11-build-acceptance-criteria]] (`skills/build-plan/SKILL.md:17`).",
+      "[[s-mockup-annotate]] writes `09_mockup/feedback/sessions/`. The tree names only [[e-09-mockup-feedback]] (`skills/mockup-annotate/SKILL.md:12`).",
+      "[[s-quality-e2e]] writes `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`. The tree names only [[e-11-build-acceptance-criteria]] (`skills/quality-e2e/SKILL.md:15`).",
+      "[[s-quality-release]] writes `11_build/release.yaml`. The tree names only [[e-11-build]] (`skills/quality-release/SKILL.md:17`).",
+      "[[s-quality-review]] writes `11_build/reviews/<feature_slug>.yaml`. The tree names only [[e-11-build-reviews]] (`skills/quality-review/SKILL.md:14`).",
+      "[[s-quality-review]] writes `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`. The tree names only [[e-11-build-acceptance-criteria]] (`skills/quality-review/SKILL.md:15`).",
+      "No skill declares a write of [[e-11-build-decisions-md]]. The tree lists it at `contracts/concept_structure.md:89`.",
+      "No skill writes into [[e-02-grounding-seeds]]. That is by design: the contract says \"material the user dropped in; nothing generates it\".",
+      "2 entries under [[e-02-grounding-standards]] have no writer of their own: [[e-02-grounding-standards-index-yml]], [[e-02-grounding-standards-domain]]. [[s-quality-standards]] declares only the folder.",
+      "7 entries under [[e-02-grounding-findings]] have no writer of their own: [[e-02-grounding-findings-index-md]], [[e-02-grounding-findings-routes-md]], [[e-02-grounding-findings-screens-md]], [[e-02-grounding-findings-datamodel-md]], [[e-02-grounding-findings-stack-md]], [[e-02-grounding-findings-brand-md]], [[e-02-grounding-findings-brief-seeds-md]]. [[s-concept-research]], [[s-concept-reverse]], [[s-design-brand]] declare only the folder."
+     ]
+    }
+   ]
+  },
+  {
+   "title": "The numbering and naming rules",
+   "sub": "Rules and gaps",
+   "question": "q7",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The contract states one numbering rule and five naming rules. The gate checks the singular and plural rule."
+    },
+    {
+     "type": "bullets",
+     "items": [
+      "The first level has a number. Nothing below it has a number. (`contracts/concept_structure.md:104`)",
+      "The number is the only order signal. The host sidebar removes the prefix before it shows the name. (`contracts/concept_structure.md:106`)",
+      "The numbers are contiguous. A twelfth folder renumbers every folder after it. (`contracts/concept_structure.md:112`)",
+      "File names are lowercase and hyphenated. One artifact has exactly one path. (`contracts/concept_structure.md:117`)",
+      "Two siblings never differ only by singular and plural. (`contracts/concept_structure.md:119`)",
+      "`shell` is a reserved slug under [[e-07-screens]]. (`contracts/concept_structure.md:123`)",
+      "Folders under [[e-05-features]] and [[e-07-screens]] are slugs: lowercase, hyphenated, no number. (`contracts/concept_structure.md:124`)",
+      "Each folder under [[e-02-grounding-research-step-skill-name]] has the name of the skill that sent the research. (`contracts/concept_structure.md:126`)"
+     ]
+    }
+   ]
+  }
+ ]
+}

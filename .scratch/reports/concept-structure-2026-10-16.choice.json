@@ -1,0 +1,58 @@
+{
+ "profile": "structure",
+ "questions": [
+  {
+   "id": "q1",
+   "chapter": "What is in it",
+   "text": "What does each folder hold, and who writes it?",
+   "feature": "tree"
+  },
+  {
+   "id": "q2",
+   "chapter": "What is in it",
+   "text": "Which folders does each project type never grow?",
+   "feature": "tree"
+  },
+  {
+   "id": "q3",
+   "chapter": "What is in it",
+   "text": "Which flows grow which folders?",
+   "feature": "tree"
+  },
+  {
+   "id": "q4",
+   "chapter": "How it fills up",
+   "text": "In which order are the folders written?",
+   "feature": "flow"
+  },
+  {
+   "id": "q6",
+   "chapter": "How it fills up",
+   "text": "Which skills read each artifact?",
+   "feature": "map"
+  },
+  {
+   "id": "q8",
+   "chapter": "Rules and gaps",
+   "text": "How does one feature spread across the tree?",
+   "feature": "flow"
+  },
+  {
+   "id": "q9",
+   "chapter": "Rules and gaps",
+   "text": "Where do the tree and the skills disagree?",
+   "feature": "none"
+  },
+  {
+   "id": "q7",
+   "chapter": "Rules and gaps",
+   "text": "What do the numbering and naming rules say?",
+   "feature": "none"
+  }
+ ],
+ "features": [
+  "tree",
+  "flow",
+  "map"
+ ]
+}

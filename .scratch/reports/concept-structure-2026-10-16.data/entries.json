@@ -1,0 +1,2111 @@
+[
+ {
+  "id": "e-brief-md",
+  "path": "brief.md",
+  "name": "brief.md",
+  "depth": 0,
+  "line": 17,
+  "desc": "elevator pitch, audience, problem, hero flow, ## Comparables",
+  "kind": "file",
+  "parent": null,
+  "top": "e-brief-md",
+  "writers": [
+   "concept-brief"
+  ],
+  "readers": [
+   "architecture-datamodel",
+   "architecture-system",
+   "architecture-techstack",
+   "build-branch",
+   "build-scaffold",
+   "concept-glossary",
+   "concept-research",
+   "design-brand",
+   "experience-journeys",
+   "experience-shell",
+   "ops-review",
+   "quality-release",
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "hard_readers": [
+   "architecture-system",
+   "architecture-techstack",
+   "build-branch",
+   "build-scaffold",
+   "concept-glossary",
+   "design-brand",
+   "experience-journeys",
+   "experience-shell",
+   "ops-review",
+   "quality-release",
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "artifact_ids": [
+   "brief"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-brief"
+  ],
+  "owner": [
+   "concept-brief"
+  ],
+  "owner_declared_on": "brief.md",
+  "standard_step": 4
+ },
+ {
+  "id": "e-goals-md",
+  "path": "goals.md",
+  "name": "goals.md",
+  "depth": 0,
+  "line": 18,
+  "desc": "success criteria, KPIs, constraints, non-goals",
+  "kind": "file",
+  "parent": null,
+  "top": "e-goals-md",
+  "writers": [
+   "concept-brief"
+  ],
+  "readers": [
+   "experience-journeys",
+   "quality-release",
+   "spec-featuresets"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "goals"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-brief"
+  ],
+  "owner": [
+   "concept-brief"
+  ],
+  "owner_declared_on": "goals.md",
+  "standard_step": 4
+ },
+ {
+  "id": "e-glossary-md",
+  "path": "glossary.md",
+  "name": "glossary.md",
+  "depth": 0,
+  "line": 19,
+  "desc": "the project's ubiquitous language: terms, definitions, _Avoid_ lists",
+  "kind": "file",
+  "parent": null,
+  "top": "e-glossary-md",
+  "writers": [
+   "concept-glossary"
+  ],
+  "readers": [
+   "architecture-datamodel",
+   "experience-behaviors",
+   "experience-journeys",
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "hard_readers": [
+   "architecture-datamodel",
+   "spec-feature"
+  ],
+  "artifact_ids": [
+   "glossary"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-glossary"
+  ],
+  "owner": [
+   "concept-glossary"
+  ],
+  "owner_declared_on": "glossary.md",
+  "standard_step": 5
+ },
+ {
+  "id": "e-01-meta",
+  "path": "01_meta/",
+  "name": "01_meta/",
+  "depth": 0,
+  "line": 21,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-01-meta",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-scope"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 1
+ },
+ {
+  "id": "e-01-meta-scope-yaml",
+  "path": "01_meta/scope.yaml",
+  "name": "scope.yaml",
+  "depth": 1,
+  "line": 22,
+  "desc": "flow + project_type; every skill reads its depth from here",
+  "kind": "file",
+  "parent": "e-01-meta",
+  "top": "e-01-meta",
+  "writers": [
+   "concept-scope"
+  ],
+  "readers": [
+   "architecture-techstack",
+   "concept-brief",
+   "concept-glossary",
+   "concept-onboard",
+   "concept-reverse",
+   "quality-test",
+   "spec-feature"
+  ],
+  "hard_readers": [
+   "quality-test",
+   "spec-feature"
+  ],
+  "artifact_ids": [
+   "scope"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-scope"
+  ],
+  "owner": [
+   "concept-scope"
+  ],
+  "owner_declared_on": "01_meta/scope.yaml",
+  "standard_step": 1
+ },
+ {
+  "id": "e-02-grounding",
+  "path": "02_grounding/",
+  "name": "02_grounding/",
+  "depth": 0,
+  "line": 24,
+  "desc": "everything that came from outside — read by every skill",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-02-grounding",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-onboard",
+   "concept-research",
+   "concept-reverse",
+   "design-brand",
+   "quality-standards"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 2
+ },
+ {
+  "id": "e-02-grounding-onboarding",
+  "path": "02_grounding/onboarding/",
+  "name": "onboarding/",
+  "depth": 1,
+  "line": 25,
+  "desc": "",
+  "kind": "folder",
+  "parent": "e-02-grounding",
+  "top": "e-02-grounding",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-onboard"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 2
+ },
+ {
+  "id": "e-02-grounding-onboarding-answers-json",
+  "path": "02_grounding/onboarding/answers.json",
+  "name": "answers.json",
+  "depth": 2,
+  "line": 26,
+  "desc": "the one answer record: field values, confidence, seed inventory, approval",
+  "kind": "file",
+  "parent": "e-02-grounding-onboarding",
+  "top": "e-02-grounding",
+  "writers": [
+   "concept-onboard"
+  ],
+  "readers": [
+   "concept-research"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "onboarding-answers"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-onboard"
+  ],
+  "owner": [
+   "concept-onboard"
+  ],
+  "owner_declared_on": "02_grounding/onboarding/answers.json",
+  "standard_step": 2
+ },
+ {
+  "id": "e-02-grounding-onboarding-questions-md",
+  "path": "02_grounding/onboarding/questions.md",
+  "name": "questions.md",
+  "depth": 2,
+  "line": 27,
+  "desc": "open questions routed to someone who is not in the room",
+  "kind": "file",
+  "parent": "e-02-grounding-onboarding",
+  "top": "e-02-grounding",
+  "writers": [
+   "concept-onboard"
+  ],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [
+   "onboarding-questions"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-onboard"
+  ],
+  "owner": [
+   "concept-onboard"
+  ],
+  "owner_declared_on": "02_grounding/onboarding/questions.md",
+  "standard_step": 2
+ },
+ {
+  "id": "e-02-grounding-research",
+  "path": "02_grounding/research/",
+  "name": "research/",
+  "depth": 1,
+  "line": 28,
+  "desc": "",
+  "kind": "folder",
+  "parent": "e-02-grounding",
+  "top": "e-02-grounding",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-research"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 3
+ },
+ {
+  "id": "e-02-grounding-research-domain-md",
+  "path": "02_grounding/research/domain.md",
+  "name": "domain.md",
+  "depth": 2,
+  "line": 29,
+  "desc": "terminology, regulations, trends",
+  "kind": "file",
+  "parent": "e-02-grounding-research",
+  "top": "e-02-grounding",
+  "writers": [
+   "concept-research"
+  ],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [
+   "research-domain"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-research"
+  ],
+  "owner": [
+   "concept-research"
+  ],
+  "owner_declared_on": "02_grounding/research/domain.md",
+  "standard_step": 3
+ },
+ {
+  "id": "e-02-grounding-research-competitors-md",
+  "path": "02_grounding/research/competitors.md",
+  "name": "competitors.md",
+  "depth": 2,
+  "line": 30,
+  "desc": "per-product analysis",
+  "kind": "file",
+  "parent": "e-02-grounding-research",
+  "top": "e-02-grounding",
+  "writers": [
+   "concept-research"
+  ],
+  "readers": [
+   "spec-featuresets"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "research-competitors"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-research"
+  ],
+  "owner": [
+   "concept-research"
+  ],
+  "owner_declared_on": "02_grounding/research/competitors.md",
+  "standard_step": 3
+ },
+ {
+  "id": "e-02-grounding-research-audiences-md",
+  "path": "02_grounding/research/audiences.md",
+  "name": "audiences.md",
+  "depth": 2,
+  "line": 31,
+  "desc": "personas with design implications",
+  "kind": "file",
+  "parent": "e-02-grounding-research",
+  "top": "e-02-grounding",
+  "writers": [
+   "concept-research"
+  ],
+  "readers": [
+   "experience-journeys"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "research-audiences"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-research"
+  ],
+  "owner": [
+   "concept-research"
+  ],
+  "owner_declared_on": "02_grounding/research/audiences.md",
+  "standard_step": 3
+ },
+ {
+  "id": "e-02-grounding-research-design-inspiration-md",
+  "path": "02_grounding/research/design-inspiration.md",
+  "name": "design-inspiration.md",
+  "depth": 2,
+  "line": 32,
+  "desc": "layout, colour, typography, component patterns",
+  "kind": "file",
+  "parent": "e-02-grounding-research",
+  "top": "e-02-grounding",
+  "writers": [
+   "concept-research"
+  ],
+  "readers": [
+   "design-brand"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "research-design-inspiration"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-research"
+  ],
+  "owner": [
+   "concept-research"
+  ],
+  "owner_declared_on": "02_grounding/research/design-inspiration.md",
+  "standard_step": 3
+ },
+ {
+  "id": "e-02-grounding-research-patterns-md",
+  "path": "02_grounding/research/patterns.md",
+  "name": "patterns.md",
+  "depth": 2,
+  "line": 33,
+  "desc": "UX and architectural patterns for this domain",
+  "kind": "file",
+  "parent": "e-02-grounding-research",
+  "top": "e-02-grounding",
+  "writers": [
+   "concept-research"
+  ],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [
+   "research-patterns"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-research"
+  ],
+  "owner": [
+   "concept-research"
+  ],
+  "owner_declared_on": "02_grounding/research/patterns.md",
+  "standard_step": 3
+ },
+ {
+  "id": "e-02-grounding-research-colors-fonts-md",
+  "path": "02_grounding/research/colors-fonts.md",
+  "name": "colors-fonts.md",
+  "depth": 2,
+  "line": 34,
+  "desc": "palette and typography research",
+  "kind": "file",
+  "parent": "e-02-grounding-research",
+  "top": "e-02-grounding",
+  "writers": [
+   "concept-research"
+  ],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [
+   "research-colors-fonts"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-research"
+  ],
+  "owner": [
+   "concept-research"
+  ],
+  "owner_declared_on": "02_grounding/research/colors-fonts.md",
+  "standard_step": 3
+ },
+ {
+  "id": "e-02-grounding-research-behavioral-patterns-md",
+  "path": "02_grounding/research/behavioral-patterns.md",
+  "name": "behavioral-patterns.md",
+  "depth": 2,
+  "line": 35,
+  "desc": "state machines and lifecycles seen in the field",
+  "kind": "file",
+  "parent": "e-02-grounding-research",
+  "top": "e-02-grounding",
+  "writers": [
+   "concept-research"
+  ],
+  "readers": [
+   "experience-behaviors"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "research-behavioral-patterns"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-research"
+  ],
+  "owner": [
+   "concept-research"
+  ],
+  "owner_declared_on": "02_grounding/research/behavioral-patterns.md",
+  "standard_step": 3
+ },
+ {
+  "id": "e-02-grounding-research-step-skill-name",
+  "path": "02_grounding/research/step/<skill-name>/",
+  "name": "step/<skill-name>/",
+  "depth": 2,
+  "line": 36,
+  "desc": "research dispatched alongside one skill",
+  "kind": "folder",
+  "parent": "e-02-grounding-research",
+  "top": "e-02-grounding",
+  "writers": [
+   "concept-research"
+  ],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [
+   "research-step"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-research"
+  ],
+  "owner": [
+   "concept-research"
+  ],
+  "owner_declared_on": "02_grounding/research/step/<skill-name>/",
+  "standard_step": 3
+ },
+ {
+  "id": "e-02-grounding-seeds",
+  "path": "02_grounding/seeds/",
+  "name": "seeds/",
+  "depth": 1,
+  "line": 37,
+  "desc": "material the user dropped in; nothing generates it",
+  "kind": "folder",
+  "parent": "e-02-grounding",
+  "top": "e-02-grounding",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [],
+  "not_grown_in": [],
+  "writers_below": [],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": null
+ },
+ {
+  "id": "e-02-grounding-standards",
+  "path": "02_grounding/standards/",
+  "name": "standards/",
+  "depth": 1,
+  "line": 38,
+  "desc": "",
+  "kind": "folder",
+  "parent": "e-02-grounding",
+  "top": "e-02-grounding",
+  "writers": [
+   "quality-standards"
+  ],
+  "readers": [
+   "build-implement",
+   "build-plan"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "standards"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "quality-standards"
+  ],
+  "owner": [
+   "quality-standards"
+  ],
+  "owner_declared_on": "02_grounding/standards/",
+  "standard_step": 21
+ },
+ {
+  "id": "e-02-grounding-standards-index-yml",
+  "path": "02_grounding/standards/index.yml",
+  "name": "index.yml",
+  "depth": 2,
+  "line": 39,
+  "desc": "fast matching by applies_to + keywords",
+  "kind": "file",
+  "parent": "e-02-grounding-standards",
+  "top": "e-02-grounding",
+  "writers": [],
+  "readers": [
+   "build-implement",
+   "build-plan"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [],
+  "not_grown_in": [],
+  "writers_below": [],
+  "owner": [
+   "quality-standards"
+  ],
+  "owner_declared_on": "02_grounding/standards/",
+  "standard_step": null
+ },
+ {
+  "id": "e-02-grounding-standards-domain",
+  "path": "02_grounding/standards/<domain>/",
+  "name": "<domain>/",
+  "depth": 2,
+  "line": 40,
+  "desc": "conventions discovered in an existing codebase",
+  "kind": "folder",
+  "parent": "e-02-grounding-standards",
+  "top": "e-02-grounding",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [],
+  "not_grown_in": [],
+  "writers_below": [],
+  "owner": [
+   "quality-standards"
+  ],
+  "owner_declared_on": "02_grounding/standards/",
+  "standard_step": null
+ },
+ {
+  "id": "e-02-grounding-findings",
+  "path": "02_grounding/findings/",
+  "name": "findings/",
+  "depth": 1,
+  "line": 41,
+  "desc": "graded evidence and raw material from outside the room",
+  "kind": "folder",
+  "parent": "e-02-grounding",
+  "top": "e-02-grounding",
+  "writers": [
+   "concept-research",
+   "concept-reverse",
+   "design-brand"
+  ],
+  "readers": [
+   "architecture-techstack",
+   "concept-brief",
+   "experience-shell"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "grounding-findings"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "concept-research",
+   "concept-reverse",
+   "design-brand"
+  ],
+  "owner": [
+   "concept-research",
+   "concept-reverse",
+   "design-brand"
+  ],
+  "owner_declared_on": "02_grounding/findings/",
+  "standard_step": 3
+ },
+ {
+  "id": "e-02-grounding-findings-index-md",
+  "path": "02_grounding/findings/index.md",
+  "name": "index.md",
+  "depth": 2,
+  "line": 42,
+  "desc": "catalogue: file, source, date, `step` (the skill that took it)",
+  "kind": "file",
+  "parent": "e-02-grounding-findings",
+  "top": "e-02-grounding",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [],
+  "not_grown_in": [],
+  "writers_below": [],
+  "owner": [
+   "concept-research",
+   "concept-reverse",
+   "design-brand"
+  ],
+  "owner_declared_on": "02_grounding/findings/",
+  "standard_step": null
+ },
+ {
+  "id": "e-02-grounding-findings-routes-md",
+  "path": "02_grounding/findings/routes.md",
+  "name": "routes.md",
+  "depth": 2,
+  "line": 43,
+  "desc": "concept-reverse — every route, the file defining it, what a user does there",
+  "kind": "file",
+  "parent": "e-02-grounding-findings",
+  "top": "e-02-grounding",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [],
+  "not_grown_in": [],
+  "writers_below": [],
+  "owner": [
+   "concept-research",
+   "concept-reverse",
+   "design-brand"
+  ],
+  "owner_declared_on": "02_grounding/findings/",
+  "standard_step": null
+ },
+ {
+  "id": "e-02-grounding-findings-screens-md",
+  "path": "02_grounding/findings/screens.md",
+  "name": "screens.md",
+  "depth": 2,
+  "line": 44,
+  "desc": "concept-reverse — page components, bindings, interactions, states",
+  "kind": "file",
+  "parent": "e-02-grounding-findings",
+  "top": "e-02-grounding",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [],
+  "not_grown_in": [],
+  "writers_below": [],
+  "owner": [
+   "concept-research",
+   "concept-reverse",
+   "design-brand"
+  ],
+  "owner_declared_on": "02_grounding/findings/",
+  "standard_step": null
+ },
+ {
+  "id": "e-02-grounding-findings-datamodel-md",
+  "path": "02_grounding/findings/datamodel.md",
+  "name": "datamodel.md",
+  "depth": 2,
+  "line": 45,
+  "desc": "concept-reverse — entities, fields, relations, enums",
+  "kind": "file",
+  "parent": "e-02-grounding-findings",
+  "top": "e-02-grounding",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [],
+  "not_grown_in": [],
+  "writers_below": [],
+  "owner": [
+   "concept-research",
+   "concept-reverse",
+   "design-brand"
+  ],
+  "owner_declared_on": "02_grounding/findings/",
+  "standard_step": null
+ },
+ {
+  "id": "e-02-grounding-findings-stack-md",
+  "path": "02_grounding/findings/stack.md",
+  "name": "stack.md",
+  "depth": 2,
+  "line": 46,
+  "desc": "concept-reverse — detected technology, per dimension",
+  "kind": "file",
+  "parent": "e-02-grounding-findings",
+  "top": "e-02-grounding",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [],
+  "not_grown_in": [],
+  "writers_below": [],
+  "owner": [
+   "concept-research",
+   "concept-reverse",
+   "design-brand"
+  ],
+  "owner_declared_on": "02_grounding/findings/",
+  "standard_step": null
+ },
+ {
+  "id": "e-02-grounding-findings-brand-md",
+  "path": "02_grounding/findings/brand.md",
+  "name": "brand.md",
+  "depth": 2,
+  "line": 47,
+  "desc": "concept-reverse — detected colours, type, radius, mode",
+  "kind": "file",
+  "parent": "e-02-grounding-findings",
+  "top": "e-02-grounding",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [],
+  "not_grown_in": [],
+  "writers_below": [],
+  "owner": [
+   "concept-research",
+   "concept-reverse",
+   "design-brand"
+  ],
+  "owner_declared_on": "02_grounding/findings/",
+  "standard_step": null
+ },
+ {
+  "id": "e-02-grounding-findings-brief-seeds-md",
+  "path": "02_grounding/findings/brief-seeds.md",
+  "name": "brief-seeds.md",
+  "depth": 2,
+  "line": 48,
+  "desc": "concept-reverse — pitch, audience, problem, goals, comparables from the docs",
+  "kind": "file",
+  "parent": "e-02-grounding-findings",
+  "top": "e-02-grounding",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [],
+  "not_grown_in": [],
+  "writers_below": [],
+  "owner": [
+   "concept-research",
+   "concept-reverse",
+   "design-brand"
+  ],
+  "owner_declared_on": "02_grounding/findings/",
+  "standard_step": null
+ },
+ {
+  "id": "e-03-brand",
+  "path": "03_brand/",
+  "name": "03_brand/",
+  "depth": 0,
+  "line": 51,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-03-brand",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "design-brand"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 6
+ },
+ {
+  "id": "e-03-brand-identity-md",
+  "path": "03_brand/identity.md",
+  "name": "identity.md",
+  "depth": 1,
+  "line": 52,
+  "desc": "colours, fonts, tone of voice and copy guidelines (design-brand owns all of it)",
+  "kind": "file",
+  "parent": "e-03-brand",
+  "top": "e-03-brand",
+  "writers": [
+   "design-brand"
+  ],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [
+   "brand-identity"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [
+   "api-service",
+   "cli-tool",
+   "data-pipeline",
+   "library"
+  ],
+  "writers_below": [
+   "design-brand"
+  ],
+  "owner": [
+   "design-brand"
+  ],
+  "owner_declared_on": "03_brand/identity.md",
+  "standard_step": 6
+ },
+ {
+  "id": "e-03-brand-tokens-json",
+  "path": "03_brand/tokens.json",
+  "name": "tokens.json",
+  "depth": 1,
+  "line": 53,
+  "desc": "machine-readable design tokens",
+  "kind": "file",
+  "parent": "e-03-brand",
+  "top": "e-03-brand",
+  "writers": [
+   "design-brand"
+  ],
+  "readers": [
+   "build-scaffold",
+   "experience-shell",
+   "mockup-storybook",
+   "mockup-walkthrough",
+   "quality-release",
+   "spec-feature"
+  ],
+  "hard_readers": [
+   "mockup-storybook",
+   "mockup-walkthrough"
+  ],
+  "artifact_ids": [
+   "brand-tokens"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [
+   "api-service",
+   "cli-tool",
+   "data-pipeline",
+   "library"
+  ],
+  "writers_below": [
+   "design-brand"
+  ],
+  "owner": [
+   "design-brand"
+  ],
+  "owner_declared_on": "03_brand/tokens.json",
+  "standard_step": 6
+ },
+ {
+  "id": "e-03-brand-brandbook-html",
+  "path": "03_brand/brandbook.html",
+  "name": "brandbook.html",
+  "depth": 1,
+  "line": 54,
+  "desc": "self-contained visual reference",
+  "kind": "file",
+  "parent": "e-03-brand",
+  "top": "e-03-brand",
+  "writers": [
+   "design-brand"
+  ],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [
+   "brand-book"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "design-brand"
+  ],
+  "owner": [
+   "design-brand"
+  ],
+  "owner_declared_on": "03_brand/brandbook.html",
+  "standard_step": 6
+ },
+ {
+  "id": "e-04-journeys",
+  "path": "04_journeys/",
+  "name": "04_journeys/",
+  "depth": 0,
+  "line": 56,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-04-journeys",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "experience-journeys"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 7
+ },
+ {
+  "id": "e-04-journeys-stories-yaml",
+  "path": "04_journeys/stories.yaml",
+  "name": "stories.yaml",
+  "depth": 1,
+  "line": 57,
+  "desc": "personas, story map (hero/vital/hygiene/backlog), EARS criteria",
+  "kind": "file",
+  "parent": "e-04-journeys",
+  "top": "e-04-journeys",
+  "writers": [
+   "experience-journeys"
+  ],
+  "readers": [
+   "architecture-datamodel",
+   "experience-behaviors",
+   "experience-shell",
+   "mockup-storybook",
+   "mockup-walkthrough",
+   "quality-e2e",
+   "quality-release",
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "hard_readers": [
+   "mockup-walkthrough"
+  ],
+  "artifact_ids": [
+   "journeys"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [
+   "api-service",
+   "cli-tool",
+   "data-pipeline",
+   "library"
+  ],
+  "writers_below": [
+   "experience-journeys"
+  ],
+  "owner": [
+   "experience-journeys"
+  ],
+  "owner_declared_on": "04_journeys/stories.yaml",
+  "standard_step": 7
+ },
+ {
+  "id": "e-05-features",
+  "path": "05_features/",
+  "name": "05_features/",
+  "depth": 0,
+  "line": 59,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-05-features",
+  "writers": [],
+  "readers": [
+   "architecture-system",
+   "architecture-techstack",
+   "build-implement",
+   "build-plan",
+   "experience-behaviors",
+   "experience-shell",
+   "mockup-walkthrough",
+   "ops-review",
+   "quality-e2e",
+   "quality-review",
+   "quality-test"
+  ],
+  "hard_readers": [
+   "architecture-system",
+   "build-implement",
+   "build-plan",
+   "experience-behaviors",
+   "experience-shell",
+   "quality-e2e",
+   "quality-review",
+   "quality-test"
+  ],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 9
+ },
+ {
+  "id": "e-05-features-featuresets-md",
+  "path": "05_features/featuresets.md",
+  "name": "featuresets.md",
+  "depth": 1,
+  "line": 60,
+  "desc": "the roster: every featureset and the features in it",
+  "kind": "file",
+  "parent": "e-05-features",
+  "top": "e-05-features",
+  "writers": [
+   "spec-featuresets"
+  ],
+  "readers": [
+   "experience-behaviors",
+   "experience-shell"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "featuresets"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "spec-featuresets"
+  ],
+  "owner": [
+   "spec-featuresets"
+  ],
+  "owner_declared_on": "05_features/featuresets.md",
+  "standard_step": 9
+ },
+ {
+  "id": "e-05-features-featureset-feature-md",
+  "path": "05_features/<featureset>/<feature>.md",
+  "name": "<featureset>/<feature>.md",
+  "depth": 1,
+  "line": 61,
+  "desc": "one file per feature; featureset is the only grouping level",
+  "kind": "pattern",
+  "parent": "e-05-features",
+  "top": "e-05-features",
+  "writers": [
+   "spec-feature"
+  ],
+  "readers": [
+   "architecture-system",
+   "architecture-techstack",
+   "build-implement",
+   "build-plan",
+   "mockup-walkthrough",
+   "ops-review",
+   "quality-e2e",
+   "quality-review",
+   "quality-test"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "features"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "spec-feature"
+  ],
+  "owner": [
+   "spec-feature"
+  ],
+  "owner_declared_on": "05_features/<featureset>/<feature>.md",
+  "standard_step": 11
+ },
+ {
+  "id": "e-06-behaviors",
+  "path": "06_behaviors/",
+  "name": "06_behaviors/",
+  "depth": 0,
+  "line": 63,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-06-behaviors",
+  "writers": [],
+  "readers": [
+   "architecture-system"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "experience-behaviors"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 10
+ },
+ {
+  "id": "e-06-behaviors-featureset-md",
+  "path": "06_behaviors/<featureset>.md",
+  "name": "<featureset>.md",
+  "depth": 1,
+  "line": 64,
+  "desc": "state machines and lifecycle rules, as markdown state tables",
+  "kind": "pattern",
+  "parent": "e-06-behaviors",
+  "top": "e-06-behaviors",
+  "writers": [
+   "experience-behaviors"
+  ],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [
+   "behaviors"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [
+   "api-service",
+   "cli-tool",
+   "data-pipeline",
+   "library"
+  ],
+  "writers_below": [
+   "experience-behaviors"
+  ],
+  "owner": [
+   "experience-behaviors"
+  ],
+  "owner_declared_on": "06_behaviors/<featureset>.md",
+  "standard_step": 10
+ },
+ {
+  "id": "e-07-screens",
+  "path": "07_screens/",
+  "name": "07_screens/",
+  "depth": 0,
+  "line": 66,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-07-screens",
+  "writers": [],
+  "readers": [
+   "build-implement",
+   "build-plan",
+   "build-scaffold",
+   "experience-shell",
+   "mockup-storybook",
+   "mockup-walkthrough",
+   "quality-e2e"
+  ],
+  "hard_readers": [
+   "mockup-storybook",
+   "mockup-walkthrough"
+  ],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "experience-shell",
+   "spec-feature"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 11
+ },
+ {
+  "id": "e-07-screens-shell-md",
+  "path": "07_screens/shell.md",
+  "name": "shell.md",
+  "depth": 1,
+  "line": 67,
+  "desc": "the app shell: nav, sidebar, header, breakpoints, shared patterns",
+  "kind": "file",
+  "parent": "e-07-screens",
+  "top": "e-07-screens",
+  "writers": [
+   "experience-shell"
+  ],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [
+   "app-shell"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "experience-shell"
+  ],
+  "owner": [
+   "experience-shell"
+  ],
+  "owner_declared_on": "07_screens/shell.md",
+  "standard_step": 12
+ },
+ {
+  "id": "e-07-screens-feature-slug-screen-md",
+  "path": "07_screens/<feature_slug>/<screen>.md",
+  "name": "<feature_slug>/<screen>.md",
+  "depth": 1,
+  "line": 68,
+  "desc": "one spec per screen, carrying the `elements:` block",
+  "kind": "pattern",
+  "parent": "e-07-screens",
+  "top": "e-07-screens",
+  "writers": [
+   "spec-feature"
+  ],
+  "readers": [
+   "build-implement",
+   "build-plan",
+   "build-scaffold",
+   "experience-shell",
+   "mockup-storybook",
+   "mockup-walkthrough",
+   "ops-review",
+   "quality-e2e"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "screens"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [
+   "api-service",
+   "cli-tool",
+   "data-pipeline",
+   "library"
+  ],
+  "writers_below": [
+   "spec-feature"
+  ],
+  "owner": [
+   "spec-feature"
+  ],
+  "owner_declared_on": "07_screens/<feature_slug>/<screen>.md",
+  "standard_step": 11
+ },
+ {
+  "id": "e-08-dossiers",
+  "path": "08_dossiers/",
+  "name": "08_dossiers/",
+  "depth": 0,
+  "line": 70,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-08-dossiers",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "spec-feature"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 11
+ },
+ {
+  "id": "e-08-dossiers-feature-slug-index-md",
+  "path": "08_dossiers/<feature_slug>/index.md",
+  "name": "<feature_slug>/index.md",
+  "depth": 1,
+  "line": 71,
+  "desc": "the working record behind one feature; opened at the grill, frozen at the end",
+  "kind": "pattern",
+  "parent": "e-08-dossiers",
+  "top": "e-08-dossiers",
+  "writers": [
+   "spec-feature"
+  ],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [
+   "dossier"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "spec-feature"
+  ],
+  "owner": [
+   "spec-feature"
+  ],
+  "owner_declared_on": "08_dossiers/<feature_slug>/index.md",
+  "standard_step": 11
+ },
+ {
+  "id": "e-09-mockup",
+  "path": "09_mockup/",
+  "name": "09_mockup/",
+  "depth": 0,
+  "line": 73,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-09-mockup",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "mockup-annotate",
+   "mockup-feedback",
+   "mockup-storybook",
+   "mockup-walkthrough"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 15
+ },
+ {
+  "id": "e-09-mockup-walkthrough",
+  "path": "09_mockup/walkthrough/",
+  "name": "walkthrough/",
+  "depth": 1,
+  "line": 74,
+  "desc": "the clickable walkthrough — one output tree, renderer-agnostic",
+  "kind": "folder",
+  "parent": "e-09-mockup",
+  "top": "e-09-mockup",
+  "writers": [
+   "mockup-walkthrough"
+  ],
+  "readers": [
+   "mockup-annotate",
+   "mockup-storybook"
+  ],
+  "hard_readers": [
+   "mockup-annotate"
+  ],
+  "artifact_ids": [
+   "walkthrough"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [
+   "api-service",
+   "cli-tool",
+   "data-pipeline",
+   "library"
+  ],
+  "writers_below": [
+   "mockup-walkthrough"
+  ],
+  "owner": [
+   "mockup-walkthrough"
+  ],
+  "owner_declared_on": "09_mockup/walkthrough/",
+  "standard_step": 15
+ },
+ {
+  "id": "e-09-mockup-storybook",
+  "path": "09_mockup/storybook/",
+  "name": "storybook/",
+  "depth": 1,
+  "line": 75,
+  "desc": "the standalone Storybook project",
+  "kind": "folder",
+  "parent": "e-09-mockup",
+  "top": "e-09-mockup",
+  "writers": [
+   "mockup-storybook"
+  ],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [
+   "storybook"
+  ],
+  "flows": [
+   "appbuilder-standard"
+  ],
+  "not_grown_in": [
+   "api-service",
+   "cli-tool",
+   "data-pipeline",
+   "library",
+   "mobile-app"
+  ],
+  "writers_below": [
+   "mockup-storybook"
+  ],
+  "owner": [
+   "mockup-storybook"
+  ],
+  "owner_declared_on": "09_mockup/storybook/",
+  "standard_step": 16
+ },
+ {
+  "id": "e-09-mockup-feedback",
+  "path": "09_mockup/feedback/",
+  "name": "feedback/",
+  "depth": 1,
+  "line": 76,
+  "desc": "sessions · triage · patches · applied · devlog.md",
+  "kind": "folder",
+  "parent": "e-09-mockup",
+  "top": "e-09-mockup",
+  "writers": [
+   "mockup-annotate",
+   "mockup-feedback"
+  ],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [
+   "feedback-sessions",
+   "feedback-applied"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only"
+  ],
+  "not_grown_in": [
+   "api-service",
+   "cli-tool",
+   "data-pipeline",
+   "library"
+  ],
+  "writers_below": [
+   "mockup-annotate",
+   "mockup-feedback"
+  ],
+  "owner": [
+   "mockup-annotate",
+   "mockup-feedback"
+  ],
+  "owner_declared_on": "09_mockup/feedback/",
+  "standard_step": 17
+ },
+ {
+  "id": "e-10-blueprint",
+  "path": "10_blueprint/",
+  "name": "10_blueprint/",
+  "depth": 0,
+  "line": 78,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-10-blueprint",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "architecture-datamodel",
+   "architecture-system",
+   "architecture-techstack",
+   "spec-feature"
+  ],
+  "owner": [],
+  "owner_declared_on": null,
+  "standard_step": 8
+ },
+ {
+  "id": "e-10-blueprint-techstack-md",
+  "path": "10_blueprint/techstack.md",
+  "name": "techstack.md",
+  "depth": 1,
+  "line": 79,
+  "desc": "chosen technologies and why — no third-party services",
+  "kind": "file",
+  "parent": "e-10-blueprint",
+  "top": "e-10-blueprint",
+  "writers": [
+   "architecture-techstack"
+  ],
+  "readers": [
+   "architecture-datamodel",
+   "architecture-system",
+   "build-database",
+   "build-plan",
+   "build-scaffold",
+   "mockup-storybook"
+  ],
+  "hard_readers": [
+   "architecture-system",
+   "build-database",
+   "build-scaffold",
+   "mockup-storybook"
+  ],
+  "artifact_ids": [
+   "techstack"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "architecture-techstack"
+  ],
+  "owner": [
+   "architecture-techstack"
+  ],
+  "owner_declared_on": "10_blueprint/techstack.md",
+  "standard_step": 13
+ },
+ {
+  "id": "e-10-blueprint-architecture-md",
+  "path": "10_blueprint/architecture.md",
+  "name": "architecture.md",
+  "depth": 1,
+  "line": 80,
+  "desc": "modules, protocols, data flow, and every external integration",
+  "kind": "file",
+  "parent": "e-10-blueprint",
+  "top": "e-10-blueprint",
+  "writers": [
+   "architecture-system"
+  ],
+  "readers": [
+   "architecture-datamodel"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "architecture"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "architecture-system"
+  ],
+  "owner": [
+   "architecture-system"
+  ],
+  "owner_declared_on": "10_blueprint/architecture.md",
+  "standard_step": 14
+ },
+ {
+  "id": "e-10-blueprint-decisions-md",
+  "path": "10_blueprint/decisions.md",
+  "name": "decisions.md",
+  "depth": 1,
+  "line": 81,
+  "desc": "design-time decision records, append-only",
+  "kind": "file",
+  "parent": "e-10-blueprint",
+  "top": "e-10-blueprint",
+  "writers": [
+   "spec-feature"
+  ],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [
+   "decisions"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "spec-feature"
+  ],
+  "owner": [
+   "spec-feature"
+  ],
+  "owner_declared_on": "10_blueprint/decisions.md",
+  "standard_step": 11
+ },
+ {
+  "id": "e-10-blueprint-datamodel",
+  "path": "10_blueprint/datamodel/",
+  "name": "datamodel/",
+  "depth": 1,
+  "line": 82,
+  "desc": "model.dbml · model.json · seed.json",
+  "kind": "folder",
+  "parent": "e-10-blueprint",
+  "top": "e-10-blueprint",
+  "writers": [
+   "architecture-datamodel"
+  ],
+  "readers": [
+   "build-database",
+   "build-implement",
+   "build-plan",
+   "experience-behaviors",
+   "mockup-storybook",
+   "ops-review",
+   "quality-e2e",
+   "spec-feature",
+   "spec-featuresets"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "datamodel"
+  ],
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "not_grown_in": [
+   "library"
+  ],
+  "writers_below": [
+   "architecture-datamodel"
+  ],
+  "owner": [
+   "architecture-datamodel"
+  ],
+  "owner_declared_on": "10_blueprint/datamodel/",
+  "standard_step": 8
+ },
+ {
+  "id": "e-11-build",
+  "path": "11_build/",
+  "name": "11_build/",
+  "depth": 0,
+  "line": 84,
+  "desc": "",
+  "kind": "folder",
+  "parent": null,
+  "top": "e-11-build",
+  "writers": [
+   "quality-release"
+  ],
+  "readers": [
+   "build-implement",
+   "ops-review",
+   "quality-review"
+  ],
+  "hard_readers": [
+   "build-implement",
+   "quality-review"
+  ],
+  "artifact_ids": [
+   "release-verdict"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "build-implement",
+   "build-plan",
+   "quality-e2e",
+   "quality-release",
+   "quality-review"
+  ],
+  "owner": [
+   "quality-release"
+  ],
+  "owner_declared_on": "11_build/",
+  "standard_step": 22
+ },
+ {
+  "id": "e-11-build-slices-slice-id",
+  "path": "11_build/slices/<slice_id>/",
+  "name": "slices/<slice_id>/",
+  "depth": 1,
+  "line": 85,
+  "desc": "one vertical slice's dossier, frozen on commit",
+  "kind": "folder",
+  "parent": "e-11-build",
+  "top": "e-11-build",
+  "writers": [
+   "build-implement",
+   "build-plan"
+  ],
+  "readers": [
+   "quality-review"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "slice-index",
+   "slice-plan"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "build-implement",
+   "build-plan"
+  ],
+  "owner": [
+   "build-implement",
+   "build-plan"
+  ],
+  "owner_declared_on": "11_build/slices/<slice_id>/",
+  "standard_step": 22
+ },
+ {
+  "id": "e-11-build-trace-yaml",
+  "path": "11_build/trace.yaml",
+  "name": "trace.yaml",
+  "depth": 1,
+  "line": 86,
+  "desc": "feature → slices → commits → code (build-implement writes it as each slice commits)",
+  "kind": "file",
+  "parent": "e-11-build",
+  "top": "e-11-build",
+  "writers": [
+   "build-implement"
+  ],
+  "readers": [
+   "ops-review",
+   "quality-release",
+   "quality-review"
+  ],
+  "hard_readers": [
+   "quality-release",
+   "quality-review"
+  ],
+  "artifact_ids": [
+   "trace"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "build-implement"
+  ],
+  "owner": [
+   "build-implement"
+  ],
+  "owner_declared_on": "11_build/trace.yaml",
+  "standard_step": 23
+ },
+ {
+  "id": "e-11-build-acceptance-criteria",
+  "path": "11_build/acceptance-criteria/",
+  "name": "acceptance-criteria/",
+  "depth": 1,
+  "line": 87,
+  "desc": "<featureset>/<feature_slug>.ac.md — the criteria status ledger",
+  "kind": "folder",
+  "parent": "e-11-build",
+  "top": "e-11-build",
+  "writers": [
+   "build-implement",
+   "build-plan",
+   "quality-e2e",
+   "quality-review"
+  ],
+  "readers": [
+   "quality-release"
+  ],
+  "hard_readers": [],
+  "artifact_ids": [
+   "acceptance-criteria"
+  ],
+  "flows": [
+   "appbuilder-mvp",
+   "appbuilder-standard"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "build-implement",
+   "build-plan",
+   "quality-e2e",
+   "quality-review"
+  ],
+  "owner": [
+   "build-implement",
+   "build-plan",
+   "quality-e2e",
+   "quality-review"
+  ],
+  "owner_declared_on": "11_build/acceptance-criteria/",
+  "standard_step": 22
+ },
+ {
+  "id": "e-11-build-reviews",
+  "path": "11_build/reviews/",
+  "name": "reviews/",
+  "depth": 1,
+  "line": 88,
+  "desc": "<feature_slug>.yaml — one feature's code-review verdict",
+  "kind": "folder",
+  "parent": "e-11-build",
+  "top": "e-11-build",
+  "writers": [
+   "quality-review"
+  ],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [
+   "review"
+  ],
+  "flows": [
+   "appbuilder-standard"
+  ],
+  "not_grown_in": [],
+  "writers_below": [
+   "quality-review"
+  ],
+  "owner": [
+   "quality-review"
+  ],
+  "owner_declared_on": "11_build/reviews/",
+  "standard_step": 27
+ },
+ {
+  "id": "e-11-build-decisions-md",
+  "path": "11_build/decisions.md",
+  "name": "decisions.md",
+  "depth": 1,
+  "line": 89,
+  "desc": "build-time decision records, append-only",
+  "kind": "file",
+  "parent": "e-11-build",
+  "top": "e-11-build",
+  "writers": [],
+  "readers": [],
+  "hard_readers": [],
+  "artifact_ids": [],
+  "flows": [],
+  "not_grown_in": [],
+  "writers_below": [],
+  "owner": [
+   "quality-release"
+  ],
+  "owner_declared_on": "11_build/",
+  "standard_step": null
+ }
+]

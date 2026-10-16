@@ -1,0 +1,56 @@
+[
+ {
+  "skill": "build-implement",
+  "id": "slice-index",
+  "path": "_concept/11_build/slices/<slice_id>/index.md",
+  "lands_in": "11_build/slices/<slice_id>/"
+ },
+ {
+  "skill": "build-implement",
+  "id": "acceptance-criteria",
+  "path": "_concept/11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md",
+  "lands_in": "11_build/acceptance-criteria/"
+ },
+ {
+  "skill": "build-plan",
+  "id": "slice-plan",
+  "path": "_concept/11_build/slices/<slice_id>/plan.md",
+  "lands_in": "11_build/slices/<slice_id>/"
+ },
+ {
+  "skill": "build-plan",
+  "id": "acceptance-criteria",
+  "path": "_concept/11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md",
+  "lands_in": "11_build/acceptance-criteria/"
+ },
+ {
+  "skill": "mockup-annotate",
+  "id": "feedback-sessions",
+  "path": "_concept/09_mockup/feedback/sessions/",
+  "lands_in": "09_mockup/feedback/"
+ },
+ {
+  "skill": "quality-e2e",
+  "id": "acceptance-criteria",
+  "path": "_concept/11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md",
+  "lands_in": "11_build/acceptance-criteria/"
+ },
+ {
+  "skill": "quality-release",
+  "id": "release-verdict",
+  "path": "_concept/11_build/release.yaml",
+  "lands_in": "11_build/"
+ },
+ {
+  "skill": "quality-review",
+  "id": "review",
+  "path": "_concept/11_build/reviews/<feature_slug>.yaml",
+  "lands_in": "11_build/reviews/"
+ },
+ {
+  "skill": "quality-review",
+  "id": "acceptance-criteria",
+  "path": "_concept/11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md",
+  "lands_in": "11_build/acceptance-criteria/"
+ }
+]
