@@ -3,80 +3,90 @@
   "id": "s-concept",
   "label": "concept",
   "order": 1,
-  "skills_n": 5,
-  "lines": 397,
-  "findings_n": 9
+  "skills_n": 6,
+  "lines": 522,
+  "findings_n": 9,
+  "open_n": 0
  },
  {
   "id": "s-design",
   "label": "design",
   "order": 2,
   "skills_n": 1,
-  "lines": 68,
-  "findings_n": 1
+  "lines": 88,
+  "findings_n": 1,
+  "open_n": 0
  },
  {
   "id": "s-experience",
   "label": "experience",
   "order": 3,
   "skills_n": 3,
-  "lines": 200,
-  "findings_n": 3
+  "lines": 247,
+  "findings_n": 3,
+  "open_n": 0
  },
  {
   "id": "s-spec",
   "label": "spec",
   "order": 4,
   "skills_n": 2,
-  "lines": 178,
-  "findings_n": 6
+  "lines": 221,
+  "findings_n": 6,
+  "open_n": 0
  },
  {
   "id": "s-mockup",
   "label": "mockup",
   "order": 5,
   "skills_n": 4,
-  "lines": 389,
-  "findings_n": 4
+  "lines": 421,
+  "findings_n": 4,
+  "open_n": 0
  },
  {
   "id": "s-architecture",
   "label": "architecture",
   "order": 6,
   "skills_n": 3,
-  "lines": 267,
-  "findings_n": 5
+  "lines": 277,
+  "findings_n": 5,
+  "open_n": 0
  },
  {
   "id": "s-build",
   "label": "build",
   "order": 7,
   "skills_n": 5,
-  "lines": 401,
-  "findings_n": 5
+  "lines": 451,
+  "findings_n": 5,
+  "open_n": 0
  },
  {
   "id": "s-quality",
   "label": "quality",
   "order": 8,
   "skills_n": 5,
-  "lines": 398,
-  "findings_n": 2
+  "lines": 426,
+  "findings_n": 2,
+  "open_n": 0
  },
  {
   "id": "s-ops",
   "label": "ops",
   "order": 9,
   "skills_n": 1,
-  "lines": 111,
-  "findings_n": 1
+  "lines": 98,
+  "findings_n": 1,
+  "open_n": 0
  },
  {
   "id": "s-collection",
   "label": "collection",
   "order": 10,
   "skills_n": 1,
-  "lines": 72,
-  "findings_n": 8
+  "lines": 80,
+  "findings_n": 8,
+  "open_n": 0
  }
 ]

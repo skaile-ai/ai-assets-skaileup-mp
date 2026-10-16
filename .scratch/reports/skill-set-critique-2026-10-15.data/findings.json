@@ -42,6 +42,9 @@
    }
   ],
   "recommendation": "Add the producing nodes to `appbuilder-mvp`, or make the three gates `soft` and say in each step what changes without the file. Add the check.py rule of F04.",
+  "status": "closed",
+  "closed_by": "i-ssi-flow-rewrite",
+  "closed_note": "appbuilder-mvp now runs experience-journeys before spec-featuresets; the 07_screens gates are soft (i-ssi-soft-gates-profiles).",
   "first_at": "skills/spec-featuresets/SKILL.md:17",
   "refs": [
    "spec-featuresets",
@@ -50,7 +53,8 @@
    "appbuilder-mvp",
    "a-04_journeys",
    "a-07_screens"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F02",
@@ -90,6 +94,9 @@
    }
   ],
   "recommendation": "Move `architecture-techstack` and `architecture-system` before the mockup nodes. Or gate `mockup-storybook` soft and take the framework from the template default.",
+  "status": "closed",
+  "closed_by": "i-ssi-flow-rewrite",
+  "closed_note": "architecture-techstack and architecture-system run before the mockup nodes in appbuilder-standard.",
   "first_at": "skills/mockup-storybook/SKILL.md:17",
   "refs": [
    "mockup-storybook",
@@ -97,7 +104,8 @@
    "appbuilder-standard",
    "a-10_blueprint",
    "a-09_mockup"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F03",
@@ -140,13 +148,17 @@
    }
   ],
   "recommendation": "Make `concept-scope` the entry of the reverse flow, or let `concept-reverse` write `scope.yaml` with `flow: skaileup-concept-reverse`.",
+  "status": "closed",
+  "closed_by": "i-ssi-flow-rewrite",
+  "closed_note": "concept-scope is the entry of skaileup-concept-reverse and writes scope.yaml.",
   "first_at": "skills/spec-feature/SKILL.md:17",
   "refs": [
    "spec-feature",
    "concept-reverse",
    "skaileup-concept-reverse",
    "a-01_meta"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F04",
@@ -183,13 +195,17 @@
    }
   ],
   "recommendation": "Add a rule: walk each flow's `type: flow` edges, collect the targets written so far, and fail on a hard gate with no writer upstream. It needs the `produces` list of F05.",
+  "status": "closed",
+  "closed_by": "i-ssi-check-gate-writers",
+  "closed_note": "check.py _check_gate_writers fails a hard prerequisite with no upstream writer; fixture included.",
   "first_at": "scripts/check.py:11",
   "refs": [
    "appbuilder-mvp",
    "appbuilder-standard",
    "skaileup-concept-only",
    "skaileup-concept-reverse"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F05",
@@ -231,10 +247,14 @@
    }
   ],
   "recommendation": "Add `metadata.artifacts.produces: [{id, path}]` to every skill, checked by check.py. Ask the host to read done state from that list, as it already reads `artifacts.requires`.",
+  "status": "closed",
+  "closed_by": "i-ssi-produces-list",
+  "closed_note": "Every skill declares metadata.artifacts.produces and check.py validates it. The host still reads contracts/artifacts.yaml (external; host_facts.py row), so editor done-state is unchanged until the host reads produces.",
   "first_at": "/Users/matthias/devBench/SKAILEdev/forge/skaile-forge/server/utils/artifact-contract.ts:12",
   "refs": [
    "skaileup"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F06",
@@ -276,12 +296,16 @@
    }
   ],
   "recommendation": "Make `concept-onboard` step 1 merge what the host handed in into `answers.json` once. Record the host path as a fact in `scripts/host_facts.py`.",
+  "status": "closed",
+  "closed_by": "i-ssi-approved-answers",
+  "closed_note": "concept-onboard step 1 folds the host user_input.json into answers.json once; answers.json is the only answer record.",
   "first_at": "/Users/matthias/devBench/SKAILEdev/forge/skaile-forge/server/api/workspaces/[id]/grounding/user-input.post.ts:7",
   "refs": [
    "concept-onboard",
    "c-agent_patterns",
    "a-02_grounding"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F07",
@@ -320,6 +344,9 @@
    }
   ],
   "recommendation": "Cite `§` sections, as the skills already do for `agent_patterns.md`. Point `experience-shell` at `elements_block.md § Schema` and `walkthrough_renderer.md § App-shell navigation`.",
+  "status": "closed",
+  "closed_by": "i-ssi-contract-sections",
+  "closed_note": "spec-feature, architecture-datamodel and experience-shell cite contract § sections instead of whole files.",
   "first_at": "skills/spec-feature/SKILL.md:34",
   "refs": [
    "spec-feature",
@@ -327,7 +354,8 @@
    "experience-shell",
    "c-elements_block",
    "c-walkthrough_renderer"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F08",
@@ -374,6 +402,9 @@
    }
   ],
   "recommendation": "Put one `glossary.md` beside `brief.md`. One step writes it right after the brief; every later skill reads it.",
+  "status": "closed",
+  "closed_by": "i-ssi-concept-glossary",
+  "closed_note": "concept-glossary is the single writer of _concept/glossary.md; brief, spec-feature and architecture-datamodel read it.",
   "first_at": "skills/concept-brief/SKILL.md:66",
   "refs": [
    "concept-brief",
@@ -383,7 +414,8 @@
    "appbuilder-standard",
    "a-10_blueprint",
    "a-brief"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F09",
@@ -403,7 +435,6 @@
   "artifacts": [
    "a-brief",
    "a-goals",
-   "a-comparable",
    "a-03_brand",
    "a-10_blueprint",
    "a-02_grounding"
@@ -437,6 +468,9 @@
    }
   ],
   "recommendation": "Let `concept-reverse` write only `02_grounding/findings/*`. The owning skills read those findings as seeds.",
+  "status": "closed",
+  "closed_by": "i-ssi-reverse-findings-only",
+  "closed_note": "concept-reverse writes 02_grounding/findings/ only; brief, brand and techstack seed from it.",
   "first_at": "skills/concept-reverse/SKILL.md:53",
   "refs": [
    "concept-reverse",
@@ -446,11 +480,11 @@
    "skaileup-concept-reverse",
    "a-brief",
    "a-goals",
-   "a-comparable",
    "a-03_brand",
    "a-10_blueprint",
    "a-02_grounding"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F10",
@@ -464,7 +498,7 @@
   "contracts": [],
   "flows": [],
   "artifacts": [
-   "a-comparable",
+   "a-brief",
    "a-02_grounding"
   ],
   "title": "Competitor knowledge lives in two files",
@@ -480,13 +514,17 @@
    }
   ],
   "recommendation": "Keep one file. Make `comparable.md` a section of `brief.md` that cites `competitors.md`.",
+  "status": "closed",
+  "closed_by": "i-ssi-concept-glossary",
+  "closed_note": "comparable.md folded into a ## Comparables section of brief.md that cites research/competitors.md.",
   "first_at": "skills/concept-research/SKILL.md:44",
   "refs": [
    "concept-research",
    "concept-brief",
-   "a-comparable",
+   "a-brief",
    "a-02_grounding"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F11",
@@ -520,13 +558,17 @@
    }
   ],
   "recommendation": "Use `02_grounding/findings/` only, with a `step` field in `findings/index.md`.",
+  "status": "closed",
+  "closed_by": "i-ssi-reverse-findings-only",
+  "closed_note": "Screenshots live in 02_grounding/findings/ only, with a step field in findings/index.md.",
   "first_at": "skills/concept-research/SKILL.md:57",
   "refs": [
    "concept-research",
    "design-brand",
    "a-02_grounding",
    "a-03_brand"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F12",
@@ -567,6 +609,9 @@
    }
   ],
   "recommendation": "Run research before brief, or delete the node and keep the \"alongside\" semantics.",
+  "status": "closed",
+  "closed_by": "i-ssi-flow-rewrite",
+  "closed_note": "concept-research runs before concept-brief in the flows and its intro says so.",
   "first_at": "skills/concept-research/SKILL.md:21",
   "refs": [
    "concept-research",
@@ -575,7 +620,8 @@
    "skaileup-concept-only",
    "a-02_grounding",
    "a-brief"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F13",
@@ -622,6 +668,9 @@
    }
   ],
   "recommendation": "Add `approved: <date>` to the universal frontmatter fields and write it at each approval. Record every dialog answer in `answers.json`.",
+  "status": "closed",
+  "closed_by": "i-ssi-approved-answers",
+  "closed_note": "approved: <date> is a universal frontmatter field, written at each approval step.",
   "first_at": "skills/concept-brief/SKILL.md:63",
   "refs": [
    "concept-brief",
@@ -632,7 +681,8 @@
    "a-brief",
    "a-03_brand",
    "a-02_grounding"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F14",
@@ -681,6 +731,9 @@
    }
   ],
   "recommendation": "Let the contract alone carry the rule. A skill lists only which questions it asks.",
+  "status": "closed",
+  "closed_by": "i-ssi-contract-sections",
+  "closed_note": "The restatements are gone; skills cite agent_patterns.md § Questions Are Standalone Messages.",
   "first_at": "skills/concept-scope/SKILL.md:21",
   "refs": [
    "concept-scope",
@@ -690,7 +743,8 @@
    "architecture-system",
    "architecture-datamodel",
    "c-agent_patterns"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F15",
@@ -728,13 +782,17 @@
    }
   ],
   "recommendation": "Give each fact one owner: `concept-scope` owns the `web-app` default and the flow choice, and `skaileup` only points at it.",
+  "status": "closed",
+  "closed_by": "i-ssi-router-produces",
+  "closed_note": "concept-scope owns the web-app default and the flow choice; skaileup points at it.",
   "first_at": "skills/concept-scope/SKILL.md:44",
   "refs": [
    "concept-scope",
    "concept-onboard",
    "skaileup",
    "a-01_meta"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F16",
@@ -777,6 +835,9 @@
    }
   ],
   "recommendation": "Make `answers.json` the only record of what the user said; derive `onboarding.yaml` from it or drop it. Make `architecture-techstack` read the confidence grade in step 1.",
+  "status": "closed",
+  "closed_by": "i-ssi-approved-answers",
+  "closed_note": "answers.json is the one record; onboarding.yaml is gone; architecture-techstack reads the confidence grade.",
   "first_at": "skills/concept-onboard/SKILL.md:36",
   "refs": [
    "concept-onboard",
@@ -784,7 +845,8 @@
    "concept-reverse",
    "a-02_grounding",
    "a-10_blueprint"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F17",
@@ -848,6 +910,9 @@
    }
   ],
   "recommendation": "Design the data model before the features, from the journeys and the glossary. Let each feature spec read the entities it uses instead of receiving them later.",
+  "status": "closed",
+  "closed_by": "i-ssi-datamodel-first",
+  "closed_note": "architecture-datamodel runs after journeys and glossary, before featuresets; no gate cycle remains.",
   "first_at": "skills/architecture-datamodel/SKILL.md:16",
   "refs": [
    "spec-feature",
@@ -858,7 +923,8 @@
    "skaileup-concept-reverse",
    "a-05_features",
    "a-10_blueprint"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F18",
@@ -904,6 +970,9 @@
    }
   ],
   "recommendation": "Pin the vocabulary and the entity names first, once. Let these four skills read the names and never coin them.",
+  "status": "closed",
+  "closed_by": "i-ssi-datamodel-first",
+  "closed_note": "Entity names are read from model.json or the glossary and never coined.",
   "first_at": "skills/experience-journeys/SKILL.md:58",
   "refs": [
    "experience-journeys",
@@ -914,7 +983,8 @@
    "a-05_features",
    "a-06_behaviors",
    "a-10_blueprint"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F19",
@@ -961,6 +1031,9 @@
    }
   ],
   "recommendation": "Make the feature spec the only owner of permissions. Let behaviors, featuresets and the seed cite it.",
+  "status": "closed",
+  "closed_by": "i-ssi-spec-truth",
+  "closed_note": "spec-feature owns the ## Permissions table; behaviors, featuresets and the seed cite it.",
   "first_at": "contracts/concept_structure.md:164",
   "refs": [
    "spec-feature",
@@ -971,7 +1044,8 @@
    "a-05_features",
    "a-06_behaviors",
    "a-10_blueprint"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F20",
@@ -1024,6 +1098,9 @@
    }
   ],
   "recommendation": "Give each criterion one id in `stories.yaml`. Let the spec and the ledger cite the id and never retype the text.",
+  "status": "closed",
+  "closed_by": "i-ssi-spec-truth",
+  "closed_note": "Criteria carry ids AC-<story-id>-<nn>; spec, ledger and e2e cite ids.",
   "first_at": "skills/experience-journeys/SKILL.md:55",
   "refs": [
    "experience-journeys",
@@ -1036,7 +1113,8 @@
    "a-05_features",
    "a-06_behaviors",
    "a-11_build"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F21",
@@ -1076,6 +1154,9 @@
    }
   ],
   "recommendation": "Name both writers in `elements_block.md`. Or move the nav element to `spec-feature` and let the shell write prose only.",
+  "status": "closed",
+  "closed_by": "i-ssi-screens-shell",
+  "closed_note": "contracts/elements_block.md names both writers (spec-feature for screens, experience-shell for kind: nav in shell.md); its Validation sentence that still called spec-feature the sole writer now points at ## Writers.",
   "first_at": "skills/experience-shell/SKILL.md:56",
   "refs": [
    "experience-shell",
@@ -1083,7 +1164,8 @@
    "c-elements_block",
    "c-walkthrough_renderer",
    "a-07_screens"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F22",
@@ -1124,6 +1206,9 @@
    }
   ],
   "recommendation": "Make the spec section the record. Let the dossier link to it and keep `decisions.md` for three-test decisions only.",
+  "status": "closed",
+  "closed_by": "i-ssi-spec-truth",
+  "closed_note": "The spec ## Scope section is the one record; the dossier links to it.",
   "first_at": "skills/spec-feature/SKILL.md:70-71",
   "refs": [
    "spec-feature",
@@ -1132,7 +1217,8 @@
    "a-05_features",
    "a-08_dossiers",
    "a-10_blueprint"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F23",
@@ -1172,6 +1258,9 @@
    }
   ],
   "recommendation": "Open the dossier at step 2 and append to it after each step. Name the feature file that `experience-behaviors` re-runs when an answer changes a rule.",
+  "status": "closed",
+  "closed_by": "i-ssi-spec-truth",
+  "closed_note": "spec-feature opens the dossier at the grill start; behaviors names the feature file it re-runs.",
   "first_at": "skills/spec-feature/SKILL.md:102",
   "refs": [
    "spec-feature",
@@ -1180,7 +1269,8 @@
    "a-04_journeys",
    "a-06_behaviors",
    "a-08_dossiers"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F24",
@@ -1215,6 +1305,9 @@
    }
   ],
   "recommendation": "Let `experience-journeys` own the stage definitions. Cite them in the two later skills.",
+  "status": "closed",
+  "closed_by": "i-ssi-screens-shell",
+  "closed_note": "experience-journeys owns the stage definitions (stories.yaml § stages); later skills cite them.",
   "first_at": "skills/experience-journeys/SKILL.md:51",
   "refs": [
    "spec-featuresets",
@@ -1222,7 +1315,8 @@
    "a-04_journeys",
    "a-05_features",
    "a-07_screens"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F25",
@@ -1255,6 +1349,9 @@
    }
   ],
   "recommendation": "Run the shell after the feature loop and derive its nav from the screens that exist. Or derive the nav from the featureset roster only.",
+  "status": "closed",
+  "closed_by": "i-ssi-flow-rewrite",
+  "closed_note": "The shell runs after the feature loop and derives nav from existing screens.",
   "first_at": "skills/experience-shell/SKILL.md:42",
   "refs": [
    "experience-shell",
@@ -1263,7 +1360,8 @@
    "skaileup-concept-reverse",
    "a-07_screens",
    "a-05_features"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F26",
@@ -1312,6 +1410,9 @@
    }
   ],
   "recommendation": "Let the walkthrough own the journeys. Reduce storybook to the component layer, or let it read the walkthrough manifest.",
+  "status": "closed",
+  "closed_by": "i-ssi-mockup-loop",
+  "closed_note": "Both renderers kept by decision; mockup-storybook reads the walkthrough manifest for screens and journeys.",
   "first_at": "skills/mockup-walkthrough/SKILL.md:3",
   "refs": [
    "mockup-walkthrough",
@@ -1320,7 +1421,8 @@
    "appbuilder-standard",
    "a-09_mockup",
    "a-07_screens"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F27",
@@ -1364,6 +1466,9 @@
    }
   ],
   "recommendation": "Keep one `session.schema.json` that both skills reference. Let prose and templates cite it and never list the values.",
+  "status": "closed",
+  "closed_by": "i-ssi-mockup-loop",
+  "closed_note": "One session.schema.json under mockup-annotate/references/; mockup-feedback references it by path.",
   "first_at": "skills/mockup-annotate/references/session.schema.json:34",
   "refs": [
    "mockup-annotate",
@@ -1371,7 +1476,8 @@
    "appbuilder-standard",
    "skaileup-concept-only",
    "a-09_mockup"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F28",
@@ -1417,6 +1523,9 @@
    }
   ],
   "recommendation": "Add a `mockup-feedback` section to `feedback_loop.md` covering screen edits and id promotion. Cite it at step 4 of the skill.",
+  "status": "closed",
+  "closed_by": "i-ssi-mockup-loop",
+  "closed_note": "contracts/feedback_loop.md has a ## mockup-feedback section, cited at step 4.",
   "first_at": "contracts/README.md:24",
   "refs": [
    "mockup-feedback",
@@ -1425,7 +1534,8 @@
    "skaileup-concept-only",
    "a-09_mockup",
    "a-07_screens"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F29",
@@ -1470,6 +1580,9 @@
    }
   ],
   "recommendation": "List only the references of the renderer the project resolves. Move the devlog check into the renderer reference.",
+  "status": "closed",
+  "closed_by": "i-ssi-mockup-loop",
+  "closed_note": "mockup-walkthrough reads only the resolved renderer references; the devlog check lives in RENDERER.md.",
   "first_at": "skills/mockup-walkthrough/SKILL.md:39",
   "refs": [
    "mockup-walkthrough",
@@ -1477,7 +1590,8 @@
    "appbuilder-standard",
    "skaileup-concept-only",
    "a-09_mockup"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F30",
@@ -1523,12 +1637,16 @@
    }
   ],
   "recommendation": "Pin the vocabulary before step 3. Move the approval ahead of every write.",
+  "status": "closed",
+  "closed_by": "i-ssi-datamodel-first",
+  "closed_note": "The vocabulary is pinned (read from glossary) before modelling; approval comes before any write.",
   "first_at": "skills/architecture-datamodel/SKILL.md:27",
   "refs": [
    "architecture-datamodel",
    "c-domain_model",
    "a-10_blueprint"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F31",
@@ -1573,6 +1691,9 @@
    }
   ],
   "recommendation": "Declare `architecture.md` as a soft prerequisite of `architecture-datamodel`. Name one owner for the stack-specific schema file in `concept_structure.md`.",
+  "status": "closed",
+  "closed_by": "i-ssi-datamodel-first",
+  "closed_note": "architecture.md is a declared soft prerequisite; build-database owns the stack-specific schema file.",
   "first_at": "skills/architecture-datamodel/SKILL.md:45",
   "refs": [
    "architecture-datamodel",
@@ -1581,7 +1702,8 @@
    "c-concept_structure",
    "a-10_blueprint",
    "a-06_behaviors"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F32",
@@ -1628,13 +1750,17 @@
    }
   ],
   "recommendation": "Give integrations one home, `architecture.md`, and drop the section from `techstack.md`. Make step 3 skip every question that an input field already answered.",
+  "status": "closed",
+  "closed_by": "i-ssi-contract-sections",
+  "closed_note": "Integrations live in architecture.md only; techstack step 3 skips questions answers.json settled.",
   "first_at": "skills/architecture-techstack/SKILL.md:72",
   "refs": [
    "architecture-techstack",
    "architecture-system",
    "c-agent_patterns",
    "a-10_blueprint"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F33",
@@ -1687,6 +1813,9 @@
    }
   ],
   "recommendation": "Keep `data_entities[]` as the link and derive `feature-map.json` from it, or drop the file. In step 4, cite `seed_data.md` and delete the restated rules.",
+  "status": "closed",
+  "closed_by": "i-ssi-datamodel-first",
+  "closed_note": "feature-map.json dropped; spec-feature writes data_entities[] as the one join.",
   "first_at": "skills/architecture-datamodel/SKILL.md:70",
   "refs": [
    "architecture-datamodel",
@@ -1695,7 +1824,8 @@
    "c-concept_structure",
    "a-10_blueprint",
    "a-05_features"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F34",
@@ -1739,6 +1869,9 @@
    }
   ],
   "recommendation": "Move glossary pinning (F08) and the feature scan (F17) out of this skill. Cite contract sections, not whole files.",
+  "status": "closed",
+  "closed_by": "i-ssi-datamodel-first",
+  "closed_note": "architecture-datamodel no longer pins the glossary or scans features; contracts cited by section.",
   "first_at": "skills/architecture-datamodel/SKILL.md:41-46",
   "refs": [
    "architecture-datamodel",
@@ -1750,7 +1883,8 @@
    "c-domain_model",
    "c-feedback_loop",
    "a-10_blueprint"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F35",
@@ -1816,6 +1950,9 @@
    }
   ],
   "recommendation": "Make gates on `not_grown` artifacts `soft` and state in the step what changes without them. Add a `check.py` rule that cross-checks hard gates against `profiles/*.yaml`.",
+  "status": "closed",
+  "closed_by": "i-ssi-soft-gates-profiles",
+  "closed_note": "Gates on not-grown artifacts are soft with a stated fallback; check.py cross-checks profiles.",
   "first_at": "profiles/cli-tool.yaml:13",
   "refs": [
    "build-plan",
@@ -1825,7 +1962,8 @@
    "appbuilder-standard",
    "a-04_journeys",
    "a-07_screens"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F36",
@@ -1884,6 +2022,9 @@
    }
   ],
   "recommendation": "Make `trace.yaml` the one derived join and let readers use it. Keep a single spec review, in `quality-review`.",
+  "status": "closed",
+  "closed_by": "i-ssi-build-quality-joins",
+  "closed_note": "build-implement writes 11_build/trace.yaml; ops-review, quality-release and quality-review read it; spec review only in quality-review.",
   "first_at": "skills/build-implement/SKILL.md:68",
   "refs": [
    "build-implement",
@@ -1894,7 +2035,8 @@
    "c-feedback_loop",
    "a-05_features",
    "a-11_build"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F37",
@@ -1943,6 +2085,9 @@
    }
   ],
   "recommendation": "Add a rule to the contract: the later evaluation overwrites a row and stamps its own evidence, and `FAIL` beats `PASS`. Make `quality-e2e` stop when the ledger is missing.",
+  "status": "closed",
+  "closed_by": "i-ssi-build-quality-joins",
+  "closed_note": "acceptance_criteria.md § Ledger updates: later evaluation overwrites, FAIL beats PASS; quality-e2e stops on a missing ledger.",
   "first_at": "contracts/acceptance_criteria.md:52",
   "refs": [
    "build-plan",
@@ -1951,7 +2096,8 @@
    "quality-review",
    "c-acceptance_criteria",
    "a-11_build"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F38",
@@ -1991,6 +2137,9 @@
    }
   ],
   "recommendation": "Cite `domain_model.md` in `build-plan` instead of naming both paths. State in `build-branch` that the two rules are its job.",
+  "status": "closed",
+  "closed_by": "i-ssi-build-quality-joins",
+  "closed_note": "build-plan cites domain_model.md; build-branch states its two rules.",
   "first_at": "skills/build-plan/SKILL.md:41",
   "refs": [
    "build-plan",
@@ -1998,7 +2147,8 @@
    "c-domain_model",
    "a-11_build",
    "a-10_blueprint"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F39",
@@ -2045,6 +2195,9 @@
    }
   ],
   "recommendation": "Persist the per-journey verdict where `quality-release` can read it; `quality-release` re-walks the journeys today. Leave scaffold and branch to git, as ADR 0010 says.",
+  "status": "closed",
+  "closed_by": "i-ssi-build-quality-joins",
+  "closed_note": "quality-e2e writes per-journey verdicts into ledger rows that quality-release reads; scaffold and branch stay git-only (ADR 0010).",
   "first_at": "skills/build-database/SKILL.md:78",
   "refs": [
    "build-scaffold",
@@ -2052,7 +2205,8 @@
    "build-database",
    "quality-e2e",
    "a-11_build"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F40",
@@ -2095,13 +2249,17 @@
    }
   ],
   "recommendation": "Add `quality-standards` to `appbuilder-standard` after scaffold, with a step in `build-plan` and `build-implement` that reads the index. Or state that the index exists only in the reverse flow.",
+  "status": "closed",
+  "closed_by": "i-ssi-flow-rewrite",
+  "closed_note": "quality-standards joined appbuilder-standard after build-database; build-plan and build-implement read the index.",
   "first_at": "flows/skaileup-concept-reverse/skaileup-concept-reverse.flow.yaml:74",
   "refs": [
    "quality-standards",
    "skaileup-concept-reverse",
    "appbuilder-standard",
    "a-02_grounding"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F41",
@@ -2155,6 +2313,9 @@
    }
   ],
   "recommendation": "Move the mechanical half into a `check_concept.py` that `ops-review` calls, as `scripts/check.py` does for this collection. Keep judgement and the trace in the skill.",
+  "status": "closed",
+  "closed_by": "i-ssi-check-concept-script",
+  "closed_note": "The mechanical half of ops-review runs in skills/ops-review/scripts/check_concept.py.",
   "first_at": "skills/ops-review/SKILL.md:47",
   "refs": [
    "ops-review",
@@ -2164,7 +2325,8 @@
    "c-golden_principles",
    "c-concept_structure",
    "a-11_build"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F42",
@@ -2206,12 +2368,16 @@
    }
   ],
   "recommendation": "Move the numeric thresholds to a table in `contracts/evaluator.md` and cite it at step 7.",
+  "status": "closed",
+  "closed_by": "i-ssi-contract-sections",
+  "closed_note": "Release thresholds are a table in contracts/evaluator.md § Release thresholds, cited at step 7.",
   "first_at": "skills/quality-release/SKILL.md:72",
   "refs": [
    "quality-release",
    "c-evaluator",
    "a-11_build"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F43",
@@ -2245,12 +2411,16 @@
    }
   ],
   "recommendation": "Write one sentence in `concept_structure.md` that names who owns tone and copy, or remove them from the `identity.md` line.",
+  "status": "closed",
+  "closed_by": "i-ssi-build-quality-joins",
+  "closed_note": "concept_structure.md names design-brand as owner of tone and copy.",
   "first_at": "contracts/concept_structure.md:47",
   "refs": [
    "design-brand",
    "c-concept_structure",
    "a-03_brand"
-  ]
+  ],
+  "open_reason": ""
  },
  {
   "id": "F44",
@@ -2278,10 +2448,14 @@
    }
   ],
   "recommendation": "Resolve through the `produces` list of F05: the router then compares one list per node against the tree.",
+  "status": "closed",
+  "closed_by": "i-ssi-router-produces",
+  "closed_note": "skaileup resolves the next node by comparing each node skill produces list with the tree.",
   "first_at": "skills/skaileup/SKILL.md:60",
   "refs": [
    "skaileup",
    "appbuilder-standard"
-  ]
+  ],
+  "open_reason": ""
  }
 ]

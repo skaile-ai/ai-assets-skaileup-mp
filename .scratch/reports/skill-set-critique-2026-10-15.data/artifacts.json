@@ -3,11 +3,10 @@
   "id": "a-brief",
   "path": "_concept/brief.md",
   "writers": [
-   "concept-brief",
-   "concept-reverse"
+   "concept-brief"
   ],
-  "writers_n": 2,
-  "multi_writer": true,
+  "writers_n": 1,
+  "multi_writer": false,
   "readers": [
    "architecture-datamodel",
    "architecture-system",
@@ -15,8 +14,8 @@
    "build-branch",
    "build-scaffold",
    "concept-brief",
+   "concept-glossary",
    "concept-research",
-   "concept-reverse",
    "design-brand",
    "experience-behaviors",
    "experience-journeys",
@@ -34,38 +33,39 @@
   "id": "a-goals",
   "path": "_concept/goals.md",
   "writers": [
-   "concept-brief",
-   "concept-reverse"
+   "concept-brief"
   ],
-  "writers_n": 2,
-  "multi_writer": true,
+  "writers_n": 1,
+  "multi_writer": false,
   "readers": [
    "concept-brief",
    "concept-research",
-   "concept-reverse",
    "experience-journeys",
    "quality-release",
    "spec-featuresets"
   ],
-  "readers_n": 6,
+  "readers_n": 5,
   "editor_form": "prose (TipTap)",
   "kind": "artifact"
  },
  {
-  "id": "a-comparable",
-  "path": "_concept/comparable.md",
+  "id": "a-glossary",
+  "path": "_concept/glossary.md",
   "writers": [
-   "concept-brief",
-   "concept-reverse"
+   "concept-glossary"
   ],
-  "writers_n": 2,
-  "multi_writer": true,
+  "writers_n": 1,
+  "multi_writer": false,
   "readers": [
+   "architecture-datamodel",
    "concept-brief",
-   "concept-research",
-   "concept-reverse"
+   "concept-glossary",
+   "experience-behaviors",
+   "experience-journeys",
+   "spec-feature",
+   "spec-featuresets"
   ],
-  "readers_n": 3,
+  "readers_n": 7,
   "editor_form": "prose (TipTap)",
   "kind": "artifact"
  },
@@ -80,6 +80,7 @@
   "readers": [
    "architecture-techstack",
    "concept-brief",
+   "concept-glossary",
    "concept-onboard",
    "concept-reverse",
    "concept-scope",
@@ -88,7 +89,7 @@
    "skaileup",
    "spec-feature"
   ],
-  "readers_n": 9,
+  "readers_n": 10,
   "editor_form": "code editor",
   "kind": "artifact"
  },
@@ -99,25 +100,30 @@
    "concept-onboard",
    "concept-research",
    "concept-reverse",
+   "design-brand",
    "quality-standards"
   ],
-  "writers_n": 4,
+  "writers_n": 5,
   "multi_writer": true,
   "readers": [
    "architecture-techstack",
+   "build-implement",
+   "build-plan",
    "concept-brief",
+   "concept-glossary",
    "concept-onboard",
    "concept-research",
    "concept-reverse",
    "design-brand",
    "experience-behaviors",
    "experience-journeys",
+   "experience-shell",
    "mockup-walkthrough",
    "quality-review",
    "quality-standards",
    "spec-featuresets"
   ],
-  "readers_n": 12,
+  "readers_n": 16,
   "editor_form": "mixed",
   "kind": "artifact"
  },
@@ -125,15 +131,13 @@
   "id": "a-03_brand",
   "path": "_concept/03_brand",
   "writers": [
-   "concept-reverse",
    "design-brand"
   ],
-  "writers_n": 2,
-  "multi_writer": true,
+  "writers_n": 1,
+  "multi_writer": false,
   "readers": [
    "build-scaffold",
    "concept-research",
-   "concept-reverse",
    "design-brand",
    "experience-shell",
    "mockup-storybook",
@@ -141,7 +145,7 @@
    "ops-review",
    "quality-release"
   ],
-  "readers_n": 9,
+  "readers_n": 8,
   "editor_form": "mixed",
   "kind": "artifact"
  },
@@ -155,6 +159,7 @@
   "multi_writer": false,
   "readers": [
    "architecture-datamodel",
+   "experience-behaviors",
    "experience-journeys",
    "experience-shell",
    "mockup-feedback",
@@ -165,7 +170,7 @@
    "spec-feature",
    "spec-featuresets"
   ],
-  "readers_n": 10,
+  "readers_n": 11,
   "editor_form": "code editor",
   "kind": "artifact"
  },
@@ -173,16 +178,13 @@
   "id": "a-05_features",
   "path": "_concept/05_features",
   "writers": [
-   "architecture-datamodel",
-   "build-implement",
    "mockup-feedback",
    "spec-feature",
    "spec-featuresets"
   ],
-  "writers_n": 5,
+  "writers_n": 3,
   "multi_writer": true,
   "readers": [
-   "architecture-datamodel",
    "architecture-system",
    "architecture-techstack",
    "build-implement",
@@ -193,6 +195,7 @@
    "mockup-walkthrough",
    "ops-review",
    "quality-e2e",
+   "quality-release",
    "quality-review",
    "quality-test",
    "spec-feature",
@@ -211,11 +214,10 @@
   "writers_n": 1,
   "multi_writer": false,
   "readers": [
-   "architecture-datamodel",
    "architecture-system",
    "experience-behaviors"
   ],
-  "readers_n": 3,
+  "readers_n": 2,
   "editor_form": "prose (TipTap)",
   "kind": "artifact"
  },
@@ -236,11 +238,10 @@
    "experience-shell",
    "mockup-storybook",
    "mockup-walkthrough",
-   "ops-review",
    "quality-e2e",
    "spec-feature"
   ],
-  "readers_n": 9,
+  "readers_n": 8,
   "editor_form": "prose (TipTap)",
   "kind": "artifact"
  },
@@ -288,11 +289,9 @@
    "architecture-datamodel",
    "architecture-system",
    "architecture-techstack",
-   "concept-brief",
-   "concept-reverse",
    "spec-feature"
   ],
-  "writers_n": 6,
+  "writers_n": 4,
   "multi_writer": true,
   "readers": [
    "architecture-datamodel",
@@ -301,13 +300,13 @@
    "build-database",
    "build-plan",
    "build-scaffold",
-   "concept-brief",
-   "concept-reverse",
+   "experience-behaviors",
    "mockup-storybook",
    "ops-review",
    "quality-e2e",
    "quality-test",
-   "spec-feature"
+   "spec-feature",
+   "spec-featuresets"
   ],
   "readers_n": 13,
   "editor_form": "mixed",
@@ -319,12 +318,11 @@
   "writers": [
    "build-implement",
    "build-plan",
-   "ops-review",
    "quality-e2e",
    "quality-release",
    "quality-review"
   ],
-  "writers_n": 6,
+  "writers_n": 5,
   "multi_writer": true,
   "readers": [
    "build-branch",

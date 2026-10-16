@@ -6,9 +6,12 @@ Writes .scratch/reports/skill-set-critique-2026-10-15.data/<collection>.json (JS
 
 Everything is read from files except two hand-held inputs, and both are asserted:
   * WRITES   - the writer map (skill -> _concept path), each row cites the line that says so
-  * findings - every *.json in skill-set-critique-2026-10-15.findings/, each evidence row cited
+  * findings - every *.json in skill-set-critique-2026-10-15.findings/, each evidence row cited;
+               a finding with `status: "closed"` (+ `closed_by`: the i-ssi ticket) is carried
+               through but its evidence is not validated: the quoted problem text is gone
 A citation is `path:N` or `path:A-B` whose lines must contain `quote` verbatim. Any failure
-aborts the run before a single output file is written.
+aborts the run before a single output file is written. The writer map is also cross-checked
+against every skill's `metadata.artifacts.produces`; disagreements are printed, not fatal.
 """
 from __future__ import annotations
 
@@ -28,12 +31,13 @@ FINDINGS_DIR = ROOT / ".scratch/reports/skill-set-critique-2026-10-15.findings"
 STAGES = ["concept", "design", "experience", "spec", "mockup", "architecture", "build", "quality", "ops", "collection"]
 SEVS = ["critical", "high", "medium", "low"]
 LENSES = ["dup", "alt", "order", "disk", "wayfinding"]
+STATUSES = ["open", "closed"]
 
-# artifact targets: id -> path (11 first-level folders + three root files)
+# artifact targets: id -> path (11 first-level folders + three root files: brief, goals, glossary)
 ARTIFACTS = [
     ("a-brief", "_concept/brief.md"),
     ("a-goals", "_concept/goals.md"),
-    ("a-comparable", "_concept/comparable.md"),
+    ("a-glossary", "_concept/glossary.md"),
     ("a-01_meta", "_concept/01_meta"),
     ("a-02_grounding", "_concept/02_grounding"),
     ("a-03_brand", "_concept/03_brand"),
@@ -49,59 +53,52 @@ ARTIFACTS = [
 
 # The writer map: (skill, path, at, quote). `at` is the SKILL.md line that states the write;
 # `quote` is a verbatim substring of that line. path None = writes nothing under _concept/.
+# It is the body-cited cross-check of each skill's frontmatter `metadata.artifacts.produces`.
 WRITES: list[tuple[str, str | None, str, str]] = [
-    ("concept-scope", "_concept/01_meta/scope.yaml", "skills/concept-scope/SKILL.md:63", "write `01_meta/scope.yaml`"),
-    ("concept-onboard", "_concept/02_grounding/onboarding/", "skills/concept-onboard/SKILL.md:24", "Fills `02_grounding/onboarding/`"),
-    ("concept-brief", "_concept/brief.md", "skills/concept-brief/SKILL.md:47", "Write `brief.md`"),
-    ("concept-brief", "_concept/goals.md", "skills/concept-brief/SKILL.md:49", "in `goals.md`"),
-    ("concept-brief", "_concept/comparable.md", "skills/concept-brief/SKILL.md:56", "in `comparable.md`"),
-    ("concept-brief", "_concept/10_blueprint/glossary.md", "skills/concept-brief/SKILL.md:67", "10_blueprint/glossary.md"),
-    ("concept-research", "_concept/02_grounding/research/", "skills/concept-research/SKILL.md:20", "Fills `02_grounding/research/`"),
-    ("concept-research", "_concept/02_grounding/findings/", "skills/concept-research/SKILL.md:21", "`02_grounding/findings/` with the raw material"),
-    ("concept-reverse", "_concept/brief.md", "skills/concept-reverse/SKILL.md:53", "`brief.md` takes the pitch"),
-    ("concept-reverse", "_concept/goals.md", "skills/concept-reverse/SKILL.md:53", "`goals.md`"),
-    ("concept-reverse", "_concept/comparable.md", "skills/concept-reverse/SKILL.md:54", "`comparable.md` takes the products"),
-    ("concept-reverse", "_concept/10_blueprint/techstack.md", "skills/concept-reverse/SKILL.md:59", "`10_blueprint/techstack.md`"),
-    ("concept-reverse", "_concept/03_brand/identity.md", "skills/concept-reverse/SKILL.md:62", "write `03_brand/identity.md`"),
-    ("concept-reverse", "_concept/03_brand/tokens.json", "skills/concept-reverse/SKILL.md:63", "`03_brand/tokens.json`"),
-    ("concept-reverse", "_concept/02_grounding/findings/", "skills/concept-reverse/SKILL.md:69", "`02_grounding/findings/routes.md`"),
-    ("design-brand", "_concept/03_brand/", "skills/design-brand/SKILL.md:24", "Writes `03_brand/`"),
-    ("experience-journeys", "_concept/04_journeys/stories.yaml", "skills/experience-journeys/SKILL.md:62", "**Write `04_journeys/stories.yaml`**"),
-    ("spec-featuresets", "_concept/05_features/featuresets.md", "skills/spec-featuresets/SKILL.md:60", "**Write `05_features/featuresets.md`.**"),
-    ("experience-behaviors", "_concept/06_behaviors/", "skills/experience-behaviors/SKILL.md:20", "Writes `06_behaviors/<featureset>.md`"),
-    ("experience-shell", "_concept/07_screens/shell.md", "skills/experience-shell/SKILL.md:24", "Writes exactly one file: `07_screens/shell.md`"),
-    ("spec-feature", "_concept/05_features/", "skills/spec-feature/SKILL.md:77", "**Write the feature spec** to `05_features/<featureset>/<feature_slug>.md`"),
-    ("spec-feature", "_concept/07_screens/", "skills/spec-feature/SKILL.md:83", "`07_screens/<feature_slug>/<screen>.md`"),
-    ("spec-feature", "_concept/08_dossiers/", "skills/spec-feature/SKILL.md:100", "Write `08_dossiers/<feature_slug>/index.md`"),
-    ("spec-feature", "_concept/10_blueprint/glossary.md", "skills/spec-feature/SKILL.md:65", "goes into `10_blueprint/glossary.md`"),
-    ("spec-feature", "_concept/10_blueprint/decisions.md", "skills/spec-feature/SKILL.md:66", "appends to `10_blueprint/decisions.md`"),
-    ("mockup-walkthrough", "_concept/09_mockup/walkthrough/", "skills/mockup-walkthrough/SKILL.md:25", "`_concept/09_mockup/walkthrough/<renderer>/`"),
-    ("mockup-storybook", "_concept/09_mockup/storybook/", "skills/mockup-storybook/SKILL.md:23", "`_concept/09_mockup/storybook/`"),
-    ("mockup-annotate", "_concept/09_mockup/feedback/sessions/", "skills/mockup-annotate/SKILL.md:55", "create `sessions/`"),
-    ("mockup-feedback", "_concept/09_mockup/feedback/", "skills/mockup-feedback/SKILL.md:95", "writes `applied/<sid>.json`"),
-    ("mockup-feedback", "_concept/07_screens/", "skills/mockup-feedback/SKILL.md:18", "edited screen specs"),
-    ("mockup-feedback", "_concept/05_features/", "skills/mockup-feedback/SKILL.md:59", "one target file"),
-    ("architecture-techstack", "_concept/10_blueprint/techstack.md", "skills/architecture-techstack/SKILL.md:80", "`10_blueprint/techstack.md`"),
-    ("architecture-system", "_concept/10_blueprint/architecture.md", "skills/architecture-system/SKILL.md:65", "**Write `10_blueprint/architecture.md`.**"),
-    ("architecture-datamodel", "_concept/10_blueprint/datamodel/", "skills/architecture-datamodel/SKILL.md:91", "under `10_blueprint/datamodel/`"),
-    ("architecture-datamodel", "_concept/10_blueprint/glossary.md", "skills/architecture-datamodel/SKILL.md:74", "**Pin the vocabulary in `10_blueprint/glossary.md`**"),
-    ("architecture-datamodel", "_concept/05_features/", "skills/architecture-datamodel/SKILL.md:82", "**Register the entities back into the features**"),
-    ("build-plan", "_concept/11_build/slices/", "skills/build-plan/SKILL.md:72", "`11_build/slices/<slice_id>/plan.md`"),
-    ("build-plan", "_concept/11_build/acceptance-criteria/", "skills/build-plan/SKILL.md:82", "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`"),
-    ("build-implement", "_concept/11_build/slices/", "skills/build-implement/SKILL.md:68", "`11_build/slices/<slice_id>/index.md`"),
-    ("build-implement", "_concept/11_build/acceptance-criteria/", "skills/build-implement/SKILL.md:51", "flip the ledger at `11_build/acceptance-criteria/"),
-    ("build-implement", "_concept/05_features/", "skills/build-implement/SKILL.md:69", "Then patch the feature spec's"),
-    ("quality-e2e", "_concept/11_build/acceptance-criteria/", "skills/quality-e2e/SKILL.md:60", "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`"),
-    ("quality-review", "_concept/11_build/reviews/", "skills/quality-review/SKILL.md:64", "`11_build/reviews/<feature_slug>.yaml`"),
-    ("ops-review", "_concept/11_build/trace.yaml", "skills/ops-review/SKILL.md:102", "`11_build/trace.yaml`"),
-    ("quality-release", "_concept/11_build/release.yaml", "skills/quality-release/SKILL.md:68", "`11_build/release.yaml`"),
-    ("quality-standards", "_concept/02_grounding/standards/", "skills/quality-standards/SKILL.md:26", "`02_grounding/standards/<domain>/<convention>.md`"),
+    ("concept-scope", "_concept/01_meta/scope.yaml", "skills/concept-scope/SKILL.md:67", "write `01_meta/scope.yaml`"),
+    ("concept-onboard", "_concept/02_grounding/onboarding/", "skills/concept-onboard/SKILL.md:27", "Fills `02_grounding/onboarding/`"),
+    ("concept-brief", "_concept/brief.md", "skills/concept-brief/SKILL.md:57", "Write `brief.md`"),
+    ("concept-brief", "_concept/goals.md", "skills/concept-brief/SKILL.md:59", "in `goals.md`"),
+    ("concept-glossary", "_concept/glossary.md", "skills/concept-glossary/SKILL.md:56", "Write `glossary.md`."),
+    ("concept-research", "_concept/02_grounding/research/", "skills/concept-research/SKILL.md:31", "Fills `02_grounding/research/`"),
+    ("concept-research", "_concept/02_grounding/findings/", "skills/concept-research/SKILL.md:32", "`02_grounding/findings/` with the raw material"),
+    ("concept-reverse", "_concept/02_grounding/findings/", "skills/concept-reverse/SKILL.md:55", "Write the six findings into `02_grounding/findings/`"),
+    ("design-brand", "_concept/03_brand/", "skills/design-brand/SKILL.md:31", "Writes `03_brand/`"),
+    ("design-brand", "_concept/02_grounding/findings/", "skills/design-brand/SKILL.md:32", "go to `02_grounding/findings/`"),
+    ("experience-journeys", "_concept/04_journeys/stories.yaml", "skills/experience-journeys/SKILL.md:73", "**Write `04_journeys/stories.yaml`**"),
+    ("spec-featuresets", "_concept/05_features/featuresets.md", "skills/spec-featuresets/SKILL.md:71", "**Write `05_features/featuresets.md`.**"),
+    ("experience-behaviors", "_concept/06_behaviors/", "skills/experience-behaviors/SKILL.md:52-53", "`06_behaviors/<featureset>.md`"),
+    ("experience-shell", "_concept/07_screens/shell.md", "skills/experience-shell/SKILL.md:30", "Writes exactly one file: `07_screens/shell.md`"),
+    ("spec-feature", "_concept/05_features/", "skills/spec-feature/SKILL.md:92-95", "**Write the feature spec** to `05_features/<featureset>/<feature_slug>.md`"),
+    ("spec-feature", "_concept/07_screens/", "skills/spec-feature/SKILL.md:109-113", "`07_screens/<feature_slug>/<screen>.md`"),
+    ("spec-feature", "_concept/08_dossiers/", "skills/spec-feature/SKILL.md:68-71", "write `08_dossiers/<feature_slug>/index.md`"),
+    ("spec-feature", "_concept/10_blueprint/decisions.md", "skills/spec-feature/SKILL.md:80-83", "`10_blueprint/decisions.md`, cheap now"),
+    ("mockup-walkthrough", "_concept/09_mockup/walkthrough/", "skills/mockup-walkthrough/SKILL.md:27", "`_concept/09_mockup/walkthrough/<renderer>/`"),
+    ("mockup-storybook", "_concept/09_mockup/storybook/", "skills/mockup-storybook/SKILL.md:31", "`_concept/09_mockup/storybook/`"),
+    ("mockup-annotate", "_concept/09_mockup/feedback/sessions/", "skills/mockup-annotate/SKILL.md:57", "create `sessions/`"),
+    ("mockup-feedback", "_concept/09_mockup/feedback/", "skills/mockup-feedback/SKILL.md:101", "writes `applied/<sid>.json`"),
+    ("mockup-feedback", "_concept/07_screens/", "skills/mockup-feedback/SKILL.md:22", "edited screen specs"),
+    ("mockup-feedback", "_concept/05_features/", "skills/mockup-feedback/SKILL.md:66", "one target file"),
+    ("architecture-techstack", "_concept/10_blueprint/techstack.md", "skills/architecture-techstack/SKILL.md:99", "`10_blueprint/techstack.md` exists"),
+    ("architecture-system", "_concept/10_blueprint/architecture.md", "skills/architecture-system/SKILL.md:67", "**Write `10_blueprint/architecture.md`.**"),
+    ("architecture-datamodel", "_concept/10_blueprint/datamodel/", "skills/architecture-datamodel/SKILL.md:26-27", "under `10_blueprint/datamodel/`"),
+    ("build-plan", "_concept/11_build/slices/", "skills/build-plan/SKILL.md:86", "`11_build/slices/<slice_id>/plan.md`"),
+    ("build-plan", "_concept/11_build/acceptance-criteria/", "skills/build-plan/SKILL.md:98", "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`"),
+    ("build-implement", "_concept/11_build/slices/", "skills/build-implement/SKILL.md:93", "`11_build/slices/<slice_id>/index.md`"),
+    ("build-implement", "_concept/11_build/acceptance-criteria/", "skills/build-implement/SKILL.md:80", "update the ledger at `11_build/acceptance-criteria/"),
+    ("build-implement", "_concept/11_build/trace.yaml", "skills/build-implement/SKILL.md:75", "write the slice into `11_build/trace.yaml`"),
+    ("quality-e2e", "_concept/11_build/acceptance-criteria/", "skills/quality-e2e/SKILL.md:53", "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`"),
+    ("quality-review", "_concept/11_build/acceptance-criteria/", "skills/quality-review/SKILL.md:62", "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`"),
+    ("quality-review", "_concept/11_build/reviews/", "skills/quality-review/SKILL.md:73", "to `11_build/reviews/<feature_slug>.yaml`"),
+    ("quality-release", "_concept/11_build/release.yaml", "skills/quality-release/SKILL.md:74", "to `11_build/release.yaml`"),
+    ("quality-standards", "_concept/02_grounding/standards/", "skills/quality-standards/SKILL.md:30", "`02_grounding/standards/<domain>/<convention>.md`"),
     # no _concept target: the line shows what the skill produces instead
-    ("build-scaffold", None, "skills/build-scaffold/SKILL.md:88", "the app builds and runs"),
-    ("build-database", None, "skills/build-database/SKILL.md:82", "the migration has applied"),
-    ("build-branch", None, "skills/build-branch/SKILL.md:58", "the branch exists and is checked out"),
-    ("quality-test", None, "skills/quality-test/SKILL.md:83", "has a test file at the levels"),
-    ("skaileup", None, "skills/skaileup/SKILL.md:12", "It writes"),
+    ("ops-review", None, "skills/ops-review/SKILL.md:33", "never written to disk"),
+    ("build-scaffold", None, "skills/build-scaffold/SKILL.md:89", "the app builds and runs"),
+    ("build-database", None, "skills/build-database/SKILL.md:85", "the migration has applied"),
+    ("build-branch", None, "skills/build-branch/SKILL.md:62", "the branch exists and is checked out"),
+    ("quality-test", None, "skills/quality-test/SKILL.md:84", "has a test file at the levels"),
+    ("skaileup", None, "skills/skaileup/SKILL.md:14", "It writes"),
 ]
 
 FRONTMATTER_RE = re.compile(r"\A---\n(.*?)\n---\n", re.DOTALL)
@@ -304,6 +301,11 @@ def load_skills(contract_stems: set[str]) -> list[dict]:
         fm, body = split_frontmatter(text)
         meta = fm.get("metadata") if isinstance(fm.get("metadata"), dict) else {}
         arts = (meta.get("artifacts") or {}).get("requires") or []
+        produces = [
+            {"id": p.get("id"), "path": p.get("path")}
+            for p in ((meta.get("artifacts") or {}).get("produces") or [])
+            if isinstance(p, dict)
+        ]
         prereq = meta.get("prerequisites") or {}
         lines = text.split("\n")
         prereqs = []
@@ -346,6 +348,7 @@ def load_skills(contract_stems: set[str]) -> list[dict]:
             "steps": len(STEP_RE.findall(body)),
             "description": fm.get("description", ""),
             "requires": [a.get("id") for a in arts if isinstance(a, dict)],
+            "produces": produces,
             "prereqs": prereqs,
             "hard_n": sum(1 for p in prereqs if p["gate"] == "hard"),
             "soft_n": sum(1 for p in prereqs if p["gate"] != "hard"),
@@ -437,6 +440,22 @@ def main() -> int:
     artifact_ids = {a for a, _ in ARTIFACTS}
 
     by_skill = {s["id"]: s for s in skills}
+
+    # ---- writer map vs the skills' own `produces` ------------------------------
+    # WRITES is the independent, body-cited check of the frontmatter; the two must cover each other.
+    produces_gaps: list[str] = []
+    for s in skills:
+        wpaths = sorted({w["path"] for w in writes if w["skill"] == s["id"] and w["path"]})
+        ppaths = [p["path"] for p in s["produces"]]
+        for wp in wpaths:
+            if not any(paths_overlap(wp, pp) for pp in ppaths):
+                produces_gaps.append(f"{s['id']}: WRITES row {wp} is covered by no `produces` path")
+        for pp in ppaths:
+            if not any(paths_overlap(wp, pp) for wp in wpaths):
+                produces_gaps.append(f"{s['id']}: `produces` path {pp} has no WRITES row")
+    for w in writes:
+        sk = by_skill.get(w["skill"])
+        w["in_produces"] = bool(w["path"] and sk and any(paths_overlap(w["path"], p["path"]) for p in sk["produces"]))
     for f in flows:
         phases = f.pop("_phases")
         for sk in f["order"]:
@@ -567,10 +586,19 @@ def main() -> int:
             for v in row.get(key) or []:
                 if v not in known:
                     failures.append(f"[findings] {tag}: {key} entry {v!r} does not exist")
+        status = row.get("status", "open")
+        if status not in STATUSES:
+            failures.append(f"[findings] {tag}: status {status!r} not in {STATUSES}")
+        if status == "closed" and not re.fullmatch(r"i-ssi-[a-z0-9-]+", str(row.get("closed_by", ""))):
+            failures.append(f"[findings] {tag}: a closed finding needs `closed_by`: an i-ssi-<ticket> id")
+        if status == "open" and row.get("closed_by"):
+            failures.append(f"[findings] {tag}: an open finding carries `closed_by`")
         ev = row.get("evidence")
         if not isinstance(ev, list) or not ev:
             failures.append(f"[findings] {tag}: evidence must be a non-empty array")
             continue
+        if status == "closed":
+            continue  # the quoted problem text is gone or changed: that is what closed means
         for k, e in enumerate(ev):
             if not isinstance(e, dict):
                 failures.append(f"[findings] {tag}: evidence[{k}] is not an object")
@@ -591,6 +619,10 @@ def main() -> int:
         row.pop("_file", None)
         row["first_at"] = row["evidence"][0]["at"]
         row["refs"] = list(dict.fromkeys(list(row["skills"]) + list(row["contracts"]) + list(row["flows"]) + list(row["artifacts"])))
+        row["status"] = row.get("status", "open")
+        row["closed_by"] = row.get("closed_by", "")
+        row["closed_note"] = row.get("closed_note", "")
+        row["open_reason"] = row.get("open_reason", "")
     for s in skills:
         named = [f["id"] for f in findings if s["id"] in f["skills"]]
         s["findings"] = named
@@ -608,6 +640,7 @@ def main() -> int:
             "skills_n": len(in_stage),
             "lines": sum(s["lines"] for s in in_stage),
             "findings_n": sum(1 for f in findings if f["stage"] == f"s-{dom}"),
+            "open_n": sum(1 for f in findings if f["stage"] == f"s-{dom}" and f["status"] == "open"),
         })
 
     # ---- freshness input: read BEFORE writing ----------------------------
@@ -622,6 +655,8 @@ def main() -> int:
     sources += [p for p in FINDINGS_DIR.glob("*.json")]
     cited: set[Path] = set()
     for row in findings:
+        if row["status"] == "closed":
+            continue  # a closed finding's evidence is not validated, so it is not a freshness source
         for e in row["evidence"]:
             m = CITE_RE.match(e["at"])
             p = Path(m.group(1))
@@ -641,13 +676,20 @@ def main() -> int:
 
     hard = sum(1 for g in gates if g["gate"] == "hard")
     unmet = sum(1 for g in gates if g["unmet_hard"])
+    closed = sum(1 for f in findings if f["status"] == "closed")
     print(
         f"skills {len(skills)} · contracts {len(contracts)} · flows {len(flows)} · "
         f"gates {len(gates)} (hard {hard}, unmet hard {unmet}) · artifacts {len(artifacts)} · "
-        f"writes {len(writes)} · findings {len(findings)} · stages {len(stages)}"
+        f"writes {len(writes)} · findings {len(findings)} (closed {closed}, open {len(findings) - closed}) · stages {len(stages)}"
     )
-    print("severity: " + ", ".join(f"{s} {sum(1 for f in findings if f['sev'] == s)}" for s in SEVS))
-    print("lens: " + ", ".join(f"{l} {sum(1 for f in findings if f['lens'] == l)}" for l in LENSES))
+    print("severity (open): " + ", ".join(f"{s} {sum(1 for f in findings if f['sev'] == s and f['status'] == 'open')}" for s in SEVS))
+    print("lens (open): " + ", ".join(f"{l} {sum(1 for f in findings if f['lens'] == l and f['status'] == 'open')}" for l in LENSES))
+    for f in findings:
+        if f["status"] == "open":
+            print(f"open: {f['id']} {f['title']}")
+    print(f"writes vs produces: {len(produces_gaps)} disagreement(s)")
+    for msg in produces_gaps:
+        print("disagreement: " + msg)
     for w in warnings:
         print("warning: " + w)
 

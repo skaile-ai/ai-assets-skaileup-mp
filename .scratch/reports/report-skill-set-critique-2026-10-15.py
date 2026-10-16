@@ -137,11 +137,25 @@ def finding_refs(f):
 
 # -- counts from the data --------------------------------------------------------------------
 n_find = len(findings)
+n_closed = sum(1 for f in findings if f["status"] == "closed")
+n_open = n_find - n_closed
 sev_n = Counter(f["sev"] for f in findings)
+sev_open = Counter(f["sev"] for f in findings if f["status"] == "open")
 lens_n = Counter(f["lens"] for f in findings)
+lens_open = Counter(f["lens"] for f in findings if f["status"] == "open")
 lens_hi = Counter(f["lens"] for f in findings if f["sev"] in ("critical", "high"))
 stage_n = Counter(f["stage"] for f in findings)
+stage_open = Counter(f["stage"] for f in findings if f["status"] == "open")
 skill_findings = {sid: [f["id"] for f in findings if sid in f.get("skills", [])] for sid in skill_ids}
+by_finding = {f["id"]: f for f in findings}
+
+
+def fstat(fid):
+    """Plain-text status of a finding for prose: `closed by <ticket>` or `open`."""
+    f = by_finding[fid]
+    return f"closed by `{f['closed_by']}`" if f["status"] == "closed" else "open"
+
+
 n_stage_with = sum(1 for s in stage_ids if stage_n[s])
 for s in stage_ids:
     if not stage_n[s]:
@@ -167,6 +181,9 @@ badges = {
         "order": {"color": "blue", "desc": "hierarchy / sequence"},
         "disk": {"color": "pink", "desc": "not persisted or not editor-visible"},
         "wayfinding": {"color": "brown", "desc": "reads before acting"}}},
+    "status": {"label": "Status", "shape": "round", "filter": "any", "values": {
+        "open": {"color": "red", "desc": "the quoted problem still resolves"},
+        "closed": {"color": "green", "desc": "an SSI ticket removed or changed the quoted text"}}},
 }
 
 # -- entities --------------------------------------------------------------------------------
@@ -177,8 +194,8 @@ for i, sid in enumerate(stage_ids, 1):
                      "meta": [plural(r["skills_n"], "skill"), f"{r['lines']} lines"]})
 for n, f in enumerate(findings, 1):
     entities.append({"id": f["id"], "parent": f["stage"], "order": n, "title": f["title"], "label": f["id"],
-                     "badges": {"sev": [f["sev"]], "lens": [f["lens"]]},
-                     "meta": [code_at(f["first_at"])],
+                     "badges": {"sev": [f["sev"]], "lens": [f["lens"]], "status": [f["status"]]},
+                     "meta": [f"closed by `{f['closed_by']}`" if f["status"] == "closed" else code_at(f["first_at"])],
                      "refs": finding_refs(f)})
 for s in skills:
     refs = [c if c.startswith("c-") else cid_of(c.replace("contracts/", "").replace(".md", "")) for c in s["contracts"]]
@@ -201,7 +218,9 @@ stats = [
     ["Contracts", {"count": "contracts"}],
     ["Flows", {"count": "flows"}],
     ["Findings", {"count": "findings"}],
-    ["Critical", {"count": "findings", "where": {"sev": "critical"}}],
+    ["Closed findings", {"count": "findings", "where": {"status": "closed"}}],
+    ["Open findings", {"count": "findings", "where": {"status": "open"}}],
+    ["Open critical", {"count": "findings", "where": {"sev": "critical", "status": "open"}}],
     ["Unmet hard gates", {"count": "gates", "where": {"unmet_hard": True}}],
     ["Multi-writer artifacts", {"count": "artifacts", "where": {"multi_writer": True}}],
 ]
@@ -212,17 +231,19 @@ if STANDARD not in by_flow:
 std = by_flow[STANDARD]
 broken_flows = len(unmet_by_flow)
 verdict = " ".join([
-    "The collection has the right skills in the wrong order.",
-    f"The domain vocabulary gets its final form last ({link('F08')}, {link('F30')}), and the data model comes after every feature and screen ({link('F17')}).",
-    f"In {broken_flows} of {len(flows)} flows, a hard gate has no upstream node that satisfies it ({link('F01')}, {link('F02')}, {link('F03')}), and `check.py` does not look ({link('F04')}).",
-    f"The editor cannot tell a finished node from the files, because no skill declares what it produces ({link('F05')}).",
-    f"The reasons behind artifacts and the approvals stay in chat ({link('F13')}, {link('F23')}).",
-    f"The review holds {n_find} findings: {sev_n['critical']} critical, {sev_n['high']} high, {sev_n['medium']} medium, {sev_n['low']} low.",
+    f"Status: {n_closed} of {n_find} findings are closed by the SSI tickets; {n_open} stay open.",
+    "The review found the right skills in the wrong order.",
+    f"The domain vocabulary got its final form last ({link('F08')}, {link('F30')}: {fstat('F08')}), and the data model came after every feature and screen ({link('F17')}: {fstat('F17')}).",
+    f"Hard gates had no upstream node in the flows named by {link('F01')}, {link('F02')} and {link('F03')}, and `check.py` did not look ({link('F04')}); the dump now counts {len(unmet)} unmet hard gates in {len(flows)} flows.",
+    f"The editor could not tell a finished node from the files, because no skill declared what it produces ({link('F05')}: {fstat('F05')}).",
+    f"The reasons behind artifacts and the approvals stayed in chat ({link('F13')}: {fstat('F13')}, {link('F23')}: {fstat('F23')}).",
+    f"The review held {n_find} findings: {sev_n['critical']} critical, {sev_n['high']} high, {sev_n['medium']} medium, {sev_n['low']} low; open now: "
+    f"{sev_open['critical']} critical, {sev_open['high']} high, {sev_open['medium']} medium, {sev_open['low']} low.",
 ])
 right = [
     f"The skills are flat: {len(skills)} skills in one directory level, and the longest ({link(longest['id'])}) has {longest['lines']} lines.",
     f"One artifact tree holds all {len(artifacts)} targets, from {link('a-brief')} to {link('a-11_build')}, so every skill writes to a known place.",
-    f"`scripts/check.py` is the single gate of the collection; its flow rule has one gap ({link('F04')}).",
+    f"`scripts/check.py` is the single gate of the collection; its flow rule now fails a hard gate with no upstream writer ({link('F04')}).",
     "The glossary format keeps an `_Avoid_` list per term, so a rejected word has a home.",
     "A decision enters `decisions.md` only after the three-test check.",
     f"Feature dossiers are frozen records of the reasons ({link('a-08_dossiers')}).",
@@ -249,9 +270,9 @@ for upstream, downstream in zip(dom_order, dom_order[1:]):
                        "at": f"flows/{STANDARD}/{STANDARD}.flow.yaml:{crossing['line']}"})
 pipeline_nodes = []
 for sid in stage_ids:
-    node = {"id": sid, "label": sid[2:], "ref": sid, "sub": plural(stage_n[sid], "finding")}
+    node = {"id": sid, "label": sid[2:], "ref": sid, "sub": f"{plural(stage_n[sid], 'finding')} · {stage_open[sid]} open"}
     if sid == "s-collection":
-        node.update({"shape": "external", "sub": f"{plural(stage_row[sid]['findings_n'], 'finding')} · flows, contracts, host"})
+        node.update({"shape": "external", "sub": f"{plural(stage_row[sid]['findings_n'], 'finding')} · {stage_open[sid]} open · flows, contracts, host"})
     pipeline_nodes.append(node)
 
 sev_rows = [{"id": f["id"], "sev": f["sev"]} for f in findings]
@@ -276,13 +297,15 @@ def bar_spec(field, rows, title, order, select=True):
 
 rows_findings = []
 for f in findings:
+    closed = f["status"] == "closed"
     rows_findings.append({
-        "id": f["id"], "title": f["title"], "sev": f["sev"], "lens": f["lens"],
+        "id": f["id"], "title": f["title"], "status": f["status"], "sev": f["sev"], "lens": f["lens"],
         "stage": {"ref": f["stage"], "text": f["stage"][2:]},
         "skills": {"refs": f["skills"]},
         "detail": f["detail"],
-        "evidence": code_at(f["first_at"]),
+        "evidence": (f"was {code_at(f['first_at'])}" if closed else code_at(f["first_at"])),
         "recommendation": f["recommendation"],
+        "resolution": (f"closed by `{f['closed_by']}`: {f['closed_note']}" if closed else f"open: {f['open_reason']}"),
     })
 
 sec_findings = {"title": "Findings", "sub": "toggle a badge, read the stages, filter the table", "blocks": [
@@ -299,11 +322,11 @@ sec_findings = {"title": "Findings", "sub": "toggle a badge, read the stages, fi
     {"type": "vega", "id": "lens-chart", "label": "Findings by lens", "entity": "id",
      "spec": bar_spec("lens", lens_rows, "Lens", [l for l, _ in lens_n.most_common()])},
     {"type": "data", "id": "findings", "label": "All findings", "key": "id", "page": 25,
-     "columns": [{"label": "ID", "key": "id"}, {"label": "Title", "key": "title"},
+     "columns": [{"label": "ID", "key": "id"}, {"label": "Title", "key": "title"}, {"label": "Status", "key": "status"},
                  {"label": "Severity", "key": "sev"}, {"label": "Lens", "key": "lens"},
                  {"label": "Stage", "key": "stage"}, {"label": "Skills", "key": "skills"},
                  {"label": "Detail", "key": "detail"}, {"label": "Evidence", "key": "evidence"},
-                 {"label": "Recommendation", "key": "recommendation"}],
+                 {"label": "Recommendation", "key": "recommendation"}, {"label": "Resolution", "key": "resolution"}],
      "rows": rows_findings,
      "listen": {"chart": "sev-chart", "param": "pick", "field": "sev"}},
 ]}
@@ -321,8 +344,8 @@ for g in sorted(gates, key=lambda g: (g["satisfied"], g["gate"] != "hard", g["fl
         "prereq_at": code_at(g["prereq_at"]),
     })
 sec_gates = {"title": "Where the flows break", "sub": "every prerequisite of every flow node", "blocks": [
-    {"type": "p", "text": f"{len(unmet)} of {n_hard} hard gates have no producer upstream in the flow that runs them. By flow: {per_flow}. "
-                          f"`scripts/check.py` has no rule for this ({link('F04')}). The producer is the nearest upstream skill whose declared write target covers the path."},
+    {"type": "p", "text": f"{len(unmet)} of {n_hard} hard gates have no producer upstream in the flow that runs them." + (f" By flow: {per_flow}." if per_flow else "") +
+                          f" `scripts/check.py` fails that case now ({link('F04')}, {fstat('F04')}). The producer is the nearest upstream skill whose write target covers the path in the dump's writer map; that map is cross-checked against each skill's `produces` list."},
     {"type": "data", "id": "gates", "label": "Every prerequisite of every flow node", "page": 25,
      "columns": [{"label": "Flow", "key": "flow"}, {"label": "Pos", "key": "position", "type": "number"},
                  {"label": "Skill", "key": "skill"}, {"label": "Path", "key": "path"}, {"label": "Gate", "key": "gate"},
@@ -391,20 +414,20 @@ sec_map = {"title": "Who writes what", "sub": f"{plural(len(skills), 'skill')}, 
 
 # -- section 5: scorecard --------------------------------------------------------------------
 why = {
-    "dup": f"The same text sits in several skills, for example the one-question rule ({link('F14')}). No runtime effect.",
-    "alt": f"{lens_n['alt']} findings name a double home, among them permissions ({link('F19')}), EARS criteria ({link('F20')}) and mockups ({link('F26')}).",
-    "order": f"Gate cycle ({link('F17')}), glossary last ({link('F08')}), {broken_flows} broken flows ({link('F01')}).",
-    "disk": f"Artifacts land on disk; reasons and approvals do not ({link('F13')}). The editor cannot derive done ({link('F05')}).",
-    "wayfinding": f"{link(max_contracts['id'])} cites {max_contracts['contracts_n']} contracts; two contracts hold {elements_lines} lines ({link('F07')}).",
-    "planning fit": f"Features come before the model ({link('F17')}); no skill lists what it produces ({link('F05')}).",
+    "dup": f"The same text sat in several skills, for example the one-question rule ({link('F14')}, {fstat('F14')}). No runtime effect.",
+    "alt": f"{lens_n['alt']} findings named a double home, among them permissions ({link('F19')}), EARS criteria ({link('F20')}) and mockups ({link('F26')}); {lens_open['alt']} open.",
+    "order": f"Gate cycle ({link('F17')}), glossary last ({link('F08')}), unmet hard gates in the flows ({link('F01')}); the dump now counts {len(unmet)} unmet hard gates.",
+    "disk": f"Artifacts landed on disk; reasons and approvals did not ({link('F13')}, {fstat('F13')}). The editor cannot derive done until the host reads `produces` ({link('F05')}).",
+    "wayfinding": f"{link(max_contracts['id'])} cites {max_contracts['contracts_n']} contracts; two contracts hold {elements_lines} lines ({link('F07')}, {fstat('F07')}).",
+    "planning fit": f"Features came before the model ({link('F17')}, {fstat('F17')}); no skill listed what it produces ({link('F05')}, {fstat('F05')}).",
 }
 score_rows = []
 for lens in LENSES:
-    score_rows.append([{"badge": ["lens", lens]}, lens_n[lens], lens_hi[lens], RATINGS[lens], why[lens]])
-score_rows.append(["planning fit (all findings)", n_find, sum(lens_hi.values()), RATINGS["planning fit"], why["planning fit"]])
-sec_score = {"title": "Scorecard", "sub": "counts are measured, ratings are judged", "blocks": [
-    {"type": "p", "text": "The counts come from the dump. The ratings are the author's judgement: 10 is best, 0 is worst."},
-    {"type": "table", "columns": ["Lens", "Findings", "Critical+high", "Rating 0–10", "Why"], "numeric": [1, 2, 3], "rows": score_rows},
+    score_rows.append([{"badge": ["lens", lens]}, lens_n[lens], lens_open[lens], lens_hi[lens], RATINGS[lens], why[lens]])
+score_rows.append(["planning fit (all findings)", n_find, n_open, sum(lens_hi.values()), RATINGS["planning fit"], why["planning fit"]])
+sec_score = {"title": "Scorecard", "sub": "counts are measured, ratings are judged at review time", "blocks": [
+    {"type": "p", "text": "The counts come from the dump. The ratings are the author's judgement at review time: 10 is best, 0 is worst. They are not re-rated after the SSI tickets; the Open column shows what remains."},
+    {"type": "table", "columns": ["Lens", "Findings", "Open", "Critical+high", "Rating 0–10", "Why"], "numeric": [1, 2, 3, 4], "rows": score_rows},
 ]}
 
 # -- section 6: inventory --------------------------------------------------------------------
@@ -436,20 +459,20 @@ sec_inventory = {"title": "Inventory", "sub": "every skill, contract, flow and a
 
 # -- section 7: target shape -----------------------------------------------------------------
 proposal_steps = [
-    f"{link('concept-scope')} and {link('concept-onboard')}: `answers.json` is the one record of every answer ({link('F06')}, {link('F16')}).",
-    f"{link('concept-brief')}: `brief.md` and `goals.md`. {link('concept-reverse')} writes findings only ({link('F09')}).",
-    f"Domain language (new): `_concept/glossary.md`, first level, one writer. Every later skill reads it first ({link('F08')}, {link('F30')}).",
-    f"{link('concept-research')} runs alongside, before brand and journeys ({link('F12')}).",
-    f"{link('experience-journeys')}: stories use glossary terms and carry no `candidate_entities` ({link('F18')}).",
-    f"Data model: {link('architecture-datamodel')} moves ahead of the features (`10_blueprint/datamodel/`, conceptually `05_datamodel/`). It names entities from the glossary only, and `feature-map.json` goes ({link('F17')}, {link('F33')}).",
+    f"{link('concept-scope')} and {link('concept-onboard')}: `answers.json` is the one record of every answer; scope owns the defaults ({link('F06')}, {link('F15')}, {link('F16')}).",
+    f"{link('concept-research')} runs before the brief ({link('F12')}).",
+    f"{link('concept-brief')}: `brief.md` (with its comparables) and `goals.md`. {link('concept-reverse')} writes findings only ({link('F09')}, {link('F10')}).",
+    f"{link('concept-glossary')} (new): `_concept/glossary.md`, first level, one writer. Every later skill reads it first ({link('F08')}, {link('F30')}).",
+    f"{link('design-brand')}: identity, tone and tokens ({link('F43')}).",
+    f"{link('experience-journeys')}: stories use glossary terms and carry criterion ids ({link('F18')}, {link('F20')}).",
+    f"Data model: {link('architecture-datamodel')} runs ahead of the features from journeys and glossary; `feature-map.json` is gone ({link('F17')}, {link('F33')}).",
     f"{link('spec-featuresets')} and {link('experience-behaviors')} read the entities and never coin names ({link('F18')}, {link('F19')}).",
+    f"Feature loop with {link('spec-feature')}: spec and screens; the dossier opens at the grill ({link('F23')}).",
+    f"{link('experience-shell')} runs after the loop; navigation comes from real screens ({link('F25')}).",
     f"{link('architecture-techstack')} and {link('architecture-system')} run before any renderer ({link('F02')}, {link('F32')}).",
-    f"Feature loop with {link('spec-feature')}: spec and screens. The dossier opens at step 2 ({link('F23')}).",
-    f"{link('experience-shell')} runs after the loop. Navigation comes from real screens ({link('F25')}).",
-    f"{link('mockup-walkthrough')} is the one mockup renderer, then {link('mockup-annotate')} and {link('mockup-feedback')} ({link('F26')}).",
-    f"Build: {link('build-scaffold')}, {link('build-database')}, {link('build-plan')}, {link('build-implement')}.",
-    f"Quality: {link('quality-test')}, {link('quality-e2e')}, {link('quality-review')}.",
-    f"{link('ops-review')} and {link('quality-release')}. `trace.yaml` is the single trace ({link('F36')}).",
+    f"{link('mockup-walkthrough')} and {link('mockup-storybook')} (which reads the walkthrough manifest), then {link('mockup-annotate')} and {link('mockup-feedback')} ({link('F26')}, {link('F27')}).",
+    f"Build: {link('build-scaffold')}, {link('build-database')}, {link('quality-standards')}, {link('build-plan')}, {link('build-implement')} ({link('F40')}).",
+    f"Quality: {link('quality-test')}, {link('quality-e2e')}, {link('quality-review')}; then {link('ops-review')} and {link('quality-release')}. `trace.yaml` is the single trace ({link('F36')}).",
 ]
 
 PROSE = "prose (TipTap)"
@@ -465,7 +488,7 @@ def writers_of(*needles):
 OWNER_PROPOSALS = {
     "a-brief": (["concept-brief"], f"One owner. {link('concept-reverse')} stops writing it ({link('F09')})."),
     "a-goals": (["concept-brief"], f"One owner. {link('concept-reverse')} stops writing it ({link('F09')})."),
-    "a-comparable": (["concept-brief"], f"One file for competitor knowledge, shared with `research/competitors.md` ({link('F10')})."),
+    "a-glossary": (["concept-glossary"], f"One writer, right after the brief; brief, {link('spec-feature')} and {link('architecture-datamodel')} read it and never write it ({link('F08')})."),
     "a-01_meta": (["concept-scope"], "No change: one writer."),
     "a-02_grounding": (["concept-onboard", "concept-research", "quality-standards"],
                        f"One owner per subfolder: `onboarding/`, `research/` and `findings/`, `standards/`. Screenshots live in `findings/` only ({link('F11')})."),
@@ -475,10 +498,10 @@ OWNER_PROPOSALS = {
     "a-06_behaviors": (["experience-behaviors"], f"Permissions move to the feature spec ({link('F19')})."),
     "a-07_screens": (["spec-feature"], f"Shell runs after the loop ({link('F25')}). Feedback patches through the contract ({link('F28')})."),
     "a-08_dossiers": (["spec-feature"], f"Open at step 2, append per step ({link('F23')})."),
-    "a-09_mockup": (["mockup-walkthrough"], f"One renderer ({link('F26')}); one annotation schema ({link('F27')})."),
+    "a-09_mockup": (["mockup-walkthrough"], f"Both renderers kept; {link('mockup-storybook')} reads the walkthrough manifest ({link('F26')}); one annotation schema ({link('F27')})."),
     "a-10_blueprint": (["architecture-techstack", "architecture-system", "architecture-datamodel"],
-                       f"One owner per file. `glossary.md` leaves the folder ({link('F08')})."),
-    "a-11_build": (["build-plan", "quality-review", "ops-review", "quality-release"],
+                       f"One owner per file. `glossary.md` left the folder ({link('F08')}); integrations live in `architecture.md` only ({link('F32')})."),
+    "a-11_build": (["build-plan", "build-implement", "quality-review", "quality-release"],
                    f"One owner per subfolder or file: `slices/` and `acceptance-criteria/`, `reviews/`, `trace.yaml`, `release.yaml` ({link('F36')}, {link('F37')})."),
 }
 owner_rows = []
@@ -490,14 +513,12 @@ for a in artifacts:
     cell = {"ref": owners[0]} if len(owners) == 1 else {"refs": owners}
     owner_rows.append([f"`{a['path']}`", {"refs": [w for w in a["writers"] if w in skill_set]}, cell, a["editor_form"], change])
 EXTRA_OWNER_ROWS = [
-    ("`_concept/glossary.md` (new)", writers_of("glossary.md"), ["concept-brief"], PROSE,
-     f"New: first-level file, written by one domain-language step after the brief; every later writer reads it ({link('F08')})."),
     ("`_concept/02_grounding/onboarding/answers.json`", writers_of("02_grounding/onboarding/"), ["concept-onboard"], CODE,
      f"The record of every answer and approval; seeded from the host's `_grounding/<step>/user_input.json` ({link('F06')}, {link('F13')})."),
     ("`_concept/11_build/acceptance-criteria/`", writers_of("acceptance-criteria"), ["build-plan"], PROSE,
-     f"`build-plan` owns the rows; the others flip a `status` field ({link('F37')})."),
-    ("`_concept/11_build/trace.yaml`", writers_of("trace.yaml"), ["ops-review"], CODE,
-     f"The single trace of feature to code ({link('F36')})."),
+     f"`build-plan` creates the rows; every evaluator overwrites the rows it evaluated and `FAIL` beats `PASS` ({link('F37')})."),
+    ("`_concept/11_build/trace.yaml`", writers_of("trace.yaml"), ["build-implement"], CODE,
+     f"The single trace of feature to code, written as each slice commits ({link('F36')})."),
 ]
 for label, today, proposed, form, change in EXTRA_OWNER_ROWS:
     owner_rows.append([label, {"refs": today}, {"ref": proposed[0]}, form, change])
@@ -506,19 +527,19 @@ for o in [x for _, _, ps, _, _ in EXTRA_OWNER_ROWS for x in ps] + [x for ps, _ i
         errors.append(f"proposal names unknown skill {o}")
 
 workarounds = [
-    f"Run {link('experience-journeys')} by hand before {link('spec-featuresets')} in {link('appbuilder-mvp')} ({link('F01')}).",
-    f"Run {link('architecture-techstack')} before {link('mockup-storybook')} in {link('appbuilder-standard')} ({link('F02')}).",
-    f"Create `_concept/01_meta/scope.yaml` by hand before {link('spec-feature')} in {link('skaileup-concept-reverse')} ({link('F03')}).",
-    f"For a project whose profile does not grow screens (cli-tool, api-service, library, data-pipeline), create an empty `_concept/07_screens/` so the hard gates of {link('build-plan')} and {link('build-implement')} open ({link('F35')}).",
-    f"Copy `_grounding/<step>/user_input.json` into `answers.json` at onboarding ({link('F06')}).",
+    f"Run {link('experience-journeys')} by hand before {link('spec-featuresets')} in {link('appbuilder-mvp')} ({link('F01')}, {fstat('F01')}).",
+    f"Run {link('architecture-techstack')} before {link('mockup-storybook')} in {link('appbuilder-standard')} ({link('F02')}, {fstat('F02')}).",
+    f"Create `_concept/01_meta/scope.yaml` by hand before {link('spec-feature')} in {link('skaileup-concept-reverse')} ({link('F03')}, {fstat('F03')}).",
+    f"For a project whose profile does not grow screens (cli-tool, api-service, library, data-pipeline), create an empty `_concept/07_screens/` so the hard gates of {link('build-plan')} and {link('build-implement')} open ({link('F35')}, {fstat('F35')}).",
+    f"Copy `_grounding/<step>/user_input.json` into `answers.json` at onboarding ({link('F06')}, {fstat('F06')}).",
 ]
 sec_target = {"title": "Target shape", "sub": "one hierarchy, one owner per artifact", "blocks": [
     {"type": "p", "text": f"The principle: one hierarchy (domain language, data model, features, screens), one owner per artifact, and every decision of the user lands in a markdown file that the editor opens ({link('F08')}, {link('F17')}, {link('F13')})."},
-    {"type": "p", "text": "Proposed order of the standard flow:"},
+    {"type": "p", "text": "Order the standard flow runs now (the target of the review, after the SSI tickets):"},
     {"type": "steps", "items": proposal_steps},
-    {"type": "p", "text": f"One owner per artifact. The first {len(artifacts)} rows are the artifact targets; the other rows are files that today have several writers or no home."},
-    {"type": "table", "columns": ["Artifact", "Owner today", "Owner proposed", "Editor form", "Change"], "rows": owner_rows},
-    {"type": "p", "text": "Workarounds today (no skill edited):"},
+    {"type": "p", "text": f"One owner per artifact. The first {len(artifacts)} rows are the artifact targets; the other rows are files that had several writers or no home. `Owner now` is the dump's writer map, `Owner target` is the review's proposal."},
+    {"type": "table", "columns": ["Artifact", "Owner now", "Owner target", "Editor form", "Change"], "rows": owner_rows},
+    {"type": "p", "text": "Workarounds the review found necessary (no skill edited at the time); each names the status of its finding:"},
     {"type": "bullets", "items": workarounds},
 ]}
 
@@ -554,6 +575,6 @@ if choice_written:
 for w in dict.fromkeys(warnings):
     print(f"warning: {w}", file=sys.stderr)
 print(f"{OUT.relative_to(ROOT)}: {len(entities)} entities "
-      f"({len(stage_ids)} stages, {n_find} findings, {len(skills)} skills, {len(contracts)} contracts, {len(flows)} flows, {len(artifacts)} artifacts), "
-      f"{len(map_edges)} map edges, {len(gate_rows)} gate rows")
+      f"({len(stage_ids)} stages, {n_find} findings: {n_closed} closed, {n_open} open, {len(skills)} skills, {len(contracts)} contracts, "
+      f"{len(flows)} flows, {len(artifacts)} artifacts), {len(map_edges)} map edges, {len(gate_rows)} gate rows")
 print(f"{CHOICE.relative_to(ROOT)}: {'written' if choice_written else 'kept as written'}")

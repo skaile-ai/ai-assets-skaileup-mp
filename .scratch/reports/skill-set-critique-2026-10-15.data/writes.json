@@ -4,407 +4,386 @@
   "skill": "concept-scope",
   "path": "_concept/01_meta/scope.yaml",
   "artifact": "a-01_meta",
-  "at": "skills/concept-scope/SKILL.md:63",
-  "quote": "write `01_meta/scope.yaml`"
+  "at": "skills/concept-scope/SKILL.md:67",
+  "quote": "write `01_meta/scope.yaml`",
+  "in_produces": true
  },
  {
   "id": "w-2",
   "skill": "concept-onboard",
   "path": "_concept/02_grounding/onboarding/",
   "artifact": "a-02_grounding",
-  "at": "skills/concept-onboard/SKILL.md:24",
-  "quote": "Fills `02_grounding/onboarding/`"
+  "at": "skills/concept-onboard/SKILL.md:27",
+  "quote": "Fills `02_grounding/onboarding/`",
+  "in_produces": true
  },
  {
   "id": "w-3",
   "skill": "concept-brief",
   "path": "_concept/brief.md",
   "artifact": "a-brief",
-  "at": "skills/concept-brief/SKILL.md:47",
-  "quote": "Write `brief.md`"
+  "at": "skills/concept-brief/SKILL.md:57",
+  "quote": "Write `brief.md`",
+  "in_produces": true
  },
  {
   "id": "w-4",
   "skill": "concept-brief",
   "path": "_concept/goals.md",
   "artifact": "a-goals",
-  "at": "skills/concept-brief/SKILL.md:49",
-  "quote": "in `goals.md`"
+  "at": "skills/concept-brief/SKILL.md:59",
+  "quote": "in `goals.md`",
+  "in_produces": true
  },
  {
   "id": "w-5",
-  "skill": "concept-brief",
-  "path": "_concept/comparable.md",
-  "artifact": "a-comparable",
-  "at": "skills/concept-brief/SKILL.md:56",
-  "quote": "in `comparable.md`"
+  "skill": "concept-glossary",
+  "path": "_concept/glossary.md",
+  "artifact": "a-glossary",
+  "at": "skills/concept-glossary/SKILL.md:56",
+  "quote": "Write `glossary.md`.",
+  "in_produces": true
  },
  {
   "id": "w-6",
-  "skill": "concept-brief",
-  "path": "_concept/10_blueprint/glossary.md",
-  "artifact": "a-10_blueprint",
-  "at": "skills/concept-brief/SKILL.md:67",
-  "quote": "10_blueprint/glossary.md"
+  "skill": "concept-research",
+  "path": "_concept/02_grounding/research/",
+  "artifact": "a-02_grounding",
+  "at": "skills/concept-research/SKILL.md:31",
+  "quote": "Fills `02_grounding/research/`",
+  "in_produces": true
  },
  {
   "id": "w-7",
   "skill": "concept-research",
-  "path": "_concept/02_grounding/research/",
+  "path": "_concept/02_grounding/findings/",
   "artifact": "a-02_grounding",
-  "at": "skills/concept-research/SKILL.md:20",
-  "quote": "Fills `02_grounding/research/`"
+  "at": "skills/concept-research/SKILL.md:32",
+  "quote": "`02_grounding/findings/` with the raw material",
+  "in_produces": true
  },
  {
   "id": "w-8",
-  "skill": "concept-research",
+  "skill": "concept-reverse",
   "path": "_concept/02_grounding/findings/",
   "artifact": "a-02_grounding",
-  "at": "skills/concept-research/SKILL.md:21",
-  "quote": "`02_grounding/findings/` with the raw material"
+  "at": "skills/concept-reverse/SKILL.md:55",
+  "quote": "Write the six findings into `02_grounding/findings/`",
+  "in_produces": true
  },
  {
   "id": "w-9",
-  "skill": "concept-reverse",
-  "path": "_concept/brief.md",
-  "artifact": "a-brief",
-  "at": "skills/concept-reverse/SKILL.md:53",
-  "quote": "`brief.md` takes the pitch"
- },
- {
-  "id": "w-10",
-  "skill": "concept-reverse",
-  "path": "_concept/goals.md",
-  "artifact": "a-goals",
-  "at": "skills/concept-reverse/SKILL.md:53",
-  "quote": "`goals.md`"
- },
- {
-  "id": "w-11",
-  "skill": "concept-reverse",
-  "path": "_concept/comparable.md",
-  "artifact": "a-comparable",
-  "at": "skills/concept-reverse/SKILL.md:54",
-  "quote": "`comparable.md` takes the products"
- },
- {
-  "id": "w-12",
-  "skill": "concept-reverse",
-  "path": "_concept/10_blueprint/techstack.md",
-  "artifact": "a-10_blueprint",
-  "at": "skills/concept-reverse/SKILL.md:59",
-  "quote": "`10_blueprint/techstack.md`"
- },
- {
-  "id": "w-13",
-  "skill": "concept-reverse",
-  "path": "_concept/03_brand/identity.md",
-  "artifact": "a-03_brand",
-  "at": "skills/concept-reverse/SKILL.md:62",
-  "quote": "write `03_brand/identity.md`"
- },
- {
-  "id": "w-14",
-  "skill": "concept-reverse",
-  "path": "_concept/03_brand/tokens.json",
-  "artifact": "a-03_brand",
-  "at": "skills/concept-reverse/SKILL.md:63",
-  "quote": "`03_brand/tokens.json`"
- },
- {
-  "id": "w-15",
-  "skill": "concept-reverse",
-  "path": "_concept/02_grounding/findings/",
-  "artifact": "a-02_grounding",
-  "at": "skills/concept-reverse/SKILL.md:69",
-  "quote": "`02_grounding/findings/routes.md`"
- },
- {
-  "id": "w-16",
   "skill": "design-brand",
   "path": "_concept/03_brand/",
   "artifact": "a-03_brand",
-  "at": "skills/design-brand/SKILL.md:24",
-  "quote": "Writes `03_brand/`"
+  "at": "skills/design-brand/SKILL.md:31",
+  "quote": "Writes `03_brand/`",
+  "in_produces": true
  },
  {
-  "id": "w-17",
+  "id": "w-10",
+  "skill": "design-brand",
+  "path": "_concept/02_grounding/findings/",
+  "artifact": "a-02_grounding",
+  "at": "skills/design-brand/SKILL.md:32",
+  "quote": "go to `02_grounding/findings/`",
+  "in_produces": true
+ },
+ {
+  "id": "w-11",
   "skill": "experience-journeys",
   "path": "_concept/04_journeys/stories.yaml",
   "artifact": "a-04_journeys",
-  "at": "skills/experience-journeys/SKILL.md:62",
-  "quote": "**Write `04_journeys/stories.yaml`**"
+  "at": "skills/experience-journeys/SKILL.md:73",
+  "quote": "**Write `04_journeys/stories.yaml`**",
+  "in_produces": true
  },
  {
-  "id": "w-18",
+  "id": "w-12",
   "skill": "spec-featuresets",
   "path": "_concept/05_features/featuresets.md",
   "artifact": "a-05_features",
-  "at": "skills/spec-featuresets/SKILL.md:60",
-  "quote": "**Write `05_features/featuresets.md`.**"
+  "at": "skills/spec-featuresets/SKILL.md:71",
+  "quote": "**Write `05_features/featuresets.md`.**",
+  "in_produces": true
  },
  {
-  "id": "w-19",
+  "id": "w-13",
   "skill": "experience-behaviors",
   "path": "_concept/06_behaviors/",
   "artifact": "a-06_behaviors",
-  "at": "skills/experience-behaviors/SKILL.md:20",
-  "quote": "Writes `06_behaviors/<featureset>.md`"
+  "at": "skills/experience-behaviors/SKILL.md:52-53",
+  "quote": "`06_behaviors/<featureset>.md`",
+  "in_produces": true
  },
  {
-  "id": "w-20",
+  "id": "w-14",
   "skill": "experience-shell",
   "path": "_concept/07_screens/shell.md",
   "artifact": "a-07_screens",
-  "at": "skills/experience-shell/SKILL.md:24",
-  "quote": "Writes exactly one file: `07_screens/shell.md`"
+  "at": "skills/experience-shell/SKILL.md:30",
+  "quote": "Writes exactly one file: `07_screens/shell.md`",
+  "in_produces": true
  },
  {
-  "id": "w-21",
+  "id": "w-15",
   "skill": "spec-feature",
   "path": "_concept/05_features/",
   "artifact": "a-05_features",
-  "at": "skills/spec-feature/SKILL.md:77",
-  "quote": "**Write the feature spec** to `05_features/<featureset>/<feature_slug>.md`"
+  "at": "skills/spec-feature/SKILL.md:92-95",
+  "quote": "**Write the feature spec** to `05_features/<featureset>/<feature_slug>.md`",
+  "in_produces": true
  },
  {
-  "id": "w-22",
+  "id": "w-16",
   "skill": "spec-feature",
   "path": "_concept/07_screens/",
   "artifact": "a-07_screens",
-  "at": "skills/spec-feature/SKILL.md:83",
-  "quote": "`07_screens/<feature_slug>/<screen>.md`"
+  "at": "skills/spec-feature/SKILL.md:109-113",
+  "quote": "`07_screens/<feature_slug>/<screen>.md`",
+  "in_produces": true
  },
  {
-  "id": "w-23",
+  "id": "w-17",
   "skill": "spec-feature",
   "path": "_concept/08_dossiers/",
   "artifact": "a-08_dossiers",
-  "at": "skills/spec-feature/SKILL.md:100",
-  "quote": "Write `08_dossiers/<feature_slug>/index.md`"
+  "at": "skills/spec-feature/SKILL.md:68-71",
+  "quote": "write `08_dossiers/<feature_slug>/index.md`",
+  "in_produces": true
  },
  {
-  "id": "w-24",
-  "skill": "spec-feature",
-  "path": "_concept/10_blueprint/glossary.md",
-  "artifact": "a-10_blueprint",
-  "at": "skills/spec-feature/SKILL.md:65",
-  "quote": "goes into `10_blueprint/glossary.md`"
- },
- {
-  "id": "w-25",
+  "id": "w-18",
   "skill": "spec-feature",
   "path": "_concept/10_blueprint/decisions.md",
   "artifact": "a-10_blueprint",
-  "at": "skills/spec-feature/SKILL.md:66",
-  "quote": "appends to `10_blueprint/decisions.md`"
+  "at": "skills/spec-feature/SKILL.md:80-83",
+  "quote": "`10_blueprint/decisions.md`, cheap now",
+  "in_produces": true
  },
  {
-  "id": "w-26",
+  "id": "w-19",
   "skill": "mockup-walkthrough",
   "path": "_concept/09_mockup/walkthrough/",
   "artifact": "a-09_mockup",
-  "at": "skills/mockup-walkthrough/SKILL.md:25",
-  "quote": "`_concept/09_mockup/walkthrough/<renderer>/`"
+  "at": "skills/mockup-walkthrough/SKILL.md:27",
+  "quote": "`_concept/09_mockup/walkthrough/<renderer>/`",
+  "in_produces": true
  },
  {
-  "id": "w-27",
+  "id": "w-20",
   "skill": "mockup-storybook",
   "path": "_concept/09_mockup/storybook/",
   "artifact": "a-09_mockup",
-  "at": "skills/mockup-storybook/SKILL.md:23",
-  "quote": "`_concept/09_mockup/storybook/`"
+  "at": "skills/mockup-storybook/SKILL.md:31",
+  "quote": "`_concept/09_mockup/storybook/`",
+  "in_produces": true
  },
  {
-  "id": "w-28",
+  "id": "w-21",
   "skill": "mockup-annotate",
   "path": "_concept/09_mockup/feedback/sessions/",
   "artifact": "a-09_mockup",
-  "at": "skills/mockup-annotate/SKILL.md:55",
-  "quote": "create `sessions/`"
+  "at": "skills/mockup-annotate/SKILL.md:57",
+  "quote": "create `sessions/`",
+  "in_produces": true
  },
  {
-  "id": "w-29",
+  "id": "w-22",
   "skill": "mockup-feedback",
   "path": "_concept/09_mockup/feedback/",
   "artifact": "a-09_mockup",
-  "at": "skills/mockup-feedback/SKILL.md:95",
-  "quote": "writes `applied/<sid>.json`"
+  "at": "skills/mockup-feedback/SKILL.md:101",
+  "quote": "writes `applied/<sid>.json`",
+  "in_produces": true
  },
  {
-  "id": "w-30",
+  "id": "w-23",
   "skill": "mockup-feedback",
   "path": "_concept/07_screens/",
   "artifact": "a-07_screens",
-  "at": "skills/mockup-feedback/SKILL.md:18",
-  "quote": "edited screen specs"
+  "at": "skills/mockup-feedback/SKILL.md:22",
+  "quote": "edited screen specs",
+  "in_produces": false
  },
  {
-  "id": "w-31",
+  "id": "w-24",
   "skill": "mockup-feedback",
   "path": "_concept/05_features/",
   "artifact": "a-05_features",
-  "at": "skills/mockup-feedback/SKILL.md:59",
-  "quote": "one target file"
+  "at": "skills/mockup-feedback/SKILL.md:66",
+  "quote": "one target file",
+  "in_produces": false
  },
  {
-  "id": "w-32",
+  "id": "w-25",
   "skill": "architecture-techstack",
   "path": "_concept/10_blueprint/techstack.md",
   "artifact": "a-10_blueprint",
-  "at": "skills/architecture-techstack/SKILL.md:80",
-  "quote": "`10_blueprint/techstack.md`"
+  "at": "skills/architecture-techstack/SKILL.md:99",
+  "quote": "`10_blueprint/techstack.md` exists",
+  "in_produces": true
  },
  {
-  "id": "w-33",
+  "id": "w-26",
   "skill": "architecture-system",
   "path": "_concept/10_blueprint/architecture.md",
   "artifact": "a-10_blueprint",
-  "at": "skills/architecture-system/SKILL.md:65",
-  "quote": "**Write `10_blueprint/architecture.md`.**"
+  "at": "skills/architecture-system/SKILL.md:67",
+  "quote": "**Write `10_blueprint/architecture.md`.**",
+  "in_produces": true
  },
  {
-  "id": "w-34",
+  "id": "w-27",
   "skill": "architecture-datamodel",
   "path": "_concept/10_blueprint/datamodel/",
   "artifact": "a-10_blueprint",
-  "at": "skills/architecture-datamodel/SKILL.md:91",
-  "quote": "under `10_blueprint/datamodel/`"
+  "at": "skills/architecture-datamodel/SKILL.md:26-27",
+  "quote": "under `10_blueprint/datamodel/`",
+  "in_produces": true
  },
  {
-  "id": "w-35",
-  "skill": "architecture-datamodel",
-  "path": "_concept/10_blueprint/glossary.md",
-  "artifact": "a-10_blueprint",
-  "at": "skills/architecture-datamodel/SKILL.md:74",
-  "quote": "**Pin the vocabulary in `10_blueprint/glossary.md`**"
- },
- {
-  "id": "w-36",
-  "skill": "architecture-datamodel",
-  "path": "_concept/05_features/",
-  "artifact": "a-05_features",
-  "at": "skills/architecture-datamodel/SKILL.md:82",
-  "quote": "**Register the entities back into the features**"
- },
- {
-  "id": "w-37",
+  "id": "w-28",
   "skill": "build-plan",
   "path": "_concept/11_build/slices/",
   "artifact": "a-11_build",
-  "at": "skills/build-plan/SKILL.md:72",
-  "quote": "`11_build/slices/<slice_id>/plan.md`"
+  "at": "skills/build-plan/SKILL.md:86",
+  "quote": "`11_build/slices/<slice_id>/plan.md`",
+  "in_produces": true
  },
  {
-  "id": "w-38",
+  "id": "w-29",
   "skill": "build-plan",
   "path": "_concept/11_build/acceptance-criteria/",
   "artifact": "a-11_build",
-  "at": "skills/build-plan/SKILL.md:82",
-  "quote": "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`"
+  "at": "skills/build-plan/SKILL.md:98",
+  "quote": "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`",
+  "in_produces": true
  },
  {
-  "id": "w-39",
+  "id": "w-30",
   "skill": "build-implement",
   "path": "_concept/11_build/slices/",
   "artifact": "a-11_build",
-  "at": "skills/build-implement/SKILL.md:68",
-  "quote": "`11_build/slices/<slice_id>/index.md`"
+  "at": "skills/build-implement/SKILL.md:93",
+  "quote": "`11_build/slices/<slice_id>/index.md`",
+  "in_produces": true
  },
  {
-  "id": "w-40",
+  "id": "w-31",
   "skill": "build-implement",
   "path": "_concept/11_build/acceptance-criteria/",
   "artifact": "a-11_build",
-  "at": "skills/build-implement/SKILL.md:51",
-  "quote": "flip the ledger at `11_build/acceptance-criteria/"
+  "at": "skills/build-implement/SKILL.md:80",
+  "quote": "update the ledger at `11_build/acceptance-criteria/",
+  "in_produces": true
  },
  {
-  "id": "w-41",
+  "id": "w-32",
   "skill": "build-implement",
-  "path": "_concept/05_features/",
-  "artifact": "a-05_features",
-  "at": "skills/build-implement/SKILL.md:69",
-  "quote": "Then patch the feature spec's"
+  "path": "_concept/11_build/trace.yaml",
+  "artifact": "a-11_build",
+  "at": "skills/build-implement/SKILL.md:75",
+  "quote": "write the slice into `11_build/trace.yaml`",
+  "in_produces": true
  },
  {
-  "id": "w-42",
+  "id": "w-33",
   "skill": "quality-e2e",
   "path": "_concept/11_build/acceptance-criteria/",
   "artifact": "a-11_build",
-  "at": "skills/quality-e2e/SKILL.md:60",
-  "quote": "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`"
+  "at": "skills/quality-e2e/SKILL.md:53",
+  "quote": "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`",
+  "in_produces": true
  },
  {
-  "id": "w-43",
+  "id": "w-34",
+  "skill": "quality-review",
+  "path": "_concept/11_build/acceptance-criteria/",
+  "artifact": "a-11_build",
+  "at": "skills/quality-review/SKILL.md:62",
+  "quote": "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`",
+  "in_produces": true
+ },
+ {
+  "id": "w-35",
   "skill": "quality-review",
   "path": "_concept/11_build/reviews/",
   "artifact": "a-11_build",
-  "at": "skills/quality-review/SKILL.md:64",
-  "quote": "`11_build/reviews/<feature_slug>.yaml`"
+  "at": "skills/quality-review/SKILL.md:73",
+  "quote": "to `11_build/reviews/<feature_slug>.yaml`",
+  "in_produces": true
  },
  {
-  "id": "w-44",
-  "skill": "ops-review",
-  "path": "_concept/11_build/trace.yaml",
-  "artifact": "a-11_build",
-  "at": "skills/ops-review/SKILL.md:102",
-  "quote": "`11_build/trace.yaml`"
- },
- {
-  "id": "w-45",
+  "id": "w-36",
   "skill": "quality-release",
   "path": "_concept/11_build/release.yaml",
   "artifact": "a-11_build",
-  "at": "skills/quality-release/SKILL.md:68",
-  "quote": "`11_build/release.yaml`"
+  "at": "skills/quality-release/SKILL.md:74",
+  "quote": "to `11_build/release.yaml`",
+  "in_produces": true
  },
  {
-  "id": "w-46",
+  "id": "w-37",
   "skill": "quality-standards",
   "path": "_concept/02_grounding/standards/",
   "artifact": "a-02_grounding",
-  "at": "skills/quality-standards/SKILL.md:26",
-  "quote": "`02_grounding/standards/<domain>/<convention>.md`"
+  "at": "skills/quality-standards/SKILL.md:30",
+  "quote": "`02_grounding/standards/<domain>/<convention>.md`",
+  "in_produces": true
  },
  {
-  "id": "w-47",
+  "id": "w-38",
+  "skill": "ops-review",
+  "path": null,
+  "artifact": null,
+  "at": "skills/ops-review/SKILL.md:33",
+  "quote": "never written to disk",
+  "in_produces": false
+ },
+ {
+  "id": "w-39",
   "skill": "build-scaffold",
   "path": null,
   "artifact": null,
-  "at": "skills/build-scaffold/SKILL.md:88",
-  "quote": "the app builds and runs"
+  "at": "skills/build-scaffold/SKILL.md:89",
+  "quote": "the app builds and runs",
+  "in_produces": false
  },
  {
-  "id": "w-48",
+  "id": "w-40",
   "skill": "build-database",
   "path": null,
   "artifact": null,
-  "at": "skills/build-database/SKILL.md:82",
-  "quote": "the migration has applied"
+  "at": "skills/build-database/SKILL.md:85",
+  "quote": "the migration has applied",
+  "in_produces": false
  },
  {
-  "id": "w-49",
+  "id": "w-41",
   "skill": "build-branch",
   "path": null,
   "artifact": null,
-  "at": "skills/build-branch/SKILL.md:58",
-  "quote": "the branch exists and is checked out"
+  "at": "skills/build-branch/SKILL.md:62",
+  "quote": "the branch exists and is checked out",
+  "in_produces": false
  },
  {
-  "id": "w-50",
+  "id": "w-42",
   "skill": "quality-test",
   "path": null,
   "artifact": null,
-  "at": "skills/quality-test/SKILL.md:83",
-  "quote": "has a test file at the levels"
+  "at": "skills/quality-test/SKILL.md:84",
+  "quote": "has a test file at the levels",
+  "in_produces": false
  },
  {
-  "id": "w-51",
+  "id": "w-43",
   "skill": "skaileup",
   "path": null,
   "artifact": null,
-  "at": "skills/skaileup/SKILL.md:12",
-  "quote": "It writes"
+  "at": "skills/skaileup/SKILL.md:14",
+  "quote": "It writes",
+  "in_produces": false
  }
 ]

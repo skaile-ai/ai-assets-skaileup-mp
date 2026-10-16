@@ -2,60 +2,67 @@
  {
   "id": "c-acceptance_criteria",
   "file": "contracts/acceptance_criteria.md",
-  "lines": 91,
+  "lines": 143,
   "readers": [
    "build-implement",
    "build-plan",
+   "experience-behaviors",
    "experience-journeys",
+   "ops-review",
    "quality-e2e",
+   "quality-release",
    "quality-review",
    "spec-feature"
   ],
-  "readers_n": 6
+  "readers_n": 9
  },
  {
   "id": "c-agent_patterns",
   "file": "contracts/agent_patterns.md",
-  "lines": 120,
+  "lines": 121,
   "readers": [
    "architecture-datamodel",
    "architecture-system",
    "architecture-techstack",
+   "concept-glossary",
    "concept-onboard",
    "concept-research",
    "concept-scope",
+   "design-brand",
    "skaileup"
   ],
-  "readers_n": 7
+  "readers_n": 9
  },
  {
   "id": "c-artifact_frontmatter",
   "file": "contracts/artifact_frontmatter.md",
-  "lines": 283,
+  "lines": 316,
   "readers": [
    "architecture-system",
    "architecture-techstack",
    "concept-brief",
+   "concept-glossary",
+   "concept-onboard",
    "concept-research",
    "concept-reverse",
    "design-brand",
    "experience-shell",
    "ops-review",
-   "quality-review",
    "spec-feature"
   ],
-  "readers_n": 10
+  "readers_n": 11
  },
  {
   "id": "c-concept_structure",
   "file": "contracts/concept_structure.md",
-  "lines": 210,
+  "lines": 235,
   "readers": [
    "architecture-datamodel",
    "architecture-system",
    "architecture-techstack",
    "build-plan",
    "concept-brief",
+   "concept-glossary",
    "concept-onboard",
    "concept-research",
    "concept-reverse",
@@ -69,23 +76,24 @@
    "spec-feature",
    "spec-featuresets"
   ],
-  "readers_n": 17
+  "readers_n": 18
  },
  {
   "id": "c-domain_model",
   "file": "contracts/domain_model.md",
-  "lines": 146,
+  "lines": 153,
   "readers": [
    "architecture-datamodel",
-   "concept-brief",
+   "build-plan",
+   "concept-glossary",
    "spec-feature"
   ],
-  "readers_n": 3
+  "readers_n": 4
  },
  {
   "id": "c-elements_block",
   "file": "contracts/elements_block.md",
-  "lines": 401,
+  "lines": 413,
   "readers": [
    "experience-shell",
    "spec-feature"
@@ -95,7 +103,7 @@
  {
   "id": "c-evaluator",
   "file": "contracts/evaluator.md",
-  "lines": 99,
+  "lines": 124,
   "readers": [
    "ops-review",
    "quality-release",
@@ -106,16 +114,15 @@
  {
   "id": "c-feedback_loop",
   "file": "contracts/feedback_loop.md",
-  "lines": 131,
+  "lines": 159,
   "readers": [
-   "architecture-datamodel",
-   "build-implement",
    "experience-journeys",
+   "mockup-feedback",
    "ops-review",
    "spec-feature",
    "spec-featuresets"
   ],
-  "readers_n": 6
+  "readers_n": 5
  },
  {
   "id": "c-golden_principles",
@@ -154,7 +161,7 @@
  {
   "id": "c-slice_loop",
   "file": "contracts/slice_loop.md",
-  "lines": 49,
+  "lines": 51,
   "readers": [
    "build-implement",
    "build-plan",
@@ -169,8 +176,9 @@
   "readers": [
    "experience-shell",
    "mockup-annotate",
+   "mockup-storybook",
    "mockup-walkthrough"
   ],
-  "readers_n": 3
+  "readers_n": 4
  }
 ]

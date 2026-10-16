@@ -41,7 +41,10 @@
         "quote": "source: brief, target: featuresets"
       }
     ],
-    "recommendation": "Add the producing nodes to `appbuilder-mvp`, or make the three gates `soft` and say in each step what changes without the file. Add the check.py rule of F04."
+    "recommendation": "Add the producing nodes to `appbuilder-mvp`, or make the three gates `soft` and say in each step what changes without the file. Add the check.py rule of F04.",
+    "status": "closed",
+    "closed_by": "i-ssi-flow-rewrite",
+    "closed_note": "appbuilder-mvp now runs experience-journeys before spec-featuresets; the 07_screens gates are soft (i-ssi-soft-gates-profiles)."
   },
   {
     "id": "F02",
@@ -80,7 +83,10 @@
         "quote": "source: feedback, target: techstack"
       }
     ],
-    "recommendation": "Move `architecture-techstack` and `architecture-system` before the mockup nodes. Or gate `mockup-storybook` soft and take the framework from the template default."
+    "recommendation": "Move `architecture-techstack` and `architecture-system` before the mockup nodes. Or gate `mockup-storybook` soft and take the framework from the template default.",
+    "status": "closed",
+    "closed_by": "i-ssi-flow-rewrite",
+    "closed_note": "architecture-techstack and architecture-system run before the mockup nodes in appbuilder-standard."
   },
   {
     "id": "F03",
@@ -122,7 +128,10 @@
         "quote": "started the run from an onboarding profile"
       }
     ],
-    "recommendation": "Make `concept-scope` the entry of the reverse flow, or let `concept-reverse` write `scope.yaml` with `flow: skaileup-concept-reverse`."
+    "recommendation": "Make `concept-scope` the entry of the reverse flow, or let `concept-reverse` write `scope.yaml` with `flow: skaileup-concept-reverse`.",
+    "status": "closed",
+    "closed_by": "i-ssi-flow-rewrite",
+    "closed_note": "concept-scope is the entry of skaileup-concept-reverse and writes scope.yaml."
   },
   {
     "id": "F04",
@@ -158,7 +167,10 @@
         "quote": "_check_requires(flow, node_skills, skill_contracts, repo, where, rep)"
       }
     ],
-    "recommendation": "Add a rule: walk each flow's `type: flow` edges, collect the targets written so far, and fail on a hard gate with no writer upstream. It needs the `produces` list of F05."
+    "recommendation": "Add a rule: walk each flow's `type: flow` edges, collect the targets written so far, and fail on a hard gate with no writer upstream. It needs the `produces` list of F05.",
+    "status": "closed",
+    "closed_by": "i-ssi-check-gate-writers",
+    "closed_note": "check.py _check_gate_writers fails a hard prerequisite with no upstream writer; fixture included."
   },
   {
     "id": "F05",
@@ -199,7 +211,10 @@
         "quote": "The first node whose artifacts are not yet in the tree"
       }
     ],
-    "recommendation": "Add `metadata.artifacts.produces: [{id, path}]` to every skill, checked by check.py. Ask the host to read done state from that list, as it already reads `artifacts.requires`."
+    "recommendation": "Add `metadata.artifacts.produces: [{id, path}]` to every skill, checked by check.py. Ask the host to read done state from that list, as it already reads `artifacts.requires`.",
+    "status": "closed",
+    "closed_by": "i-ssi-produces-list",
+    "closed_note": "Every skill declares metadata.artifacts.produces and check.py validates it. The host still reads contracts/artifacts.yaml (external; host_facts.py row), so editor done-state is unchanged until the host reads produces."
   },
   {
     "id": "F06",
@@ -240,7 +255,10 @@
         "quote": "The host writes its own per-skill dialog file"
       }
     ],
-    "recommendation": "Make `concept-onboard` step 1 merge what the host handed in into `answers.json` once. Record the host path as a fact in `scripts/host_facts.py`."
+    "recommendation": "Make `concept-onboard` step 1 merge what the host handed in into `answers.json` once. Record the host path as a fact in `scripts/host_facts.py`.",
+    "status": "closed",
+    "closed_by": "i-ssi-approved-answers",
+    "closed_note": "concept-onboard step 1 folds the host user_input.json into answers.json once; answers.json is the only answer record."
   },
   {
     "id": "F07",
@@ -278,7 +296,10 @@
         "quote": "**Mirror the navigation into the `elements:` block.**"
       }
     ],
-    "recommendation": "Cite `§` sections, as the skills already do for `agent_patterns.md`. Point `experience-shell` at `elements_block.md § Schema` and `walkthrough_renderer.md § App-shell navigation`."
+    "recommendation": "Cite `§` sections, as the skills already do for `agent_patterns.md`. Point `experience-shell` at `elements_block.md § Schema` and `walkthrough_renderer.md § App-shell navigation`.",
+    "status": "closed",
+    "closed_by": "i-ssi-contract-sections",
+    "closed_note": "spec-feature, architecture-datamodel and experience-shell cite contract § sections instead of whole files."
   },
   {
     "id": "F08",
@@ -324,7 +345,10 @@
         "quote": "`10_blueprint/glossary.md`"
       }
     ],
-    "recommendation": "Put one `glossary.md` beside `brief.md`. One step writes it right after the brief; every later skill reads it."
+    "recommendation": "Put one `glossary.md` beside `brief.md`. One step writes it right after the brief; every later skill reads it.",
+    "status": "closed",
+    "closed_by": "i-ssi-concept-glossary",
+    "closed_note": "concept-glossary is the single writer of _concept/glossary.md; brief, spec-feature and architecture-datamodel read it."
   },
   {
     "id": "F09",
@@ -344,7 +368,6 @@
     "artifacts": [
       "a-brief",
       "a-goals",
-      "a-comparable",
       "a-03_brand",
       "a-10_blueprint",
       "a-02_grounding"
@@ -377,7 +400,10 @@
         "quote": "`10_blueprint/techstack.md`: the frontmatter fields"
       }
     ],
-    "recommendation": "Let `concept-reverse` write only `02_grounding/findings/*`. The owning skills read those findings as seeds."
+    "recommendation": "Let `concept-reverse` write only `02_grounding/findings/*`. The owning skills read those findings as seeds.",
+    "status": "closed",
+    "closed_by": "i-ssi-reverse-findings-only",
+    "closed_note": "concept-reverse writes 02_grounding/findings/ only; brief, brand and techstack seed from it."
   },
   {
     "id": "F10",
@@ -391,7 +417,7 @@
     "contracts": [],
     "flows": [],
     "artifacts": [
-      "a-comparable",
+      "a-brief",
       "a-02_grounding"
     ],
     "title": "Competitor knowledge lives in two files",
@@ -406,7 +432,10 @@
         "quote": "**Study the comparables**, in `comparable.md`"
       }
     ],
-    "recommendation": "Keep one file. Make `comparable.md` a section of `brief.md` that cites `competitors.md`."
+    "recommendation": "Keep one file. Make `comparable.md` a section of `brief.md` that cites `competitors.md`.",
+    "status": "closed",
+    "closed_by": "i-ssi-concept-glossary",
+    "closed_note": "comparable.md folded into a ## Comparables section of brief.md that cites research/competitors.md."
   },
   {
     "id": "F11",
@@ -439,7 +468,10 @@
         "quote": "`03_brand/references/`"
       }
     ],
-    "recommendation": "Use `02_grounding/findings/` only, with a `step` field in `findings/index.md`."
+    "recommendation": "Use `02_grounding/findings/` only, with a `step` field in `findings/index.md`.",
+    "status": "closed",
+    "closed_by": "i-ssi-reverse-findings-only",
+    "closed_note": "Screenshots live in 02_grounding/findings/ only, with a step field in findings/index.md."
   },
   {
     "id": "F12",
@@ -479,7 +511,10 @@
         "quote": "where research ran first"
       }
     ],
-    "recommendation": "Run research before brief, or delete the node and keep the \"alongside\" semantics."
+    "recommendation": "Run research before brief, or delete the node and keep the \"alongside\" semantics.",
+    "status": "closed",
+    "closed_by": "i-ssi-flow-rewrite",
+    "closed_note": "concept-research runs before concept-brief in the flows and its intro says so."
   },
   {
     "id": "F13",
@@ -525,7 +560,10 @@
         "quote": "ISO date, updated on every write"
       }
     ],
-    "recommendation": "Add `approved: <date>` to the universal frontmatter fields and write it at each approval. Record every dialog answer in `answers.json`."
+    "recommendation": "Add `approved: <date>` to the universal frontmatter fields and write it at each approval. Record every dialog answer in `answers.json`.",
+    "status": "closed",
+    "closed_by": "i-ssi-approved-answers",
+    "closed_note": "approved: <date> is a universal frontmatter field, written at each approval step."
   },
   {
     "id": "F14",
@@ -573,7 +611,10 @@
         "quote": "one question per message per"
       }
     ],
-    "recommendation": "Let the contract alone carry the rule. A skill lists only which questions it asks."
+    "recommendation": "Let the contract alone carry the rule. A skill lists only which questions it asks.",
+    "status": "closed",
+    "closed_by": "i-ssi-contract-sections",
+    "closed_note": "The restatements are gone; skills cite agent_patterns.md § Questions Are Standalone Messages."
   },
   {
     "id": "F15",
@@ -610,6 +651,9 @@
         "quote": "belongs to `concept-scope` step 4, and to the host's profile picker before that"
       }
     ],
-    "recommendation": "Give each fact one owner: `concept-scope` owns the `web-app` default and the flow choice, and `skaileup` only points at it."
+    "recommendation": "Give each fact one owner: `concept-scope` owns the `web-app` default and the flow choice, and `skaileup` only points at it.",
+    "status": "closed",
+    "closed_by": "i-ssi-router-produces",
+    "closed_note": "concept-scope owns the web-app default and the flow choice; skaileup points at it."
   }
 ]
