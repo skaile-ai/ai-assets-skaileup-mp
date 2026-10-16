@@ -34,8 +34,9 @@ Paths are `contracts/concept_structure.md`'s and frontmatter shapes are
 
 1. **Read the ground.** `brief.md` for the app, its audience and its comparables;
    `02_grounding/research/design-inspiration.md` and `colors-fonts.md` where research ran;
-   `02_grounding/onboarding/onboarding.yaml` for an existing brand and where its files are. A
-   project that already has a brand gets that brand extracted and recorded, not replaced.
+   `02_grounding/onboarding/answers.json` for an existing brand (`has_brand`) and where its
+   files are (`brand_files`). A project that already has a brand gets that brand extracted
+   and recorded, not replaced.
 2. **Discover the direction, one question at a time.** A site whose look they love; the
    feeling the product should give, offered as a spectrum rather than a dropdown; a
    calibration between two opposing examples that both fit this kind of app; light, dark or
@@ -52,7 +53,8 @@ Paths are `contracts/concept_structure.md`'s and frontmatter shapes are
    default any project would get, which is exactly why it says nothing about this one.
    Iterate until they approve in words.
 5. **Write the three files.** `identity.md` carries the direction, the colour usage rules,
-   the type hierarchy, spacing, elevation, atmosphere and the memorable element.
+   the type hierarchy, spacing, elevation, atmosphere and the memorable element, and — for the
+   approval from step 4 — `approved: <date>` in its frontmatter.
    `tokens.json` carries the machine-readable form: `colors` (primary, secondary, accent,
    background, surface, text, text_muted, border, error, success, warning), `fonts`,
    `radius`, `mode`, `spacing_base`, `shadows`, `atmosphere`, and a `tailwind` block of CSS
@@ -65,4 +67,5 @@ Paths are `contracts/concept_structure.md`'s and frontmatter shapes are
    next — the feature loop's screen specs, then the walkthrough and storybook.
 
 **Done when** `identity.md`, `tokens.json` and `brandbook.html` exist, the token file carries
-every key above, and the user has approved the direction.
+every key above, and the user has approved the direction, which `approved:` in `identity.md`
+records.

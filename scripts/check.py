@@ -57,6 +57,10 @@ LINE_BUDGET = 140
 # (`host:prerequisite-project-root`), so the prefix is part of the declaration.
 ARTIFACT_ROOT = "_concept"
 
+# The path the host writes each step's dialog input to (`host:grounding-user-input`).
+# `concept-onboard` step 1 is what folds it into `answers.json`, so the body has to name it.
+GROUNDING_USER_INPUT = "_grounding/<step>/user_input.json"
+
 # The named exceptions to "every prerequisite path lives under `_concept/`".
 #
 # `host:prerequisite-project-root` joins the declared path to the *project* root, so a project-root
@@ -586,6 +590,18 @@ def check_skills(repo: Path, rep: Report) -> tuple[set[str], dict[str, set[str]]
 
         # 6. cited contracts must exist.
         _check_citations(text, where, repo, rep)
+
+        # 6b. `concept-onboard` is the one skill that reads the host's dialog file; a body that
+        #     does not name its path has dropped the merge.
+        if directory == "concept-onboard" and GROUNDING_USER_INPUT not in body:
+            rep.error(
+                where,
+                f"never names `{GROUNDING_USER_INPUT}` — {{host}} writes each step's dialog "
+                f"input there, and step 1 merges it into `answers.json`; without the merge the "
+                f"user's answers stay in a file no later skill reads",
+                fact="host:grounding-user-input",
+                rule="onboard-names-host-input",
+            )
 
         bodies.append((where, body))
 

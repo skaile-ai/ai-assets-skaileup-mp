@@ -33,7 +33,7 @@ only thing upstream of this skill.
 
 ## Steps
 
-1. **Read what already exists.** `02_grounding/onboarding/` for answers a dialog collected,
+1. **Read what already exists.** `02_grounding/onboarding/answers.json` for answers a dialog collected,
    and `02_grounding/research/{domain,competitors,audiences}.md` where research ran first —
    that file set is the deep pass, and this skill distils it rather than re-running it. The
    flow in `01_meta/scope.yaml` sets how hard steps 3 and 4 work: `appbuilder-mvp` takes one
@@ -62,10 +62,12 @@ only thing upstream of this skill.
    cut against it, and unverifiable claims about a real one are marked `unverified`.
 5. **Show the brief and wait for a yes in words.** Apply changes, show it again, ask again.
    The brief is the root of every artifact after it, so an unapproved one propagates its
-   mistakes into work that costs far more to redo than this conversation does.
+   mistakes into work that costs far more to redo than this conversation does. On the yes,
+   write `approved: <date>` into the frontmatter of each root file this skill wrote, in the
+   same write; a file edited after that has the key cleared until the user says yes again.
 6. **Pin the vocabulary the user settled**, per `contracts/domain_model.md` — a term they
    corrected you on goes into `10_blueprint/glossary.md` now, while the correction is still
    in the room. The whole downstream tree uses that word or drifts from it.
 
 **Done when** `brief.md`, `goals.md` and `comparable.md` are on disk and the user has said
-yes to the brief.
+yes to the brief, which `approved:` in their frontmatter records.

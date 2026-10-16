@@ -42,6 +42,7 @@ from dataclasses import dataclass
 # Where each host sits relative to the super-repo root — `verify_host.py --hosts <root>`.
 HOSTS = {
     "forge-concept": "forge/forge-concept",
+    "skaile-forge": "forge/skaile-forge",
     "workspaces": "workspaces",
     "platform": "platform",
 }
@@ -325,6 +326,18 @@ FACTS: tuple[Fact, ...] = (
         rules=("node-data-parameters",),
         verified="2026-09-09",
         seen_at="L52",
+    ),
+    # -- skaile-forge: the dialog input file ---------------------------------------
+    Fact(
+        id="host:grounding-user-input",
+        host="skaile-forge",
+        path="server/utils/content.ts",
+        signature='join(stepFolder, "user_input.json")',
+        expect=PRESENT,
+        claim="The host saves each step's dialog input to `<conceptDir>/_grounding/<step>/user_input.json`, a path it hardcodes and no skill's frontmatter names, so only a step that reads it by that path ever sees what the user typed in the wizard.",
+        rules=("onboard-names-host-input",),
+        verified="2026-10-16",
+        seen_at="L175",
     ),
 )
 

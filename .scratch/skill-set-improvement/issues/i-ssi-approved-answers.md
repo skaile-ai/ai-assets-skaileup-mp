@@ -6,11 +6,13 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] `contracts/artifact_frontmatter.md` universal fields gain `approved: <date>`.
-- [ ] `concept-brief`, `design-brand`, `concept-onboard`, `concept-reverse` write `approved:` at their approval step.
-- [ ] `concept-onboard` step 1 merges `_grounding/<step>/user_input.json` into `answers.json`; `answers.json` is the only answer record.
-- [ ] `host_facts.py` row `host:grounding-user-input` listing the rule id; `python scripts/verify_host.py` reports it.
-- [ ] `architecture-techstack` step 1 reads the confidence grade.
-- [ ] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+- [x] `contracts/artifact_frontmatter.md` universal fields gain `approved: <date>`.
+- [x] `concept-brief`, `design-brand`, `concept-onboard`, `concept-reverse` write `approved:` at their approval step.
+- [x] `concept-onboard` step 1 merges `_grounding/<step>/user_input.json` into `answers.json`; `answers.json` is the only answer record.
+- [x] `host_facts.py` row `host:grounding-user-input` listing the rule id; `python scripts/verify_host.py` reports it.
+- [x] `architecture-techstack` step 1 reads the confidence grade.
+- [x] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+
+**Resolution (2026-10-16):** `approved:` universal field; four approval steps stamp it; `onboarding.yaml` dropped, `answers.json` is the single record (shape in artifact_frontmatter.md); host fact `host:grounding-user-input` (skaile-forge `server/utils/content.ts` L175) owns new rule `onboard-names-host-input` with fixtures. check.py green (124 fixtures); verify_host: new fact holds, the 16 pre-existing expired facts unchanged.

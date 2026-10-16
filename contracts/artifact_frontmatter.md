@@ -13,7 +13,15 @@ Every markdown file in `_concept/`:
 ```yaml
 ---
 last_updated: YYYY-MM-DD    # ISO date, updated on every write
+approved: YYYY-MM-DD        # ISO date the user approved this artifact; absent = not yet approved
 ---
+```
+
+`approved:` is written by the skill that holds the approval step, in the same write that
+records the user's yes, and only then — a file whose approval is still pending carries no
+`approved:` key rather than an empty one. A later edit that changes the substance clears it
+until the user approves again. Data files without frontmatter (`answers.json`, `tokens.json`)
+carry the same key at the top level where a skill's body says so.
 ```
 
 ---
@@ -50,6 +58,34 @@ last_updated: YYYY-MM-DD
 last_updated: YYYY-MM-DD
 ---
 ```
+
+---
+
+## 02_grounding/onboarding/answers.json
+
+The one record of what the user answered; `concept-onboard` owns it and merges the host's
+per-step `_grounding/<step>/user_input.json` into it once. A data file — no frontmatter.
+Keys are the `id` values of the `inputs_optional` fields a dialog rendered, with the raw
+value; the six reserved keys (`approved`, `last_updated`, `confidence`, `rationale`,
+`renderer`, `seeds`) sit beside them.
+
+```json
+{
+  "approved": "YYYY-MM-DD",
+  "last_updated": "YYYY-MM-DD",
+  "framework": "Nuxt 4",
+  "database": "PostgreSQL",
+  "has_brand": true,
+  "brand_files": "assets/brand/",
+  "confidence": { "framework": "locked", "database": "preferred" },
+  "rationale": { "framework": "the team already ships Nuxt" },
+  "renderer": "static-html | astro",
+  "seeds": [{ "path": "02_grounding/seeds/pitch.pdf", "seeds": "brief", "grade": "complete | partial | reference" }]
+}
+```
+
+`confidence` is `locked` | `preferred` | `open` per technology answer;
+`architecture-techstack` reads it in step 1.
 
 ---
 

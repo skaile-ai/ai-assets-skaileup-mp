@@ -327,6 +327,23 @@ def test_cited_section_resolves_across_a_wrap_and_a_pattern_prefix(tmp_path):
     assert errors(root) == []
 
 
+# -- skills: the host's dialog input ----------------------------------------
+
+def test_onboard_that_never_names_the_host_input_file(tmp_path):
+    """The host writes each step's dialog input to `_grounding/<step>/user_input.json`; a
+    `concept-onboard` body that does not name it has dropped the merge into `answers.json`."""
+    root = write_repo(tmp_path, skills=("spec-feature", "concept-onboard"))
+    write_flow(root, good_flow())
+    only(root, "never names `_grounding/<step>/user_input.json`")
+
+
+def test_onboard_that_names_the_host_input_file_is_clean(tmp_path):
+    root = write_repo(tmp_path, skills=("spec-feature", "concept-onboard"))
+    write_flow(root, good_flow())
+    body(root, "concept-onboard", "Merge `_grounding/<step>/user_input.json` into `answers.json`.")
+    assert errors(root) == []
+
+
 # -- skills: calling a skill ------------------------------------------------
 
 def test_skill_tool_call_naming_an_unknown_skill(tmp_path):

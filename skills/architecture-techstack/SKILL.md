@@ -35,9 +35,11 @@ and its section headings are `templates/README.md`'s; read it before scoring.
 ## Steps
 
 1. **Read the ground before asking anything.** `brief.md` for what is being built and for
-   whom; `01_meta/scope.yaml` for `flow` and `project_type`, falling back to
-   `02_grounding/onboarding/onboarding.yaml` when scope has not been written yet; every
-   feature under `05_features/` that exists, for complexity signals. `project_type` decides
+   whom; `01_meta/scope.yaml` for `flow` and `project_type`; every
+   feature under `05_features/` that exists, for complexity signals; and
+   `02_grounding/onboarding/answers.json` for the technology answers and their `confidence`
+   — **locked** is honoured as given, **preferred** can be overruled by a better fit,
+   **open** is yours to recommend from. `project_type` decides
    which axes carry weight — `cli-tool`, `api-service`, `library` and `data-pipeline` grow no
    screens, so the UI-library axis is dead for them and the choice is a runtime and a data
    layer. A `techstack.md` that is already there is a handed-off or reverse-engineered
@@ -52,7 +54,7 @@ and its section headings are `templates/README.md`'s; read it before scoring.
    `contracts/agent_patterns.md § Questions Are Standalone Messages`: existing framework
    experience, web / mobile / desktop / API, how data-heavy the app is, whether it needs a CMS
    or admin panel, self-hosted or managed, and any budget constraint. Skip whatever the
-   onboarding answers already settled and adjust each question to the last answer.
+   `answers.json` already settled and adjust each question to the last answer.
    `appbuilder-mvp` settles this in a round or two — one capability and a single user rarely
    argue with the default — while the other three flows work the whole list.
 4. **Score every candidate on four weighted axes**: frontend framework ×3, UI library ×2,

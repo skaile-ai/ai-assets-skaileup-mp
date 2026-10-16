@@ -31,10 +31,14 @@ Paths are `contracts/concept_structure.md`'s. Everything this skill writes lands
 
 ## Steps
 
-1. **Resume before asking.** `02_grounding/onboarding/onboarding.yaml` present means this
-   ran before: show what it holds and ask whether to continue with it, change specific
-   answers, or start over. `answers.json` holds the raw per-field values a dialog collected
-   and is what makes "change specific answers" cheap — carry it forward on every write.
+1. **Merge what the host already collected, then resume.** The host saves each step's wizard
+   input at `_concept/_grounding/<step>/user_input.json` and shows it to you as pre-collected
+   input. Fold every such file's values into `02_grounding/onboarding/answers.json` once —
+   keys are the field ids, and a value already there changes only after the user confirms it
+   (`contracts/agent_patterns.md § Answers persist`) — then work from `answers.json` alone: it
+   is the only record of answers, and no later skill reads the host's files. An `answers.json`
+   that carries `approved:` means this ran before: show what it holds and ask whether to
+   continue with it, change specific answers, or start over. Carry it forward on every write.
    Read `01_meta/scope.yaml` for `project_type` and the flow; this skill confirms that value
    rather than collecting it again, and a project whose type is unset behaves as `web-app`
    everywhere downstream.
@@ -50,7 +54,7 @@ Paths are `contracts/concept_structure.md`'s. Everything this skill writes lands
    style guide — and where those files are, because `design-brand` extracts from them instead
    of proposing. On a flow that renders a walkthrough, which renderer the project wants
    (`static-html` for a zero-build page set, `astro` for a built site); that answer is read
-   at render time and is the one place it is recorded.
+   at render time from the `renderer` key of `answers.json`, the one place it is recorded.
 4. **Inventory the seeds.** Scan `02_grounding/seeds/` — everything the user dropped in.
    For each file say which artifact it seeds and how far it gets there: **complete** (a later
    skill should adopt it and skip collecting that ground), **partial** (a starting point with
@@ -66,11 +70,14 @@ Paths are `contracts/concept_structure.md`'s. Everything this skill writes lands
    decision riding on it, order most-important-first, keep one idea per question, and leave a
    blank answer stub under each. Async usually gets one pass, so a compound question comes
    back half-answered.
-6. **Write `onboarding.yaml`**, merging rather than replacing what step 1 loaded: the
-   confirmed identity, the decisions with their confidence and any rationale given, the brand
-   answer, the renderer under `mockup.renderer`, and the seed inventory. Report what was
-   captured and which questions went out.
+6. **Record and stamp.** Merge the remaining answers into `answers.json`, shaped per
+   `contracts/artifact_frontmatter.md § 02_grounding/onboarding/answers.json`: the technology
+   answers with their `confidence` and any `rationale` given, the brand answer and where its
+   files are, `renderer`, and the `seeds` inventory; set `last_updated`. Write
+   `approved: <date>` once the user has confirmed the seed table and the answers as read back
+   to them, and leave the key out while anything is unconfirmed. Report what was captured
+   and which questions went out.
 
-**Done when** `onboarding.yaml` and `answers.json` exist, every seed under
-`02_grounding/seeds/` appears in the inventory, and any question for someone outside the
+**Done when** `answers.json` exists and carries `approved:`, every seed under
+`02_grounding/seeds/` appears in its `seeds` list, and any question for someone outside the
 room is in `questions.md`.

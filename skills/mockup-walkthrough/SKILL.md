@@ -35,8 +35,8 @@ below sequence it and never restate it.
 
 ## Steps
 
-1. **Resolve the renderer, once, before anything else.** `02_grounding/onboarding/onboarding.yaml`
-   key `mockup.renderer` wins when set (`static-html` | `astro`). Absent, the flow in
+1. **Resolve the renderer, once, before anything else.** `02_grounding/onboarding/answers.json`
+   key `renderer` wins when set (`static-html` | `astro`). Absent, the flow in
    `01_meta/scope.yaml` decides: `appbuilder-mvp` gets **static-html**, `appbuilder-standard`
    and `skaileup-concept-only` get **astro**. The answer names both the
    output root `_concept/09_mockup/walkthrough/<renderer>/` and the reference directory you work

@@ -23,8 +23,7 @@ _concept/
 │
 ├── 02_grounding/                   everything that came from outside — read by every skill
 │   ├── onboarding/
-│   │   ├── onboarding.yaml         project profile, collected answers, seed inventory
-│   │   ├── answers.json            per-dialog field values, preserved for resume
+│   │   ├── answers.json            the one answer record: field values, confidence, seed inventory, approval
 │   │   └── questions.md            open questions routed to someone who is not in the room
 │   ├── research/
 │   │   ├── domain.md               terminology, regulations, trends

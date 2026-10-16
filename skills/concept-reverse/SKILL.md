@@ -85,7 +85,10 @@ read the one the step names when you reach it.
 9. **Hand off to the nodes that follow**, naming what each one now has to work from — the
    journeys and featuresets from the routes evidence, the screens from `screens.md`, the model
    from `datamodel.md` — and what the user should correct first, which is always the
-   `needs_review` list.
+   `needs_review` list. Once the user has accepted the report — corrections made, the
+   `needs_review` list acknowledged — write `approved: <date>` into the frontmatter of every
+   markdown file this run wrote; `tokens.json` has no frontmatter and takes no stamp. A run
+   the user has not accepted leaves the key out.
 
 ## What sits in `references/detection/`
 

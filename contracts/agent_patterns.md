@@ -44,10 +44,11 @@ explanation goes in the message before it. A technical term is explained in pare
 
 `concept-onboard` keeps every answer a dialog collected in
 `_concept/02_grounding/onboarding/answers.json`, so a later skill can skip a question the user
-has already answered. The host writes its own per-skill dialog file at a path it hardcodes; no
-skill in this collection names that path.
+has already answered. The host writes its own per-step dialog file at
+`_concept/_grounding/<step>/user_input.json`; `concept-onboard` merges it into `answers.json`
+once, and every other skill reads `answers.json` only.
 
-1. Before asking anything, read `answers.json` if it exists, and what the host's dialog handed in.
+1. Before asking anything, read `answers.json` if it exists.
 2. Keys are the `id` values of the `inputs_optional` fields the dialog rendered.
 3. Use a saved value as the default, or skip the question when it is already answered.
 4. New answers merge into the file rather than replacing it.
