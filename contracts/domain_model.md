@@ -5,13 +5,15 @@ shaped the way it is. Two durable artifacts carry it, split by lifecycle:
 
 | Artifact | Path | Role | Lifecycle |
 |---|---|---|---|
-| **Glossary** | `_concept/10_blueprint/glossary.md` | ubiquitous language — canonical term → definition | living; entries are **updated in place** |
+| **Glossary** | `_concept/glossary.md` | ubiquitous language — canonical term → definition | living; entries are **updated in place**; one writer, `concept-glossary` |
 | **Decision records (ADRs)** | `10_blueprint/decisions.md` (design-time) · `11_build/decisions.md` (build-time) | why a hard-to-reverse choice was made | **append-only**; entries are never edited, only superseded |
 
-Both are built **lazily and inline** — as a byproduct of the work, never authored
-up front. A term is written the moment it is pinned during a grill; a decision is
-recorded the moment it is made during planning or implementation. No skill produces
-these in a dedicated "write the glossary" pass — they accrete.
+The two are written differently. The glossary has **one writer**: `concept-glossary` grills
+the user on the words right after the brief and writes `glossary.md`, and re-enters when a
+later skill meets a concept with no term. Every other skill reads it and never appends — a
+file with several writers is a file nobody owns. ADRs are built **lazily and inline**, as a
+byproduct of the work: a decision is recorded the moment it is made during planning or
+implementation, never authored up front.
 
 **Read by ALL skills.** Like `02_grounding/`, the glossary is always
 available as input. Every skill that names a domain concept — feature specs, screen
@@ -21,7 +23,7 @@ in one feature, "user" in a screen, "customer" in code).
 
 ---
 
-## Glossary format — `_concept/10_blueprint/glossary.md`
+## Glossary format
 
 The glossary is a **glossary and nothing else**: term → definition. It contains
 **zero implementation detail** — no schemas, no file paths, no API shapes. Those
@@ -60,13 +62,14 @@ _Avoid_: Client, buyer, account, user
 
 ### Single vs. multi-context
 
-Most projects have **one** glossary at `_concept/10_blueprint/glossary.md`.
+A project has **one** glossary, `_concept/glossary.md`, and the tree has no second path for
+another (ADR 0014). When distinct subsystems give the same word different meanings (a
+"billing" and a "fulfillment" subsystem, say), keep one entry per meaning under a cluster
+heading that names the subsystem, and make each definition say which subsystem it is for. Do
+this only when a term genuinely collides — not preemptively.
 
-When a project spans distinct subsystems with their own languages (e.g. a "billing"
-subsystem and a "fulfillment" subsystem where the same word means different things),
-promote to a **context map**: `_concept/10_blueprint/glossary/` holds one file per
-subsystem plus a `map.md` listing them and their relationships. Do this only when a
-term genuinely collides across subsystems — not preemptively.
+The file opens with frontmatter (`last_updated`, `approved`) per
+`contracts/artifact_frontmatter.md`, then the `# Glossary — <App Name>` heading.
 
 ---
 
@@ -122,25 +125,29 @@ expect by default, transient scratch decisions (those belong in the slice `align
 
 ---
 
-## The discipline — build the model as you work
+## The discipline — who writes what, when
 
-The glossary and ADRs are grown by the **grill/align skills** (during planning) and
-the **slice/build skills** (during implementation), not by a separate documentation
-step. When a skill runs a grill and:
+The glossary is `concept-glossary`'s; ADRs are grown inline by the **grill/align skills**
+(during planning) and the **slice/build skills** (during implementation). When a skill runs
+a grill and:
 
-- **a term gets pinned or a fuzzy word gets sharpened** → write/update the glossary
-  entry then and there. "You keep saying 'account' — you mean the Customer or the
-  login User? They're different." → resolve → glossary.
+- **a term gets pinned or a fuzzy word gets sharpened** and the skill is `concept-glossary`
+  → write/update the entry then and there. "You keep saying 'account' — you mean the
+  Customer or the login User? They're different." → resolve → glossary.
+- **any other skill meets a concept with no term** → it stops, names the concept and hands
+  back; the flow re-enters `concept-glossary`, and the skill resumes on the pinned word. It
+  never appends to `glossary.md` itself.
 - **a decision passes the 3-test gate** → append an ADR then and there.
 
 The globally-installed **`domain-modeling`** skill is the *sharpen-later* tool: a
 standalone grill that challenges the existing glossary against the code, stress-tests
 terms with edge-case scenarios, and captures ADRs — run any time the model has drifted
-or needs hardening. This collection ships no skill of its own for it, because the job
+or needs hardening. This collection ships no skill of its own for that, because the job
 is not skaileup-specific: what is skaileup-specific is where the artifacts land, and
-that is this contract. Inline capture keeps the model current; `domain-modeling`
+that is this contract. `concept-glossary` keeps the glossary current; `domain-modeling`
 deepens it.
 
 **Consumption is a one-line habit, not this discipline.** Any skill exploring the
 project reads `glossary.md` for vocabulary and respects existing ADRs in the area it
-touches. If the files don't exist yet, proceed silently — they are created lazily.
+touches. If a file doesn't exist yet, proceed silently — ADRs are created lazily, and a
+missing glossary means `concept-glossary` has not run.

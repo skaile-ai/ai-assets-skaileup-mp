@@ -24,7 +24,7 @@ gates both directions.
 | `feedback_loop.md` | `mockup-feedback` — the cross-reference protocol between features, screens and the data model |
 | `slice_loop.md` | `spec-feature`, `build-plan`, `build-implement` — the dossier slug rule and the freeze lifecycle |
 | `acceptance_criteria.md` | `spec-feature` (the EARS grammar), `build-plan` (creates the ledger), `build-implement` and `quality-e2e` (flip its rows), `quality-review` and `ops-review` (read it) — the criterion form and the ledger's row shape |
-| `domain_model.md` | Any skill that pins a term or records a decision — glossary format, the ADR format, and the three-test gate that decides whether a decision is worth recording |
+| `domain_model.md` | `concept-glossary` (the glossary's one writer) and every skill that reads its terms or records a decision — glossary format, the ADR format, and the three-test gate that decides whether a decision is worth recording |
 | `semantic_types.md` | The data-model skills — stack-independent types and the translation table |
 | `seed_data.md` | The data-model skills — scenario-based seed conventions. Also the stack-neutral half of seeding: every template's `## Seed` section cites it for the scenario set and carries only the per-ORM layout |
 | `golden_principles.md` | `architecture-datamodel` (entity, field and enum naming), `experience-behaviors` (the same names, one step earlier) and `ops-review` (checks artifacts against them) — the mechanical rules for `_concept/` artifacts. Kept on notice through ADR 0008 for want of a reader; the datamodel writer and the `ops` audit skill both arrived, so it is off notice |

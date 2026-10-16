@@ -37,8 +37,8 @@ Paths are `contracts/concept_structure.md`'s; subagent dispatch is
 
 ## Steps
 
-1. **Scope the research against the brief.** Read `brief.md`, `goals.md` and
-   `comparable.md` where they exist, and pull out the domain, the audience segments and the
+1. **Scope the research against the brief.** Read `brief.md` (its `## Comparables` section
+   included) and `goals.md` where they exist, and pull out the domain, the audience segments and the
    products already named — the user's own comparables go on the list before anything you
    found. Present the plan as who and what you will investigate, and let them add or cut.
    Research that answers a question nobody asked spends the same tokens as research that

@@ -1,6 +1,6 @@
 ---
 name: architecture-datamodel
-description: "Use when the features are specified and the project needs a schema — derives entities, relationships and enums from the feature specs, writes the stack-neutral model with its seed scenarios, and pins the vocabulary it just named. Triggers on 'data model', 'design the schema', 'what entities do we need', 'seed data'."
+description: "Use when the features are specified and the project needs a schema — derives entities, relationships and enums from the feature specs, writes the stack-neutral model with its seed scenarios, and checks every name against the glossary. Triggers on 'data model', 'design the schema', 'what entities do we need', 'seed data'."
 version: "0.1.0"
 metadata:
   requires:
@@ -11,9 +11,9 @@ metadata:
       - { id: features }
       - { id: techstack }
       - { id: journeys }
+      - { id: glossary }
     produces:
       - { id: datamodel, path: "_concept/10_blueprint/datamodel/" }
-      - { id: glossary, path: "_concept/10_blueprint/glossary.md" }
   prerequisites:
     files:
       - { path: "_concept/05_features", gate: hard, min_entries: 1 }
@@ -28,8 +28,8 @@ Derives the project's data model from its feature specs and writes it four ways 
 `10_blueprint/datamodel/`: `model.dbml` to read, `model.json` for the editor canvas,
 `seed.json` for everything that needs realistic data, and `feature-map.json` tracing each
 model back to the features that asked for it. It is the only step that holds the whole
-vocabulary at once, so it also settles the glossary and links the entities back into the
-feature specs.
+vocabulary at once, so it checks every name against the glossary and links the entities back
+into the feature specs.
 
 The model is **stack-neutral**. Types are `contracts/semantic_types.md`'s and never SQL or
 Prisma types; naming is `contracts/golden_principles.md`'s; the seed scenarios and the rules
@@ -41,7 +41,7 @@ a schema into the concept tree before the stack's migration tool has seen it.
 
 1. **Read every feature, not a sample.** Features and entities are not one-to-one: several
    features share an entity, and infrastructure entities — sessions, audit logs, job records —
-   serve no single feature at all. Read `brief.md` for the domain, `10_blueprint/glossary.md`
+   serve no single feature at all. Read `brief.md` for the domain, `glossary.md`
    for the words already pinned, and `10_blueprint/techstack.md` for translation hints only.
    Where they exist: `04_journeys/stories.yaml` — EARS criteria carry state machines, event
    criteria becoming transitions and state criteria becoming guards;
@@ -74,14 +74,15 @@ a schema into the concept tree before the stack's migration tool has seen it.
    entity traces to at least one feature; one that traces to none is either an entity the app
    does not need or a feature nobody wrote down, and both are worth raising before the schema
    is built.
-6. **Pin the vocabulary in `10_blueprint/glossary.md`**, per `contracts/domain_model.md`.
-   Every model name and every enum vocabulary the design just settled gets an entry — one or
-   two sentences saying what the thing *is*, with the words it beat listed under `_Avoid_`.
-   Entries are updated in place and existing ones are left alone; where the glossary already
-   has a term for a concept, the model renames to match it rather than the other way round,
-   because the glossary is what the feature specs, the screens and the code are already using.
-   Field names and types stay out — the glossary carries no implementation detail, and
-   `model.json` is where the shape lives.
+6. **Check every name against `glossary.md`**, per `contracts/domain_model.md § Glossary
+   format`. Every model name and every enum vocabulary the design just settled must be a
+   term there. Where the glossary has a term for a concept, the model renames to match it
+   rather than the other way round, because the glossary is what the feature specs, the
+   screens and the code are already using; a word from a term's `_Avoid_` list is renamed
+   the same way. A concept the model needs that has no term is not appended here: name it
+   and hand back, and the flow re-enters `concept-glossary`, which pins it before this step
+   goes on. `model.json` is where the shape lives — field names and types never go into the
+   glossary.
 7. **Register the entities back into the features**, per `contracts/feedback_loop.md`: each
    feature's `data_entities[]` lists the entities that serve it, leaving its `screens:` array
    untouched. Without the back-link a feature and the entities it depends on can only be

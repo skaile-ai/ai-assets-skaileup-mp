@@ -14,9 +14,9 @@ the vocabulary meaning of *concept* (the design half) — see `CONTEXT.md`.
 
 ```
 _concept/
-├── brief.md                        elevator pitch, audience, problem, hero flow
+├── brief.md                        elevator pitch, audience, problem, hero flow, ## Comparables
 ├── goals.md                        success criteria, KPIs, constraints, non-goals
-├── comparable.md                   reference apps: borrow, avoid, positioning gap
+├── glossary.md                     the project's ubiquitous language: terms, definitions, _Avoid_ lists
 │
 ├── 01_meta/
 │   └── scope.yaml                  flow + project_type; every skill reads its depth from here
@@ -73,7 +73,6 @@ _concept/
 ├── 10_blueprint/
 │   ├── techstack.md                chosen technologies and why
 │   ├── architecture.md             system architecture, modules, data flow, protocols
-│   ├── glossary.md                 the project's ubiquitous language
 │   ├── decisions.md                design-time decision records, append-only
 │   └── datamodel/                  schema, seed data, feature cross-reference
 │
@@ -119,9 +118,10 @@ A skill reads from anywhere earlier in the tree and writes only into the folder 
 
 | writes to | may read |
 |---|---|
-| `brief.md` · `goals.md` · `comparable.md` | `02_grounding/` |
-| `03_brand/` | `02_grounding/`, `brief.md` |
-| `04_journeys/` | `02_grounding/`, `brief.md`, `goals.md` |
+| `brief.md` · `goals.md` | `02_grounding/` |
+| `glossary.md` | `02_grounding/`, `brief.md` |
+| `03_brand/` | `02_grounding/`, `brief.md`, `glossary.md` |
+| `04_journeys/` | `02_grounding/`, `brief.md`, `goals.md`, `glossary.md` |
 | `05_features/` | the above |
 | `06_behaviors/` | the above + `05_features/` |
 | `07_screens/` | the above, and `10_blueprint/` when it exists |
@@ -138,7 +138,7 @@ existence before reading.
 ```
 02_grounding/ ─────────────────► read by everything, at any point
 
-brief · goals · comparable
+brief · goals · glossary
         │
         ├──► 03_brand/
         │

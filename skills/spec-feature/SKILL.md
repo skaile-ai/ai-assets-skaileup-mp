@@ -12,16 +12,17 @@ metadata:
       - { id: journeys }
       - { id: brand-tokens }
       - { id: datamodel }
+      - { id: glossary }
     produces:
       - { id: features, path: "_concept/05_features/<featureset>/<feature>.md" }
       - { id: screens, path: "_concept/07_screens/<feature_slug>/<screen>.md" }
       - { id: dossier, path: "_concept/08_dossiers/<feature_slug>/index.md" }
-      - { id: glossary, path: "_concept/10_blueprint/glossary.md" }
       - { id: decisions, path: "_concept/10_blueprint/decisions.md" }
   prerequisites:
     files:
       - { path: "_concept/01_meta/scope.yaml", gate: hard }
       - { path: "_concept/brief.md", gate: hard }
+      - { path: "_concept/glossary.md", gate: soft }
       - { path: "_concept/04_journeys/stories.yaml", gate: soft }
       - { path: "_concept/10_blueprint/datamodel", gate: soft }
 ---
@@ -67,10 +68,15 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
    feature sits in a journey rather than assuming it stands alone:
    `grilling` makes finding facts your job, and asking the user something the tree already
    says spends the round you needed for a real question.
-3. **Pin the vocabulary as it crystallises**, per `contracts/domain_model.md` — a term the
-   user settles goes into `10_blueprint/glossary.md`, a choice that passes the three-test
-   gate appends to `10_blueprint/decisions.md`. Both are cheap now and unrecoverable later:
-   the reasoning is in the room only while the interview is running.
+3. **Use the glossary's words; pin decisions as they pass the gate.** Name every concept in
+   the grill by its term in `glossary.md`, per `contracts/domain_model.md § Glossary format`
+   — a synonym from the `_Avoid_` list is renamed to the term, not adopted. A concept with
+   no term stops the interview: name it and hand back, and the flow re-enters
+   `concept-glossary`, which pins it before this feature goes on. With no `glossary.md` at
+   all, every concept is in that position, so say so and hand back before the first
+   question. A choice that passes the three-test gate appends to `10_blueprint/decisions.md`,
+   cheap now and unrecoverable later: the reasoning is in the room only while the interview
+   is running.
 4. **Draw the scope line.** Walk every edge case and open question the grill surfaced and
    put each one IN, OUT, or DEFER with a one-line rationale. IN items become acceptance
    criteria; OUT and DEFER become the spec's `## Out of Scope` section, which is where a

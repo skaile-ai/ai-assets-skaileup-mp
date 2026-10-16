@@ -1,6 +1,6 @@
 ---
 name: concept-brief
-description: "Use when a concept has no _concept/brief.md yet, or the user wants to redefine one. Writes the pitch, the goals and the comparables — the three root files everything downstream reads. Triggers on 'I have an app idea', 'new project', 'start from scratch', 'redo the brief'."
+description: "Use when a concept has no _concept/brief.md yet, or the user wants to redefine one. Writes the pitch (with its comparables) and the goals — the two root files everything downstream reads. Triggers on 'I have an app idea', 'new project', 'start from scratch', 'redo the brief'."
 version: "0.1.0"
 metadata:
   requires:
@@ -11,8 +11,6 @@ metadata:
     produces:
       - { id: brief, path: "_concept/brief.md" }
       - { id: goals, path: "_concept/goals.md" }
-      - { id: comparable, path: "_concept/comparable.md" }
-      - { id: glossary, path: "_concept/10_blueprint/glossary.md" }
   prerequisites:
     files:
       - { path: "_concept/01_meta/scope.yaml", gate: soft }
@@ -28,9 +26,10 @@ metadata:
 
 # concept-brief
 
-The three root files of a concept — `brief.md`, `goals.md`, `comparable.md` — and nothing
-else. Journeys, features, screens, brand and stack all read these, so a brief that guesses
-sets the whole concept guessing. It writes what the user actually said and hands off.
+The two brief files of a concept — `brief.md`, comparables included as a section, and
+`goals.md` — and nothing else. Journeys, features, screens, brand and stack all read these,
+so a brief that guesses sets the whole concept guessing. It writes what the user actually
+said and hands off; pinning the words they settled is `concept-glossary`'s step, right after.
 
 Paths are `contracts/concept_structure.md`'s and the frontmatter shapes are
 `contracts/artifact_frontmatter.md`'s. `02_grounding/` is readable at any point and is the
@@ -58,21 +57,24 @@ only thing upstream of this skill.
    number, a threshold or a yes/no condition, because a goal nobody can settle is a goal
    nothing downstream can be checked against. A deadline or budget the user never implied is
    written `TBD`: an invented one gets planned around.
-4. **Study the comparables**, in `comparable.md`: three to six products — at least one direct
-   competitor, one indirect, one adjacent, since the best patterns cross domains. Each gets a
-   concrete borrow and a concrete avoid, named as a specific pattern rather than "good UX",
-   and the file closes on the positioning gap: where this product sits that none of them do,
-   tied to the audience. If the user named none and no research exists, write that. A
+4. **Study the comparables**, as a `## Comparables` section closing `brief.md`: three to six
+   products — at least one direct competitor, one indirect, one adjacent, since the best
+   patterns cross domains. Each gets a concrete borrow and a concrete avoid, named as a
+   specific pattern rather than "good UX", and the section closes on the positioning gap:
+   where this product sits that none of them do, tied to the audience. Where
+   `02_grounding/research/competitors.md` exists, cite it for the analysis behind a product
+   instead of restating it. If the user named none and no research exists, write that. A
    fabricated competitor is indistinguishable from a real one by the time features are being
    cut against it, and unverifiable claims about a real one are marked `unverified`.
 5. **Show the brief and wait for a yes in words.** Apply changes, show it again, ask again.
    The brief is the root of every artifact after it, so an unapproved one propagates its
    mistakes into work that costs far more to redo than this conversation does. On the yes,
-   write `approved: <date>` into the frontmatter of each root file this skill wrote, in the
+   write `approved: <date>` into the frontmatter of each file this skill wrote, in the
    same write; a file edited after that has the key cleared until the user says yes again.
-6. **Pin the vocabulary the user settled**, per `contracts/domain_model.md` — a term they
-   corrected you on goes into `10_blueprint/glossary.md` now, while the correction is still
-   in the room. The whole downstream tree uses that word or drifts from it.
+6. **Leave the words to the glossary.** A term the user corrected you on is used in their
+   wording throughout `brief.md` and named in your hand-off, so `concept-glossary` — the next
+   step and the only writer of `glossary.md` — pins it while the correction is fresh. Writing
+   glossary entries here would put a second writer on a file that has one.
 
-**Done when** `brief.md`, `goals.md` and `comparable.md` are on disk and the user has said
-yes to the brief, which `approved:` in their frontmatter records.
+**Done when** `brief.md` (with its `## Comparables` section) and `goals.md` are on disk and
+the user has said yes to the brief, which `approved:` in their frontmatter records.

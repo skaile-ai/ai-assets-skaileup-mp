@@ -114,7 +114,7 @@ build half too.
 _Avoid_: discovery, spec phase
 
 **Blueprint**:
-The technical design a concept resolves to: stack, architecture, data model, glossary.
+The technical design a concept resolves to: stack, architecture, data model.
 Still design, not code.
 
 **Datamodel**:

@@ -11,7 +11,6 @@ metadata:
     produces:
       - { id: brief, path: "_concept/brief.md" }
       - { id: goals, path: "_concept/goals.md" }
-      - { id: comparable, path: "_concept/comparable.md" }
       - { id: techstack, path: "_concept/10_blueprint/techstack.md" }
       - { id: brand-identity, path: "_concept/03_brand/identity.md" }
       - { id: brand-tokens, path: "_concept/03_brand/tokens.json" }
@@ -59,10 +58,11 @@ read the one the step names when you reach it.
 4. **Write the brief from what the project already says about itself** — README, the
    manifest's `name`, `description`, `keywords` and `homepage`, the changelog, and anything
    under `docs/`. `brief.md` takes the pitch, audience, problem and hero flow; `goals.md`
-   takes the roadmap, milestones and stated constraints; `comparable.md` takes the products
-   the README names under "similar to", "inspired by" or "alternatives". A thin README yields
-   a thin brief marked `needs_review`, never a rich one inferred from the code: motivation and
-   audience are the two things source code never states.
+   takes the roadmap, milestones and stated constraints; `brief.md`'s `## Comparables`
+   section takes the products the README names under "similar to", "inspired by" or
+   "alternatives". A thin README yields a thin brief marked `needs_review`, never a rich one
+   inferred from the code: motivation and audience are the two things source code never
+   states.
 5. **Detect the stack** per `references/detection/techstack.md` and write
    `10_blueprint/techstack.md` — platform, frontend, UI library, backend, database and ORM,
    auth, hosting and package manager, each graded, with the version constraints and odd
@@ -105,6 +105,7 @@ carrying the file globs, the signal-to-value tables and the priority order for i
 This is stack-specific knowledge nothing else in the collection owns; when a framework is
 missing from a table, the table is what gets extended.
 
-**Done when** `brief.md`, `goals.md`, `comparable.md`, `10_blueprint/techstack.md`,
-`03_brand/tokens.json` and the three `02_grounding/findings/` files exist, every value in
-them carries a confidence grade, and every cited path resolves on disk.
+**Done when** `brief.md` (with its `## Comparables` section), `goals.md`,
+`10_blueprint/techstack.md`, `03_brand/tokens.json` and the three `02_grounding/findings/`
+files exist, every value in them carries a confidence grade, and every cited path resolves
+on disk.

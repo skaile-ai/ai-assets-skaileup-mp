@@ -62,6 +62,7 @@ nodes; each writes into `_concept/`, the one artifact tree, described in
 | [concept-onboard](skills/concept-onboard/) | Captures what the user already knows: tech preferences, brand, material |
 | [concept-scope](skills/concept-scope/) | Records the flow the project is sized by and its project type |
 | [concept-brief](skills/concept-brief/) | Writes the pitch, goals and comparables everything downstream reads |
+| [concept-glossary](skills/concept-glossary/) | Pins the product's words — terms, definitions, words to avoid — right after the brief |
 | [concept-research](skills/concept-research/) | Grounds decisions in domain, competitor, audience and visual research |
 | [concept-reverse](skills/concept-reverse/) | Extracts a concept from an existing repository |
 | [design-brand](skills/design-brand/) | Discovers a visual direction and writes the project's brand |

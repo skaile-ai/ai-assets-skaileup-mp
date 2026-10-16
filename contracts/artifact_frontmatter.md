@@ -34,10 +34,14 @@ elevator_pitch: "One sentence"
 audience: "Who it's for"
 problem: "What it solves"
 hero_flow: "The most important user action"
-comparable_products: [app1, app2]
 last_updated: YYYY-MM-DD
 ---
 ```
+
+The body ends in a `## Comparables` section: three to six products, each with a concrete
+borrow and avoid, closing on the positioning gap. It cites
+`02_grounding/research/competitors.md` for the analysis behind a product rather than
+restating it, and there is no separate `comparable.md` (ADR 0014).
 
 ## goals.md
 
@@ -51,13 +55,16 @@ last_updated: YYYY-MM-DD
 ---
 ```
 
-## comparable.md
+## glossary.md
 
 ```yaml
 ---
 last_updated: YYYY-MM-DD
 ---
 ```
+
+Terms, definitions and `_Avoid_` lists are the body, in `contracts/domain_model.md`'s
+format; `concept-glossary` is the only writer and stamps `approved:` on the user's yes.
 
 ---
 
