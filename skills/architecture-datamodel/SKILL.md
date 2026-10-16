@@ -1,97 +1,84 @@
 ---
 name: architecture-datamodel
-description: "Use when the features are specified and the project needs a schema — derives entities, relationships and enums from the feature specs, writes the stack-neutral model with its seed scenarios, and checks every name against the glossary. Triggers on 'data model', 'design the schema', 'what entities do we need', 'seed data'."
-version: "0.1.0"
+description: "Use when the glossary exists and the project needs a schema before any feature is specified — derives entities, relationships and enums from the journeys (or the brief where there are none), settles every name against the glossary, and writes the stack-neutral model with its seed scenarios. Triggers on 'data model', 'design the schema', 'what entities do we need', 'seed data'."
+version: "0.2.0"
 metadata:
   requires:
     - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: brief }
-      - { id: features }
-      - { id: techstack }
       - { id: journeys }
       - { id: glossary }
+      - { id: techstack }
     produces:
       - { id: datamodel, path: "_concept/10_blueprint/datamodel/" }
   prerequisites:
     files:
-      - { path: "_concept/05_features", gate: hard, min_entries: 1 }
-      - { path: "_concept/10_blueprint/techstack.md", gate: soft }
       - { path: "_concept/04_journeys/stories.yaml", gate: soft }
-      - { path: "_concept/06_behaviors", gate: soft, min_entries: 1 }
+      - { path: "_concept/glossary.md", gate: hard }
+      - { path: "_concept/10_blueprint/techstack.md", gate: soft }
+      - { path: "_concept/10_blueprint/architecture.md", gate: soft }
 ---
 
 # architecture-datamodel
 
-Derives the project's data model from its feature specs and writes it four ways under
-`10_blueprint/datamodel/`: `model.dbml` to read, `model.json` for the editor canvas,
-`seed.json` for everything that needs realistic data, and `feature-map.json` tracing each
-model back to the features that asked for it. It is the only step that holds the whole
-vocabulary at once, so it checks every name against the glossary and links the entities back
-into the feature specs.
+Derives the project's data model from its journeys and its glossary and writes it three ways
+under `10_blueprint/datamodel/`: `model.dbml` to read, `model.json` for the editor canvas, and
+`seed.json` for everything that needs realistic data. It runs before any feature exists, so
+the model is the vocabulary the feature specs, behaviors and screens are written against:
+downstream skills read entity names from `model.json` and never coin their own, and each
+feature spec lists the models it uses in its own `data_entities[]`.
 
-The model is **stack-neutral**. Types are `contracts/semantic_types.md`'s and never SQL or
-Prisma types; naming is `contracts/golden_principles.md`'s; the seed scenarios and the rules
-they obey are `contracts/seed_data.md`'s; paths are `contracts/concept_structure.md`'s.
-Translating any of it into a stack is `build-database`'s step, and doing it here would freeze
-a schema into the concept tree before the stack's migration tool has seen it.
+The model is **stack-neutral**. Types come from `contracts/semantic_types.md § Scalar Types`
+and are never SQL or Prisma types, and translating the model into a stack is `build-database`'s
+step. Doing it here would freeze a schema into the concept tree before the stack's migration
+tool has seen it. Paths are `contracts/concept_structure.md`'s.
 
 ## Steps
 
-1. **Read every feature, not a sample.** Features and entities are not one-to-one: several
-   features share an entity, and infrastructure entities — sessions, audit logs, job records —
-   serve no single feature at all. Read `brief.md` for the domain, `glossary.md`
-   for the words already pinned, and `10_blueprint/techstack.md` for translation hints only.
-   Where they exist: `04_journeys/stories.yaml` — EARS criteria carry state machines, event
-   criteria becoming transitions and state criteria becoming guards;
-   `10_blueprint/architecture.md` — a custom module or an integration usually needs its own
-   entities; `06_behaviors/<featureset>.md` — its state tables are authoritative for enum
-   values, and an enum here that disagrees with one there will be caught by whichever half is
-   read second.
-2. **Ask what the features left ambiguous**, one question per message per
-   `contracts/agent_patterns.md § Questions Are Standalone Messages`: what each feature
-   stores, how things connect ("a user has many tasks"), and who may see or change what.
-   The last one is already half-answered — each
-   feature's `permissions:` block is in its frontmatter, and the model's job is to carry the
-   fields those rules need to evaluate.
-3. **Write `model.dbml` and `model.json`.** Semantic types only, PascalCase singular model
-   names, snake_case fields, `_id` on the owning side of every `m2o`, PascalCase enum values,
-   `label_field` on every model, `key_field` where there is a readable slug. Do not put `id`,
-   `created_at` or `updated_at` in a fields list — `standard_fields` declares them and the
-   translator injects them — and do not declare `o2m`, which is generated from its `m2o`. An
-   `m2m` gets an explicit junction model. A raw SQL type here survives all the way into a
-   migration that will not apply.
-4. **Write `seed.json` with all four scenarios** — `empty`, `single_user`, `populated`,
-   `edge_cases` — plus `permissions` when the app has role-based features. The format and the
-   data-quality rules are `contracts/seed_data.md`'s: IDs consistent across entities so every
-   relation resolves inside its own scenario, `created_at` and `updated_at` on every record in
-   `single_user` and `populated`, statuses covering the enum, names from several locales, and
-   string lengths from one character to a hundred. This file is what the mockups render, what
-   the screens quote and what the E2E tests run against, so a thin `populated` scenario shows
-   up as a design nobody could review.
-5. **Write `feature-map.json`**, mapping each model to the feature files it came from. Every
-   entity traces to at least one feature; one that traces to none is either an entity the app
-   does not need or a feature nobody wrote down, and both are worth raising before the schema
-   is built.
-6. **Check every name against `glossary.md`**, per `contracts/domain_model.md § Glossary
-   format`. Every model name and every enum vocabulary the design just settled must be a
-   term there. Where the glossary has a term for a concept, the model renames to match it
-   rather than the other way round, because the glossary is what the feature specs, the
-   screens and the code are already using; a word from a term's `_Avoid_` list is renamed
-   the same way. A concept the model needs that has no term is not appended here: name it
-   and hand back, and the flow re-enters `concept-glossary`, which pins it before this step
-   goes on. `model.json` is where the shape lives — field names and types never go into the
-   glossary.
-7. **Register the entities back into the features**, per `contracts/feedback_loop.md`: each
-   feature's `data_entities[]` lists the entities that serve it, leaving its `screens:` array
-   untouched. Without the back-link a feature and the entities it depends on can only be
-   connected by reading the whole model.
-8. **Approve it in plain language** — what the app keeps track of and how those things relate,
-   in the user's words, with the counts underneath. Then write. If the user asks for a
-   stack-specific export at this point, that is `build-database`'s pass and it runs against
-   these files rather than replacing them.
+1. **Read what the model is built from.** `04_journeys/stories.yaml` is the main source:
+   actors, stages, and EARS criteria — event criteria become transitions, state criteria become
+   guards, and what a journey creates, changes or looks up is an entity or a field. Profiles
+   that never grow journeys (`api-service`, `cli-tool`, `data-pipeline`, `library`) have no such
+   file: the model then comes from the brief's hero flow and problem plus the glossary's terms,
+   and the questions in step 3 carry what the journeys would have. `brief.md` gives the
+   domain and `glossary.md` (always required) the words already pinned. Where `10_blueprint/techstack.md`
+   exists it gives translation hints only (a stack that forces a join table, say); without it
+   the model stays generic and nothing waits on it. Where `10_blueprint/architecture.md`
+   exists, a custom module or an integration usually needs its own entities; without it, an
+   entity that only an integration needs surfaces later and this step is re-run for it.
+2. **Settle the vocabulary before modelling.** List every candidate entity and every enum
+   vocabulary the journeys (or the brief) imply — each journey's `candidate_entities` is the starting list —
+   and check each against `glossary.md` per
+   `contracts/domain_model.md § Glossary format`. Where the glossary has a term, the model
+   uses it; a word from a term's `_Avoid_` list is renamed to the term. A concept with no term
+   is not appended here: name it and hand back, and the flow re-enters `concept-glossary`,
+   which pins it before this step goes on. Entities with no journey behind them — sessions,
+   audit logs, job records — are named in the same list and checked the same way.
+3. **Ask what the journeys left ambiguous**, one question per message per
+   `contracts/agent_patterns.md § Pattern: Questions Are Standalone Messages`: what each
+   journey stores, how things connect ("a user has many tasks"), and which roles may see or
+   change what. The last answer is what the seed's `permissions` scenario and the fields that
+   rules evaluate on come from.
+4. **Approve it in plain language** — what the app keeps track of and how those things relate,
+   in the user's words, with the counts underneath. Nothing is written before the user says
+   yes, because a model that features, screens and seeds are all about to name is cheapest to
+   change while it is still a paragraph.
+5. **Write `model.dbml` and `model.json`.** Conventions are
+   `contracts/semantic_types.md § Rules for Skills`; the mechanical checks that review applies
+   are `contracts/golden_principles.md § Entity Rules`, `§ Field Rules`, `§ Enum Rules` and
+   `§ Relation Rules`. An `m2m` gets an explicit junction model. A raw SQL type here survives
+   all the way into a migration that will not apply.
+6. **Write `seed.json` with all four scenarios** — `empty`, `single_user`, `populated`,
+   `edge_cases` — plus `permissions` when the journeys name distinct roles. The scenarios are
+   `contracts/seed_data.md § Standard Scenarios` and the data rules
+   `contracts/seed_data.md § Data Quality Rules`, so every relation resolves inside its own
+   scenario. This file is what the mockups render, what the screens quote and what the E2E
+   tests run against, so a thin `populated` scenario shows up as a design nobody could review.
+7. **Hand a stack export to `build-database`.** If the user asks for a stack-specific schema
+   at this point, `build-database` writes it against these files rather than replacing them.
 
-**Done when** all four files exist under `10_blueprint/datamodel/`, every entity appears in
-`feature-map.json` against at least one real feature file, every model name has a glossary
-entry, and every feature's `data_entities[]` resolves.
+**Done when** `model.dbml`, `model.json` and `seed.json` exist under `10_blueprint/datamodel/`
+with the model approved, every model name and enum vocabulary is a term in `glossary.md`, and
+`seed.json` carries all four standard scenarios.

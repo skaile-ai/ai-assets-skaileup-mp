@@ -6,10 +6,12 @@
 
 **Blocked by:** i-ssi-soft-gates-profiles, i-ssi-concept-glossary
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] `architecture-datamodel` prerequisites, step order and deletions as in the plan; contract `§` cites replace whole-file cites and restated rules.
-- [ ] `spec-feature`, `spec-featuresets`, `experience-journeys`, `experience-behaviors` read entity names, never coin them.
-- [ ] `spec-feature` step 5 writes `data_entities[]`.
-- [ ] `concept_structure.md`: `datamodel/` loses the feature cross-reference; one owner named for the stack-specific schema file.
-- [ ] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+- [x] `architecture-datamodel` prerequisites, step order and deletions as in the plan; contract `§` cites replace whole-file cites and restated rules.
+- [x] `spec-feature`, `spec-featuresets`, `experience-journeys`, `experience-behaviors` read entity names, never coin them.
+- [x] `spec-feature` step 5 writes `data_entities[]`.
+- [x] `concept_structure.md`: `datamodel/` loses the feature cross-reference; one owner named for the stack-specific schema file.
+- [x] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+
+**Resolution (2026-10-16):** architecture-datamodel: requires brief/journeys/glossary/techstack; glossary hard, stories.yaml soft (F35 rule; models from brief + glossary without journeys), techstack/architecture soft with stated use; vocabulary step before modelling, approval before writes, feature-map and register-back deleted, § cites. Spec/experience skills read entity names (model.json, else glossary) and hand back; spec-feature writes `data_entities[]` at step 5; ops-review checks the join. Contracts: tree + read order, feature-map gone, build-database owns the stack-specific schema (semantic_types.md too). Pre-existing snake_case vs PascalCase conflict between golden_principles and semantic_types left as is. check.py green.

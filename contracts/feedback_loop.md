@@ -14,7 +14,7 @@ then feature Y must list screen X, and screen X must list feature Y.
 ### When `experience-journeys` writes the stories:
 
 1. Write `stories.yaml` to `04_journeys/`
-2. Each journey includes `candidate_features` (slugs) and `candidate_entities` (PascalCase names)
+2. Each journey includes `candidate_features` (slugs) and `candidate_entities` (PascalCase glossary terms)
 3. `spec-featuresets` consumes them to seed the feature roster
 4. No frontmatter updates needed — the roster discovers journeys by reading the file directly
 
@@ -62,16 +62,18 @@ screens:
   - path: 07_screens/login/login.md
 ```
 
-### When `architecture-datamodel` writes the model:
+### When `spec-feature` writes a feature spec:
 
-1. Write the schema file (format determined by the stack)
-2. Write `10_blueprint/datamodel/feature-map.json` mapping each model to the features it serves
-3. For each referenced feature, read its frontmatter
-4. Set `data_entities:` to the list of model names (PascalCase) that serve this feature
-5. Update `last_updated` on the feature file
+1. Read `10_blueprint/datamodel/model.json` for the model names; a feature never coins one
+2. Set `data_entities:` in the feature's frontmatter to the list of model names (PascalCase)
+   that serve this feature, each one a model in `model.json`
+3. Update `last_updated` on the feature file
+
+The feature's `data_entities:` is the only feature↔entity join. To find the features that use
+a model, search `05_features/*/*.md` for the model name in `data_entities`.
 
 ```yaml
-# 05_features/auth/login.md — updated by architecture-datamodel
+# 05_features/auth/login.md
 data_entities: [User, Session]
 ```
 
@@ -79,15 +81,6 @@ data_entities: [User, Session]
 
 1. Write one markdown file per featureset to `06_behaviors/<featureset>.md`
 2. No frontmatter updates needed — downstream skills discover them by checking the folder
-
-### When `architecture-datamodel` reads behavioural specs (optional):
-
-1. Check whether `06_behaviors/*.md` exists
-2. If present, use its state tables to pre-populate the data model:
-   - Entity states → model enums
-   - Entity relationships → model relationships
-   - Named constants → field defaults and constraints
-3. This is additive — the agent still reads features and applies its own analysis
 
 ### When `spec-feature` reads behavioural specs (optional):
 
@@ -117,8 +110,8 @@ data_entities: [User, Session]
 
 1. Find all screens that reference the feature in `implements:`
 2. Remove the entry (or flag for human review if the screen depends on it)
-3. Find all models in `feature-map.json` that reference the feature
-4. Remove the reference
+3. Nothing to update in the model: it holds no list of features, and the deleted spec's
+   `data_entities` goes with the file
 
 ## Validation
 
@@ -126,6 +119,7 @@ data_entities: [User, Session]
 
 - Screen references a feature that doesn't exist → ERROR
 - Feature lists a screen that doesn't exist → ERROR
-- Model in `feature-map.json` references a feature that doesn't exist → WARNING
+- Feature's `data_entities` names a model that is not in `model.json` → WARNING
+- Model that no feature's `data_entities` lists → WARNING (an entity nobody asked for, or a feature nobody wrote down)
 - Feature has `screens: []` but matching screens exist → WARNING (missing link)
 - Feature has `story_refs` pointing to a journey ID not in `stories.yaml` → WARNING

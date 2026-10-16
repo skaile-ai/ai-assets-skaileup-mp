@@ -58,9 +58,9 @@ those checks and does not restate them.
 4. **Check the cross-references, both directions.** A feature's `screens:` names files that
    exist, and each of those screens' `implements:` names it back. A screen's `implements:`
    names features that exist. Every name in a `data_entities:` array resolves to a model in
-   the data model, and every model has a `feature-map.json` entry naming feature files that
-   exist. A one-directional link is a screen the feature it belongs to cannot find, which is
-   invisible until a renderer or a plan silently omits it.
+   `model.json`, and every model in `model.json` is listed in some feature spec's
+   `data_entities[]`. A one-directional link is a screen the feature it belongs to cannot
+   find, which is invisible until a renderer or a plan silently omits it.
 5. **Check the mechanical rules** in `golden_principles.md` — entity, field, enum and relation
    naming, and the body structure a feature spec is required to have. These are the rules a
    generated or reverse-engineered concept fails first, because nothing enforced them while

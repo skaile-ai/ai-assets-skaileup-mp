@@ -5,7 +5,7 @@ These types carry **intent** — a stack translator maps them to concrete output
 
 Skills always write semantic types in `model.json` and `model.dbml`.
 Stack-specific output (Prisma schema, postxl-schema.json, SQL DDL) is produced by
-the datamodel skill as a translation step, driven by the detected tech stack.
+`build-database`, which translates `model.json` for the detected tech stack.
 
 ## Scalar Types
 

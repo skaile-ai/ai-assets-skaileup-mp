@@ -48,11 +48,10 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
    per `contracts/slice_loop.md`, and place it in exactly one featureset under
    `05_features/`. A glob that already resolves means this is a refinement of an existing
    spec: load it and say so before asking anything, so the user answers against what is
-   written rather than from memory, and carry its existing `screens:` and `data_entities:`
-   arrays through untouched — they were populated by later steps that are not running now, and
-   a rewritten spec that drops them silently unlinks the feature from its screens and its
-   entities. Two matches across featuresets is the collision the slug rule names — list both
-   and ask which one this is.
+   written rather than from memory, and carry its existing `screens:` array through
+   untouched — it was populated by a later step that is not running now, and a rewritten
+   spec that drops it silently unlinks the feature from its screens. Two matches across
+   featuresets is the collision the slug rule names — list both and ask which one this is.
 2. **Grill.** Call the Skill tool with "grilling" against this feature. If it is not
    installed, run the rounds yourself: one frontier of unsettled questions per message, each
    with a recommended answer. Either way, what this feature adds is the ground the frontier
@@ -70,13 +69,14 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
    says spends the round you needed for a real question.
 3. **Use the glossary's words; pin decisions as they pass the gate.** Name every concept in
    the grill by its term in `glossary.md`, per `contracts/domain_model.md § Glossary format`
-   — a synonym from the `_Avoid_` list is renamed to the term, not adopted. A concept with
-   no term stops the interview: name it and hand back, and the flow re-enters
-   `concept-glossary`, which pins it before this feature goes on. With no `glossary.md` at
-   all, every concept is in that position, so say so and hand back before the first
-   question. A choice that passes the three-test gate appends to `10_blueprint/decisions.md`,
-   cheap now and unrecoverable later: the reasoning is in the room only while the interview
-   is running.
+   — a synonym from the `_Avoid_` list is renamed to the term, not adopted. Entity names are
+   read, never coined: from `10_blueprint/datamodel/model.json` when it exists, else from the
+   glossary. A concept with no term stops the interview: name it and hand back, and the flow
+   re-enters `concept-glossary`, which pins it before this feature goes on. With no
+   `glossary.md` at all, every concept is in that position, so say so and hand back before
+   the first question. A choice that passes the three-test gate appends to
+   `10_blueprint/decisions.md`, cheap now and unrecoverable later: the reasoning is in the
+   room only while the interview is running.
 4. **Draw the scope line.** Walk every edge case and open question the grill surfaced and
    put each one IN, OUT, or DEFER with a one-line rationale. IN items become acceptance
    criteria; OUT and DEFER become the spec's `## Out of Scope` section, which is where a
@@ -88,9 +88,14 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
    the next feature unless it is also logged where that feature reads.
 5. **Write the feature spec** to `05_features/<featureset>/<feature_slug>.md`: frontmatter
    per the contract (including the `permissions:` block and its restated table), the
-   acceptance criteria in EARS, `## Out of Scope` from step 4, and the entities the feature
-   reads or writes. Every criterion traces to something the user confirmed in the grill —
-   an invented one reads exactly like a real one to the implementer, and gets built.
+   acceptance criteria in EARS, and `## Out of Scope` from step 4. Set
+   `data_entities: [<ModelName>, …]` to the `model.json` models the feature reads or writes,
+   each name copied from the model — this list is the one feature↔entity join. An entity the
+   feature needs that the model lacks stops the write and hands back to
+   `architecture-datamodel`; with no `model.json` at all, hand back the same way when the flow
+   has that node, otherwise leave the list empty and name entities by glossary term in the
+   body. Every criterion traces to something the user confirmed in the grill — an invented
+   one reads exactly like a real one to the implementer, and gets built.
 6. **Write one screen spec per screen the feature needs**, at
    `07_screens/<feature_slug>/<screen>.md`. Each carries `implements:` pointing back at the
    feature file and an `elements:` block per `contracts/elements_block.md` — that block is

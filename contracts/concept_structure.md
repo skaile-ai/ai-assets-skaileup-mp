@@ -74,7 +74,7 @@ _concept/
 │   ├── techstack.md                chosen technologies and why
 │   ├── architecture.md             system architecture, modules, data flow, protocols
 │   ├── decisions.md                design-time decision records, append-only
-│   └── datamodel/                  schema, seed data, feature cross-reference
+│   └── datamodel/                  model.dbml · model.json · seed.json
 │
 └── 11_build/
     ├── slices/<slice_id>/          one vertical slice's dossier, frozen on commit
@@ -122,12 +122,13 @@ A skill reads from anywhere earlier in the tree and writes only into the folder 
 | `glossary.md` | `02_grounding/`, `brief.md` |
 | `03_brand/` | `02_grounding/`, `brief.md`, `glossary.md` |
 | `04_journeys/` | `02_grounding/`, `brief.md`, `goals.md`, `glossary.md` |
-| `05_features/` | the above |
+| `10_blueprint/datamodel/` | `02_grounding/`, `brief.md`, `glossary.md`, `04_journeys/`, and `10_blueprint/techstack.md` · `architecture.md` when they exist |
+| `05_features/` | the above, and `10_blueprint/datamodel/` |
 | `06_behaviors/` | the above + `05_features/` |
 | `07_screens/` | the above, and `10_blueprint/` when it exists |
 | `08_dossiers/` | everything the feature loop touched |
-| `09_mockup/` | `03_brand/`, `04_journeys/`, `05_features/`, `07_screens/` |
-| `10_blueprint/` | everything above it |
+| `09_mockup/` | `03_brand/`, `04_journeys/`, `05_features/`, `07_screens/`, `10_blueprint/datamodel/` |
+| `10_blueprint/` (the rest) | everything above it |
 | `11_build/` | everything |
 
 `06_behaviors/` and `10_blueprint/architecture.md` are optional; a reader checks for
@@ -142,21 +143,22 @@ brief · goals · glossary
         │
         ├──► 03_brand/
         │
-        └──► 04_journeys/ ──► 05_features/ ──┬──► 06_behaviors/ ──┐
-                                             │                    │
-                                             └──► 07_screens/ ◄───┘
-                                                       │
-                              09_mockup/ ◄─────────────┤
-                                                       ▼
-                                              10_blueprint/
-                                          techstack → architecture → datamodel
-                                                       │
-                                                       ▼
-                                                  11_build/
+        └──► 04_journeys/ ──► 10_blueprint/datamodel/ ──► 05_features/ ──┬──► 06_behaviors/ ──┐
+                                                                         │                    │
+                                                                         └──► 07_screens/ ◄───┘
+                                                                                    │
+                                           09_mockup/ ◄─────────────────────────────┤
+                                                                                    ▼
+                                                           10_blueprint/ (techstack · architecture)
+                                                                                    │
+                                                                                    ▼
+                                                                               11_build/
 ```
 
-Brand runs in parallel with the journeys→features track. Screens read behaviors when they
-exist. Everything before `11_build/` is design; nothing under it is.
+The data model is built from the journeys and the glossary, before any feature exists, so
+every later skill reads entity names from it and none coins one. Brand runs in parallel with
+the journeys→model→features track. Screens read behaviors when they exist. Everything before
+`11_build/` is design; nothing under it is.
 
 ## `05_features/` — the permissions section
 
@@ -180,23 +182,32 @@ permissions:
 | guest  | read                         |
 ```
 
-`10_blueprint/datamodel/` reads it for auth rules; implementation scaffolding reads it for
-the authorization policy.
+Implementation scaffolding reads it for the authorization policy. The data model does not: it
+is built before the features exist and takes its roles from the journeys.
 
 ## `10_blueprint/datamodel/` — schema format
 
-The format follows the stack recorded in `techstack.md`:
+`model.dbml` and `model.json` are the canonical, stack-neutral model, and they are written
+before the stack is chosen. The stack recorded in `techstack.md` decides only the translation
+`build-database` makes from them:
 
-| stack signal | file(s) |
+| stack signal | stack-specific file |
 |---|---|
-| generic / unknown | `model.dbml` + `model.json` (canonical model + editor canvas) |
+| generic / unknown | none — `model.dbml` + `model.json` are the schema |
 | Prisma | `schema.prisma` |
 | PostXL / NestJS | `postxl-schema.json` |
-| several needed | `model.dbml` first, then the stack-specific format |
 
-`seed.json` and `feature-map.json` are produced regardless. `seed.json` holds named seed
+`seed.json` is produced regardless. It holds named seed
 scenarios — `empty`, `single_user`, `populated`, `edge_cases` — each independently runnable.
-`feature-map.json` maps each model to the feature files it came from.
+
+`architecture-datamodel` owns `model.dbml`, `model.json` and `seed.json`. The stack-specific
+file is `build-database`'s alone: a translation of `model.json` for one migration tool, written
+at the location the chosen template's `## Migration / ORM` section gives, and the canonical
+files are never edited to match it.
+
+The join between a feature and the models it uses is the feature spec's own `data_entities[]`
+frontmatter list, written by `spec-feature`, each name a model in `model.json`. The model
+holds no list of features.
 
 ## Dossiers
 

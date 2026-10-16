@@ -187,7 +187,7 @@ agent_notes: |
   Free-form notes from the agent about this feature.
   Used for context across sessions.
 screens: []                     # populated by spec-feature when it writes the screens
-data_entities: []               # populated by architecture-datamodel
+data_entities: []               # written by spec-feature: model names from 10_blueprint/datamodel/model.json
 slice_ref: ""                   # populated by build-implement: 11_build/slices/<slice_id>/
 commits: []                     # populated by build-implement: git SHAs that shipped this feature
 source_files: []                # populated by build-implement: code files from the slice recap
@@ -202,11 +202,15 @@ screens:
   - path: 07_screens/login/login.md
 ```
 
-### data_entities[] format (populated by architecture-datamodel)
+### data_entities[] format (written by spec-feature)
 
 ```yaml
 data_entities: [User, Session]
 ```
+
+Written by `spec-feature` at its step 5. Each name is a model in
+`10_blueprint/datamodel/model.json`; this list is the single join between a feature and the
+entities it uses.
 
 ### back-link format (populated by build-implement on freeze)
 
@@ -303,24 +307,4 @@ protocols: []                   # e.g. [http, trpc, websocket]
 external_integrations: []       # third-party APIs, services
 last_updated: YYYY-MM-DD
 ---
-```
-
----
-
-## 10_blueprint/datamodel/feature-map.json
-
-JSON file — no frontmatter. Maps each model to its source feature files:
-
-```json
-{
-  "last_updated": "YYYY-MM-DD",
-  "models": {
-    "User": {
-      "source_features": [
-        "05_features/auth/login.md",
-        "05_features/auth/registration.md"
-      ]
-    }
-  }
-}
 ```

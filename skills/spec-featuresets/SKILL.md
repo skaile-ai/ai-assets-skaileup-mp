@@ -11,6 +11,8 @@ metadata:
       - { id: goals }
       - { id: journeys }
       - { id: research-competitors }
+      - { id: glossary }
+      - { id: datamodel }
     produces:
       - { id: featuresets, path: "_concept/05_features/featuresets.md" }
   prerequisites:
@@ -18,6 +20,8 @@ metadata:
       - { path: "_concept/brief.md", gate: hard }
       - { path: "_concept/04_journeys/stories.yaml", gate: soft }
       - { path: "_concept/02_grounding/research/competitors.md", gate: soft }
+      - { path: "_concept/glossary.md", gate: soft }
+      - { path: "_concept/10_blueprint/datamodel", gate: soft }
     inputs_optional:
       - { id: feature_scope, label: "How broad should the feature set be?", type: select, options: ["must-have only", "must-have + nice-to-have", "comprehensive"] }
 ---
@@ -66,7 +70,11 @@ Paths are `contracts/concept_structure.md`'s; `story_refs` back to the journeys 
 6. **Write `05_features/featuresets.md`.** Per featureset: its slug, one sentence on what a
    user does in it, and its features as a table — feature slug, the outcome in one line,
    priority, and the story ids it came from. Then the role vocabulary and the cut list. This
-   file is a roster, not a spec: no requirements, no acceptance criteria, no screens.
+   file is a roster, not a spec: no requirements, no acceptance criteria, no screens. Entity
+   names in the outcome lines are read, never coined: from `10_blueprint/datamodel/model.json`
+   when it exists, else from `glossary.md`; a concept with neither is handed back, and the
+   flow re-enters `architecture-datamodel` for a missing model or `concept-glossary` for a
+   missing term.
 7. **Put the whole roster to the user as a table** with counts per featureset and per
    priority, and iterate until they approve. This is the cheapest point at which a
    mis-grouped feature costs a line instead of a directory rename. Then hand off: the loop

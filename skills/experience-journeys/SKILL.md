@@ -10,6 +10,7 @@ metadata:
       - { id: brief }
       - { id: goals }
       - { id: research-audiences }
+      - { id: glossary }
     produces:
       - { id: journeys, path: "_concept/04_journeys/stories.yaml" }
   prerequisites:
@@ -17,6 +18,7 @@ metadata:
       - { path: "_concept/brief.md", gate: hard }
       - { path: "_concept/goals.md", gate: soft }
       - { path: "_concept/02_grounding/research/audiences.md", gate: soft }
+      - { path: "_concept/glossary.md", gate: soft }
 ---
 
 # experience-journeys
@@ -60,7 +62,9 @@ is `contracts/feedback_loop.md`'s.
 6. **Give every story its downstream hints** — `candidate_features`, `candidate_entities`,
    `candidate_screens` — as plain strings. They are hints, not specs: `spec-featuresets` and
    `spec-feature` may add, merge or split beyond them, and `story_refs` is what traces the
-   result back here.
+   result back here. The data model is built from this file, so it does not exist yet:
+   `candidate_entities` are read from `glossary.md`, never coined, and a concept with no term
+   is handed back, with the flow re-entering `concept-glossary`.
 7. **Write `04_journeys/stories.yaml`** — the project name, problem and success metrics from
    the brief, the personas, then the journeys with their stage, stories, criteria and hints.
    Show the map as a table by stage with counts, and iterate until the user approves.
