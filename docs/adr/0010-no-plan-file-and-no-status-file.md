@@ -55,7 +55,7 @@ Each of the three functions is answered by something that already exists:
   itself.
 - **Completion** is git plus the engine's own per-node execution record
   (`flowExecution.model.json`), which is written whether or not a skill remembers to.
-- **Scope** is the feature spec's `## Out of Scope` section for one feature, and
+- **Scope** is the feature spec's `## Scope` section for one feature, and
   `10_blueprint/decisions.md` for anything cross-feature — the writer ADR 0007's tree gained
   from the rejected-scope ruling.
 

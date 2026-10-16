@@ -26,9 +26,11 @@ reasoning it holds, which is the only thing a dossier is for.
 
 ## Freeze lifecycle
 
-A dossier is **frozen** by writing `index.md` into it. Frozen means indexed and closed: it
-stops being working state and becomes the record of how the feature or slice got built.
-Nothing in a dossier is deleted; the one removal is the transient
+A dossier is **frozen** when it is indexed and closed: it stops being working state and
+becomes the record of how the feature or slice got built. A feature dossier is opened at the
+start of the grill with `index.md` at `status: open`, appended to as the loop runs, and frozen
+by setting `status: frozen`; a slice dossier is frozen by writing its `index.md`. Nothing in a
+dossier is deleted; the one removal is the transient
 `11_build/slices/<slice_id>/progress.yaml`, dropped by the freeze that makes it moot.
 
 | dossier | frozen by | when |
@@ -36,10 +38,10 @@ Nothing in a dossier is deleted; the one removal is the transient
 | `08_dossiers/<feature_slug>/` | `spec-feature` | every spec and screen write has landed |
 | `11_build/slices/<slice_id>/` | `build-implement` | every commit for the slice has landed |
 
-`index.md` carries `status: frozen` in its frontmatter and links forward to the canonical
-artifacts — the spec and its screens for a feature, the commit SHAs and the feature spec for
-a slice. An unfrozen slice dossier means work that was built and never committed, which is
-why `build-branch` refuses to close a branch while one exists.
+`index.md` carries `status: frozen` in its frontmatter once frozen, and links forward to the
+canonical artifacts — the spec and its screens for a feature, the commit SHAs and the
+feature spec for a slice. An unfrozen slice dossier means work that was built and never
+committed, which is why `build-branch` refuses to close a branch while one exists.
 
 ## Session boundaries
 

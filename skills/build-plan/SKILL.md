@@ -86,15 +86,17 @@ Paths are `contracts/concept_structure.md`'s; `slice_id` and the dossier lifecyc
 6. **Write one dossier per approved slice** — `11_build/slices/<slice_id>/plan.md`, slug per
    `contracts/slice_loop.md`, with frontmatter naming the feature file and `blocked_by`, and
    a body carrying: the one-line slice scope; the rows of UI / logic / data it crosses, each
-   citing the screen file (when the feature has screens), the symbol and the entity by name; the acceptance criteria it
-   satisfies, cited by `AC-n` — the spec is where they are written, and a second copy is the
-   one that quietly goes stale; the manual checks and automated tests that prove
-   it, each test tagged `[unit]`, `[integration]` or `[e2e]` by the smallest reliable seam;
+   citing the screen file (when the feature has screens), the symbol and the entity by name; the
+   acceptance criteria it satisfies, listed by id only (`AC-<story-id>-<nn>` per
+   `contracts/acceptance_criteria.md § Criterion ids`) — the text lives in the spec and
+   `stories.yaml`, and a second copy is the one that quietly goes stale; the manual checks and
+   automated tests that prove it, each test tagged `[unit]`, `[integration]` or `[e2e]` by the
+   smallest reliable seam;
    and the carry-overs it deliberately leaves open. Testing belongs here rather than after —
    a slice whose tests are decided later is a slice whose seams were never agreed.
 7. **Create the acceptance-criteria ledger** at
-   `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`, one row per criterion in
-   the spec — `AC-n` and `AC-Bn` alike — every one untested, per
+   `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`, one row per criterion id
+   the spec carries — story-derived and spec-added alike — every one untested, per
    `contracts/acceptance_criteria.md`. Step 2 already claimed every criterion into a slice,
    so this is the only point at which the full set is known before anything is built; a
    ledger created later is created from whatever happened to get tested.

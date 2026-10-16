@@ -27,10 +27,10 @@ last_updated: YYYY-MM-DD
 
 # Criteria — <Feature Name>
 
-- [ ] AC-1
-- [PASS] AC-2 — tests/checkout/total.test.ts · build-implement · 2026-09-05
-- [FAIL] AC-3 — journey "checkout" step 4: total unchanged · quality-e2e · 2026-09-05
-- [ ] AC-B1
+- [ ] AC-checkout_flow-01
+- [PASS] AC-checkout_flow-02 — tests/checkout/total.test.ts · build-implement · 2026-09-05
+- [FAIL] AC-checkout_flow-03 — journey "checkout" step 4: total unchanged · quality-e2e · 2026-09-05
+- [ ] AC-cart-01
 ```
 
 **Rows are checkbox lines, not a table.** The only machine that reads this file matches
@@ -42,8 +42,7 @@ the directory name, which is the featureset.
 - The marker is the status: empty is untested, `PASS` and `FAIL` are what they say.
 - The text after the id is the **evidence**: the check that flipped the row, the skill that
   flipped it, and the date. An untested row carries the id alone.
-- `AC-Bn` numbers a criterion observable only through the service layer rather than the UI.
-  Same spec, same ledger, separate number space.
+- The id is a criterion id per `## Criterion ids`; the row never carries the criterion's text.
 
 ## Ownership
 
@@ -68,10 +67,37 @@ Variants: `WHILE <state>, THE SYSTEM SHALL <response>` (state-driven);
 `IF <unwanted condition>, THEN THE SYSTEM SHALL <response>` (unwanted behaviour). One
 observable response per line; every criterion independently verifiable.
 
+## Criterion ids
+
+Every criterion has one id for its whole life, and every artifact that refers to a criterion
+refers to it by that id.
+
+    AC-<story-id>-<nn>
+
+- `<story-id>` is the `id` of the story in `04_journeys/stories.yaml` the criterion belongs
+  to: a snake_case slug (lowercase letters, digits, `_`), unique across the file. Because it
+  never contains `-`, the trailing `-<nn>` is unambiguous.
+- `<nn>` is two digits, numbered per story in the order the criteria are written: `01`,
+  `02`, …
+- A criterion `spec-feature` adds that no story holds (grill-derived, or observable only
+  through the service layer) takes the same shape with the feature slug as scope,
+  `AC-<feature_slug>-<nn>`, using a slug that is not a story id.
+- `experience-journeys` (step 5) assigns the ids at write time, as an `id:` on each EARS
+  criterion in `stories.yaml`; `spec-feature` assigns them for the criteria it adds. No other
+  skill coins an id.
+- **Stability.** An id never changes and is never reused once written. A criterion that is
+  dropped has its id retired — the number stays unused, and a replacement takes the next one.
+  A criterion whose wording is edited keeps its id; one whose meaning changes is a new
+  criterion with a new id.
+- **Cite, never retype.** The feature spec, slice plans, ledger rows, e2e verdicts and
+  behavior tables carry the id (plus a place or evidence where they need one) and not the
+  criterion's text: the text lives in `stories.yaml` or the feature spec that wrote it, and a
+  second copy is the one that drifts.
+
 ## Deriving the criteria
 
-Criteria are written into the feature spec by `spec-feature`, numbered `AC-1`, `AC-2`, … in
-the order they appear. Where to look:
+Criteria are written into the feature spec by `spec-feature`, each cited by its id from
+`## Criterion ids`. Where to look:
 
 | Source | What it yields |
 |---|---|

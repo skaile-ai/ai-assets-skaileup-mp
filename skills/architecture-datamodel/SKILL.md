@@ -59,8 +59,11 @@ tool has seen it. Paths are `contracts/concept_structure.md`'s.
 3. **Ask what the journeys left ambiguous**, one question per message per
    `contracts/agent_patterns.md § Pattern: Questions Are Standalone Messages`: what each
    journey stores, how things connect ("a user has many tasks"), and which roles may see or
-   change what. The last answer is what the seed's `permissions` scenario and the fields that
-   rules evaluate on come from.
+   change what. The last answer, taken from the journeys' roles, is what the seed's
+   `permissions` scenario and the fields that rules evaluate on come from. The grants
+   themselves are the feature specs' `## Permissions` tables: this step runs before them, so
+   it records no grants of its own, and on a re-run it reads those tables where they exist and
+   seeds the roles and grants as written there.
 4. **Approve it in plain language** — what the app keeps track of and how those things relate,
    in the user's words, with the counts underneath. Nothing is written before the user says
    yes, because a model that features, screens and seeds are all about to name is cheapest to

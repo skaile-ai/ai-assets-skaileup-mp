@@ -31,11 +31,11 @@ metadata:
 
 One feature, from a sentence to a spec somebody can build: the interview, the scope line,
 then the two permanent artifacts — the feature spec and its screen specs — and the feature
-dossier frozen behind them. This skill is the **only writer of screen specs and of the
-`elements:` block**; `experience-shell` owns `07_screens/shell.md` and nothing else under
-that tree. It handles **one** feature per run and is re-entered once per feature in
-`05_features/featuresets.md`: the flow graph draws that node once, because iteration is not
-something a flow edge can express, so the repetition lives here.
+dossier, opened with the grill and frozen last. This skill is the **only writer of screen
+specs and of the `elements:` block**; `experience-shell` owns `07_screens/shell.md` and
+nothing else under that tree. It handles **one** feature per run and is re-entered once per
+feature in `05_features/featuresets.md`: the flow graph draws that node once, because
+iteration is not something a flow edge can express, so the repetition lives here.
 
 Paths are `contracts/concept_structure.md`'s. The slug rule and the freeze are
 `contracts/slice_loop.md`'s, the `elements:` schema is `contracts/elements_block.md`'s, the
@@ -67,6 +67,11 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
    feature sits in a journey rather than assuming it stands alone:
    `grilling` makes finding facts your job, and asking the user something the tree already
    says spends the round you needed for a real question.
+   Open the dossier as the grill starts: write `08_dossiers/<feature_slug>/index.md` with
+   `status: open` and the framing, then append what each round settles — answers, rejected
+   options — and, after every later step, what that step settled that the spec will not hold.
+   A session that dies mid-feature leaves its reasons on disk; an `open` dossier already there
+   is that interrupted run, so load it and continue.
 3. **Use the glossary's words; pin decisions as they pass the gate.** Name every concept in
    the grill by its term in `glossary.md`, per `contracts/domain_model.md § Glossary format`
    — a synonym from the `_Avoid_` list is renamed to the term, not adopted. Entity names are
@@ -79,16 +84,25 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
    room only while the interview is running.
 4. **Draw the scope line.** Walk every edge case and open question the grill surfaced and
    put each one IN, OUT, or DEFER with a one-line rationale. IN items become acceptance
-   criteria; OUT and DEFER become the spec's `## Out of Scope` section, which is where a
-   later reader looks to find out whether something was considered or forgotten. A DEFER
-   names the feature or slice that will pick it up, or it is an OUT wearing a friendlier word.
-   An OUT that clears the three-test gate also appends to `10_blueprint/decisions.md` with
-   Status `rejected`, per `contracts/domain_model.md` — `## Out of Scope` is this feature's
-   and freezes with its dossier, so a refusal that binds the whole design stays invisible to
-   the next feature unless it is also logged where that feature reads.
+   criteria; the whole line becomes the spec's `## Scope` section (step 5), the one record of
+   what was considered — a later reader looks there to tell a considered item from a forgotten
+   one, and the dossier links to it rather than copying it. A DEFER names the feature or slice
+   that will pick it up, or it is an OUT wearing a friendlier word. `10_blueprint/decisions.md`
+   takes only decisions that pass the three-test gate: an OUT that clears it appends with
+   Status `rejected`, per `contracts/domain_model.md`, because a refusal that binds the whole
+   design stays invisible to the next feature unless it is logged where that feature reads.
 5. **Write the feature spec** to `05_features/<featureset>/<feature_slug>.md`: frontmatter
-   per the contract (including the `permissions:` block and its restated table), the
-   acceptance criteria in EARS, and `## Out of Scope` from step 4. Set
+   per the contract, `## Permissions`, `## Scope` from step 4, and the acceptance criteria.
+   `## Permissions` is the role × action table from the grill, in the form
+   `contracts/concept_structure.md` gives for the `05_features/` permissions section
+   (frontmatter `permissions:` block plus the table), with roles from `featuresets.md`'s
+   vocabulary. This spec is the one record of who may do what; `experience-behaviors`, the
+   seed and scaffolding cite it, so none restates it. Criteria from `stories.yaml` are cited
+   by id (`AC-…`, per
+   `contracts/acceptance_criteria.md § Criterion ids`), never retyped; one the feature needs
+   that its journeys lack stops the write and hands back to `experience-journeys`. A criterion
+   the grill adds that no story carries takes an id in the same grammar under the feature
+   slug. Set
    `data_entities: [<ModelName>, …]` to the `model.json` models the feature reads or writes,
    each name copied from the model — this list is the one feature↔entity join. An entity the
    feature needs that the model lacks stops the write and hands back to
@@ -114,11 +128,11 @@ frontmatter shapes are `contracts/artifact_frontmatter.md`'s, and the EARS gramm
    edits none of them, and a cascade that reaches into five trees is the multi-writer tangle
    one writer per artifact exists to avoid. When the project is already built, `build-plan`
    is the next command: the feature is specified, not planned.
-9. **Freeze the feature dossier.** Write `08_dossiers/<feature_slug>/index.md`: the framing,
-   the questions the grill answered, the scope line with its rationales, and links forward to
-   the spec and screens. It is written once, at the end, and frozen by existing — the working
-   notes lived in this session's context, which is what the warm boundary inside the loop
-   buys. Skip it and the next reader has the decisions without any of the reasons.
+9. **Freeze the feature dossier.** Append the links forward to the spec (its `## Scope`
+   included) and the screens, then set `status: frozen` — frozen by that status, per
+   `contracts/slice_loop.md`. Steps 2–8 already put the framing and the grill's answers on
+   disk; the scope line stays the spec's, linked rather than copied. Skip the dossier and the
+   next reader has the decisions without any of the reasons.
 
 **Done when** the spec, every screen it names, and the frozen dossier are on disk, and the
 feature's `screens:` and each screen's `implements:` resolve to each other.

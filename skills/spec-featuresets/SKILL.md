@@ -64,17 +64,18 @@ Paths are `contracts/concept_structure.md`'s; `story_refs` back to the journeys 
    from an oversight. Without stories there is no stage: the brief's hero flow gives
    must-have, everything else nice-to-have, and the user confirms the split in step 7.
 5. **Settle the role vocabulary once**, here: the roles this product has, across every
-   featureset. Each feature spec restates its own role × action table, and they only line up
-   if the words were agreed in one place first — `admin` in one spec and `owner` in the next
-   describing the same person is a permissions bug that reaches the code.
+   featureset — names only, no grants. Each feature spec's `## Permissions` is the one record
+   of who may do what, and its tables only line up if the words were agreed in one place
+   first — `admin` in one spec and `owner` in the next describing the same person is a
+   permissions bug that reaches the code.
 6. **Write `05_features/featuresets.md`.** Per featureset: its slug, one sentence on what a
    user does in it, and its features as a table — feature slug, the outcome in one line,
-   priority, and the story ids it came from. Then the role vocabulary and the cut list. This
-   file is a roster, not a spec: no requirements, no acceptance criteria, no screens. Entity
-   names in the outcome lines are read, never coined: from `10_blueprint/datamodel/model.json`
-   when it exists, else from `glossary.md`; a concept with neither is handed back, and the
-   flow re-enters `architecture-datamodel` for a missing model or `concept-glossary` for a
-   missing term.
+   priority, and the story ids it came from. Then the role vocabulary (roles, not grants) and
+   the cut list. This file is a roster, not a spec: no requirements, no acceptance criteria,
+   no screens. Entity names in the outcome lines are read, never coined: from
+   `10_blueprint/datamodel/model.json` when it exists, else from `glossary.md`; a concept with
+   neither is handed back, and the flow re-enters `architecture-datamodel` for a missing
+   model or `concept-glossary` for a missing term.
 7. **Put the whole roster to the user as a table** with counts per featureset and per
    priority, and iterate until they approve. This is the cheapest point at which a
    mis-grouped feature costs a line instead of a directory rename. Then hand off: the loop

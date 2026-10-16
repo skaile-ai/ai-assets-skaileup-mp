@@ -39,10 +39,13 @@ what one run of it looked like.
    exists (a dev script, a pages tree, an `index.html`) and that `agent-browser --version`
    answers; install it if it does not.
 2. **Build the journey list.** Read every story in `stories.yaml` — hero and vital stages
-   first — and carry each story's acceptance criteria forward as that journey's explicit pass
-   conditions. A profile that grows no journeys has no `stories.yaml`: derive one end-to-end
-   path per feature from the feature specs' acceptance criteria and the acceptance ledger,
-   and treat those criteria as the pass conditions. Screen specs under `07_screens/` give the routes and the per-state elements to
+   first — and carry each story's criterion ids (`AC-<story-id>-<nn>`, per
+   `contracts/acceptance_criteria.md § Criterion ids`) forward as that journey's pass
+   conditions; the criterion's text is read from `stories.yaml` when a step needs it and
+   never copied into the report or the ledger. A profile that grows no journeys has no
+   `stories.yaml`: derive one end-to-end path per feature from the ids in the feature specs
+   and the acceptance ledger, and treat those criteria as the pass conditions. Screen specs
+   under `07_screens/` give the routes and the per-state elements to
    look for; without them, discover routes from the running app's own navigation and record
    in the report that they were inferred. Read `10_blueprint/datamodel/` for the entities a
    journey writes and the queries that confirm them, and note that a project with no data
@@ -56,23 +59,23 @@ what one run of it looked like.
    fails in a way that reads like a product defect. Read the screenshots back rather than
    assuming the click landed, check the console for errors after each step, and after any
    step that writes data query the store to confirm the record matches what the data model
-   declares. A journey passes only when **all** of its criteria hold; otherwise it fails,
-   named by the first criterion that did not.
+   declares. A journey passes only when **all** of its criterion ids hold; otherwise it fails,
+   named by the id of the first criterion that did not.
 5. **Test the key pages responsively** at 375×812, 768×1024 and 1440×900. A layout that
    works at one width is one third of a claim.
 6. **Flip the ledger.** For every feature a journey covered, open
-   `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md` and set the rows whose
-   criteria this run actually evaluated to `PASS` or `FAIL` per
+   `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md` and set the rows, found
+   by criterion id, that this run actually evaluated to `PASS` or `FAIL` per
    `contracts/acceptance_criteria.md`, stamped with this skill and today's date and the
    journey as evidence. Rows the run did not evaluate stay exactly as they were — a row
    flipped on inference is what makes the whole ledger unusable to `quality-review`. Where a
    ledger is missing, warn and continue; `build-plan` creates it.
 7. **Stop the dev server and close the browser session**, whatever the outcome. A server
    left running is the next run's mystery port conflict.
-8. **Report** per journey: pass or fail, the failing criterion, the screenshots, the console
-   errors, and any record the database did not hold. Group the failures by feature so the
-   next reader knows which spec to reopen.
+8. **Report** per journey: pass or fail, the failing criterion id, the screenshots, the
+   console errors, and any record the database did not hold. Group the failures by feature so
+   the next reader knows which spec to reopen.
 
-**Done when** every story in `stories.yaml` (or, without journeys, every derived path) has been run, each with a pass or a fail and a
-named criterion behind it, the ledger rows this run evaluated are flipped, and no dev server
-or browser session is left alive.
+**Done when** every story in `stories.yaml` (or, without journeys, every derived path) has been
+run, each with a pass or a fail and a criterion id behind it, the ledger rows this run
+evaluated are flipped, and no dev server or browser session is left alive.

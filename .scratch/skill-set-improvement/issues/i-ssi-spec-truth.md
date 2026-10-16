@@ -6,9 +6,11 @@
 
 **Blocked by:** i-ssi-datamodel-first
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] Criterion id grammar in the contract; `experience-journeys` step 5 assigns ids; `spec-feature`, `build-plan`, `quality-e2e`, `experience-behaviors` cite ids.
-- [ ] Permissions table owned by `spec-feature` and cited elsewhere (split into a reference file if the 140-line ceiling requires it).
-- [ ] Dossier opened early; `experience-behaviors` names the feature file it re-runs on a rule change.
-- [ ] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+- [x] Criterion id grammar in the contract; `experience-journeys` step 5 assigns ids; `spec-feature`, `build-plan`, `quality-e2e`, `experience-behaviors` cite ids.
+- [x] Permissions table owned by `spec-feature` and cited elsewhere (split into a reference file if the 140-line ceiling requires it).
+- [x] Dossier opened early; `experience-behaviors` names the feature file it re-runs on a rule change.
+- [x] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+
+**Resolution (2026-10-16):** `acceptance_criteria.md § Criterion ids` (`AC-<story-id>-<nn>`, stable, cite never retype); experience-journeys assigns ids; build-plan, quality-e2e, experience-behaviors, spec-feature cite ids. spec-feature owns `## Permissions` and `## Scope`, opens the dossier at step 2 (status open → frozen), decisions.md only three-test; spec-featuresets settles role names only; datamodel seeds grants only on re-run. artifact_frontmatter, slice_loop and ADR 0010 updated. spec-feature at 138 lines. AC-n mentions in build-implement/quality-review/ops-review move to i-ssi-build-quality-joins. check.py green.

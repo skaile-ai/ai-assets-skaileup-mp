@@ -11,6 +11,7 @@ metadata:
       - { id: research-behavioral-patterns }
       - { id: glossary }
       - { id: datamodel }
+      - { id: journeys }
     produces:
       - { id: behaviors, path: "_concept/06_behaviors/<featureset>.md" }
   prerequisites:
@@ -19,6 +20,7 @@ metadata:
       - { path: "_concept/02_grounding/research/behavioral-patterns.md", gate: soft }
       - { path: "_concept/glossary.md", gate: soft }
       - { path: "_concept/10_blueprint/datamodel", gate: soft }
+      - { path: "_concept/04_journeys/stories.yaml", gate: soft }
 ---
 
 # experience-behaviors
@@ -30,14 +32,16 @@ prose can no longer say precisely what is legal. The feature loop reads it where
 
 Paths are `contracts/concept_structure.md`'s. Entity and enum naming are
 `contracts/golden_principles.md`'s — the data model is built before this file, so these
-tables name entities as the model does.
+tables name entities as the model does. Criterion ids are
+`contracts/acceptance_criteria.md § Criterion ids`.
 
 ## Steps
 
 1. **Read the featuresets and what has been specified so far.** `05_features/featuresets.md`
-   for the grouping, every feature spec already written under it, and `brief.md` for the
-   domain. `02_grounding/research/behavioral-patterns.md`, where it exists, carries how this
-   domain already models these lifecycles — worth borrowing before inventing.
+   for the grouping, every feature spec already written under it, `brief.md` for the
+   domain, and `04_journeys/stories.yaml` for the criteria (by id) the lifecycles have to
+   satisfy. `02_grounding/research/behavioral-patterns.md`, where it exists, carries how
+   this domain already models these lifecycles — worth borrowing before inventing.
 2. **Find the entities with a life.** Entity names are read, never coined: from
    `10_blueprint/datamodel/model.json` when it exists, else from `glossary.md`; a concept with
    neither is handed back, and the flow re-enters `architecture-datamodel` for a missing model
@@ -46,18 +50,22 @@ tables name entities as the model does.
    action, a clock, another entity — and what must be true before and after each move. An
    entity with exactly one state is not a state machine and does not belong in this file.
 3. **Write one markdown file per featureset**, named for it, at
-   `06_behaviors/<featureset>.md`. Each entity gets its states listed and a transition table:
+   `06_behaviors/<featureset>.md`. Each entity gets its states listed and a transition table.
+   A transition that realises a criterion names it by id in `criteria`, never by its text:
 
-   | from | event | to | requires | ensures |
-   |---|---|---|---|---|
-   | active | failed login, count reaches the limit | locked | account is active | further attempts are refused |
+   | from | event | to | requires | ensures | criteria |
+   |---|---|---|---|---|---|
+   | active | failed login, count reaches the limit | locked | account is active | further attempts are refused | AC-login-03 |
 
    Plain markdown tables rather than a formal notation: every reader of this file is an
    agent or a person, and a grammar with no parser is a grammar that drifts from what it
    claims to describe without anything noticing.
-4. **Give each entity its permissions and its constants.** Who can trigger which transition,
-   as a role × transition table — the same roles the feature specs use. Then the values the
-   rules quote: retry limits, lockout durations, session timeouts, page sizes. Naming them
+4. **Name the constants, and point at the permissions.** Who can trigger which transition is
+   the feature spec's role × action table — `05_features/<featureset>/<feature>.md
+   § Permissions` — so cite it per entity and never restate it; where that spec is not
+   written yet, the roles for a transition go under `## Open questions`, and `spec-feature`
+   settles them in its table. Then the values the rules quote: retry limits, lockout
+   durations, session timeouts, page sizes. Naming them
    here is what stops the same number being re-guessed in a feature spec, a screen and the
    code.
 5. **Record what formalising exposed.** Every ambiguity the feature specs left open goes in
@@ -66,7 +74,10 @@ tables name entities as the model does.
    would otherwise be settled silently by whoever implements them first.
 6. **Report the tables** — per featureset: entities, states, transitions, open questions —
    and put the open questions to the user. Their answers go back into the tables before this
-   file is treated as settled.
+   file is treated as settled. When an answer, or any later edit, changes a rule a written
+   feature spec rests on, name that spec's file (`05_features/<featureset>/<feature>.md`)
+   in the report: the flow re-enters `spec-feature` for it, and the spec's criteria are
+   updated there, by id.
 
 **Done when** every featureset with a real lifecycle has a file, each entity in it has its
 states and a transition table, and the open questions have been put to the user.

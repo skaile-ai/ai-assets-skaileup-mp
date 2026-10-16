@@ -29,8 +29,8 @@ inventing one, so a journey missing here is a feature nobody thinks to build. It
 journeys and stops — no feature specs, no screens.
 
 Paths are `contracts/concept_structure.md`'s; the EARS grammar is
-`contracts/acceptance_criteria.md § EARS template`; the `candidate_*` handoff into features
-is `contracts/feedback_loop.md`'s.
+`contracts/acceptance_criteria.md § EARS template` and the criterion ids are its
+`§ Criterion ids`; the `candidate_*` handoff into features is `contracts/feedback_loop.md`'s.
 
 ## Steps
 
@@ -44,7 +44,8 @@ is `contracts/feedback_loop.md`'s.
    axis everything below is organised on, and adding one later re-cuts every journey.
 3. **Map exactly one hero journey.** It comes from the brief's `hero_flow`, and it is the
    journey that, if it fails, leaves the product with no reason to exist. Three to eight
-   sequential stories, each naming its persona, its outcome, and at least two acceptance
+   sequential stories, each with a snake_case slug `id` (unique in the file — criterion ids
+   are built from it), its persona, its outcome, and at least two acceptance
    criteria. Stop and get this one approved before mapping anything else — a hero journey the
    user disagrees with makes every other journey the wrong shape. Exactly one journey carries
    `stage: hero`; a second one means the product's core has not been decided.
@@ -56,9 +57,11 @@ is `contracts/feedback_loop.md`'s.
    `spec-featuresets` reads to decide what gets specified now.
 5. **Write acceptance criteria in EARS for every story** — at least two on a hero story, one
    everywhere else — using the pattern that fits: ubiquitous, event-driven, state-driven,
-   optional-feature or complex. These lines are copied verbatim into feature specs and again
-   into the acceptance ledger, so a vague one ("the system should work") stays vague through
-   three artifacts and is finally discovered by whoever has to test it.
+   optional-feature or complex. Give each criterion its id at write time, `AC-<story-id>-<nn>`
+   per `contracts/acceptance_criteria.md § Criterion ids`, numbered per story from `01`. The
+   feature specs, slice plans, ledger and e2e verdicts all cite these ids, so an id is never
+   renumbered or reused after this step, and a vague criterion ("the system should work")
+   is fixed here, once, rather than discovered by whoever has to test it.
 6. **Give every story its downstream hints** — `candidate_features`, `candidate_entities`,
    `candidate_screens` — as plain strings. They are hints, not specs: `spec-featuresets` and
    `spec-feature` may add, merge or split beyond them, and `story_refs` is what traces the
@@ -69,5 +72,6 @@ is `contracts/feedback_loop.md`'s.
    the brief, the personas, then the journeys with their stage, stories, criteria and hints.
    Show the map as a table by stage with counts, and iterate until the user approves.
 
-**Done when** `stories.yaml` exists with exactly one hero journey, every story carries at
-least one EARS criterion and its candidate hints, and the user has approved the map.
+**Done when** `stories.yaml` exists with exactly one hero journey, every story has an `id` and
+at least one EARS criterion carrying its `AC-<story-id>-<nn>` id plus its candidate hints, and
+the user has approved the map.

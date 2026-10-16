@@ -195,6 +195,10 @@ last_updated: YYYY-MM-DD
 ---
 ```
 
+Body sections written by `spec-feature` in the same write: `## Permissions` — the role ×
+action table, the one record of who may do what (form in `concept_structure.md`) — and
+`## Scope` — the IN / OUT / DEFER line with rationales, the one record of what was considered.
+
 ### screens[] format (populated by the screen write)
 
 ```yaml
@@ -268,6 +272,21 @@ last_updated: YYYY-MM-DD
 
 For the optional `elements:` block (used by walkthrough renderers and the mockup-feedback
 loop), see `contracts/elements_block.md`.
+
+---
+
+## 08_dossiers/\<feature_slug\>/index.md
+
+```yaml
+---
+status: open | frozen
+last_updated: YYYY-MM-DD
+---
+```
+
+Opened by `spec-feature` at step 2 with `status: open`, appended after each step, and set to
+`frozen` at the last step. The scope line is not copied in: the body links to the spec's
+`## Scope`.
 
 ---
 
