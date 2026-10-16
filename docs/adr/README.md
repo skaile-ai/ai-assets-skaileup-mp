@@ -21,3 +21,5 @@ was expensive to reach, and reversing it would cost more than reading it.
 | [0010](./0010-no-plan-file-and-no-status-file.md) | The build side keeps no plan file and no status file |
 | [0011](./0011-the-machine-layer-sits-under-metadata.md) | The machine layer sits under `metadata:`; paths carry `_concept/` |
 | [0012](./0012-foreign-skills-and-the-two-libraries.md) | Five foreign skills stay global, called one gate-checked way; what came from pstack and Pocock |
+| [0013](./0013-a-skill-declares-what-it-produces.md) | A skill declares what it produces; no registry is generated |
+| [0014](./0014-the-glossary-is-a-root-file.md) | The glossary is a root file; `comparable.md` folds into the brief |

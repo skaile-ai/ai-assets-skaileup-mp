@@ -6,9 +6,11 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] ADR 0013 "A skill declares what it produces" written in the existing ADR style, naming the no-registry decision and the host `produced_by` dependency.
-- [ ] ADR 0014 "The glossary is a root file" written, explicitly amending ADR 0007's root list; `comparable.md` → `brief.md § Comparables`.
-- [ ] `docs/adr/README.md` indexes both.
-- [ ] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+- [x] ADR 0013 "A skill declares what it produces" written in the existing ADR style, naming the no-registry decision and the host `produced_by` dependency.
+- [x] ADR 0014 "The glossary is a root file" written, explicitly amending ADR 0007's root list; `comparable.md` → `brief.md § Comparables`.
+- [x] `docs/adr/README.md` indexes both.
+- [x] `python scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+
+**Resolution (2026-10-16):** ADR 0013 and 0014 written; README indexed; ADR 0007 carries a trailing 'amended by ADR 0014' note. The `produced_by` host_facts row lands with i-ssi-produces-list.

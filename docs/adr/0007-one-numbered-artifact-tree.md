@@ -86,3 +86,9 @@ the other two.
 - `CONTEXT.md` gains one line: the root directory name is fixed by the host and is not the
   vocabulary word.
 - A validator earns its place: every path a skill writes resolves to a real top-level entry.
+
+---
+
+**Root list amended by [ADR 0014](0014-the-glossary-is-a-root-file.md)** (2026-10-16). The
+three root files are now `brief.md · goals.md · glossary.md`; `comparable.md` folds into
+`brief.md`. The tree and every other decision here stand.
