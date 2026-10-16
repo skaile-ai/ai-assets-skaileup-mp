@@ -41,8 +41,8 @@ the link protocol `contracts/feedback_loop.md`'s, and the mechanical naming rule
 ## Steps
 
 1. **Run the mechanical check.** `python3 <skill-dir>/scripts/check_concept.py <project>`
-   prints one `path: message` line per problem: entries the tree does not own (the retired
-   `comparable.md`, `10_blueprint/glossary.md` and `datamodel/feature-map.json` included),
+   prints one `path: message` line per problem: entries the tree does not own (retired
+   paths included, each named with where its content went),
    frontmatter fields and dates, `screens:` and `implements:` links in both directions,
    `data_entities[]` against `model.json`, criterion ids against `stories.yaml`, and the
    ledger rows' format. Take every line as a `blocking` finding, unedited; reading the files

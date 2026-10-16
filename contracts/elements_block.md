@@ -376,8 +376,8 @@ frontmatter and subsequent renders drop `data-spec-provisional`.
 
 ## Validation
 
-**This collection ships no validator for the block.** The sole writer of
-`elements:` is `spec-feature`, and the sole consumers are the two walkthrough
+**This collection ships no validator for the block.** Its writers are named in
+`## Writers`, and the sole consumers are the two walkthrough
 renderers, each of which already fails loudly on a block it cannot render —
 `skills/mockup-walkthrough/references/<renderer>/validator.py`, run as a step of
 the skill. A third checker in CI would duplicate them against a schema no host

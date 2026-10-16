@@ -72,8 +72,8 @@ Paths are `contracts/concept_structure.md`'s; the EARS grammar is
    is handed back, with the flow re-entering `concept-glossary`.
 7. **Write `04_journeys/stories.yaml`** — the project name, problem and success metrics from
    the brief, the personas, the `stages:` section (`hero`, `vital`, `hygiene`, `backlog`,
-   each with its definition from steps 3 and 4), then the journeys with their stage,
-   stories, criteria and hints.
+   each with its definition from steps 3 and 4), then the journeys — each journey is one
+   story, its `id` the story id — with their stage, criteria and hints.
    Show the map as a table by stage with counts, and iterate until the user approves.
 
 **Done when** `stories.yaml` exists with exactly one hero journey, every story has an `id` and

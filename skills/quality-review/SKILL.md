@@ -12,6 +12,7 @@ metadata:
       - { id: acceptance-criteria }
     produces:
       - { id: review, path: "_concept/11_build/reviews/<feature_slug>.yaml" }
+      - { id: acceptance-criteria, path: "_concept/11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md" }
   prerequisites:
     files:
       - { path: "_concept/05_features", gate: hard, min_entries: 1 }

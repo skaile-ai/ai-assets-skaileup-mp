@@ -163,14 +163,15 @@ personas:
     role: role_name
     goals: ["..."]
 journeys:
-  - id: journey_id
+  - id: journey_id              # one journey is one story; this id is the <story-id> in criterion ids
     persona: persona_id
     title: Journey Title
     stage: hero | vital | hygiene | backlog   # an id from stages: above
     steps:
       - action: What the user does
         system_response: What the system does
-        acceptance: EARS-format acceptance criterion
+        acceptance:             # EARS criteria, each with its id (acceptance_criteria.md § Criterion ids)
+          - { id: AC-journey_id-01, ears: "WHEN ..., THE SYSTEM SHALL ..." }
     candidate_features: [feature_slug]
     candidate_entities: [EntityName]
 ```

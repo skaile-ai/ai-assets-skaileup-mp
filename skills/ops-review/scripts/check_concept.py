@@ -111,8 +111,9 @@ def listed_paths(value) -> list[str]:
     return out
 
 
-def story_ids(stories: dict, report) -> set[str]:
-    """Criterion ids defined in stories.yaml; each must be well-formed and scoped to its journey."""
+def story_ids(stories: dict, report) -> tuple[set[str], set[str]]:
+    """Criterion ids and story (journey) ids defined in stories.yaml; each criterion id must be
+    well-formed and scoped to its journey."""
     defined: set[str] = set()
 
     def walk(node, journey):
@@ -133,9 +134,10 @@ def story_ids(stories: dict, report) -> set[str]:
             for v in node:
                 walk(v, journey)
 
-    for j in stories.get("journeys") or []:
-        walk(j, j.get("id") if isinstance(j, dict) else None)
-    return defined
+    journeys = [j for j in stories.get("journeys") or [] if isinstance(j, dict)]
+    for j in journeys:
+        walk(j, j.get("id"))
+    return defined, {j["id"] for j in journeys if isinstance(j.get("id"), str)}
 
 
 def check(concept: Path, here: Path) -> list[str]:
@@ -164,11 +166,11 @@ def check(concept: Path, here: Path) -> list[str]:
             model = model_names(json.loads(mj.read_text()))
         except json.JSONDecodeError as e:
             report(rel(mj), f"not valid JSON ({e.msg})")
-    defined = None
+    defined = stories = None
     sy = concept / "04_journeys/stories.yaml"
     if sy.is_file():
         try:
-            defined = story_ids(yaml.safe_load(sy.read_text()) or {}, report)
+            defined, stories = story_ids(yaml.safe_load(sy.read_text()) or {}, report)
         except yaml.YAMLError:
             report(rel(sy), "not valid YAML")
 
@@ -235,7 +237,7 @@ def check(concept: Path, here: Path) -> list[str]:
     for f in features:
         cited[f] = set(CITE_RE.findall(frontmatter(f)[1]))
         for cid in sorted(cited[f]):
-            report_id(cid, f.stem, defined, rel(f), report)
+            report_id(cid, f.stem, defined, stories, rel(f), report)
 
     # 6. ledger
     for ac in ledgers:
@@ -258,7 +260,7 @@ def check(concept: Path, here: Path) -> list[str]:
                 report(where, "not a ledger row — rows are `- [ ] <id>` or `- [PASS|FAIL] <id> — <evidence>`")
                 continue
             marker, cid, evidence = m.groups()
-            report_id(cid, slug, defined, where, report)
+            report_id(cid, slug, defined, stories, where, report)
             if spec and spec in cited and cid not in cited[spec]:
                 report(where, f"{cid} is not cited in {ref}")
             if marker == " " and evidence:
@@ -270,12 +272,16 @@ def check(concept: Path, here: Path) -> list[str]:
     return problems
 
 
-def report_id(cid, slug, defined, where, report):
+def report_id(cid, slug, defined, stories, where, report):
     m = ID_RE.match(cid)
     if not m:
         report(where, f"{cid} is not a criterion id (AC-<story-id>-<nn>)")
-    elif defined is not None and cid not in defined and m.group(1) != slug:
+    elif defined is None or cid in defined:
+        return
+    elif m.group(1) != slug:
         report(where, f"{cid} is neither in stories.yaml nor scoped to feature {slug!r}")
+    elif slug in stories:
+        report(where, f"{cid} is scoped to feature {slug!r}, which is also a story id")
 
 
 def main(argv: list[str]) -> int:

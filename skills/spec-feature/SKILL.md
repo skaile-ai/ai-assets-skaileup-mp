@@ -22,7 +22,7 @@ metadata:
     files:
       - { path: "_concept/01_meta/scope.yaml", gate: hard }
       - { path: "_concept/brief.md", gate: hard }
-      - { path: "_concept/glossary.md", gate: soft }
+      - { path: "_concept/glossary.md", gate: hard }
       - { path: "_concept/04_journeys/stories.yaml", gate: soft }
       - { path: "_concept/10_blueprint/datamodel", gate: soft }
 ---
@@ -76,9 +76,8 @@ it writes to; read that section at the step, not before.
    — a synonym from the `_Avoid_` list is renamed to the term, not adopted. Entity names are
    read, never coined: from `10_blueprint/datamodel/model.json` when it exists, else from the
    glossary. A concept with no term stops the interview: name it and hand back, and the flow
-   re-enters `concept-glossary`, which pins it before this feature goes on. With no
-   `glossary.md` at all, every concept is in that position, so say so and hand back before
-   the first question. A choice that passes the three-test gate appends to
+   re-enters `concept-glossary`, which pins it before this feature goes on. A choice that
+   passes the three-test gate appends to
    `10_blueprint/decisions.md`, cheap now and unrecoverable later: the reasoning is in the
    room only while the interview is running.
 4. **Draw the scope line.** Walk every edge case and open question the grill surfaced and

@@ -100,8 +100,9 @@ refers to it by that id.
     AC-<story-id>-<nn>
 
 - `<story-id>` is the `id` of the story in `04_journeys/stories.yaml` the criterion belongs
-  to: a snake_case slug (lowercase letters, digits, `_`), unique across the file. Because it
-  never contains `-`, the trailing `-<nn>` is unambiguous.
+  to — a story is one entry under `journeys:`, so it is that journey's `id` — a snake_case
+  slug (lowercase letters, digits, `_`), unique across the file. Because it never contains
+  `-`, the trailing `-<nn>` is unambiguous.
 - `<nn>` is two digits, numbered per story in the order the criteria are written: `01`,
   `02`, …
 - A criterion `spec-feature` adds that no story holds (grill-derived, or observable only
