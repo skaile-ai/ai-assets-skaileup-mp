@@ -86,7 +86,7 @@ WRITES: list[tuple[str, str | None, str, str]] = [
     ("architecture-techstack", "_concept/10_blueprint/techstack.md", "skills/architecture-techstack/SKILL.md:99", "`10_blueprint/techstack.md` exists"),
     ("architecture-system", "_concept/10_blueprint/architecture.md", "skills/architecture-system/SKILL.md:67", "**Write `10_blueprint/architecture.md`.**"),
     ("architecture-datamodel", "_concept/10_blueprint/datamodel/", "skills/architecture-datamodel/SKILL.md:26-27", "under `10_blueprint/datamodel/`"),
-    ("experience-interaction", "APP-DESIGN.md", "skills/experience-interaction/SKILL.md:74", "**Write `APP-DESIGN.md` after every round**"),
+    ("experience-interaction", "APP-DESIGN.md", "skills/experience-interaction/SKILL.md:79", "**Write `APP-DESIGN.md` after every round**"),
     ("build-plan", "_concept/11_build/slices/", "skills/build-plan/SKILL.md:94", "`11_build/slices/<slice_id>/plan.md`"),
     ("build-plan", "_concept/11_build/acceptance-criteria/", "skills/build-plan/SKILL.md:106", "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`"),
     ("build-implement", "_concept/11_build/slices/", "skills/build-implement/SKILL.md:93", "`11_build/slices/<slice_id>/index.md`"),
@@ -96,7 +96,7 @@ WRITES: list[tuple[str, str | None, str, str]] = [
     ("quality-review", "_concept/11_build/acceptance-criteria/", "skills/quality-review/SKILL.md:62", "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`"),
     ("quality-review", "_concept/11_build/reviews/", "skills/quality-review/SKILL.md:73", "to `11_build/reviews/<feature_slug>.yaml`"),
     ("quality-release", "_concept/11_build/release.yaml", "skills/quality-release/SKILL.md:74", "to `11_build/release.yaml`"),
-    ("quality-interaction", "_concept/11_build/interaction.yaml", "skills/quality-interaction/SKILL.md:80", "**Write the verdict** to `_concept/11_build/interaction.yaml`"),
+    ("quality-interaction", "_concept/11_build/interaction.yaml", "skills/quality-interaction/SKILL.md:85", "**Write the verdict** to `_concept/11_build/interaction.yaml`"),
     ("quality-standards", "_concept/02_grounding/standards/", "skills/quality-standards/SKILL.md:30", "`02_grounding/standards/<domain>/<convention>.md`"),
     # no _concept target: the line shows what the skill produces instead
     ("ops-review", None, "skills/ops-review/SKILL.md:35", "never written to disk"),

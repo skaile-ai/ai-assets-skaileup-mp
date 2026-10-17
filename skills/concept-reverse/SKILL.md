@@ -80,7 +80,10 @@ read the one the step names when you reach it.
      repository-root `file:line` and its grade; a surface seen only in a vendored UI library
      is not in the census (§ Generated and vendored code). A rule with no hit is
      `needs_review` with the grep that found nothing, because an absence nobody searched for
-     reads exactly like one nobody found.
+     reads exactly like one nobody found. The code root is wherever step 2 found the app's
+     source (`src/`, `app/` + `server/`, a workspace package); a large app gets every overlay
+     and editor read and the other rules sampled by grep, with the unread regions listed at
+     the end of the file.
 
    Add a row per file to `findings/index.md` — path, source, date, and `step: concept-reverse`.
    Routes are evidence, not features — a feature file listing API paths describes the server

@@ -3,7 +3,8 @@
 Where screens, objects, editors and finders hide, per stack. Two skills read this file:
 `concept-reverse` uses it to write the census finding
 `_concept/02_grounding/findings/interaction.md`, and `quality-interaction` uses it to check
-`src/` against `APP-DESIGN.md`. Read the row for the detected stack; when a pattern is
+the app's source against `APP-DESIGN.md` — `src/`, or the stack's own roots (`app/` and
+`server/` in Nuxt). Read the row for the detected stack; when a pattern is
 missing, extend the table rather than guessing.
 
 The patterns it serves (P1–P17) are in `contracts/interaction_patterns.md`; the shape of
@@ -13,8 +14,10 @@ The patterns it serves (P1–P17) are in `contracts/interaction_patterns.md`; th
 
 Before judging, read the app's `APP-DESIGN.md` at the project root
 (`contracts/app_design.md` § Reading it), the project glossary `_concept/glossary.md`, the
-decision records in `docs/adr/`, any UI or design concept (`docs/*konzept*`, `docs/*design*`,
-`docs/ui*` — headings first, then the parts a rule touches) and `CLAUDE.md`/`AGENTS.md`.
+decision records (`docs/adr/`, or where the repo keeps them: `docs/decisions/`,
+`_devlog/decisions/`), any UI or design concept (`docs/*konzept*`, `docs/*design*`,
+`docs/ui*`, `docs/*wireframe*`, UX documents inside `_concept/` — headings first, then the
+parts a rule touches) and `CLAUDE.md`/`AGENTS.md`.
 They name the objects (P13) and record deviations that were decided on purpose. A decision
 such a document holds that `APP-DESIGN.md` lacks becomes an entry citing it, not a finding.
 
@@ -47,7 +50,7 @@ from the real schema; mark names taken only from call sites as inferred.
 |---|---|
 | modal | `Modal`, `Dialog`, `UModal`, `<dialog`, `AlertDialog`, `v-dialog`, `showModal` |
 | drawer | `Drawer`, `Sheet`, `Slideover`, `USlideover`, `SidePanel`, `Offcanvas` — in Nuxt UI `USlideover` is the side panel, `UDrawer` a bottom sheet |
-| popover | `Popover`, `UPopover`, `Popper`, `Dropdown` containing inputs |
+| popover | `Popover`, `UPopover`, `Popper`, `Dropdown` containing inputs; menus of actions (`UDropdownMenu`, `UContextMenu`) are not editors |
 | inline | `contenteditable`, `@blur`/`onBlur` + save call on a single input, `isEditing` toggles, `InlineEdit`, `EditableText` |
 | page editor | a route whose component holds a `<form>`/`UForm`/`useForm` bound to one object |
 
@@ -66,10 +69,14 @@ open-flag stays set while a confirm opens is a modal on a modal.
 
 | thing | grep for |
 |---|---|
-| command palette | `cmdk`, `kbar`, `UCommandPalette`, `UDashboardSearch`, `UDashboardSearchButton`, `CommandDialog`, `ninja-keys`, `meta+k`, `ctrl+k`, `defineShortcuts` |
+| command palette | `cmdk`, `kbar`, `UCommandPalette`, `UDashboardSearch`, `UDashboardSearchButton`, `CommandDialog`, `CommandPalette`, `ninja-keys`, `meta+k`, `ctrl+k`, a key handler on `metaKey`/`ctrlKey` with `key === "k"`, `defineShortcuts` |
 | global search | a search input in the layout/header component, `/search` route, search API endpoint |
 | shortcuts | `useMagicKeys`, `hotkeys`, `useHotkeys`, `defineShortcuts`, `keydown` listeners on `window`/`document` |
-| action definitions | arrays of `{ label, icon, click/onSelect }` reused by menus — the seed of an action registry |
+| action definitions | arrays of `{ label, icon, click/onSelect }` reused by menus, or `defineAction`/`defineForgeAction`/`registerAll` entries — the seed of an action registry |
+
+A palette or finder component counts as present only where a layout or page renders it:
+grep for its tag outside its own file. One that is defined and registered but never rendered
+is `needs_review` in the census, with the grep that found no mount.
 
 ## Saving, messages, popups and buttons
 
@@ -96,20 +103,32 @@ for f in pathlib.Path(sys.argv[1]).rglob('*'):
     if f.suffix not in ('.vue', '.tsx', '.jsx', '.svelte') or 'node_modules' in f.parts: continue
     s = f.read_text(errors='ignore')
     for m in TAG.finditer(s):
-        a, text = m.group(2), re.sub(r'<[^>]+>', '', m.group(4) or '').strip()
-        icon_only = bool(re.search(r'\bicon=', a) and not re.search(r'(?<![\w-]):?label=', a) and not text)
-        solid = not re.search(r'\b(variant|color)=', a)  # stack default: Nuxt UI's UButton is solid primary
+        a, inner = m.group(2), m.group(4) or ''
+        text = re.sub(r'<[^>]+>', '', inner).strip()
+        has_icon = bool(re.search(r'\bicon=', a) or re.search(r'<(UIcon|Icon|svg)\b', inner))
+        icon_only = has_icon and not re.search(r'(?<![\w-]):?label=', a) and not text
+        # stack default: Nuxt UI's UButton is solid primary; a raw <button> has no variant
+        solid = m.group(1) != 'button' and not re.search(r'\b(variant|color)=', a)
         tooltip = 'Tooltip' in s[max(0, m.start() - 300):m.start()]
+        title = bool(re.search(r'(?<![\w-]):?title=', a))  # native title: fails keyboard focus (P16)
         print(f"{f}:{s.count(chr(10), 0, m.start()) + 1}", f"icon_only={icon_only}",
-              f"named={'aria-label=' in a}", f"tooltip={tooltip}", f"solid={solid}", sep='\t')
+              f"named={'aria-label=' in a}", f"tooltip={tooltip}", f"title={title}", f"solid={solid}", sep='\t')
 ```
+
+A button inside an `aria-hidden` or `inert` wrapper (a measuring copy of a toolbar) is not
+one users see: drop it from the counts.
 
 ## Generated and vendored code
 
-Skip `node_modules/`, `.nuxt/`, `.output/`, `.next/`, `dist/`, `build/`, lockfiles and
-vendored third-party code. A vendored UI library is evidence of available components, not
-of app screens; the app's own module under `vendor/` is app code.
-Files too large to read whole are sampled by grep per rule; say which regions went unread.
+Skip `node_modules/`, `.nuxt/`, `.output/`, `.next/`, `dist/`, `build/`, `storybook-static/`,
+lockfiles, `*.stories.*` and vendored third-party code. A vendored UI library is evidence of
+available components, not of app screens; the app's own module under `vendor/` is app code.
+A workspace package or submodule the app imports (`packages/*`, a shared `forge-common/`) is
+app code where the app mounts or calls its components: census the overlay from the app's
+side, with the package file as its host, and leave the rest of the package as unread.
+A large app is read in full for overlays and editors and by grep per rule for the rest. Files
+too large to read whole are sampled the same way; the census ends with a list of what went
+unread.
 
 ## Verifying citations
 

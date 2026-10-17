@@ -4,7 +4,7 @@
   "label": "concept",
   "order": 1,
   "skills_n": 6,
-  "lines": 537,
+  "lines": 540,
   "findings_n": 9,
   "open_n": 0
  },
@@ -22,7 +22,7 @@
   "label": "experience",
   "order": 3,
   "skills_n": 4,
-  "lines": 353,
+  "lines": 358,
   "findings_n": 3,
   "open_n": 0
  },
@@ -67,7 +67,7 @@
   "label": "quality",
   "order": 8,
   "skills_n": 6,
-  "lines": 535,
+  "lines": 540,
   "findings_n": 2,
   "open_n": 0
  },

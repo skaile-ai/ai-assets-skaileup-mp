@@ -797,7 +797,7 @@
   "id": "concept-reverse",
   "dir": "concept-reverse",
   "domain": "concept",
-  "lines": 118,
+  "lines": 121,
   "steps": 6,
   "description": "Use when a repository already exists and the concept has to be extracted from it rather than designed. Reads the routes, screens, schema, stack, brand, interaction surfaces and docs, and writes what the code actually says as graded findings the owning skills seed from. Triggers on 'reverse engineer this project', 'extract the concept from this codebase', 'document this existing app'.",
   "requires": [
@@ -1045,7 +1045,7 @@
   "id": "experience-interaction",
   "dir": "experience-interaction",
   "domain": "experience",
-  "lines": 98,
+  "lines": 103,
   "steps": 8,
   "description": "Use when the glossary and the data model exist and the app's interaction rules are not written down yet — where information lives, one editor per object, inline vs modal vs page, saving, messages, popups, buttons, search and command palette — or when a code check has proposed changes to them. Decides the rules per object type with the user and writes APP-DESIGN.md. Triggers on 'write the app design', 'APP-DESIGN.md', 'when do we use a modal', 'UI rules for this app', 'interaction decisions'.",
   "requires": [
@@ -1062,7 +1062,7 @@
   "prereqs": [
    {
     "path": "_concept/glossary.md",
-    "gate": "hard",
+    "gate": "soft",
     "min_entries": null,
     "at": "skills/experience-interaction/SKILL.md:17"
    },
@@ -1097,8 +1097,8 @@
     "at": "skills/experience-interaction/SKILL.md:14"
    }
   ],
-  "hard_n": 1,
-  "soft_n": 5,
+  "hard_n": 0,
+  "soft_n": 6,
   "inputs_optional": [],
   "contracts": [
    "c-agent_patterns",
@@ -1108,7 +1108,7 @@
   ],
   "contracts_n": 4,
   "question_steps": 2,
-  "glossary_mentions": 7,
+  "glossary_mentions": 9,
   "flows": [
    "appbuilder-standard",
    "skaileup-concept-only",
@@ -1657,7 +1657,7 @@
   "id": "quality-interaction",
   "dir": "quality-interaction",
   "domain": "quality",
-  "lines": 109,
+  "lines": 114,
   "steps": 9,
   "description": "Use when an app's code exists and its interaction decisions are written down in APP-DESIGN.md — checks the code against them entry by entry and type by type, counts violations and exemplars per rule, and writes the ordered changes that close them. Triggers on 'check the app against APP-DESIGN.md', 'does the UI follow our patterns', 'interaction review', 'where do we still break the rules'.",
   "requires": [

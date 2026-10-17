@@ -121,7 +121,7 @@ Each reader opens the file at its first step, as intent, before judging anything
 - `experience-shell` — derives the navigation under the NAV rule and takes MSG, EDIT and
   MOD patterns from the entries instead of deciding them.
 - `ops-review` — checks screen specs against the entries.
-- `quality-interaction` — checks the code in `src/` against the entries.
+- `quality-interaction` — checks the app's source against the entries.
 - `build-plan` — reads the file through `quality-interaction`'s verdict, not directly.
 
 How a reader applies what it reads:
@@ -153,9 +153,12 @@ How a reader applies what it reads:
 - **Existing file.** Update in place: add entries, add `(change)` marks, and leave decided
   entries as written. Flipping one needs the user's answer; until then it is a question in
   § Open.
-- **No user available.** Entries that rest on a recommended answer the user has not given
-  carry `[open Qn]` — the file does not present an unconfirmed choice as decided. New
-  questions take the next number after the highest `Qn` the file has ever used, § Changelog
-  included; the run's `questions.md` uses the same ids.
+- **No user available.** Entries that rest on a *contested* recommendation the user has not
+  given — the ⚖ rows of `experience-interaction`'s decision catalogue and any call a
+  reasonable maintainer could make the other way — carry `[open Qn]`; the file does not
+  present an unconfirmed choice as decided. A default that adopts a rule or records what the
+  code does and passes is decided by adoption and carries none. New questions take the next
+  number after the highest `Qn` the file has ever used, § Changelog included; the run's
+  `questions.md` uses the same ids.
 - **Every write** adds one § Changelog line and sets `updated:`; `approved:` moves only
   when the user signs the write off.

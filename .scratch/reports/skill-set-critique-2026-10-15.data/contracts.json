@@ -37,7 +37,7 @@
  {
   "id": "c-app_design",
   "file": "contracts/app_design.md",
-  "lines": 161,
+  "lines": 164,
   "readers": [
    "experience-interaction",
    "quality-interaction",
@@ -197,7 +197,7 @@
  {
   "id": "c-ui_detection",
   "file": "contracts/ui_detection.md",
-  "lines": 133,
+  "lines": 152,
   "readers": [
    "concept-reverse",
    "experience-interaction",

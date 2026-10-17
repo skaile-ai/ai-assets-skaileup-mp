@@ -247,7 +247,7 @@
   "skill": "experience-interaction",
   "path": "APP-DESIGN.md",
   "artifact": null,
-  "at": "skills/experience-interaction/SKILL.md:74",
+  "at": "skills/experience-interaction/SKILL.md:79",
   "quote": "**Write `APP-DESIGN.md` after every round**",
   "in_produces": true
  },
@@ -337,7 +337,7 @@
   "skill": "quality-interaction",
   "path": "_concept/11_build/interaction.yaml",
   "artifact": "a-11_build",
-  "at": "skills/quality-interaction/SKILL.md:80",
+  "at": "skills/quality-interaction/SKILL.md:85",
   "quote": "**Write the verdict** to `_concept/11_build/interaction.yaml`",
   "in_produces": true
  },

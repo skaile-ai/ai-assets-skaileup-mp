@@ -14,7 +14,7 @@ metadata:
       - { id: app-design, path: "APP-DESIGN.md" }
   prerequisites:
     files:
-      - { path: "_concept/glossary.md", gate: hard }
+      - { path: "_concept/glossary.md", gate: soft }
       - { path: "_concept/10_blueprint/datamodel/", gate: soft }
       - { path: "_concept/04_journeys/stories.yaml", gate: soft }
       - { path: "_concept/02_grounding/findings/interaction.md", gate: soft }
@@ -42,7 +42,11 @@ two names for one object would split every later entry that cites it.
    steps draft only what it lacks. Then `10_blueprint/datamodel/model.json` (without it, the
    glossary's nouns and the brief carry the object list), `glossary.md`, and
    `04_journeys/stories.yaml` for roles and the tasks each journey performs (without it, the
-   brief's audience and hero flow). Where `02_grounding/findings/interaction.md` exists the
+   brief's audience and hero flow). Without `glossary.md` - a project on an older `_concept/`
+   layout, where the brief, feature and blueprint files sit under other folder names - the
+   object list comes from `findings/datamodel.md`, else from the schema and census the
+   findings or the code give, and § Open gets one row asking for `concept-glossary` and the
+   data-model step to pin the names. Where `02_grounding/findings/interaction.md` exists the
    app is a retrofit: every decision it records and grades is recommended as it stands
    wherever it passes the rule, so the file renames and fixes what the code does rather than
    redesigns it. Where `11_build/interaction.yaml` exists, this is a re-entry: go to step 7.
@@ -68,9 +72,10 @@ two names for one object would split every later entry that cites it.
    questions, each its own message per `contracts/agent_patterns.md § Questions Are
    Standalone Messages`, each with the recommendation first and its reason; the rows
    without ⚖ go as one "take these defaults?" message. Open questions already in § Open come
-   first. Without a user, the recommendation is written as the decision with `[open Qn]` on
-   the entry and the question as a § Open row that stands alone: question, options,
-   recommendation and why.
+   first. Without a user, the ⚖ rows and the core and supporting types' calls are written as
+   the recommendation with `[open Qn]` on the entry, and each question is a § Open row that
+   stands alone: question, options, recommendation and why. The defaults without ⚖ are
+   written as decided, and one § Open row asks the user to sign off the file.
 6. **Write `APP-DESIGN.md` after every round**, not once at the end, per
    `contracts/app_design.md § Writing it`: create it in the shape of
    `contracts/app_design.md § Shape`, or update it in place, leaving decided entries as
