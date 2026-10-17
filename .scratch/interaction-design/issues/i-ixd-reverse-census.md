@@ -6,9 +6,11 @@
 
 **Blocked by:** i-ixd-experience-interaction
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] `concept-reverse` names the seventh file in step 4 and in Done when, cites `contracts/ui_detection.md` sections, and grades values like the other six.
-- [ ] `contracts/ui_detection.md` exists and `contracts/README.md` lists it; `§` cites resolve.
-- [ ] `experience-interaction` step 1's retrofit sentence names the same file path.
-- [ ] `python3 scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+- [x] `concept-reverse` names the seventh file in step 4 and in Done when, cites `contracts/ui_detection.md` sections, and grades values like the other six.
+- [x] `contracts/ui_detection.md` exists and `contracts/README.md` lists it; `§` cites resolve.
+- [x] `experience-interaction` step 1's retrofit sentence names the same file path.
+- [x] `python3 scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+
+**Resolution (2026-10-17):** `concept-reverse` step 4 writes seven findings; `interaction.md` holds surfaces (purpose, host, trigger), editors per type, finders, save models, message channels, confirm components with `file:line`, graded like the rest, citing `contracts/ui_detection.md` sections; step 5 runs its citation check; Done when lists seven. 118 lines. `contracts/ui_detection.md` added. experience-interaction step 1 names the same path. check.py green.
