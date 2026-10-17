@@ -13,8 +13,10 @@ repeats none of its neighbours:
 
 It holds *decisions*; findings, plans and questions stay in the output of the run that
 raised them. Coding agents and reviewers cite its ids (`MOD-2`) instead of re-deriving a
-rule. Where `CLAUDE.md` or `AGENTS.md` does not link the file, the plan says so; the
-skills leave those files alone.
+rule. `build-scaffold` writes a line in the project's root `AGENTS.md` that points coding
+agents here, creating the file when it creates the project. In a project that existed before
+scaffolding the skills leave `CLAUDE.md` and `AGENTS.md` alone, and the plan says the link is
+missing.
 
 ## Shape
 
@@ -142,11 +144,13 @@ How a reader applies what it reads:
   the only skill that edits it. Any other skill that has something to say about the file
   records it in its own output and leaves the file as it is.
 - **`quality-interaction` records, `experience-interaction` folds in.** `quality-interaction`
-  never edits the file. It records violations, `(change)` candidates and proposed
-  exceptions in `_concept/11_build/interaction.yaml`. On re-entry `experience-interaction`
-  folds them in: `(change)` marks go on the entries with their sites; an exception enters
-  § Exceptions only on the user's answer, and otherwise becomes a § Open row
-  (`keep as exception?`).
+  never edits the file. It records its findings as a SARIF 2.1.0 log in
+  `_concept/11_build/interaction.sarif`: violations as `fail` results, `(change)` candidates
+  in `runs[0].properties.changes`, proposed exceptions as results with an `underReview`
+  suppression, and open questions in `runs[0].properties.questions`. On re-entry
+  `experience-interaction` folds them in: `(change)` marks go on the entries with their
+  sites; an exception enters § Exceptions only on the user's answer, and otherwise becomes a
+  § Open row (`keep as exception?`).
 - **Exceptions need the user.** A deviation enters § Exceptions only on the user's answer.
 - **Missing file.** `experience-interaction` creates it from the shape above with the
   sections it fills, plus § Open and § Changelog.
@@ -159,7 +163,7 @@ How a reader applies what it reads:
   present an unconfirmed choice as decided. A default that adopts a rule or records what the
   code does and passes is decided by adoption and carries none. New questions take the next
   number after the highest `Qn` the file has ever used, § Changelog included.
-  `quality-interaction`'s verdict lists its open questions under `questions:`, and
+  `quality-interaction`'s verdict lists its open questions in `runs[0].properties.questions`, and
   `experience-interaction` asks them in its next round as new `Qn`.
 - **Every write** adds one § Changelog line and sets `updated:`; `approved:` moves only
   when the user signs the write off.

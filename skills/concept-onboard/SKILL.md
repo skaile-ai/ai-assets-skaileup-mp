@@ -74,7 +74,8 @@ Paths are `contracts/concept_structure.md § The tree`. Everything this skill wr
    blank answer stub under each. Async usually gets one pass, so a compound question comes
    back half-answered.
 6. **Record and stamp.** Merge the remaining answers into `answers.json`, shaped per
-   `contracts/artifact_frontmatter.md § 02_grounding/onboarding/answers.json`: the technology
+   `contracts/artifact_frontmatter.md § 02_grounding/onboarding/answers.json` and validated
+   against `contracts/schemas/onboarding-answers.schema.json` before writing: the technology
    answers with their `confidence` and any `rationale` given, the brand answer and where its
    files are, `renderer`, and the `seeds` inventory; set `last_updated`. Write
    `approved: <date>` once the user has confirmed the seed table and the answers as read back

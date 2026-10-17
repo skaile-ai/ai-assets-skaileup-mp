@@ -4,10 +4,10 @@ The shared reference layer. A **contract file** is here because a skill **reads 
 step in its body** — naming a file is a citation, not a reading, and citations do not
 earn one. Nothing here is invocable.
 
-Sixteen files. The old collection had twenty-eight; the difference is almost entirely
-documents that described the collection to itself.
+Seventeen files and a `schemas/` directory. The old collection had twenty-eight; the
+difference is almost entirely documents that described the collection to itself.
 
-All sixteen install as **one asset**: `CONTRACT.md` beside them declares
+All seventeen install as **one asset**: `CONTRACT.md` beside them declares
 `name: shared-contracts`, and `contract` is a dir-scoped kind, so the directory deploys
 whole to `.claude/contracts/shared-contracts/`. Without that manifest, discovery finds
 nothing here and every `contract:` reference in a flow or a skill names an asset that
@@ -33,6 +33,8 @@ gates both directions.
 | `interaction_patterns.md` | `experience-interaction`, `quality-interaction`, `ops-review`, `spec-feature` and `experience-shell` — the P1–P17 rulebook and how findings are recorded |
 | `app_design.md` | The same five — the shape of `APP-DESIGN.md`, its entries, and the rules for reading and writing it (one writer: `experience-interaction`) |
 | `ui_detection.md` | `concept-reverse` and `quality-interaction` — where screens, editors and finders sit per stack, and the citation check |
+| `design_tokens.md` | `design-brand` (writes the DTCG token files and holds the approval), `mockup-walkthrough` and `mockup-storybook` (flatten them to CSS custom properties), `build-scaffold` (the same flattening into the project) and the stack templates — the required tokens, light and dark, the flattening rule |
+| `schemas/` | Every skill that writes a machine file validates it against `schemas/<name>.schema.json` (JSON Schema 2020-12) before writing, citing the path at its write step. `scripts/check.py` checks the schemas themselves — valid, `$id` matching the file name, `x-artifact` resolving to a `produces` path |
 
 ## What is not here
 

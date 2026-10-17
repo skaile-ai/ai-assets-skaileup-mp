@@ -3,6 +3,8 @@ name: build-scaffold
 description: "Use when the stack is chosen and no project exists yet — runs the template's scaffold recipe, then themes it, wires auth and builds the app shell, leaving a running app to build features into. Triggers on 'scaffold', 'bootstrap the project', 'set up the repo', 'create the app'."
 version: "0.1.0"
 metadata:
+  requires:
+    - contract:@skaile-ai/shared-contracts
   artifacts:
     requires:
       - { id: brief }
@@ -14,8 +16,11 @@ metadata:
     files:
       - { path: "_concept/brief.md", gate: hard }
       - { path: "_concept/10_blueprint/techstack.md", gate: hard }
-      - { path: "_concept/03_brand/tokens.json", gate: soft }
+      - { path: "_concept/03_brand/brand.tokens.json", gate: soft }
       - { path: "_concept/07_screens", gate: soft, min_entries: 1 }
+      - { path: "_concept/10_blueprint/openapi.yaml", gate: soft }
+      - { path: "_concept/10_blueprint/asyncapi.yaml", gate: soft }
+      - { path: "APP-DESIGN.md", gate: soft }
 ---
 
 # build-scaffold
@@ -53,16 +58,28 @@ gets it as ordinary build work behind the template's `## Storybook Config`.
    gives them — config files, environment files, the directories it names. Check the result
    against `project_structure` before going further: a layout that came out different means a
    flag was dropped, and every path in the three sections after this one is written against
-   the layout that was supposed to appear.
+   the layout that was supposed to appear. Where `10_blueprint/openapi.yaml` exists, write
+   one route or handler stub per operation, at the path and method it documents, answering
+   `501` until a slice builds it, and derive request validation from the operation's
+   parameter and body schemas; where `10_blueprint/asyncapi.yaml` exists, do the same for
+   each channel's handler. Without them the stack's own example routes stay. The contract is
+   `architecture-system`'s: a path or schema that needs to change goes back to it rather than
+   being edited here. Then, when this run created the project, write one line in the root
+   `AGENTS.md` (create it if absent) telling coding agents to read `APP-DESIGN.md` for the
+   interaction rules, if that file exists. A directory that already held a project keeps its
+   `AGENTS.md` and `CLAUDE.md` untouched; say that the link is missing instead.
 4. **Commit the scaffold on the build branch.** `build-branch` opens `build/<app-slug>` when
    the flow runs it; find that branch and commit onto it. When there is none — `appbuilder-mvp`
    has no branch step — initialize the repo if needed and cut `build/<app-slug>` here, because
    a generated project committed to the default branch drops thousands of unreviewed lines
    where the user's own work lives.
-5. **Theme it — `## CSS Variables / Theming`.** With `03_brand/tokens.json` present, every
-   colour, font, radius, spacing value and shadow traces to a token, both light and dark
-   blocks when the tokens carry both, fonts imported from the provider the tokens name, and
-   `03_brand/identity.md` read for atmosphere. Without it — `appbuilder-mvp` runs no brand
+5. **Theme it — `## CSS Variables / Theming`.** With `03_brand/brand.tokens.json` present,
+   flatten it to CSS custom properties per `contracts/design_tokens.md § Flattening to CSS
+   custom properties` and wire the section's theme variables to those, so every colour, font,
+   radius, spacing value and shadow traces to a token. Where `03_brand/brand.dark.tokens.json`
+   exists, its tokens become the dark block (`contracts/design_tokens.md § Light and dark`);
+   without it the app has one mode. Import fonts from the provider the font tokens name, and
+   read `03_brand/identity.md` for atmosphere. Without tokens — `appbuilder-mvp` runs no brand
    step — take the stack's own defaults from that section and tell the user which defaults you
    took and how to replace them later. Refusing to run without tokens would make every run of
    that flow fail; inventing hex values would make the app disagree with a brand it is

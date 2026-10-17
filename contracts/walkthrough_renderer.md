@@ -438,7 +438,7 @@ MUST  render declared `columns` / `sample_rows` / `items` / `options` as real DO
 MUST  render the spec body only inside the collapsed spec panel (§ Spec reference panel), never inline as primary content
 
 NEVER  emit `data-spec-*` attributes outside the pinned table
-NEVER  mutate source files (`07_screens/**`, `04_journeys/stories.yaml`, `03_brand/tokens.json`, `05_features/**`) — renderers are read-only on inputs
+NEVER  mutate source files (`07_screens/**`, `04_journeys/stories.yaml`, `03_brand/brand.tokens.json`, `05_features/**`) — renderers are read-only on inputs
 NEVER  inject journey-*step* navigation (Next/Prev, journey-ordering) into `screen/**/*.html` — that lives only in `journey/<id>.html`; screen-intrinsic `target:` links and the generated app-shell nav are REQUIRED and are NOT journey-nav
 NEVER  inline absolute filesystem paths into `manifest.json` — repo-relative paths only
 NEVER  render a canonical spec-template heading (§ Auto-slug fallback exclusion list) as a widget

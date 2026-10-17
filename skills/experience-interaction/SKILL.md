@@ -18,7 +18,7 @@ metadata:
       - { path: "_concept/10_blueprint/datamodel/", gate: soft }
       - { path: "_concept/04_journeys/stories.yaml", gate: soft }
       - { path: "_concept/02_grounding/findings/interaction.md", gate: soft }
-      - { path: "_concept/11_build/interaction.yaml", gate: soft }
+      - { path: "_concept/11_build/interaction.sarif", gate: soft }
       - { path: "APP-DESIGN.md", gate: soft }
 ---
 
@@ -49,7 +49,7 @@ two names for one object would split every later entry that cites it.
    data-model step to pin the names. Where `02_grounding/findings/interaction.md` exists the
    app is a retrofit: every decision it records and grades is recommended as it stands
    wherever it passes the rule, so the file renames and fixes what the code does rather than
-   redesigns it. Where `11_build/interaction.yaml` exists, this is a re-entry: go to step 7.
+   redesigns it. Where `11_build/interaction.sarif` exists, this is a re-entry: go to step 7.
 2. **Classify the objects.** One row per object the model or glossary names, with its class
    (`contracts/interaction_patterns.md`'s opening: `core`, `supporting`, `child`, `junction`,
    `system`), `simple` or `complex` for core and supporting types, and the roles that edit
@@ -85,11 +85,14 @@ two names for one object would split every later entry that cites it.
    write adds one § Changelog line and sets `updated:`. When the user says yes to the file in
    words, set `approved:` in the same write; an edit after that leaves it at its last value
    until the user says yes again.
-7. **Fold in a code check.** Where `11_build/interaction.yaml` exists, read its violations,
-   `(change)` candidates and proposed exceptions. Mark the entries it names `(change)` with
+7. **Fold in a code check.** Where `11_build/interaction.sarif` exists, read its `fail`
+   results as the violations, `runs[0].properties.changes` as the `(change)` candidates, the
+   results carrying an `underReview` suppression as the proposed exceptions and
+   `runs[0].properties.questions` as questions. Mark the entries they name `(change)` with
    their sites (past three sites, the count and the first), and ask each proposed exception
-   in the next round: a yes enters § Exceptions, no answer becomes the § Open row
-   `keep as exception?`. The verdict file is `quality-interaction`'s and stays as it is.
+   and question in the next round: a yes to an exception enters § Exceptions, no answer
+   becomes the § Open row `keep as exception?`. The verdict file is `quality-interaction`'s
+   and stays as it is.
 8. **Hand off.** Name what reads the file next: `spec-feature` applies the OBJ
    `task → surface` rows to every screen and hands a screen that needs a surface the floorplan
    lacks back to this skill; `experience-shell` derives the navigation under § Navigation and

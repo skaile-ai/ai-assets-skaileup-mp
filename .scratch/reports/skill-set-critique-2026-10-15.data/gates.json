@@ -244,7 +244,7 @@
   "satisfied": true,
   "unmet_hard": false,
   "satisfied_s": "yes",
-  "prereq_at": "skills/build-scaffold/SKILL.md:15"
+  "prereq_at": "skills/build-scaffold/SKILL.md:17"
  },
  {
   "id": "appbuilder-mvp:build-scaffold:_concept/10_blueprint/techstack.md",
@@ -257,20 +257,20 @@
   "satisfied": true,
   "unmet_hard": false,
   "satisfied_s": "yes",
-  "prereq_at": "skills/build-scaffold/SKILL.md:16"
+  "prereq_at": "skills/build-scaffold/SKILL.md:18"
  },
  {
-  "id": "appbuilder-mvp:build-scaffold:_concept/03_brand/tokens.json",
+  "id": "appbuilder-mvp:build-scaffold:_concept/03_brand/brand.tokens.json",
   "flow": "appbuilder-mvp",
   "position": 8,
   "skill": "build-scaffold",
-  "path": "_concept/03_brand/tokens.json",
+  "path": "_concept/03_brand/brand.tokens.json",
   "gate": "soft",
   "producer": null,
   "satisfied": false,
   "unmet_hard": false,
   "satisfied_s": "no",
-  "prereq_at": "skills/build-scaffold/SKILL.md:17"
+  "prereq_at": "skills/build-scaffold/SKILL.md:19"
  },
  {
   "id": "appbuilder-mvp:build-scaffold:_concept/07_screens",
@@ -283,7 +283,46 @@
   "satisfied": false,
   "unmet_hard": false,
   "satisfied_s": "no",
-  "prereq_at": "skills/build-scaffold/SKILL.md:18"
+  "prereq_at": "skills/build-scaffold/SKILL.md:20"
+ },
+ {
+  "id": "appbuilder-mvp:build-scaffold:_concept/10_blueprint/openapi.yaml",
+  "flow": "appbuilder-mvp",
+  "position": 8,
+  "skill": "build-scaffold",
+  "path": "_concept/10_blueprint/openapi.yaml",
+  "gate": "soft",
+  "producer": null,
+  "satisfied": false,
+  "unmet_hard": false,
+  "satisfied_s": "no",
+  "prereq_at": "skills/build-scaffold/SKILL.md:21"
+ },
+ {
+  "id": "appbuilder-mvp:build-scaffold:_concept/10_blueprint/asyncapi.yaml",
+  "flow": "appbuilder-mvp",
+  "position": 8,
+  "skill": "build-scaffold",
+  "path": "_concept/10_blueprint/asyncapi.yaml",
+  "gate": "soft",
+  "producer": null,
+  "satisfied": false,
+  "unmet_hard": false,
+  "satisfied_s": "no",
+  "prereq_at": "skills/build-scaffold/SKILL.md:22"
+ },
+ {
+  "id": "appbuilder-mvp:build-scaffold:APP-DESIGN.md",
+  "flow": "appbuilder-mvp",
+  "position": 8,
+  "skill": "build-scaffold",
+  "path": "APP-DESIGN.md",
+  "gate": "soft",
+  "producer": null,
+  "satisfied": false,
+  "unmet_hard": false,
+  "satisfied_s": "no",
+  "prereq_at": "skills/build-scaffold/SKILL.md:23"
  },
  {
   "id": "appbuilder-mvp:build-plan:_concept/05_features",
@@ -351,11 +390,11 @@
   "prereq_at": "skills/build-plan/SKILL.md:25"
  },
  {
-  "id": "appbuilder-mvp:build-plan:_concept/11_build/interaction.yaml",
+  "id": "appbuilder-mvp:build-plan:_concept/11_build/interaction.sarif",
   "flow": "appbuilder-mvp",
   "position": 9,
   "skill": "build-plan",
-  "path": "_concept/11_build/interaction.yaml",
+  "path": "_concept/11_build/interaction.sarif",
   "gate": "soft",
   "producer": null,
   "satisfied": false,
@@ -414,6 +453,32 @@
   "unmet_hard": false,
   "satisfied_s": "no",
   "prereq_at": "skills/build-implement/SKILL.md:25"
+ },
+ {
+  "id": "appbuilder-mvp:build-implement:_concept/10_blueprint/openapi.yaml",
+  "flow": "appbuilder-mvp",
+  "position": 10,
+  "skill": "build-implement",
+  "path": "_concept/10_blueprint/openapi.yaml",
+  "gate": "soft",
+  "producer": null,
+  "satisfied": false,
+  "unmet_hard": false,
+  "satisfied_s": "no",
+  "prereq_at": "skills/build-implement/SKILL.md:26"
+ },
+ {
+  "id": "appbuilder-mvp:build-implement:_concept/10_blueprint/asyncapi.yaml",
+  "flow": "appbuilder-mvp",
+  "position": 10,
+  "skill": "build-implement",
+  "path": "_concept/10_blueprint/asyncapi.yaml",
+  "gate": "soft",
+  "producer": null,
+  "satisfied": false,
+  "unmet_hard": false,
+  "satisfied_s": "no",
+  "prereq_at": "skills/build-implement/SKILL.md:27"
  },
  {
   "id": "appbuilder-mvp:quality-test:_concept/01_meta/scope.yaml",
@@ -728,11 +793,11 @@
   "prereq_at": "skills/experience-interaction/SKILL.md:20"
  },
  {
-  "id": "appbuilder-standard:experience-interaction:_concept/11_build/interaction.yaml",
+  "id": "appbuilder-standard:experience-interaction:_concept/11_build/interaction.sarif",
   "flow": "appbuilder-standard",
   "position": 9,
   "skill": "experience-interaction",
-  "path": "_concept/11_build/interaction.yaml",
+  "path": "_concept/11_build/interaction.sarif",
   "gate": "soft",
   "producer": null,
   "satisfied": false,
@@ -1027,11 +1092,11 @@
   "prereq_at": "skills/experience-shell/SKILL.md:25"
  },
  {
-  "id": "appbuilder-standard:experience-shell:_concept/03_brand/tokens.json",
+  "id": "appbuilder-standard:experience-shell:_concept/03_brand/brand.tokens.json",
   "flow": "appbuilder-standard",
   "position": 13,
   "skill": "experience-shell",
-  "path": "_concept/03_brand/tokens.json",
+  "path": "_concept/03_brand/brand.tokens.json",
   "gate": "soft",
   "producer": "design-brand",
   "satisfied": true,
@@ -1157,6 +1222,19 @@
   "prereq_at": "skills/architecture-system/SKILL.md:20"
  },
  {
+  "id": "appbuilder-standard:architecture-system:_concept/10_blueprint/datamodel",
+  "flow": "appbuilder-standard",
+  "position": 15,
+  "skill": "architecture-system",
+  "path": "_concept/10_blueprint/datamodel",
+  "gate": "soft",
+  "producer": "architecture-datamodel",
+  "satisfied": true,
+  "unmet_hard": false,
+  "satisfied_s": "yes",
+  "prereq_at": "skills/architecture-system/SKILL.md:21"
+ },
+ {
   "id": "appbuilder-standard:mockup-walkthrough:_concept/07_screens",
   "flow": "appbuilder-standard",
   "position": 16,
@@ -1183,11 +1261,11 @@
   "prereq_at": "skills/mockup-walkthrough/SKILL.md:19"
  },
  {
-  "id": "appbuilder-standard:mockup-walkthrough:_concept/03_brand/tokens.json",
+  "id": "appbuilder-standard:mockup-walkthrough:_concept/03_brand/brand.tokens.json",
   "flow": "appbuilder-standard",
   "position": 16,
   "skill": "mockup-walkthrough",
-  "path": "_concept/03_brand/tokens.json",
+  "path": "_concept/03_brand/brand.tokens.json",
   "gate": "hard",
   "producer": "design-brand",
   "satisfied": true,
@@ -1222,11 +1300,11 @@
   "prereq_at": "skills/mockup-storybook/SKILL.md:20"
  },
  {
-  "id": "appbuilder-standard:mockup-storybook:_concept/03_brand/tokens.json",
+  "id": "appbuilder-standard:mockup-storybook:_concept/03_brand/brand.tokens.json",
   "flow": "appbuilder-standard",
   "position": 17,
   "skill": "mockup-storybook",
-  "path": "_concept/03_brand/tokens.json",
+  "path": "_concept/03_brand/brand.tokens.json",
   "gate": "hard",
   "producer": "design-brand",
   "satisfied": true,
@@ -1310,7 +1388,7 @@
   "satisfied": true,
   "unmet_hard": false,
   "satisfied_s": "yes",
-  "prereq_at": "skills/build-scaffold/SKILL.md:15"
+  "prereq_at": "skills/build-scaffold/SKILL.md:17"
  },
  {
   "id": "appbuilder-standard:build-scaffold:_concept/10_blueprint/techstack.md",
@@ -1323,20 +1401,20 @@
   "satisfied": true,
   "unmet_hard": false,
   "satisfied_s": "yes",
-  "prereq_at": "skills/build-scaffold/SKILL.md:16"
+  "prereq_at": "skills/build-scaffold/SKILL.md:18"
  },
  {
-  "id": "appbuilder-standard:build-scaffold:_concept/03_brand/tokens.json",
+  "id": "appbuilder-standard:build-scaffold:_concept/03_brand/brand.tokens.json",
   "flow": "appbuilder-standard",
   "position": 20,
   "skill": "build-scaffold",
-  "path": "_concept/03_brand/tokens.json",
+  "path": "_concept/03_brand/brand.tokens.json",
   "gate": "soft",
   "producer": "design-brand",
   "satisfied": true,
   "unmet_hard": false,
   "satisfied_s": "yes",
-  "prereq_at": "skills/build-scaffold/SKILL.md:17"
+  "prereq_at": "skills/build-scaffold/SKILL.md:19"
  },
  {
   "id": "appbuilder-standard:build-scaffold:_concept/07_screens",
@@ -1349,7 +1427,46 @@
   "satisfied": true,
   "unmet_hard": false,
   "satisfied_s": "yes",
-  "prereq_at": "skills/build-scaffold/SKILL.md:18"
+  "prereq_at": "skills/build-scaffold/SKILL.md:20"
+ },
+ {
+  "id": "appbuilder-standard:build-scaffold:_concept/10_blueprint/openapi.yaml",
+  "flow": "appbuilder-standard",
+  "position": 20,
+  "skill": "build-scaffold",
+  "path": "_concept/10_blueprint/openapi.yaml",
+  "gate": "soft",
+  "producer": null,
+  "satisfied": false,
+  "unmet_hard": false,
+  "satisfied_s": "no",
+  "prereq_at": "skills/build-scaffold/SKILL.md:21"
+ },
+ {
+  "id": "appbuilder-standard:build-scaffold:_concept/10_blueprint/asyncapi.yaml",
+  "flow": "appbuilder-standard",
+  "position": 20,
+  "skill": "build-scaffold",
+  "path": "_concept/10_blueprint/asyncapi.yaml",
+  "gate": "soft",
+  "producer": null,
+  "satisfied": false,
+  "unmet_hard": false,
+  "satisfied_s": "no",
+  "prereq_at": "skills/build-scaffold/SKILL.md:22"
+ },
+ {
+  "id": "appbuilder-standard:build-scaffold:APP-DESIGN.md",
+  "flow": "appbuilder-standard",
+  "position": 20,
+  "skill": "build-scaffold",
+  "path": "APP-DESIGN.md",
+  "gate": "soft",
+  "producer": "experience-interaction",
+  "satisfied": true,
+  "unmet_hard": false,
+  "satisfied_s": "yes",
+  "prereq_at": "skills/build-scaffold/SKILL.md:23"
  },
  {
   "id": "appbuilder-standard:build-database:_concept/10_blueprint/datamodel",
@@ -1443,11 +1560,11 @@
   "prereq_at": "skills/build-plan/SKILL.md:25"
  },
  {
-  "id": "appbuilder-standard:build-plan:_concept/11_build/interaction.yaml",
+  "id": "appbuilder-standard:build-plan:_concept/11_build/interaction.sarif",
   "flow": "appbuilder-standard",
   "position": 23,
   "skill": "build-plan",
-  "path": "_concept/11_build/interaction.yaml",
+  "path": "_concept/11_build/interaction.sarif",
   "gate": "soft",
   "producer": null,
   "satisfied": false,
@@ -1506,6 +1623,32 @@
   "unmet_hard": false,
   "satisfied_s": "yes",
   "prereq_at": "skills/build-implement/SKILL.md:25"
+ },
+ {
+  "id": "appbuilder-standard:build-implement:_concept/10_blueprint/openapi.yaml",
+  "flow": "appbuilder-standard",
+  "position": 24,
+  "skill": "build-implement",
+  "path": "_concept/10_blueprint/openapi.yaml",
+  "gate": "soft",
+  "producer": null,
+  "satisfied": false,
+  "unmet_hard": false,
+  "satisfied_s": "no",
+  "prereq_at": "skills/build-implement/SKILL.md:26"
+ },
+ {
+  "id": "appbuilder-standard:build-implement:_concept/10_blueprint/asyncapi.yaml",
+  "flow": "appbuilder-standard",
+  "position": 24,
+  "skill": "build-implement",
+  "path": "_concept/10_blueprint/asyncapi.yaml",
+  "gate": "soft",
+  "producer": null,
+  "satisfied": false,
+  "unmet_hard": false,
+  "satisfied_s": "no",
+  "prereq_at": "skills/build-implement/SKILL.md:27"
  },
  {
   "id": "appbuilder-standard:build-branch:_concept/brief.md",
@@ -1597,6 +1740,19 @@
   "unmet_hard": false,
   "satisfied_s": "yes",
   "prereq_at": "skills/quality-e2e/SKILL.md:21"
+ },
+ {
+  "id": "appbuilder-standard:quality-e2e:_concept/10_blueprint/openapi.yaml",
+  "flow": "appbuilder-standard",
+  "position": 27,
+  "skill": "quality-e2e",
+  "path": "_concept/10_blueprint/openapi.yaml",
+  "gate": "soft",
+  "producer": null,
+  "satisfied": false,
+  "unmet_hard": false,
+  "satisfied_s": "no",
+  "prereq_at": "skills/quality-e2e/SKILL.md:22"
  },
  {
   "id": "appbuilder-standard:quality-review:_concept/05_features",
@@ -1794,11 +1950,11 @@
   "prereq_at": "skills/quality-release/SKILL.md:22"
  },
  {
-  "id": "appbuilder-standard:quality-release:_concept/03_brand/tokens.json",
+  "id": "appbuilder-standard:quality-release:_concept/03_brand/brand.tokens.json",
   "flow": "appbuilder-standard",
   "position": 31,
   "skill": "quality-release",
-  "path": "_concept/03_brand/tokens.json",
+  "path": "_concept/03_brand/brand.tokens.json",
   "gate": "soft",
   "producer": "design-brand",
   "satisfied": true,
@@ -2093,11 +2249,11 @@
   "prereq_at": "skills/experience-interaction/SKILL.md:20"
  },
  {
-  "id": "skaileup-concept-only:experience-interaction:_concept/11_build/interaction.yaml",
+  "id": "skaileup-concept-only:experience-interaction:_concept/11_build/interaction.sarif",
   "flow": "skaileup-concept-only",
   "position": 9,
   "skill": "experience-interaction",
-  "path": "_concept/11_build/interaction.yaml",
+  "path": "_concept/11_build/interaction.sarif",
   "gate": "soft",
   "producer": null,
   "satisfied": false,
@@ -2392,11 +2548,11 @@
   "prereq_at": "skills/experience-shell/SKILL.md:25"
  },
  {
-  "id": "skaileup-concept-only:experience-shell:_concept/03_brand/tokens.json",
+  "id": "skaileup-concept-only:experience-shell:_concept/03_brand/brand.tokens.json",
   "flow": "skaileup-concept-only",
   "position": 13,
   "skill": "experience-shell",
-  "path": "_concept/03_brand/tokens.json",
+  "path": "_concept/03_brand/brand.tokens.json",
   "gate": "soft",
   "producer": "design-brand",
   "satisfied": true,
@@ -2444,11 +2600,11 @@
   "prereq_at": "skills/mockup-walkthrough/SKILL.md:19"
  },
  {
-  "id": "skaileup-concept-only:mockup-walkthrough:_concept/03_brand/tokens.json",
+  "id": "skaileup-concept-only:mockup-walkthrough:_concept/03_brand/brand.tokens.json",
   "flow": "skaileup-concept-only",
   "position": 14,
   "skill": "mockup-walkthrough",
-  "path": "_concept/03_brand/tokens.json",
+  "path": "_concept/03_brand/brand.tokens.json",
   "gate": "hard",
   "producer": "design-brand",
   "satisfied": true,
@@ -2834,11 +2990,11 @@
   "prereq_at": "skills/experience-interaction/SKILL.md:20"
  },
  {
-  "id": "skaileup-concept-reverse:experience-interaction:_concept/11_build/interaction.yaml",
+  "id": "skaileup-concept-reverse:experience-interaction:_concept/11_build/interaction.sarif",
   "flow": "skaileup-concept-reverse",
   "position": 9,
   "skill": "experience-interaction",
-  "path": "_concept/11_build/interaction.yaml",
+  "path": "_concept/11_build/interaction.sarif",
   "gate": "soft",
   "producer": null,
   "satisfied": false,
@@ -2990,11 +3146,11 @@
   "prereq_at": "skills/experience-shell/SKILL.md:25"
  },
  {
-  "id": "skaileup-concept-reverse:experience-shell:_concept/03_brand/tokens.json",
+  "id": "skaileup-concept-reverse:experience-shell:_concept/03_brand/brand.tokens.json",
   "flow": "skaileup-concept-reverse",
   "position": 11,
   "skill": "experience-shell",
-  "path": "_concept/03_brand/tokens.json",
+  "path": "_concept/03_brand/brand.tokens.json",
   "gate": "soft",
   "producer": "design-brand",
   "satisfied": true,
@@ -3196,6 +3352,19 @@
   "unmet_hard": false,
   "satisfied_s": "no",
   "prereq_at": "skills/architecture-system/SKILL.md:20"
+ },
+ {
+  "id": "skaileup-concept-reverse:architecture-system:_concept/10_blueprint/datamodel",
+  "flow": "skaileup-concept-reverse",
+  "position": 14,
+  "skill": "architecture-system",
+  "path": "_concept/10_blueprint/datamodel",
+  "gate": "soft",
+  "producer": "architecture-datamodel",
+  "satisfied": true,
+  "unmet_hard": false,
+  "satisfied_s": "yes",
+  "prereq_at": "skills/architecture-system/SKILL.md:21"
  },
  {
   "id": "skaileup-concept-reverse:quality-interaction:APP-DESIGN.md",

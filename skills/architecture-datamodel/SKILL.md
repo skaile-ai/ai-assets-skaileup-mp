@@ -68,12 +68,14 @@ tool has seen it. Paths are `contracts/concept_structure.md § The tree`.
    in the user's words, with the counts underneath. Nothing is written before the user says
    yes, because a model that features, screens and seeds are all about to name is cheapest to
    change while it is still a paragraph.
-5. **Write `model.dbml` and `model.json`.** Conventions are
+5. **Write `model.dbml` and `model.json`**, validating `model.json` against
+   `contracts/schemas/datamodel-model.schema.json` first. Conventions are
    `contracts/semantic_types.md § Rules for Skills`; the mechanical checks that review applies
    are `contracts/golden_principles.md § Entity Rules`, `§ Field Rules`, `§ Enum Rules` and
    `§ Relation Rules`. An `m2m` gets an explicit junction model. A raw SQL type here survives
    all the way into a migration that will not apply.
-6. **Write `seed.json` with all four scenarios** — `empty`, `single_user`, `populated`,
+6. **Write `seed.json` with all four scenarios**, validated against
+   `contracts/schemas/datamodel-seed.schema.json` — `empty`, `single_user`, `populated`,
    `edge_cases` — plus `permissions` when the journeys name distinct roles. The scenarios are
    `contracts/seed_data.md § Standard Scenarios` and the data rules
    `contracts/seed_data.md § Data Quality Rules`, so every relation resolves inside its own

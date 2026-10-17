@@ -20,9 +20,12 @@ approved: YYYY-MM-DD        # ISO date the user approved this artifact; absent =
 `approved:` is written by the skill that holds the approval step, in the same write that
 records the user's yes, and only then — a file whose approval is still pending carries no
 `approved:` key rather than an empty one. A later edit that changes the substance clears it
-until the user approves again. Data files without frontmatter (`answers.json`, `tokens.json`)
-carry the same key at the top level where a skill's body says so.
-```
+until the user approves again. `contracts/schemas/frontmatter.schema.json` is the machine-readable
+form of these two fields. To validate, load the YAML, turn date values into ISO text — PyYAML
+reads an unquoted `2026-10-17` as a date, and `json.loads(json.dumps(doc, default=str))` does
+it — then validate. Data files without frontmatter carry the same key where a skill's body
+says so: `answers.json` at its top level, `brand.tokens.json` under
+`$extensions["ai.skaile"]` (`contracts/design_tokens.md § Approval`).
 
 ---
 

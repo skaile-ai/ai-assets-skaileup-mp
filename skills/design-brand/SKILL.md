@@ -12,7 +12,7 @@ metadata:
       - { id: grounding-findings }
     produces:
       - { id: brand-identity, path: "_concept/03_brand/identity.md" }
-      - { id: brand-tokens, path: "_concept/03_brand/tokens.json" }
+      - { id: brand-tokens, path: "_concept/03_brand/brand.tokens.json" }
       - { id: brand-book, path: "_concept/03_brand/brandbook.html" }
       - { id: grounding-findings, path: "_concept/02_grounding/findings/" }
   prerequisites:
@@ -28,11 +28,13 @@ metadata:
 
 # design-brand
 
-Writes `03_brand/` — `identity.md`, `tokens.json` and `brandbook.html`; the reference
-screenshots behind them go to `02_grounding/findings/`. Every downstream skill that renders
-anything reads `tokens.json`, and both mockup renderers hard-gate on it, so this is the file
-the visual half of the project stands on. This skill settles what the product looks like and
-how it sounds: `identity.md` is the one home of the tone of voice and the copy guidelines.
+Writes `03_brand/` — `identity.md`, `brand.tokens.json` and `brandbook.html`, plus
+`brand.dark.tokens.json` and `brand.resolver.json` when the brand has a dark mode; the
+reference screenshots behind them go to `02_grounding/findings/`. Every downstream skill that
+renders anything reads `brand.tokens.json`, and both mockup renderers hard-gate on it, so this
+is the file the visual half of the project stands on. This skill settles what the product
+looks like and how it sounds: `identity.md` is the one home of the tone of voice and the copy
+guidelines.
 
 Paths are `contracts/concept_structure.md § The tree`; frontmatter shapes are
 `contracts/artifact_frontmatter.md § 03_brand/identity.md`.
@@ -46,7 +48,7 @@ Paths are `contracts/concept_structure.md § The tree`; frontmatter shapes are
    and recorded, not replaced. When `02_grounding/findings/brand.md` exists — the reverse
    flow — seed the draft from it and show each graded value as a proposal: only `extracted`
    values are what the code says, and `inferred` or `needs_review` ones are the user's to
-   settle before they reach `tokens.json`.
+   settle before they reach `brand.tokens.json`.
 2. **Discover the direction**, per
    `contracts/agent_patterns.md § Questions Are Standalone Messages`: a site whose look
    they love; the feeling the product should give, offered as a spectrum rather than a
@@ -65,24 +67,29 @@ Paths are `contracts/concept_structure.md § The tree`; frontmatter shapes are
    this app visually unmistakable. A palette of primary blue, grey secondary and Inter is the
    default any project would get, which is exactly why it says nothing about this one.
    Iterate until they approve in words.
-5. **Write the three files.** `identity.md` carries the direction, the colour usage rules,
+5. **Write the files.** `identity.md` carries the direction, the colour usage rules,
    the type hierarchy, spacing, elevation, atmosphere and the memorable element, a short
    **Tone and copy** section, and — for the approval from step 4 — `approved: <date>` in its
    frontmatter. Tone and copy: how the product speaks (three or four adjectives with what each
    rules out), how it addresses the user, how errors, empty states and buttons read, and words
    it avoids. Take it from the brief and the direction the user approved; ask only when those
    leave the voice open, built on the feeling they chose in step 2.
-   `tokens.json` carries the machine-readable form: `colors` (primary, secondary, accent,
-   background, surface, text, text_muted, border, error, success, warning), `fonts`,
-   `radius`, `mode`, `spacing_base`, `shadows`, `atmosphere`, and a `tailwind` block of CSS
-   custom properties — walkthroughs flatten this file into custom properties and storybook
-   themes from it, so a missing key becomes a bland default in every rendered screen.
+   `brand.tokens.json` carries the machine-readable form as W3C design tokens: every token in
+   `contracts/design_tokens.md § Required tokens`, with the shapes and the light/dark rule from
+   that contract. Validate it against `contracts/schemas/brand-tokens.schema.json` before
+   writing — walkthroughs flatten this file into custom properties and storybook themes from
+   it, so a missing token becomes a bland default in every rendered screen. The atmosphere
+   (grain, gradients, texture) lives in `identity.md` only. When the brand has a dark mode,
+   write `brand.dark.tokens.json` (the colour overrides) and `brand.resolver.json` as the
+   contract shows; a one-mode brand writes neither. Record the approval in the token file's
+   `$extensions` as `contracts/design_tokens.md § Approval` says.
    `brandbook.html` is self-contained (inline CSS, Google Fonts links only, under 50KB) and
    demonstrates the brand rather than listing it: swatches, type in use, spacing, elevation,
    and live button, card, input and nav previews, all drawn with its own tokens.
 6. **Report the distinctive choices in a sentence or two** and name what reads the tokens
    next — the feature loop's screen specs, then the walkthrough and storybook.
 
-**Done when** `identity.md`, `tokens.json` and `brandbook.html` exist, the token file carries
-every key above, and the user has approved the direction, which `approved:` in `identity.md`
-records.
+**Done when** `identity.md`, `brand.tokens.json` and `brandbook.html` exist (plus the dark file
+and the resolver when the brand has a dark mode), the token file carries every required token
+and passes the schema, and the user has approved the direction, which `approved:` in
+`identity.md` and in the token file's `$extensions` records.

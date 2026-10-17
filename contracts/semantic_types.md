@@ -48,7 +48,7 @@ Enums are defined inline as an object mapping **PascalCase** values to descripti
 ```
 
 - Enum values are always PascalCase (never `SCREAMING_SNAKE` or `lowercase`)
-- Shared enums reused across models are defined at the top level of the schema and referenced by name
+- Inline enums stay as written above. Shared enums reused across models live in the top-level `enums[]` of `model.json`, each `{ id, values: [{ value, label }] }`, and a field references one by `enum_id`
 - The stack translator generates the concrete enum definition (Prisma `enum`, SQL `CHECK`, etc.)
 
 ## Relation Types
@@ -122,7 +122,7 @@ All fields support these optional properties:
 ## Rules for Skills
 
 1. **Always use semantic types** in `model.json` and `model.dbml` — never raw SQL or Prisma types
-2. **Model names** are PascalCase singular (`Task`, `ProjectMember`)
+2. **Model names** — the entity `id` in `model.json` — are PascalCase singular (`Task`, `ProjectMember`)
 3. **Field names** are snake_case (`first_name`, `is_active`, `project_id`)
 4. **Every model** declares `standard_fields: ["id", "created_at", "updated_at"]` — do not add these to the fields array
 5. **Enum values** are PascalCase (`Draft`, `InProgress`, `Done`)

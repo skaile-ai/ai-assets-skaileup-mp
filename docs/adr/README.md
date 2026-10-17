@@ -24,3 +24,4 @@ was expensive to reach, and reversing it would cost more than reading it.
 | [0013](./0013-a-skill-declares-what-it-produces.md) | A skill declares what it produces; no registry is generated |
 | [0014](./0014-the-glossary-is-a-root-file.md) | The glossary is a root file; `comparable.md` folds into the brief |
 | [0015](./0015-interaction-decisions-live-in-app-design.md) | Interaction decisions live in `APP-DESIGN.md` at the project root, the one artifact outside `_concept/` |
+| [0016](./0016-published-formats-where-one-exists.md) | Published formats where one exists: DTCG tokens, JSON Schema, SARIF, OpenAPI/AsyncAPI, MADR vocabulary, C4 levels, an `AGENTS.md` pointer |

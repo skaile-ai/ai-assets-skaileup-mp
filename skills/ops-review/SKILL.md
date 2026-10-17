@@ -57,7 +57,7 @@ the link protocol `contracts/feedback_loop.md`'s, and the mechanical naming rule
    reverse-engineered concept fails first, because nothing enforced them while it was written.
 3. **Check coverage.** Per feature: a spec, at least one screen that implements it, and an
    entity it reads or writes or an explicit statement that it needs none. Globally:
-   `03_brand/tokens.json` and `10_blueprint/techstack.md` exist, since the renderers and the
+   `03_brand/brand.tokens.json` and `10_blueprint/techstack.md` exist, since the renderers and the
    planner hard-gate on them. A gap here is work not yet done, reported as the missing step
    rather than as a fault.
 4. **Check the screen specs against `APP-DESIGN.md`**, where the file exists; without it
@@ -91,7 +91,9 @@ the link protocol `contracts/feedback_loop.md`'s, and the mechanical naming rule
 8. **Name the fixing skill on every finding**, the script's included. A missing screen is
    `spec-feature`; a missing shell is `experience-shell`; missing tokens are `design-brand`;
    a missing stack or model is `architecture-techstack` or `architecture-datamodel`; a
-   retired path or missing glossary is `concept-brief` or `concept-glossary`; an unplanned
+   retired path is the skill that now writes its replacement (`03_brand/tokens.json` →
+   `design-brand`, `11_build/interaction.yaml` → `quality-interaction`, `comparable.md` →
+   `concept-brief`); a missing glossary is `concept-glossary`; an unplanned
    feature is `build-plan`; an unfrozen slice or missing trace entry is `build-implement` or
    `build-branch`; a feature with no featureset is `spec-featuresets`. A finding without a
    next command leaves the reader to triage it themselves.

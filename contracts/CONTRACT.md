@@ -1,6 +1,6 @@
 ---
 name: shared-contracts
-description: "The collection's shared reference layer, installed as one asset: the canonical _concept/ tree, artifact frontmatter, the EARS grammar, the slice-loop lifecycle, the walkthrough renderer spec, and the rest of the files every skill reads at a step in its body. Not invocable."
+description: "The collection's shared reference layer, installed as one asset: the canonical _concept/ tree, artifact frontmatter, the design-token subset, the JSON Schemas for machine files, the EARS grammar, the slice-loop lifecycle, the walkthrough renderer spec, and the rest of the files every skill reads at a step in its body. Not invocable."
 version: "0.1.0"
 metadata:
   do_not_invoke: true
@@ -8,7 +8,7 @@ metadata:
 
 # shared-contracts
 
-**Do not invoke.** This file is the manifest, not the content: it exists so the sixteen
+**Do not invoke.** This file is the manifest, not the content: it exists so the seventeen
 contract files beside it install as one dir-scoped asset (`.claude/contracts/shared-contracts/`)
 instead of being invisible to discovery.
 

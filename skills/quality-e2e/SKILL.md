@@ -19,6 +19,7 @@ metadata:
       - { path: "_concept/05_features", gate: hard, min_entries: 1 }
       - { path: "_concept/07_screens", gate: soft, min_entries: 1 }
       - { path: "_concept/10_blueprint/datamodel", gate: soft }
+      - { path: "_concept/10_blueprint/openapi.yaml", gate: soft }
 ---
 
 # quality-e2e
@@ -49,7 +50,13 @@ what one run of it looked like.
    look for; without them, discover routes from the running app's own navigation and record
    in the report that they were inferred. Read `10_blueprint/datamodel/` for the entities a
    journey writes and the queries that confirm them, and note that a project with no data
-   model gets journeys proved through the UI alone. Then open the ledger
+   model gets journeys proved through the UI alone. A project with no UI journeys — an
+   `api-service` — is proved through its API instead: where `10_blueprint/openapi.yaml` exists,
+   each documented operation is one path to walk, and the criteria of the features that
+   implement it are its pass conditions; steps 4 and 5 then exercise the operation's
+   responses against the running service instead of driving a browser, and step 1's
+   browser checks are skipped. A project with UI journeys keeps the browser walk. Then open
+   the ledger
    `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md` of every feature the
    journeys cover; if one does not exist, stop and name `build-plan` as the missing step — the
    verdicts have nowhere to land, and a ledger built after the walk holds only what was walked.

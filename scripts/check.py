@@ -39,12 +39,14 @@ Exit codes:
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import subprocess
 import unicodedata
 import sys
 from pathlib import Path
 
+import jsonschema
 import yaml
 
 import host_facts as hf
@@ -993,6 +995,107 @@ def check_contracts(repo: Path, rep: Report) -> None:
 
 
 # --------------------------------------------------------------------------
+# schemas
+# --------------------------------------------------------------------------
+
+# Every file under `contracts/schemas/` is a JSON Schema 2020-12 document describing one
+# machine file a skill writes (`contracts/schemas/<stem>.schema.json`).
+SCHEMA_DIALECT = "https://json-schema.org/draft/2020-12/schema"
+SCHEMA_ID_PREFIX = "urn:skaile:schema:"
+SCHEMA_SUFFIX = ".schema.json"
+
+
+def _path_covers(produced: str, artifact: str) -> bool:
+    """True when `artifact` is the `produced` path or lies under it. A `<...>` or `*` segment
+    matches any one segment, as in `_paths_overlap`, but only the produced side may be shorter —
+    a schema for a directory is not covered by a skill that writes one file inside it."""
+    p, a = _gate_segments(produced), _gate_segments(artifact)
+    return len(p) <= len(a) and all(
+        x == y or _is_placeholder(x) or _is_placeholder(y) for x, y in zip(p, a)
+    )
+
+
+def check_schemas(repo: Path, skill_fms: dict[str, dict], rep: Report) -> None:
+    """Every `contracts/schemas/*.schema.json` is a valid 2020-12 schema that its writer cites.
+
+    A schema nobody cites is never validated against, and one whose `x-artifact` no skill
+    produces describes a file that is never written — both stay green and mean nothing. A
+    schema without `x-artifact` (the universal frontmatter) is held to the weaker bar of
+    being cited by some contract or skill.
+    """
+    schemas_dir = repo / "contracts" / "schemas"
+    if not schemas_dir.is_dir():
+        return
+
+    # Each skill's whole text (a citation anywhere in it counts), keyed by directory.
+    skill_texts = {
+        d: (repo / "skills" / d / "SKILL.md").read_text(encoding="utf-8") for d in sorted(skill_fms)
+    }
+    contract_texts = [p.read_text(encoding="utf-8") for p in sorted((repo / "contracts").glob("*.md"))]
+
+    for path in sorted(schemas_dir.glob(f"*{SCHEMA_SUFFIX}")):
+        stem = path.name[: -len(SCHEMA_SUFFIX)]
+        where = f"contracts/schemas/{path.name}"
+        cite = f"contracts/schemas/{path.name}"
+
+        try:
+            schema = json.loads(path.read_text(encoding="utf-8"))
+        except ValueError as exc:
+            rep.error(where, f"is not valid JSON ({exc}) — a writer cannot validate against it")
+            continue
+        if not isinstance(schema, dict):
+            rep.error(where, f"is a JSON {type(schema).__name__}, not an object — a schema is an object")
+            continue
+
+        if schema.get("$schema") != SCHEMA_DIALECT:
+            rep.error(
+                where,
+                f"`$schema` is {schema.get('$schema')!r}, not {SCHEMA_DIALECT!r} — a validator "
+                f"picks the dialect from it, and every schema here is written for 2020-12",
+            )
+        try:
+            jsonschema.Draft202012Validator.check_schema(schema)
+        except jsonschema.SchemaError as exc:
+            rep.error(where, f"is not a valid 2020-12 schema ({exc.message}) — it would reject or pass the wrong files")
+        if schema.get("$id") != SCHEMA_ID_PREFIX + stem:
+            rep.error(
+                where,
+                f"`$id` is {schema.get('$id')!r}, not {SCHEMA_ID_PREFIX + stem!r} — the id is the "
+                f"file's stem, so a `$ref` to it resolves to this file and no other",
+            )
+
+        artifact = schema.get("x-artifact")
+        if artifact is None:
+            if not any(cite in text for text in [*contract_texts, *skill_texts.values()]):
+                rep.error(
+                    where,
+                    f"has no `x-artifact` and no contract or skill cites `{cite}` — nothing "
+                    f"validates against it",
+                )
+            continue
+        if not isinstance(artifact, str) or not artifact.startswith(ARTIFACT_ROOT + "/"):
+            rep.error(where, f"`x-artifact` is {artifact!r}, which is not a path under `{ARTIFACT_ROOT}/`")
+            continue
+        writers = [
+            d for d, fm in sorted(skill_fms.items())
+            if any(_path_covers(p, artifact) for _id, p in _produced_entries(fm))
+        ]
+        if not writers:
+            rep.error(
+                where,
+                f"`x-artifact` {artifact!r} is not a `produces` path of any skill, nor under one — "
+                f"no skill writes the file this schema describes",
+            )
+        for d in writers:
+            if cite not in skill_texts[d]:
+                rep.error(
+                    f"skills/{d}",
+                    f"produces {artifact!r} but does not cite `{cite}` — its write step is the "
+                    f"only place the schema is checked against, so it is never validated",
+                )
+
+
+# --------------------------------------------------------------------------
 # flows
 # --------------------------------------------------------------------------
 
@@ -1651,6 +1754,7 @@ def run(repo: Path) -> Report:
     rep = Report()
     skill_names, skill_contracts, skill_fms = check_skills(repo, rep)
     check_contracts(repo, rep)
+    check_schemas(repo, skill_fms, rep)
     check_contract_manifest(repo, rep)
     check_tree_names(repo, rep)
     check_flows(repo, skill_names, skill_contracts, skill_fms, rep)

@@ -13,6 +13,7 @@ new check that fires on one of them is a defect in the check.
 from __future__ import annotations
 
 import ast
+import json
 import re
 from pathlib import Path
 
@@ -1491,7 +1492,7 @@ def concept_tree(root: Path) -> Path:
             "version: '1.0'\nlast_updated: 2026-09-05\njourneys:\n  - id: login\n    steps:\n"
             "      - action: sign in\n        acceptance:\n          - { id: AC-login-01, ears: 'WHEN x, THE SYSTEM SHALL y' }\n"
         ),
-        "10_blueprint/datamodel/model.json": '{"models": [{"name": "User"}]}',
+        "10_blueprint/datamodel/model.json": '{"version": "1.0", "entities": [{"id": "User", "display_name": "User", "fields": []}], "relationships": []}',
         "05_features/auth/login.md": (
             "---\npriority: must-have\npermissions: {member: [view]}\nscreens:\n  - path: 07_screens/login/login.md\n"
             "data_entities: [User]\nlast_updated: 2026-09-05\n---\n\n## Criteria\n\n- AC-login-01\n"
@@ -1540,3 +1541,117 @@ def test_check_concept_reports_the_retired_comparable_file_as_unowned(tmp_path):
     problems = module.check(concept, script)
     assert len(problems) == 1, problems
     assert "comparable.md" in problems[0] and "unowned" in problems[0]
+
+
+# -- schemas ----------------------------------------------------------------
+
+def good_schema(stem: str = "brief", **overrides) -> dict:
+    """A valid 2020-12 schema for the fixture skill's one artifact, `_concept/brief.md`."""
+    schema = {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": f"urn:skaile:schema:{stem}",
+        "title": "Brief",
+        "x-artifact": "_concept/brief.md",
+        "type": "object",
+    }
+    schema.update(overrides)
+    return {k: v for k, v in schema.items() if v is not None}
+
+
+def write_schema(root: Path, schema: dict, stem: str = "brief") -> Path:
+    path = root / "contracts" / "schemas" / f"{stem}.schema.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(schema), encoding="utf-8")
+    return path
+
+
+def cite_schema(root: Path, stem: str = "brief", skill: str = "spec-feature") -> None:
+    """The producing skill names the schema at its write step. A schema is not a contract
+    document, so the cite leaves the skill's `metadata.requires` alone."""
+    p = root / "skills" / skill / "SKILL.md"
+    p.write_text(p.read_text() + f"\nValidate against `contracts/schemas/{stem}.schema.json` before writing.\n")
+
+
+def test_schema_with_a_citing_producer_is_clean(tmp_path):
+    root = write_repo(tmp_path)
+    write_schema(root, good_schema())
+    cite_schema(root)
+    assert errors(root) == []
+
+
+def test_schema_x_artifact_under_a_produced_directory_is_clean(tmp_path):
+    """A file inside a directory a skill produces is covered by that `produces` entry."""
+    root = write_repo(tmp_path)
+    set_produces(root, '    produces:\n      - { id: screens, path: "_concept/07_screens" }\n')
+    write_schema(root, good_schema("screen", **{"x-artifact": "_concept/07_screens/shell.md"}), "screen")
+    cite_schema(root, "screen")
+    assert errors(root) == []
+
+
+def test_schema_without_x_artifact_cited_by_a_contract_is_clean(tmp_path):
+    root = write_repo(tmp_path)
+    write_schema(root, good_schema("frontmatter", **{"x-artifact": None}), "frontmatter")
+    (root / "contracts" / "artifact_frontmatter.md").write_text("# fm\n\nSchema: `contracts/schemas/frontmatter.schema.json`.\n")
+    assert errors(root) == []
+
+
+def test_schema_that_is_not_json(tmp_path):
+    root = write_repo(tmp_path)
+    path = write_schema(root, good_schema())
+    path.write_text("{ not json", encoding="utf-8")
+    cite_schema(root)
+    only(root, "is not valid JSON")
+
+
+def test_schema_that_is_not_an_object(tmp_path):
+    root = write_repo(tmp_path)
+    path = write_schema(root, good_schema())
+    path.write_text("[]", encoding="utf-8")
+    cite_schema(root)
+    only(root, "not an object")
+
+
+def test_schema_with_the_wrong_dialect(tmp_path):
+    root = write_repo(tmp_path)
+    write_schema(root, good_schema(**{"$schema": "http://json-schema.org/draft-07/schema#"}))
+    cite_schema(root)
+    only(root, "`$schema` is 'http://json-schema.org/draft-07/schema#'")
+
+
+def test_schema_that_fails_the_metaschema(tmp_path):
+    root = write_repo(tmp_path)
+    write_schema(root, good_schema(type=5))
+    cite_schema(root)
+    only(root, "is not a valid 2020-12 schema")
+
+
+def test_schema_id_must_match_the_stem(tmp_path):
+    root = write_repo(tmp_path)
+    write_schema(root, good_schema(**{"$id": "urn:skaile:schema:pitch"}))
+    cite_schema(root)
+    only(root, "`$id` is 'urn:skaile:schema:pitch', not 'urn:skaile:schema:brief'")
+
+
+def test_schema_x_artifact_no_skill_produces(tmp_path):
+    root = write_repo(tmp_path)
+    write_schema(root, good_schema("scope", **{"x-artifact": "_concept/01_meta/scope.yaml"}), "scope")
+    only(root, "is not a `produces` path of any skill")
+
+
+def test_schema_x_artifact_outside_the_concept(tmp_path):
+    root = write_repo(tmp_path)
+    write_schema(root, good_schema(**{"x-artifact": "brief.md"}))
+    cite_schema(root)
+    only(root, "is not a path under `_concept/`")
+
+
+def test_schema_producer_must_cite_it(tmp_path):
+    root = write_repo(tmp_path)
+    write_schema(root, good_schema())
+    only(root, "does not cite `contracts/schemas/brief.schema.json`")
+
+
+def test_schema_without_x_artifact_must_be_cited(tmp_path):
+    root = write_repo(tmp_path)
+    write_schema(root, good_schema("frontmatter", **{"x-artifact": None}), "frontmatter")
+    only(root, "has no `x-artifact` and no contract or skill cites")

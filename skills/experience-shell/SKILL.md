@@ -23,7 +23,7 @@ metadata:
       - { path: "_concept/07_screens", gate: soft, min_entries: 1 }
       - { path: "_concept/02_grounding/findings", gate: soft }
       - { path: "_concept/04_journeys/stories.yaml", gate: soft }
-      - { path: "_concept/03_brand/tokens.json", gate: soft }
+      - { path: "_concept/03_brand/brand.tokens.json", gate: soft }
       - { path: "APP-DESIGN.md", gate: soft }
 ---
 
@@ -43,7 +43,7 @@ Paths are `contracts/concept_structure.md § The tree`; the frontmatter shape is
 
 1. **Read what the app is for and where its screens are.** `brief.md` for the hero flow,
    `05_features/featuresets.md` for the featuresets and their features, `04_journeys/`
-   for the order users move through them, and `03_brand/tokens.json` for the palette,
+   for the order users move through them, and `03_brand/brand.tokens.json` for the palette,
    type scale and spacing the frame is drawn in. Reference brand values by name; a hex
    invented here diverges from the tokens the renderers actually use. The screens come from
    `07_screens/<feature_slug>/*.md` — each file's `id` and title are a candidate nav

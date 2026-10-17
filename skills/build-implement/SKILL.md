@@ -23,6 +23,8 @@ metadata:
       - { path: "_concept/05_features", gate: hard, min_entries: 1 }
       - { path: "_concept/07_screens", gate: soft, min_entries: 1 }
       - { path: "_concept/02_grounding/standards/index.yml", gate: soft }
+      - { path: "_concept/10_blueprint/openapi.yaml", gate: soft }
+      - { path: "_concept/10_blueprint/asyncapi.yaml", gate: soft }
 ---
 
 # build-implement
@@ -49,7 +51,12 @@ test loop or a review.
    round-trips, and its tests are green — then the next row starts. Confirm the seams with
    the user before the first test,
    as `tdd` requires; the plan's test tags say which level, not where. Mark each finished row
-   in `progress.yaml`.
+   in `progress.yaml`. Where `10_blueprint/openapi.yaml` or `asyncapi.yaml` exists, an
+   endpoint or message a row implements must match the operation it documents — path,
+   method, parameters, payload and status codes — and the row's tests assert that shape. A
+   mismatch that the contract has wrong is not fixed in the file: stop the row and hand it
+   back to `architecture-system`, because one writer keeps the contract and the code from
+   drifting apart quietly.
 3. **Review the code.** Call the Skill tool with "code-review". Whether the finished feature
    conforms to its spec is `quality-review`'s verdict, the one place that question is asked;
    a second read here would be a second verdict on the same question. What guards this
@@ -74,9 +81,11 @@ test loop or a review.
    that trailer is how a commit is traced back to the artifact that asked for it. Once the
    last commit has landed, write the slice into `11_build/trace.yaml` — the one
    feature→commit join, which `quality-review`, `quality-release` and `ops-review` read
-   instead of rebuilding it from dossiers. Create the file with the first slice; a feature
-   cut into several slices has one entry each, and an entry for the same slice id is
-   replaced, not duplicated. `code` is the source files the commits touched, tests excluded.
+   instead of rebuilding it from dossiers. Validate the file against
+   `contracts/schemas/trace.schema.json` before writing it. Create the file with the first
+   slice; a feature cut into several slices has one entry each, and an entry for the same
+   slice id is replaced, not duplicated. `code` is the source files the commits touched,
+   tests excluded.
    Then update the ledger at `11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`
    per `contracts/acceptance_criteria.md § Ledger updates`, stamping the last commit's short
    sha: only the rows step 4's checks exercised, each carrying its check as the pointer.

@@ -66,7 +66,7 @@ Paths are `contracts/concept_structure.md`'s; subagent dispatch is
    mockup renderers read it, and it is the file that most often goes unwritten because the
    competitor work ran long. Layout patterns, colour directions, typography pairings and
    component patterns — each with its source, and each with where in *this* product it would
-   apply. Once `03_brand/tokens.json` exists the references stay inside it: an off-palette
+   apply. Once `03_brand/brand.tokens.json` exists the references stay inside it: an off-palette
    reference collected after the brand is chosen is a reference nothing can be built from.
 5. **Catalogue the raw material.** Screenshots, page saves and excerpts go under
    `02_grounding/findings/` — the only place screenshots live — with a row each in

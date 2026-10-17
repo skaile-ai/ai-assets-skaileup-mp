@@ -20,7 +20,7 @@ metadata:
       - { path: "_concept/brief.md", gate: hard }
       - { path: "_concept/11_build/trace.yaml", gate: hard }
       - { path: "_concept/goals.md", gate: soft }
-      - { path: "_concept/03_brand/tokens.json", gate: soft }
+      - { path: "_concept/03_brand/brand.tokens.json", gate: soft }
 ---
 
 # quality-release
@@ -62,7 +62,7 @@ which here means walking the app as a user rather than reading what it was suppo
 5. **Score the four design axes** — quality, originality, craft, functionality — 0-10 each,
    strictly, per `references/rubrics.md`. Read the rubric before scoring rather than
    afterwards, cite the exact screens and elements behind every number, and check the surface
-   against `03_brand/tokens.json` where it exists. "Looks clean" is the absence of a score,
+   against `03_brand/brand.tokens.json` where it exists. "Looks clean" is the absence of a score,
    and originality above 7 needs named distinctive choices or it is a generic app being
    graded politely.
 6. **Score the three technical axes**, banded by `contracts/evaluator.md § Release thresholds`.

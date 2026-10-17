@@ -17,7 +17,7 @@ metadata:
     files:
       - { path: "_concept/07_screens", gate: hard, min_entries: 1 }
       - { path: "_concept/04_journeys/stories.yaml", gate: hard }
-      - { path: "_concept/03_brand/tokens.json", gate: hard }
+      - { path: "_concept/03_brand/brand.tokens.json", gate: hard }
       - { path: "_concept/05_features", gate: soft, min_entries: 1 }
 ---
 
@@ -58,8 +58,10 @@ below sequence it and never restate it.
    plus an `unresolved_target` warning, never a hard failure. Auto-slug what `elements:` leaves
    uncovered and derive ids for id-less `items[]`, both per the contract. Build the app nav —
    shell-authoritative when `07_screens/shell.md` declares a `kind: nav` element with items,
-   derived per rendered screen otherwise. Flatten `03_brand/tokens.json` into `--token-<dotted-path>`
-   custom properties. Read `04_journeys/stories.yaml`; a journey without a
+   derived per rendered screen otherwise. Flatten `03_brand/brand.tokens.json` into `--token-*`
+   custom properties per `contracts/design_tokens.md § Flattening to CSS custom properties`,
+   plus a `.dark { … }` block when `brand.dark.tokens.json` exists
+   (`contracts/design_tokens.md § Light and dark`). Read `04_journeys/stories.yaml`; a journey without a
    `screen_sequence` gets a `missing_screen_sequence` warning and is skipped. Glob
    `05_features/*/*.md` for manifest traceability only — one level again, because
    `05_features/featuresets.md` is the roster, not a feature. They are never rendered, and

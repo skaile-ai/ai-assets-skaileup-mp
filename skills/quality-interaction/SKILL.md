@@ -9,7 +9,7 @@ metadata:
     requires:
       - { id: app-design }
     produces:
-      - { id: interaction-review, path: "_concept/11_build/interaction.yaml" }
+      - { id: interaction-review, path: "_concept/11_build/interaction.sarif" }
   prerequisites:
     files:
       - { path: "APP-DESIGN.md", gate: hard }
@@ -20,8 +20,8 @@ metadata:
 
 Checks the app's source (`src/`, or the stack's own roots such as `app/` + `server/`)
 against the decisions in `APP-DESIGN.md` and writes what it finds to
-`_concept/11_build/interaction.yaml`: violations, one exemplar per rule, a score, ordered
-changes and the questions it cannot settle. It judges conformance and nothing else. It does
+`_concept/11_build/interaction.sarif`, a SARIF 2.1.0 log: violations, one exemplar per rule,
+a score, ordered changes and the questions it cannot settle. It judges conformance and nothing else. It does
 not change application code and it does not edit `APP-DESIGN.md`, whose one writer is
 `experience-interaction`; a deviation worth keeping becomes a proposed exception in the
 verdict, and the user's answer reaches the file through that skill. The stance is
@@ -60,19 +60,19 @@ which checks their citations before using them.
    reached as `unread`.
 4. **Record violations and exemplars.** Each violation carries the entry and rule id
    (`MOD-2 / P5`), the type, expected (quoted from the entry), actual, `file:line`,
-   severity and kind (`consistency` or `completeness`). An absence cites
+   severity and class (`consistency` or `completeness`). An absence cites
    `absence: <what is missing>` with the nearest `file:line`. Record one conformant exemplar
    per rule where one exists — it is what a fix copies. An entry whose *Why* or *Ref* the
    code contradicts, or that drops a rule's obligation without an exception, is not a
    violation: it becomes a question with its evidence, and the entry stands as written.
 5. **Count.** Per rule P1–P17: violations, exemplars, and a status — `violated` (a violation
-   is filed under the rule or lists it in `also:`), `conformant`, `by-decision` (satisfied
+   is filed under the rule or lists it in `also`), `conformant`, `by-decision` (satisfied
    only because an entry loosened it; name the obligation that remains) or `unchecked` (no
-   violation, no `also:` and no exemplar: nobody looked or nothing was found, which is not a
-   pass). Counts come from counting the two lists in the file, with a script or grep over
-   `interaction.yaml`, never from typing: write the lists first, then let the script insert
-   `score:` above `violations:`. A finding filed under another rule shows there as `(+n)` from
-   its `also:` list.
+   violation, no `also` and no exemplar: nobody looked or nothing was found, which is not a
+   pass). Counts come from counting results in the file — `kind: "fail"` and `kind: "pass"`
+   per `ruleId` — with a script or `jq` over `interaction.sarif`, never from typing: write
+   the results first, then let the script write `runs[0].properties.score`. A finding filed
+   under another rule shows there as `(+n)` from its `properties.also`.
 6. **Order the changes.** Systemic first — a shared editor, the action registry, one confirm
    component — because each closes violations across many types; then per-type changes. Each
    change lists the violations it covers and the files it touches. End with a coverage table:
@@ -82,33 +82,28 @@ which checks their citations before using them.
    verdict, including the `: <line>` shorthand grep it ends with, and read a sample of the
    cited lines for meaning. A failing citation is fixed or the finding dropped before
    anything is written.
-8. **Write the verdict** to `_concept/11_build/interaction.yaml`, replacing the previous
-   run's file whole, so the file always describes the code as it is now:
+8. **Write the verdict** to `_concept/11_build/interaction.sarif`, replacing the previous
+   run's file whole, so the file always describes the code as it is now. It is one SARIF 2.1.0
+   run: `references/verdict.md` has the full example and the field map. In short:
 
-   ```yaml
-   app_design_updated: YYYY-MM-DD      # `updated:` of APP-DESIGN.md this run read
-   checked_at: YYYY-MM-DD
-   score:                              # computed from the lists below
-     P5: { violations: 3, exemplars: 1, status: violated }   # + `also: 1` when others file here
-   violations:
-     - { id: V-1, entry: MOD-2, rule: P5, also: [P14], type: Room, severity: high,
-         kind: consistency, expected: "…", actual: "…", ref: "app/a.vue:12", tag: "" }
-   exemplars:
-     - { rule: P5, ref: "app/b.vue:30-52" }
-   changes:
-     - { id: C-1, kind: systemic, title: "…", covers: [V-1], files: [app/a.vue], status: open }   # kind: systemic | per-type
-   coverage: { V-1: C-1, V-2: "proposed: E-1" }   # a change id, or a proposed exception id
-   proposed_exceptions: [{ id: E-1, entry: BTN-4, reason: "…", covers: [V-2] }]
-   questions: [{ id: Q-1, entry: OBJ-3, question: "…", evidence: "app/c.vue:9" }]
-   unread: ["app/legacy/**: 40 files, sampled by grep"]
-   ```
+   | What | Where |
+   |---|---|
+   | violation | `results[]` with `kind: "fail"`, `ruleId`, `level`, `message.text` (expected / actual), `locations[]` at `file:line`; `properties`: `id` `V-n`, `entry`, `also`, `type`, `severity`, `class`, `tag` |
+   | exemplar | `results[]` with `kind: "pass"`, `level: "none"` |
+   | proposed exception | `suppressions: [{ kind: "external", status: "underReview", justification, properties: { id: "E-n", entry } }]` on the violation's result |
+   | the rest | `runs[0].properties`: `app_design_updated`, `checked_at`, `score`, `changes`, `coverage`, `questions`, `unchecked`, `unread` |
 
-   `build-plan` reads the `open` changes. Hand `proposed_exceptions` and `questions` back to
-   the user and name `experience-interaction` as the skill that folds them into
-   `APP-DESIGN.md`; the exception enters § Exceptions only on the user's answer.
+   `level` follows `contracts/evaluator.md § SARIF level` from the finding's severity, and
+   `properties.severity` keeps the four-level value. Check that the file parses as JSON and
+   has `version`, one run and `tool.driver.name` before reporting.
+   `build-plan` reads the `open` entries of `runs[0].properties.changes`. Hand the results
+   with an `underReview` suppression and `runs[0].properties.questions` back to the user and
+   name `experience-interaction` as the skill that folds them into `APP-DESIGN.md`; the
+   exception enters § Exceptions only on the user's answer.
 9. **Report.** The score table first, then the changes in order with what each closes, then
    the unchecked rules, the unread regions and the questions.
 
-**Done when** `_concept/11_build/interaction.yaml` is on disk with every violation citing a
-`file:line` the citation check passes, every rule counted or marked `unchecked`, every
-violation covered by a change or a proposed exception, and the unread regions named.
+**Done when** `_concept/11_build/interaction.sarif` is on disk as valid SARIF 2.1.0 with every
+`fail` result citing a `file:line` the citation check passes, every rule counted in
+`runs[0].properties.score` or listed in `unchecked`, every violation covered by a change or
+carrying an `underReview` suppression, and the unread regions named.

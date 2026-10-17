@@ -64,7 +64,7 @@ paragraph of status gets skimmed past, and a guessed answer here mis-sizes every
    two to six sentences of reasoning naming which signals decided it. On a re-scope show the
    diff against the loaded file and get a yes to overwriting: a silent re-size changes the
    depth of every skill still to run and leaves the artifacts already written at the old one.
-   Then write `01_meta/scope.yaml`:
+   Validate it against `contracts/schemas/scope.schema.json`, then write `01_meta/scope.yaml`:
 
    ```yaml
    flow: appbuilder-standard

@@ -67,6 +67,27 @@ report with no ordering is a report nobody works through.
 A skill may add scope-specific rules for placing a finding, and never a fifth level:
 the levels are what the verdict rule and the fix ordering are both written against.
 
+## SARIF level
+
+A verdict that is written as SARIF 2.1.0 (OASIS, errata 01) — `quality-interaction`'s
+`interaction.sarif` — maps the four severities onto SARIF's `level` for every result that
+records a finding (`kind: "fail"`), and keeps the four-level value in the result's
+`properties.severity`, because SARIF's `level` has four values (`none`, `note`, `warning`,
+`error`) and three of them carry failures:
+
+| Severity | SARIF `level` |
+|---|---|
+| `critical` | `error` |
+| `high` | `error` |
+| `medium` | `warning` |
+| `low` | `note` |
+
+A result that records conformance (`kind: "pass"`) takes `level: "none"`. The blocking
+boundary stays § Flag shape's: `critical` and `high` are the two that map to `error`.
+`reviews/<slug>.yaml` stays YAML; a SARIF export of a review maps each flag's `severity`
+by this table and puts `category`, `note` and `resolution` in the result's `message.text`
+and `properties`.
+
 ## Verdict grammar
 
 Three bands. Each skill names them for its own scope — the names below are the ones in

@@ -100,7 +100,7 @@ Additional scenarios (like `permissions`) are optional based on feature needs.
 
 ## Data Quality Rules
 
-- Entity keys match entity names in `model.json` — singular snake_case (`user`, `task`)
+- Entity keys are the snake_case form of the model's `id` in `model.json` — singular (`Task` → `task`, `ProjectMember` → `project_member`)
 - Field names are snake_case matching the semantic model (`display_name`, `assigned_to_id`)
 - Enum values are PascalCase matching inline enum definitions (`Done`, `InProgress`, `Active`)
 - Relation fields end with `_id` and reference valid IDs from the related entity in the same scenario

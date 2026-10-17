@@ -51,7 +51,9 @@ _concept/
 │
 ├── 03_brand/
 │   ├── identity.md                 colours, fonts, tone of voice and copy guidelines (design-brand owns all of it)
-│   ├── tokens.json                 machine-readable design tokens
+│   ├── brand.tokens.json           design tokens, W3C DTCG: the light (base) mode
+│   ├── brand.dark.tokens.json      dark-mode colour overrides — only with a dark mode
+│   ├── brand.resolver.json         DTCG resolver: modifier `mode` = light | dark — only with a dark mode
 │   └── brandbook.html              self-contained visual reference
 │
 ├── 04_journeys/
@@ -78,7 +80,9 @@ _concept/
 │
 ├── 10_blueprint/
 │   ├── techstack.md                chosen technologies and why — no third-party services
-│   ├── architecture.md             modules, protocols, data flow, and every external integration
+│   ├── architecture.md             C4 levels: system context (every external integration), containers, components, deployment, risks
+│   ├── openapi.yaml                OpenAPI 3.2 — when the project serves an HTTP API to clients other than its own UI
+│   ├── asyncapi.yaml               AsyncAPI 3.1 — when the project publishes or consumes messages on a channel
 │   ├── decisions.md                design-time decision records, append-only
 │   └── datamodel/                  model.dbml · model.json · seed.json
 │
@@ -86,7 +90,7 @@ _concept/
     ├── slices/<slice_id>/          one vertical slice's dossier, frozen on commit
     ├── trace.yaml                  feature → slices → commits → code (build-implement writes it as each slice commits)
     ├── acceptance-criteria/        <featureset>/<feature_slug>.ac.md — the criteria status ledger
-    ├── interaction.yaml            quality-interaction — the app-wide interaction conformance verdict
+    ├── interaction.sarif           quality-interaction — the app-wide interaction conformance verdict, SARIF 2.1.0
     ├── reviews/                    <feature_slug>.yaml — one feature's code-review verdict
     └── decisions.md                build-time decision records, append-only
 ```
@@ -110,9 +114,34 @@ when the project already exists.
 One artifact sits outside `_concept/`: **`APP-DESIGN.md`**, at the project root (the directory
 that holds `_concept/`). It holds the project's interaction decisions and has one writer,
 `experience-interaction`; `quality-interaction` checks code against it and writes its verdict
-to `11_build/interaction.yaml`, never to this file. It is the only such artifact — `check.py`
+to `11_build/interaction.sarif`, never to this file. It is the only such artifact — `check.py`
 names it in `PROJECT_ROOT_ARTIFACTS` — and a monorepo app has its own, one per project
 ([ADR 0015](../docs/adr/0015-interaction-decisions-live-in-app-design.md)).
+
+`AGENTS.md` is not a second one. It is project code, not a concept artifact: `build-scaffold`
+writes a pointer to `APP-DESIGN.md` into it when it creates the project, and no skill lists it
+under `produces`, so the one-artifact rule above holds
+([ADR 0016](../docs/adr/0016-published-formats-where-one-exists.md)).
+
+## arc42 map
+
+[arc42](https://arc42.org) 9.0 has twelve sections. The tree is not organised by them; this
+is where each one lives, so a reader who thinks in arc42 finds the same content.
+
+| arc42 | `_concept/` home |
+|---|---|
+| 1 Introduction & Goals | `brief.md`, `goals.md` |
+| 2 Constraints | `goals.md` (constraints, non-goals) |
+| 3 Context & Scope | `10_blueprint/architecture.md § System context` |
+| 4 Solution Strategy | `10_blueprint/techstack.md` |
+| 5 Building Block View | `10_blueprint/architecture.md § Containers`, `§ Components` |
+| 6 Runtime View | `06_behaviors/`, `04_journeys/` |
+| 7 Deployment View | `10_blueprint/architecture.md § Deployment` |
+| 8 Crosscutting Concepts | `APP-DESIGN.md`, `07_screens/shell.md` |
+| 9 Architecture Decisions | `10_blueprint/decisions.md`, `11_build/decisions.md` |
+| 10 Quality Requirements | `goals.md`, `contracts/evaluator.md § Release thresholds` |
+| 11 Risks & Technical Debt | `10_blueprint/architecture.md § Risks and technical debt` |
+| 12 Glossary | `glossary.md` |
 
 ## Numbering
 

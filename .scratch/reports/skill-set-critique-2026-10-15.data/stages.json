@@ -4,7 +4,7 @@
   "label": "concept",
   "order": 1,
   "skills_n": 6,
-  "lines": 540,
+  "lines": 541,
   "findings_n": 9,
   "open_n": 0
  },
@@ -13,7 +13,7 @@
   "label": "design",
   "order": 2,
   "skills_n": 1,
-  "lines": 88,
+  "lines": 95,
   "findings_n": 1,
   "open_n": 0
  },
@@ -22,7 +22,7 @@
   "label": "experience",
   "order": 3,
   "skills_n": 4,
-  "lines": 358,
+  "lines": 363,
   "findings_n": 3,
   "open_n": 0
  },
@@ -40,7 +40,7 @@
   "label": "mockup",
   "order": 5,
   "skills_n": 4,
-  "lines": 421,
+  "lines": 423,
   "findings_n": 4,
   "open_n": 0
  },
@@ -49,7 +49,7 @@
   "label": "architecture",
   "order": 6,
   "skills_n": 3,
-  "lines": 277,
+  "lines": 313,
   "findings_n": 5,
   "open_n": 0
  },
@@ -58,7 +58,7 @@
   "label": "build",
   "order": 7,
   "skills_n": 5,
-  "lines": 459,
+  "lines": 485,
   "findings_n": 5,
   "open_n": 0
  },
@@ -67,7 +67,7 @@
   "label": "quality",
   "order": 8,
   "skills_n": 6,
-  "lines": 540,
+  "lines": 542,
   "findings_n": 2,
   "open_n": 0
  },
@@ -76,7 +76,7 @@
   "label": "ops",
   "order": 9,
   "skills_n": 1,
-  "lines": 108,
+  "lines": 110,
   "findings_n": 1,
   "open_n": 0
  },

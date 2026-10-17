@@ -18,7 +18,7 @@ metadata:
   prerequisites:
     files:
       - { path: "_concept/07_screens", gate: hard, min_entries: 1 }
-      - { path: "_concept/03_brand/tokens.json", gate: hard }
+      - { path: "_concept/03_brand/brand.tokens.json", gate: hard }
       - { path: "_concept/10_blueprint/techstack.md", gate: hard }
       - { path: "_concept/04_journeys/stories.yaml", gate: soft, min_entries: 1 }
       # Soft: the manifest is the shortcut to screens and journeys already resolved once;
@@ -67,7 +67,7 @@ No manifest yet? Read `07_screens/*/*.md` (one level; `shell.md` is not a screen
    files listed in `references/scaffold.md` — `package.json` on the resolved addon,
    `.storybook/main`, `theme` and `preview`, and `src/styles/brand.css` — then install with
    the resolved package manager and confirm `run build` passes before writing a single story.
-   Every colour, font, radius and spacing value comes from `03_brand/tokens.json` and
+   Every colour, font, radius and spacing value comes from `03_brand/brand.tokens.json` and
    viewport presets come from `07_screens/shell.md`: a hardcoded breakpoint
    or an invented colour makes the prototype disagree with the brand it exists to show.
    Present already? Leave it alone and go to step 3 — the scaffold is the user's by then.

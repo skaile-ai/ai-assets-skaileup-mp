@@ -85,7 +85,7 @@
   "skill": "design-brand",
   "path": "_concept/02_grounding/findings/",
   "artifact": "a-02_grounding",
-  "at": "skills/design-brand/SKILL.md:32",
+  "at": "skills/design-brand/SKILL.md:33",
   "quote": "go to `02_grounding/findings/`",
   "in_produces": true
  },
@@ -229,7 +229,7 @@
   "skill": "architecture-system",
   "path": "_concept/10_blueprint/architecture.md",
   "artifact": "a-10_blueprint",
-  "at": "skills/architecture-system/SKILL.md:67",
+  "at": "skills/architecture-system/SKILL.md:68",
   "quote": "**Write `10_blueprint/architecture.md`.**",
   "in_produces": true
  },
@@ -274,7 +274,7 @@
   "skill": "build-implement",
   "path": "_concept/11_build/slices/",
   "artifact": "a-11_build",
-  "at": "skills/build-implement/SKILL.md:93",
+  "at": "skills/build-implement/SKILL.md:102",
   "quote": "`11_build/slices/<slice_id>/index.md`",
   "in_produces": true
  },
@@ -283,7 +283,7 @@
   "skill": "build-implement",
   "path": "_concept/11_build/acceptance-criteria/",
   "artifact": "a-11_build",
-  "at": "skills/build-implement/SKILL.md:80",
+  "at": "skills/build-implement/SKILL.md:89",
   "quote": "update the ledger at `11_build/acceptance-criteria/",
   "in_produces": true
  },
@@ -292,7 +292,7 @@
   "skill": "build-implement",
   "path": "_concept/11_build/trace.yaml",
   "artifact": "a-11_build",
-  "at": "skills/build-implement/SKILL.md:75",
+  "at": "skills/build-implement/SKILL.md:82",
   "quote": "write the slice into `11_build/trace.yaml`",
   "in_produces": true
  },
@@ -301,7 +301,7 @@
   "skill": "quality-e2e",
   "path": "_concept/11_build/acceptance-criteria/",
   "artifact": "a-11_build",
-  "at": "skills/quality-e2e/SKILL.md:53",
+  "at": "skills/quality-e2e/SKILL.md:60",
   "quote": "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`",
   "in_produces": true
  },
@@ -335,10 +335,10 @@
  {
   "id": "w-38",
   "skill": "quality-interaction",
-  "path": "_concept/11_build/interaction.yaml",
+  "path": "_concept/11_build/interaction.sarif",
   "artifact": "a-11_build",
   "at": "skills/quality-interaction/SKILL.md:85",
-  "quote": "**Write the verdict** to `_concept/11_build/interaction.yaml`",
+  "quote": "**Write the verdict** to `_concept/11_build/interaction.sarif`",
   "in_produces": true
  },
  {
@@ -364,7 +364,7 @@
   "skill": "build-scaffold",
   "path": null,
   "artifact": null,
-  "at": "skills/build-scaffold/SKILL.md:89",
+  "at": "skills/build-scaffold/SKILL.md:106",
   "quote": "the app builds and runs",
   "in_produces": false
  },

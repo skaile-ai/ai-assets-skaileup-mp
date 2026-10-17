@@ -53,6 +53,10 @@ roots) against it and writes its own verdict, `_concept/11_build/interaction.yam
 edits `APP-DESIGN.md`. A contested item goes
 back to `experience-interaction`, which decides.
 
+**Verdict path amended by [ADR 0016](0016-published-formats-where-one-exists.md)**
+(2026-10-17). `quality-interaction`'s verdict moved from `11_build/interaction.yaml` to
+`11_build/interaction.sarif` (SARIF 2.1.0). The one-writer rule above stands.
+
 **Names are read, never coined.** Object types take their names from `model.json` and
 `glossary.md`. Pattern P13 (naming) points at `_concept/glossary.md`; a concept with no term
 goes back to `concept-glossary` (ADR 0014).

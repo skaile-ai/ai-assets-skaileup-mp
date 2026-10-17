@@ -58,6 +58,7 @@
   "multi_writer": false,
   "readers": [
    "architecture-datamodel",
+   "architecture-system",
    "concept-brief",
    "concept-glossary",
    "experience-behaviors",
@@ -68,7 +69,7 @@
    "spec-feature",
    "spec-featuresets"
   ],
-  "readers_n": 10,
+  "readers_n": 11,
   "editor_form": "prose (TipTap)",
   "kind": "artifact"
  },
@@ -305,6 +306,7 @@
    "architecture-system",
    "architecture-techstack",
    "build-database",
+   "build-implement",
    "build-plan",
    "build-scaffold",
    "experience-behaviors",
@@ -316,7 +318,7 @@
    "spec-feature",
    "spec-featuresets"
   ],
-  "readers_n": 14,
+  "readers_n": 15,
   "editor_form": "mixed",
   "kind": "artifact"
  },

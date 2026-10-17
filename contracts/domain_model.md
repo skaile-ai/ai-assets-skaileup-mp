@@ -78,7 +78,10 @@ The file opens with frontmatter (`last_updated`, `approved`) per
 ADRs live beside the blueprint (`10_blueprint/decisions.md`, design-time) and the
 build ledger (`11_build/decisions.md`, build-time). Each entry is
 tiny — the value is recording **that** a decision was made and **why**, not filling
-out sections.
+out sections. The optional lines use the vocabulary of
+[MADR 4.0.0](https://adr.github.io/madr/), so a reader who knows that format reads these
+entries without a legend. Each file stays one append-only log, not MADR's one file per
+decision; the entry is MADR's minimal form, cut further.
 
 ```md
 ## <ISO-8601 date> — <short title of the decision>
@@ -87,13 +90,15 @@ out sections.
 ```
 
 **Optional lines** — include only when they add real value (most entries won't):
-- **Status**: `accepted | rejected | deprecated | superseded by <date/title>` — when a
-  decision gets revisited, mark the old one rather than deleting it. **`rejected` means
-  the choice was refused**, recorded here so nobody re-litigates it; it is not the
-  "rejected alternatives" of *Options considered* below, which are the roads not taken
-  inside a decision that *was* accepted.
-- **Options considered** — only when the rejected alternatives are worth remembering.
-- **Consequences** — only when a non-obvious downstream effect must be flagged.
+- **Status**: `accepted | rejected | deprecated | superseded by <date/title>` — a subset of
+  MADR's `status` values, written as a line rather than front matter. When a decision gets
+  revisited, mark the old one rather than deleting it. **`rejected` means the choice was
+  refused**, recorded here so nobody re-litigates it; it is not the "rejected
+  alternatives" of *Considered Options* below, which are the roads not taken inside a
+  decision that *was* accepted.
+- **Considered Options** — only when the rejected alternatives are worth remembering.
+- **Consequences** — only when a non-obvious downstream effect must be flagged; MADR files
+  it under *Decision Outcome*.
 
 Append-only: never edit a landed entry. To change your mind, add a new entry that
 supersedes the old one and mark the old one's Status.

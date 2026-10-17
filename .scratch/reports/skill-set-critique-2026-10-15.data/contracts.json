@@ -37,7 +37,7 @@
  {
   "id": "c-app_design",
   "file": "contracts/app_design.md",
-  "lines": 165,
+  "lines": 169,
   "readers": [
    "experience-interaction",
    "quality-interaction",
@@ -48,7 +48,7 @@
  {
   "id": "c-artifact_frontmatter",
   "file": "contracts/artifact_frontmatter.md",
-  "lines": 316,
+  "lines": 319,
   "readers": [
    "architecture-system",
    "architecture-techstack",
@@ -67,7 +67,7 @@
  {
   "id": "c-concept_structure",
   "file": "contracts/concept_structure.md",
-  "lines": 250,
+  "lines": 279,
   "readers": [
    "architecture-datamodel",
    "architecture-system",
@@ -91,9 +91,20 @@
   "readers_n": 18
  },
  {
+  "id": "c-design_tokens",
+  "file": "contracts/design_tokens.md",
+  "lines": 103,
+  "readers": [
+   "build-scaffold",
+   "design-brand",
+   "mockup-walkthrough"
+  ],
+  "readers_n": 3
+ },
+ {
   "id": "c-domain_model",
   "file": "contracts/domain_model.md",
-  "lines": 153,
+  "lines": 158,
   "readers": [
    "architecture-datamodel",
    "build-plan",
@@ -115,7 +126,7 @@
  {
   "id": "c-evaluator",
   "file": "contracts/evaluator.md",
-  "lines": 124,
+  "lines": 145,
   "readers": [
    "ops-review",
    "quality-interaction",

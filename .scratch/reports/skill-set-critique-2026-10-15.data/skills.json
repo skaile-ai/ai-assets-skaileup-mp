@@ -3,7 +3,7 @@
   "id": "architecture-datamodel",
   "dir": "architecture-datamodel",
   "domain": "architecture",
-  "lines": 87,
+  "lines": 89,
   "steps": 7,
   "description": "Use when the glossary exists and the project needs a schema before any feature is specified — derives entities, relationships and enums from the journeys (or the brief where there are none), settles every name against the glossary, and writes the stack-neutral model with its seed scenarios. Triggers on 'data model', 'design the schema', 'what entities do we need', 'seed data'.",
   "requires": [
@@ -81,8 +81,8 @@
   "id": "architecture-system",
   "dir": "architecture-system",
   "domain": "architecture",
-  "lines": 90,
-  "steps": 7,
+  "lines": 124,
+  "steps": 8,
   "description": "Use when the stack is chosen and the features need more than the stack ships with — records the custom modules, protocols and external integrations this project adds, and stops there. Triggers on 'architecture', 'system design', 'do we need a websocket', 'which modules', 'how does this talk to Stripe'.",
   "requires": [
    "brief",
@@ -119,10 +119,16 @@
     "gate": "soft",
     "min_entries": 1,
     "at": "skills/architecture-system/SKILL.md:20"
+   },
+   {
+    "path": "_concept/10_blueprint/datamodel",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/architecture-system/SKILL.md:21"
    }
   ],
   "hard_n": 3,
-  "soft_n": 1,
+  "soft_n": 2,
   "inputs_optional": [],
   "contracts": [
    "c-agent_patterns",
@@ -131,7 +137,7 @@
   ],
   "contracts_n": 3,
   "question_steps": 2,
-  "glossary_mentions": 0,
+  "glossary_mentions": 2,
   "flows": [
    "appbuilder-standard",
    "skaileup-concept-reverse"
@@ -304,7 +310,7 @@
   "id": "build-implement",
   "dir": "build-implement",
   "domain": "build",
-  "lines": 101,
+  "lines": 110,
   "steps": 8,
   "description": "Use when a planned vertical slice is ready to build — implements it test-first, reviews it against its spec, then commits it and freezes its dossier. Triggers on 'build this slice', 'implement the next slice', 'land it'.",
   "requires": [
@@ -353,10 +359,22 @@
     "gate": "soft",
     "min_entries": null,
     "at": "skills/build-implement/SKILL.md:25"
+   },
+   {
+    "path": "_concept/10_blueprint/openapi.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/build-implement/SKILL.md:26"
+   },
+   {
+    "path": "_concept/10_blueprint/asyncapi.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/build-implement/SKILL.md:27"
    }
   ],
   "hard_n": 2,
-  "soft_n": 2,
+  "soft_n": 4,
   "inputs_optional": [],
   "contracts": [
    "c-acceptance_criteria",
@@ -435,7 +453,7 @@
     "at": "skills/build-plan/SKILL.md:25"
    },
    {
-    "path": "_concept/11_build/interaction.yaml",
+    "path": "_concept/11_build/interaction.sarif",
     "gate": "soft",
     "min_entries": null,
     "at": "skills/build-plan/SKILL.md:26"
@@ -471,7 +489,7 @@
   "id": "build-scaffold",
   "dir": "build-scaffold",
   "domain": "build",
-  "lines": 91,
+  "lines": 108,
   "steps": 8,
   "description": "Use when the stack is chosen and no project exists yet — runs the template's scaffold recipe, then themes it, wires auth and builds the app shell, leaving a running app to build features into. Triggers on 'scaffold', 'bootstrap the project', 'set up the repo', 'create the app'.",
   "requires": [
@@ -486,32 +504,52 @@
     "path": "_concept/brief.md",
     "gate": "hard",
     "min_entries": null,
-    "at": "skills/build-scaffold/SKILL.md:15"
+    "at": "skills/build-scaffold/SKILL.md:17"
    },
    {
     "path": "_concept/10_blueprint/techstack.md",
     "gate": "hard",
     "min_entries": null,
-    "at": "skills/build-scaffold/SKILL.md:16"
+    "at": "skills/build-scaffold/SKILL.md:18"
    },
    {
-    "path": "_concept/03_brand/tokens.json",
+    "path": "_concept/03_brand/brand.tokens.json",
     "gate": "soft",
     "min_entries": null,
-    "at": "skills/build-scaffold/SKILL.md:17"
+    "at": "skills/build-scaffold/SKILL.md:19"
    },
    {
     "path": "_concept/07_screens",
     "gate": "soft",
     "min_entries": 1,
-    "at": "skills/build-scaffold/SKILL.md:18"
+    "at": "skills/build-scaffold/SKILL.md:20"
+   },
+   {
+    "path": "_concept/10_blueprint/openapi.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/build-scaffold/SKILL.md:21"
+   },
+   {
+    "path": "_concept/10_blueprint/asyncapi.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/build-scaffold/SKILL.md:22"
+   },
+   {
+    "path": "APP-DESIGN.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/build-scaffold/SKILL.md:23"
    }
   ],
   "hard_n": 2,
-  "soft_n": 2,
+  "soft_n": 5,
   "inputs_optional": [],
-  "contracts": [],
-  "contracts_n": 0,
+  "contracts": [
+   "c-design_tokens"
+  ],
+  "contracts_n": 1,
   "question_steps": 3,
   "glossary_mentions": 0,
   "flows": [
@@ -650,7 +688,7 @@
   "id": "concept-onboard",
   "dir": "concept-onboard",
   "domain": "concept",
-  "lines": 86,
+  "lines": 87,
   "steps": 6,
   "description": "Use at the start of a project to capture what the pipeline needs and the user already knows — technology preferences, an existing brand, the material they are bringing with them. Also when they say 'I have existing docs', 'use these files', or an answer needs someone who is not in the room. Triggers on 'onboard', 'set up the project', 'ingest my seeds'.",
   "requires": [
@@ -889,7 +927,7 @@
   "id": "design-brand",
   "dir": "design-brand",
   "domain": "design",
-  "lines": 88,
+  "lines": 95,
   "steps": 6,
   "description": "Use when the brief is approved and the project has no visual identity yet, or the user wants to change it. Discovers a direction in plain language, extracts from reference sites, and writes the palette, tokens and brandbook. Triggers on 'brand', 'colors', 'fonts', 'design tokens', 'make it look good'.",
   "requires": [
@@ -904,7 +942,7 @@
    },
    {
     "id": "brand-tokens",
-    "path": "_concept/03_brand/tokens.json"
+    "path": "_concept/03_brand/brand.tokens.json"
    },
    {
     "id": "brand-book",
@@ -945,9 +983,10 @@
   "contracts": [
    "c-agent_patterns",
    "c-artifact_frontmatter",
-   "c-concept_structure"
+   "c-concept_structure",
+   "c-design_tokens"
   ],
-  "contracts_n": 3,
+  "contracts_n": 4,
   "question_steps": 3,
   "glossary_mentions": 0,
   "flows": [
@@ -1045,7 +1084,7 @@
   "id": "experience-interaction",
   "dir": "experience-interaction",
   "domain": "experience",
-  "lines": 103,
+  "lines": 106,
   "steps": 8,
   "description": "Use when the glossary and the data model exist and the app's interaction rules are not written down yet — where information lives, one editor per object, inline vs modal vs page, saving, messages, popups, buttons, search and command palette — or when a code check has proposed changes to them. Decides the rules per object type with the user and writes APP-DESIGN.md. Triggers on 'write the app design', 'APP-DESIGN.md', 'when do we use a modal', 'UI rules for this app', 'interaction decisions'.",
   "requires": [
@@ -1085,7 +1124,7 @@
     "at": "skills/experience-interaction/SKILL.md:20"
    },
    {
-    "path": "_concept/11_build/interaction.yaml",
+    "path": "_concept/11_build/interaction.sarif",
     "gate": "soft",
     "min_entries": null,
     "at": "skills/experience-interaction/SKILL.md:21"
@@ -1122,7 +1161,7 @@
   "id": "experience-journeys",
   "dir": "experience-journeys",
   "domain": "experience",
-  "lines": 81,
+  "lines": 83,
   "steps": 7,
   "description": "Use when the brief is approved and nothing has mapped what users actually do yet. Defines the personas and the staged story map that features are derived from. Triggers on 'map the journeys', 'user stories', 'what do users do', 'story map'.",
   "requires": [
@@ -1242,7 +1281,7 @@
     "at": "skills/experience-shell/SKILL.md:25"
    },
    {
-    "path": "_concept/03_brand/tokens.json",
+    "path": "_concept/03_brand/brand.tokens.json",
     "gate": "soft",
     "min_entries": null,
     "at": "skills/experience-shell/SKILL.md:26"
@@ -1398,7 +1437,7 @@
     "at": "skills/mockup-storybook/SKILL.md:20"
    },
    {
-    "path": "_concept/03_brand/tokens.json",
+    "path": "_concept/03_brand/brand.tokens.json",
     "gate": "hard",
     "min_entries": null,
     "at": "skills/mockup-storybook/SKILL.md:21"
@@ -1445,7 +1484,7 @@
   "id": "mockup-walkthrough",
   "dir": "mockup-walkthrough",
   "domain": "mockup",
-  "lines": 95,
+  "lines": 97,
   "steps": 6,
   "description": "Use when stakeholders need a clickable walkthrough of the application — one page per screen and per journey, openable in a browser, plus the manifest.json mockup-annotate reads. Renders zero-build static HTML or a built Astro site; the renderer comes from the project, not from you.",
   "requires": [
@@ -1474,7 +1513,7 @@
     "at": "skills/mockup-walkthrough/SKILL.md:19"
    },
    {
-    "path": "_concept/03_brand/tokens.json",
+    "path": "_concept/03_brand/brand.tokens.json",
     "gate": "hard",
     "min_entries": null,
     "at": "skills/mockup-walkthrough/SKILL.md:20"
@@ -1490,9 +1529,10 @@
   "soft_n": 1,
   "inputs_optional": [],
   "contracts": [
+   "c-design_tokens",
    "c-walkthrough_renderer"
   ],
-  "contracts_n": 1,
+  "contracts_n": 2,
   "question_steps": 0,
   "glossary_mentions": 0,
   "flows": [
@@ -1510,7 +1550,7 @@
   "id": "ops-review",
   "dir": "ops-review",
   "domain": "ops",
-  "lines": 108,
+  "lines": 110,
   "steps": 9,
   "description": "Use when _concept/ needs a health check, its cross-references have drifted, or you want to know whether every feature is actually built and shipped. Produces the review verdict and a build-coverage matrix read from the trace, each finding naming the skill that fixes it. Triggers on 'audit the concept', 'check for issues', 'fix the links', 'is every feature done', 'what code belongs to no feature'.",
   "requires": [
@@ -1591,7 +1631,7 @@
   "id": "quality-e2e",
   "dir": "quality-e2e",
   "domain": "quality",
-  "lines": 86,
+  "lines": 93,
   "steps": 8,
   "description": "Use when the app runs and its journeys need proving end to end in a real browser — drives every story from stories.yaml with agent-browser, screenshots each step, checks the database behind it, and writes each journey's verdict into the acceptance-criteria ledger. Triggers on 'test the app', 'e2e tests', 'browser testing', 'walk the journeys'.",
   "requires": [
@@ -1630,10 +1670,16 @@
     "gate": "soft",
     "min_entries": null,
     "at": "skills/quality-e2e/SKILL.md:21"
+   },
+   {
+    "path": "_concept/10_blueprint/openapi.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/quality-e2e/SKILL.md:22"
    }
   ],
   "hard_n": 1,
-  "soft_n": 3,
+  "soft_n": 4,
   "inputs_optional": [],
   "contracts": [
    "c-acceptance_criteria",
@@ -1657,7 +1703,7 @@
   "id": "quality-interaction",
   "dir": "quality-interaction",
   "domain": "quality",
-  "lines": 114,
+  "lines": 109,
   "steps": 9,
   "description": "Use when an app's code exists and its interaction decisions are written down in APP-DESIGN.md — checks the code against them entry by entry and type by type, counts violations and exemplars per rule, and writes the ordered changes that close them. Triggers on 'check the app against APP-DESIGN.md', 'does the UI follow our patterns', 'interaction review', 'where do we still break the rules'.",
   "requires": [
@@ -1666,7 +1712,7 @@
   "produces": [
    {
     "id": "interaction-review",
-    "path": "_concept/11_build/interaction.yaml"
+    "path": "_concept/11_build/interaction.sarif"
    }
   ],
   "prereqs": [
@@ -1744,7 +1790,7 @@
     "at": "skills/quality-release/SKILL.md:22"
    },
    {
-    "path": "_concept/03_brand/tokens.json",
+    "path": "_concept/03_brand/brand.tokens.json",
     "gate": "soft",
     "min_entries": null,
     "at": "skills/quality-release/SKILL.md:23"
