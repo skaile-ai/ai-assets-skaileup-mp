@@ -76,3 +76,11 @@ to change eventually either way.
   from the presence rule.
 - No second source of artifact paths exists: `concept_structure.md` owns the tree, and each
   `produces` entry is validated against it rather than restating it.
+
+---
+
+**`produces` paths amended by [ADR 0015](0015-interaction-decisions-live-in-app-design.md)**
+(2026-10-17). A `produces` path need not start with `_concept/` when it is named in
+`check.py`'s `PROJECT_ROOT_ARTIFACTS` — today `APP-DESIGN.md` at the project root, written by
+`experience-interaction`. A host that reads `produces` must join that path to the project
+root, not to `_concept/`.

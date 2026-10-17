@@ -41,6 +41,7 @@ _concept/
 │   └── findings/                   graded evidence and raw material from outside the room
 │       ├── index.md                catalogue: file, source, date, `step` (the skill that took it)
 │       ├── routes.md               concept-reverse — every route, the file defining it, what a user does there
+│       ├── interaction.md          concept-reverse — surfaces, editors, save models, messages, search as the code has them today
 │       ├── screens.md              concept-reverse — page components, bindings, interactions, states
 │       ├── datamodel.md            concept-reverse — entities, fields, relations, enums
 │       ├── stack.md                concept-reverse — detected technology, per dimension
@@ -85,19 +86,33 @@ _concept/
     ├── slices/<slice_id>/          one vertical slice's dossier, frozen on commit
     ├── trace.yaml                  feature → slices → commits → code (build-implement writes it as each slice commits)
     ├── acceptance-criteria/        <featureset>/<feature_slug>.ac.md — the criteria status ledger
+    ├── interaction.yaml            quality-interaction — the app-wide interaction conformance verdict
     ├── reviews/                    <feature_slug>.yaml — one feature's code-review verdict
     └── decisions.md                build-time decision records, append-only
 ```
 
 ## `02_grounding/findings/` — graded evidence
 
-`concept-reverse` writes `findings/` and nothing else: the six files above, each value
+`concept-reverse` writes `findings/` and nothing else: the seven files above, each value
 graded `extracted`, `inferred` or `needs_review`. The skills that own the artifacts —
 `concept-brief` (`brief-seeds.md`), `design-brand` (`brand.md`), `architecture-techstack`
 (`stack.md`) — seed their drafts from them and show the graded values as proposals; the
 routes, screens and datamodel files are evidence the journeys, the feature loop, the shell
 and `architecture-datamodel` read. Screenshots and page saves live here and only here: each
 gets a row in `findings/index.md` whose `step` field names the skill that took it.
+
+`interaction.md` is the census of how the code behaves today — the surfaces, editors, save
+models, messages and search it has — and is the evidence `experience-interaction` starts from
+when the project already exists.
+
+## Beside the tree
+
+One artifact sits outside `_concept/`: **`APP-DESIGN.md`**, at the project root (the directory
+that holds `_concept/`). It holds the project's interaction decisions and has one writer,
+`experience-interaction`; `quality-interaction` checks code against it and writes its verdict
+to `11_build/interaction.yaml`, never to this file. It is the only such artifact — `check.py`
+names it in `PROJECT_ROOT_ARTIFACTS` — and a monorepo app has its own, one per project
+([ADR 0015](../docs/adr/0015-interaction-decisions-live-in-app-design.md)).
 
 ## Numbering
 
