@@ -458,6 +458,13 @@ def test_skill_in_a_not_grown_domain_is_not_held_to_its_own_gates(tmp_path):
     assert errors(root) == []
 
 
+def test_skill_whose_every_output_is_not_grown_is_not_held_to_its_own_gates(tmp_path):
+    """`spec-feature` writes only `brief`; a profile that never grows it never runs the skill."""
+    root = not_grown_repo(tmp_path)
+    write_profile(root, "api-service", ["screens", "brief"])
+    assert errors(root) == []
+
+
 # -- hard gates need a writer upstream ---------------------------------------
 
 def gate_flow(first: str, second: str) -> dict:

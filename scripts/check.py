@@ -546,8 +546,9 @@ def _check_not_grown_gates(repo: Path, skills: list[tuple[str, dict]], rep: Repo
     not be blocked by a `hard` prerequisite on it (F35).
 
     A profile's `not_grown` entry is an artifact id from some skill's `produces`, a skill name,
-    or a domain (a name prefix, `mockup` for `mockup-*`). A skill that is itself a named skill
-    or lies in a named domain never runs under that profile, so its gates are not held to it.
+    or a domain (a name prefix, `mockup` for `mockup-*`). A skill that is itself a named skill,
+    lies in a named domain, or writes only artifacts the profile never grows never runs under
+    that profile, so its gates are not held to it.
     An entry that resolves to nothing is an error — the rule could not see what it excludes."""
     profiles_dir = repo / "profiles"
     if not profiles_dir.is_dir():
@@ -601,6 +602,11 @@ def _check_not_grown_gates(repo: Path, skills: list[tuple[str, dict]], rep: Repo
             named: list[str] = []
             for profile, entries in left_out.items():
                 if any(covers(entry, skill) for entry in entries):
+                    continue
+                # every artifact the skill writes is one this profile never grows, so the
+                # skill never runs here (`[]` writes nothing and earns no exemption)
+                own = {ident for ident, _path in _produced_entries(fm)}
+                if own and own <= entries.keys():
                     continue
                 named += [
                     f"{entry!r} in profile {profile}"
