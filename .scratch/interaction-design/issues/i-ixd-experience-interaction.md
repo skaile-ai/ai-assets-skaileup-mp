@@ -6,11 +6,13 @@
 
 **Blocked by:** i-ixd-gate-root-artifact
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] Frontmatter: requires `glossary`, `journeys`, `datamodel`; soft gates on `findings/interaction.md`, `11_build/interaction.yaml` and `APP-DESIGN.md`; `produces: [{ id: app-design, path: "APP-DESIGN.md" }]`.
-- [ ] Object names are read from `model.json` / `glossary.md`; an object with no term is handed back to `concept-glossary`.
-- [ ] Rounds of at most five questions, recommendation first, file written after each round; without a user, `[open Qn]` entries and § Open rows.
-- [ ] Both contracts exist, adapted from the global references (no `CONTEXT.md`, no multi-writer `(change)` rule); `contracts/README.md` lists them; `§` cites resolve.
-- [ ] `app-design` added to `not_grown` in `api-service`, `cli-tool`, `data-pipeline`, `library`; `README.md` `## Skills` row.
-- [ ] `python3 scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+- [x] Frontmatter: requires `glossary`, `journeys`, `datamodel`; soft gates on `findings/interaction.md`, `11_build/interaction.yaml` and `APP-DESIGN.md`; `produces: [{ id: app-design, path: "APP-DESIGN.md" }]`.
+- [x] Object names are read from `model.json` / `glossary.md`; an object with no term is handed back to `concept-glossary`.
+- [x] Rounds of at most five questions, recommendation first, file written after each round; without a user, `[open Qn]` entries and § Open rows.
+- [x] Both contracts exist, adapted from the global references (no `CONTEXT.md`, no multi-writer `(change)` rule); `contracts/README.md` lists them; `§` cites resolve.
+- [x] `app-design` added to `not_grown` in `api-service`, `cli-tool`, `data-pipeline`, `library`; `README.md` `## Skills` row.
+- [x] `python3 scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+
+**Resolution (2026-10-17):** `skills/experience-interaction/SKILL.md` (98 lines): glossary hard, datamodel/journeys soft with stated fallbacks (profiles never grow them, so the not-grown rule forbids hard), soft findings/verdict/APP-DESIGN.md; names read from model/glossary with `concept-glossary` handback; rounds of <= 5 from `references/decision-catalogue.md`, written after each round, `[open Qn]` without a user; folds `11_build/interaction.yaml` on re-entry. Contracts `interaction_patterns.md` and `app_design.md` (one writer, verdict file, nav rule vs shell nav) + README rows. Profiles list `app-design` and `interaction-review` as not grown; README rows for both new skills. check.py green.

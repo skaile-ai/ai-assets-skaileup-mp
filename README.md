@@ -69,6 +69,7 @@ nodes; each writes into `_concept/`, the one artifact tree, described in
 | [experience-journeys](skills/experience-journeys/) | Defines personas and the staged story map features derive from |
 | [experience-shell](skills/experience-shell/) | Specifies navigation, layout areas, breakpoints and shared screen patterns |
 | [experience-behaviors](skills/experience-behaviors/) | Writes state machines and rules for entity lifecycles |
+| [experience-interaction](skills/experience-interaction/) | Decides where information lives and how it is edited, saved and found, and writes APP-DESIGN.md |
 | [spec-featuresets](skills/spec-featuresets/) | Derives the feature roster and cuts it into featuresets |
 | [spec-feature](skills/spec-feature/) | Writes one feature's permanent spec and every screen it needs |
 | [mockup-walkthrough](skills/mockup-walkthrough/) | Renders a clickable browser walkthrough, one page per screen and journey |
@@ -88,6 +89,7 @@ nodes; each writes into `_concept/`, the one artifact tree, described in
 | [quality-e2e](skills/quality-e2e/) | Proves journeys end to end in a real browser |
 | [quality-review](skills/quality-review/) | Reviews a finished feature's code adversarially against its spec |
 | [quality-release](skills/quality-release/) | Grades the running app against its brief on seven axes before release |
+| [quality-interaction](skills/quality-interaction/) | Checks the code against APP-DESIGN.md and writes an interaction conformance verdict |
 | [ops-review](skills/ops-review/) | Health-checks _concept/: cross-references and build/ship coverage |
 
 ## Gate
