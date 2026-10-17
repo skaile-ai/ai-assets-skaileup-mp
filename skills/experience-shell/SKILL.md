@@ -13,6 +13,7 @@ metadata:
       - { id: brand-tokens }
       - { id: screens }
       - { id: grounding-findings }
+      - { id: app-design }
     produces:
       - { id: app-shell, path: "_concept/07_screens/shell.md" }
   prerequisites:
@@ -23,6 +24,7 @@ metadata:
       - { path: "_concept/02_grounding/findings", gate: soft }
       - { path: "_concept/04_journeys/stories.yaml", gate: soft }
       - { path: "_concept/03_brand/tokens.json", gate: soft }
+      - { path: "APP-DESIGN.md", gate: soft }
 ---
 
 # experience-shell
@@ -52,19 +54,25 @@ Paths are `contracts/concept_structure.md § The tree`; the frontmatter shape is
    a nav invented here.
 2. **Derive the navigation from those screens.** Every destination is a screen a spec or a
    finding names, under the screen id it already has; a destination nothing backs is dropped
-   rather than added. Group them by featureset, and let the journey stage (`stories.yaml §
-   stages`) decide prominence: the hero and vital journeys earn primary navigation, hygiene flows sit behind a settings or
-   admin entry. A nav with one item per screen is a menu of the file system rather than of
-   the product.
+   rather than added. Where `APP-DESIGN.md` exists, derive under its § Navigation (P12,
+   `contracts/interaction_patterns.md § Finding and doing`): primary navigation lists core
+   objects and the few workspaces its entries name, supporting objects sit behind their
+   parent. Without it, group by featureset and let the journey stage (`stories.yaml §
+   stages`) decide prominence: the hero and vital journeys earn primary navigation, hygiene
+   flows sit behind a settings or admin entry. A nav with one item per screen is a menu of
+   the file system rather than of the product.
 3. **Describe the layout areas** — header, primary navigation, content region, and anything
    persistent beside them — as what each holds and what stays put while the content changes.
    A short ASCII sketch of the areas carries this faster than three paragraphs.
 4. **Settle the responsive behaviour**: the breakpoints, and what the navigation becomes
    below each one. This is decided once, here, or it gets decided differently on every screen.
-5. **Write the shared patterns** every screen reuses: how a page header is composed, where
-   breadcrumbs go, what an empty state, a loading state and an error look like, where
-   confirmations and destructive actions surface. Each of these is a decision a feature spec
-   would otherwise make alone, and inconsistently.
+5. **Write the shared patterns** every screen reuses, as layout only: how a page header is
+   composed, where breadcrumbs go, which regions persist and what the content region shows
+   while loading. Empty, error, confirmation, message and editing patterns come from the
+   `APP-DESIGN.md` MSG, EDIT and MOD entries, cited by id, never decided here. Without the
+   file, record them as proposals under `## Proposed interaction patterns` and hand them to
+   `experience-interaction` — a pattern this skill settles alone is the one every feature
+   spec would otherwise make inconsistently.
 6. **Mirror the navigation into the `elements:` block**: `shell.md`'s own frontmatter carries
    a `kind: nav` element whose `items[]` are the destinations from step 2, in the same
    order, each with its `target`. The block is written to `contracts/elements_block.md §

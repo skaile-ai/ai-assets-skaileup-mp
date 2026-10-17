@@ -13,6 +13,7 @@ metadata:
       - { id: brand-tokens }
       - { id: datamodel }
       - { id: glossary }
+      - { id: app-design }
     produces:
       - { id: features, path: "_concept/05_features/<featureset>/<feature>.md" }
       - { id: screens, path: "_concept/07_screens/<feature_slug>/<screen>.md" }
@@ -25,6 +26,7 @@ metadata:
       - { path: "_concept/glossary.md", gate: hard }
       - { path: "_concept/04_journeys/stories.yaml", gate: soft }
       - { path: "_concept/10_blueprint/datamodel", gate: soft }
+      - { path: "APP-DESIGN.md", gate: soft }
 ---
 
 # spec-feature
@@ -111,7 +113,10 @@ it writes to; read that section at the step, not before.
    `07_screens/<feature_slug>/<screen>.md`. Each carries `implements:` pointing back at the
    feature file and an `elements:` block per `contracts/elements_block.md § Schema` — the
    block the walkthrough renderers, the annotator and the feedback pass all read, so a screen
-   without it renders as an auto-slugged guess. Name only screens the scope line put IN.
+   without it renders as an auto-slugged guess. Name only screens the scope line put IN. Where
+   `APP-DESIGN.md` exists, each editing surface is the OBJ `task → surface` row of the entity
+   it edits (`contracts/app_design.md § Reading it`); a surface the floorplan lacks goes back
+   to `experience-interaction`, not invented. Without the file the screen chooses and says so.
 7. **Register both directions**, per `contracts/feedback_loop.md § Registration Protocol`:
    the feature's `screens:` lists the files just written, each screen's `implements:` names
    the feature. A one-directional link is a screen nothing can find from its feature.

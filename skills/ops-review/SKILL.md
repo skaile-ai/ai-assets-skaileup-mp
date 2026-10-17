@@ -12,6 +12,7 @@ metadata:
       - { id: screens }
       - { id: datamodel }
       - { id: trace }
+      - { id: app-design }
     produces: []
   prerequisites:
     files:
@@ -20,6 +21,7 @@ metadata:
       - { path: "_concept/11_build/slices", gate: soft }
       - { path: "_concept/11_build/trace.yaml", gate: soft }
       - { path: "_concept/10_blueprint/datamodel", gate: soft }
+      - { path: "APP-DESIGN.md", gate: soft }
 ---
 
 # ops-review
@@ -58,11 +60,19 @@ the link protocol `contracts/feedback_loop.md`'s, and the mechanical naming rule
    `03_brand/tokens.json` and `10_blueprint/techstack.md` exist, since the renderers and the
    planner hard-gate on them. A gap here is work not yet done, reported as the missing step
    rather than as a fault.
-4. **Check for decay.** A screen no feature implements and a model no feature's
+4. **Check the screen specs against `APP-DESIGN.md`**, where the file exists; without it
+   say the interaction check did not run. Read `07_screens/` for four rules of
+   `contracts/interaction_patterns.md`: **P1**, an attribute editable on two screens; **P4**,
+   two editors of one object type; **P8**, two index screens of one type; **P13**, a label
+   that is not a term in `glossary.md`. Each is a `warning` citing the rule, the entry it
+   breaks and both screen files. The fixer is `spec-feature` when the screen strays from a
+   decision the file makes, and `experience-interaction` when the file has no decision for
+   it or two entries conflict. The code is `quality-interaction`'s; this step reads specs only.
+5. **Check for decay.** A screen no feature implements and a model no feature's
    `data_entities[]` lists are orphans; a file whose `last_updated` sits far behind its
    siblings is stale beside work that moved on without it. Report both; deleting is the
    user's call, since an orphan is as often planned work as it is a leftover.
-5. **Build the coverage matrix, one row per feature**, from the trace and the dossiers,
+6. **Build the coverage matrix, one row per feature**, from the trace and the dossiers,
    never stored. A feature's slices are its `11_build/trace.yaml` entries, cross-checked
    against the `11_build/slices/` dossiers whose `plan.md` frontmatter names the feature — a
    dossier the trace lacks is a slice that committed without recording itself, reported
@@ -74,18 +84,18 @@ the link protocol `contracts/feedback_loop.md`'s, and the mechanical naming rule
    unfrozen, commits or code are empty, or a ledger row is `FAIL` or untested. **Amber** when
    the hard checks pass but the documentation does not. **Green** otherwise. `overall` is
    green exactly when no row is red; amber is surfaced, not blocking.
-6. **Scan the other direction for orphan code.** Every file `git ls-files` reports under the
+7. **Scan the other direction for orphan code.** Every file `git ls-files` reports under the
    source directories, minus the union of every feature's `code` in the trace, minus tests,
    build output, configuration, dotfiles and `_concept/`. What remains is code no feature
    claims — advisory, never deleted: an orphan is a question for the user.
-7. **Name the fixing skill on every finding**, the script's included. A missing screen is
+8. **Name the fixing skill on every finding**, the script's included. A missing screen is
    `spec-feature`; a missing shell is `experience-shell`; missing tokens are `design-brand`;
    a missing stack or model is `architecture-techstack` or `architecture-datamodel`; a
    retired path or missing glossary is `concept-brief` or `concept-glossary`; an unplanned
    feature is `build-plan`; an unfrozen slice or missing trace entry is `build-implement` or
    `build-branch`; a feature with no featureset is `spec-featuresets`. A finding without a
    next command leaves the reader to triage it themselves.
-8. **Show everything, then offer the repairs.** Present the findings by severity and the
+9. **Show everything, then offer the repairs.** Present the findings by severity and the
    coverage matrix as a table with its orphan list and `overall`, then offer only the
    mechanical fixes: adding a missing back-link, removing a reference to a file that no
    longer exists. Show the exact diff and get a yes before writing. Everything else — missing

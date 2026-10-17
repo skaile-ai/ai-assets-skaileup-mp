@@ -12,6 +12,7 @@ metadata:
       - { id: techstack }
       - { id: datamodel }
       - { id: standards }
+      - { id: interaction-review }
     produces:
       - { id: slice-plan, path: "_concept/11_build/slices/<slice_id>/plan.md" }
       - { id: acceptance-criteria, path: "_concept/11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md" }
@@ -22,6 +23,7 @@ metadata:
       - { path: "_concept/10_blueprint/techstack.md", gate: soft }
       - { path: "_concept/10_blueprint/datamodel", gate: soft }
       - { path: "_concept/02_grounding/standards/index.yml", gate: soft }
+      - { path: "_concept/11_build/interaction.yaml", gate: soft }
 ---
 
 # build-plan
@@ -65,6 +67,12 @@ Paths are `contracts/concept_structure.md`'s; `slice_id` and the dossier lifecyc
    layer wearing a slice's name — merge it into the slice that needs it, or split it by
    user-facing seam. Use the data model for slice *order* (parents before children), never
    to reshape a slice into an entity.
+   Where `11_build/interaction.yaml` exists, read its `open` changes before cutting: one whose
+   `files` fall in this feature's code joins this feature's slices, in the slice that owns
+   those files. A `systemic` change (a shared editor, the action registry, one confirm
+   component) is prefactoring in step 1's sense: it becomes one leading slice that the
+   feature slices depending on it are blocked by, planned once rather than per feature.
+   Without the file, slice from the spec alone.
 3. **Sequence a wide refactor as expand–contract, not as a slice.** A **wide refactor** is
    one mechanical change — rename a column, retype a shared symbol — whose blast radius fans
    across the codebase, so one edit breaks thousands of call sites and no vertical slice can
