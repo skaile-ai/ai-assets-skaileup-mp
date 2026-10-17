@@ -90,7 +90,7 @@
   "id": "appbuilder-standard",
   "name": "Appbuilder Standard",
   "file": "flows/appbuilder-standard/appbuilder-standard.flow.yaml",
-  "nodes_n": 29,
+  "nodes_n": 31,
   "order": [
    "concept-scope",
    "concept-onboard",
@@ -100,6 +100,7 @@
    "design-brand",
    "experience-journeys",
    "architecture-datamodel",
+   "experience-interaction",
    "spec-featuresets",
    "experience-behaviors",
    "spec-feature",
@@ -119,183 +120,196 @@
    "quality-test",
    "quality-e2e",
    "quality-review",
+   "quality-interaction",
    "ops-review",
    "quality-release"
   ],
-  "requires_n": 30,
+  "requires_n": 32,
   "research_depth": "moderate",
   "unmet_hard": 0,
   "node_lines": {
-   "concept-scope": 83,
-   "concept-onboard": 90,
-   "concept-research": 97,
-   "concept-brief": 104,
-   "concept-glossary": 111,
-   "design-brand": 118,
-   "experience-journeys": 125,
-   "architecture-datamodel": 132,
-   "spec-featuresets": 139,
-   "experience-behaviors": 146,
-   "spec-feature": 155,
-   "experience-shell": 164,
-   "architecture-techstack": 171,
-   "architecture-system": 178,
-   "mockup-walkthrough": 185,
-   "mockup-storybook": 192,
-   "mockup-annotate": 199,
-   "mockup-feedback": 206,
-   "build-scaffold": 214,
-   "build-database": 221,
-   "quality-standards": 228,
-   "build-plan": 237,
-   "build-implement": 244,
-   "build-branch": 251,
-   "quality-test": 259,
-   "quality-e2e": 266,
-   "quality-review": 273,
-   "ops-review": 280,
-   "quality-release": 287
+   "concept-scope": 86,
+   "concept-onboard": 93,
+   "concept-research": 100,
+   "concept-brief": 107,
+   "concept-glossary": 114,
+   "design-brand": 121,
+   "experience-journeys": 128,
+   "architecture-datamodel": 135,
+   "experience-interaction": 142,
+   "spec-featuresets": 149,
+   "experience-behaviors": 156,
+   "spec-feature": 165,
+   "experience-shell": 174,
+   "architecture-techstack": 181,
+   "architecture-system": 188,
+   "mockup-walkthrough": 195,
+   "mockup-storybook": 202,
+   "mockup-annotate": 209,
+   "mockup-feedback": 216,
+   "build-scaffold": 224,
+   "build-database": 231,
+   "quality-standards": 238,
+   "build-plan": 247,
+   "build-implement": 254,
+   "build-branch": 261,
+   "quality-test": 269,
+   "quality-e2e": 276,
+   "quality-review": 283,
+   "quality-interaction": 290,
+   "ops-review": 297,
+   "quality-release": 304
   },
   "edge_lines": [
    {
     "source": "concept-scope",
     "target": "concept-onboard",
-    "line": 295
+    "line": 312
    },
    {
     "source": "concept-onboard",
     "target": "concept-research",
-    "line": 296
+    "line": 313
    },
    {
     "source": "concept-research",
     "target": "concept-brief",
-    "line": 297
+    "line": 314
    },
    {
     "source": "concept-brief",
     "target": "concept-glossary",
-    "line": 298
+    "line": 315
    },
    {
     "source": "concept-glossary",
     "target": "design-brand",
-    "line": 299
+    "line": 316
    },
    {
     "source": "design-brand",
     "target": "experience-journeys",
-    "line": 300
+    "line": 317
    },
    {
     "source": "experience-journeys",
     "target": "architecture-datamodel",
-    "line": 301
+    "line": 318
    },
    {
     "source": "architecture-datamodel",
+    "target": "experience-interaction",
+    "line": 319
+   },
+   {
+    "source": "experience-interaction",
     "target": "spec-featuresets",
-    "line": 302
+    "line": 320
    },
    {
     "source": "spec-featuresets",
     "target": "experience-behaviors",
-    "line": 303
+    "line": 321
    },
    {
     "source": "experience-behaviors",
     "target": "spec-feature",
-    "line": 304
+    "line": 322
    },
    {
     "source": "spec-feature",
     "target": "experience-shell",
-    "line": 305
+    "line": 323
    },
    {
     "source": "experience-shell",
     "target": "architecture-techstack",
-    "line": 306
+    "line": 324
    },
    {
     "source": "architecture-techstack",
     "target": "architecture-system",
-    "line": 307
+    "line": 325
    },
    {
     "source": "architecture-system",
     "target": "mockup-walkthrough",
-    "line": 308
+    "line": 326
    },
    {
     "source": "mockup-walkthrough",
     "target": "mockup-storybook",
-    "line": 309
+    "line": 327
    },
    {
     "source": "mockup-storybook",
     "target": "mockup-annotate",
-    "line": 310
+    "line": 328
    },
    {
     "source": "mockup-annotate",
     "target": "mockup-feedback",
-    "line": 311
+    "line": 329
    },
    {
     "source": "mockup-feedback",
     "target": "build-scaffold",
-    "line": 312
+    "line": 330
    },
    {
     "source": "build-scaffold",
     "target": "build-database",
-    "line": 313
+    "line": 331
    },
    {
     "source": "build-database",
     "target": "quality-standards",
-    "line": 314
+    "line": 332
    },
    {
     "source": "quality-standards",
     "target": "build-plan",
-    "line": 315
+    "line": 333
    },
    {
     "source": "build-plan",
     "target": "build-implement",
-    "line": 316
+    "line": 334
    },
    {
     "source": "build-implement",
     "target": "build-branch",
-    "line": 317
+    "line": 335
    },
    {
     "source": "build-branch",
     "target": "quality-test",
-    "line": 318
+    "line": 336
    },
    {
     "source": "quality-test",
     "target": "quality-e2e",
-    "line": 319
+    "line": 337
    },
    {
     "source": "quality-e2e",
     "target": "quality-review",
-    "line": 320
+    "line": 338
    },
    {
     "source": "quality-review",
+    "target": "quality-interaction",
+    "line": 339
+   },
+   {
+    "source": "quality-interaction",
     "target": "ops-review",
-    "line": 321
+    "line": 340
    },
    {
     "source": "ops-review",
     "target": "quality-release",
-    "line": 322
+    "line": 341
    }
   ]
  },
@@ -303,7 +317,7 @@
   "id": "skaileup-concept-only",
   "name": "Skaileup Concept Only",
   "file": "flows/skaileup-concept-only/skaileup-concept-only.flow.yaml",
-  "nodes_n": 16,
+  "nodes_n": 17,
   "order": [
    "concept-scope",
    "concept-onboard",
@@ -313,6 +327,7 @@
    "design-brand",
    "experience-journeys",
    "architecture-datamodel",
+   "experience-interaction",
    "spec-featuresets",
    "experience-behaviors",
    "spec-feature",
@@ -322,102 +337,108 @@
    "mockup-feedback",
    "ops-review"
   ],
-  "requires_n": 17,
+  "requires_n": 18,
   "research_depth": "moderate",
   "unmet_hard": 0,
   "node_lines": {
-   "concept-scope": 70,
-   "concept-onboard": 77,
-   "concept-research": 84,
-   "concept-brief": 91,
-   "concept-glossary": 98,
-   "design-brand": 105,
-   "experience-journeys": 112,
-   "architecture-datamodel": 119,
-   "spec-featuresets": 126,
-   "experience-behaviors": 133,
-   "spec-feature": 142,
-   "experience-shell": 151,
-   "mockup-walkthrough": 158,
-   "mockup-annotate": 165,
-   "mockup-feedback": 172,
-   "ops-review": 180
+   "concept-scope": 71,
+   "concept-onboard": 78,
+   "concept-research": 85,
+   "concept-brief": 92,
+   "concept-glossary": 99,
+   "design-brand": 106,
+   "experience-journeys": 113,
+   "architecture-datamodel": 120,
+   "experience-interaction": 127,
+   "spec-featuresets": 134,
+   "experience-behaviors": 141,
+   "spec-feature": 150,
+   "experience-shell": 159,
+   "mockup-walkthrough": 166,
+   "mockup-annotate": 173,
+   "mockup-feedback": 180,
+   "ops-review": 188
   },
   "edge_lines": [
    {
     "source": "concept-scope",
     "target": "concept-onboard",
-    "line": 188
+    "line": 196
    },
    {
     "source": "concept-onboard",
     "target": "concept-research",
-    "line": 189
+    "line": 197
    },
    {
     "source": "concept-research",
     "target": "concept-brief",
-    "line": 190
+    "line": 198
    },
    {
     "source": "concept-brief",
     "target": "concept-glossary",
-    "line": 191
+    "line": 199
    },
    {
     "source": "concept-glossary",
     "target": "design-brand",
-    "line": 192
+    "line": 200
    },
    {
     "source": "design-brand",
     "target": "experience-journeys",
-    "line": 193
+    "line": 201
    },
    {
     "source": "experience-journeys",
     "target": "architecture-datamodel",
-    "line": 194
+    "line": 202
    },
    {
     "source": "architecture-datamodel",
+    "target": "experience-interaction",
+    "line": 203
+   },
+   {
+    "source": "experience-interaction",
     "target": "spec-featuresets",
-    "line": 195
+    "line": 204
    },
    {
     "source": "spec-featuresets",
     "target": "experience-behaviors",
-    "line": 196
+    "line": 205
    },
    {
     "source": "experience-behaviors",
     "target": "spec-feature",
-    "line": 197
+    "line": 206
    },
    {
     "source": "spec-feature",
     "target": "experience-shell",
-    "line": 198
+    "line": 207
    },
    {
     "source": "experience-shell",
     "target": "mockup-walkthrough",
-    "line": 199
+    "line": 208
    },
    {
     "source": "mockup-walkthrough",
     "target": "mockup-annotate",
-    "line": 200
+    "line": 209
    },
    {
     "source": "mockup-annotate",
     "target": "mockup-feedback",
-    "line": 201
+    "line": 210
    },
    {
     "source": "mockup-feedback",
     "target": "ops-review",
-    "line": 202
+    "line": 211
    }
   ]
  },
@@ -425,7 +446,7 @@
   "id": "skaileup-concept-reverse",
   "name": "Skaileup Concept Reverse",
   "file": "flows/skaileup-concept-reverse/skaileup-concept-reverse.flow.yaml",
-  "nodes_n": 14,
+  "nodes_n": 16,
   "order": [
    "concept-scope",
    "concept-reverse",
@@ -435,97 +456,111 @@
    "design-brand",
    "experience-journeys",
    "architecture-datamodel",
+   "experience-interaction",
    "spec-featuresets",
    "experience-shell",
    "spec-feature",
    "architecture-techstack",
    "architecture-system",
+   "quality-interaction",
    "ops-review"
   ],
-  "requires_n": 15,
+  "requires_n": 17,
   "research_depth": "light",
   "unmet_hard": 0,
   "node_lines": {
-   "concept-scope": 68,
-   "concept-reverse": 75,
-   "quality-standards": 82,
-   "concept-brief": 89,
-   "concept-glossary": 96,
-   "design-brand": 103,
-   "experience-journeys": 110,
-   "architecture-datamodel": 117,
-   "spec-featuresets": 124,
-   "experience-shell": 133,
-   "spec-feature": 142,
-   "architecture-techstack": 149,
-   "architecture-system": 156,
-   "ops-review": 164
+   "concept-scope": 71,
+   "concept-reverse": 78,
+   "quality-standards": 85,
+   "concept-brief": 92,
+   "concept-glossary": 99,
+   "design-brand": 106,
+   "experience-journeys": 113,
+   "architecture-datamodel": 120,
+   "experience-interaction": 127,
+   "spec-featuresets": 134,
+   "experience-shell": 143,
+   "spec-feature": 152,
+   "architecture-techstack": 159,
+   "architecture-system": 166,
+   "quality-interaction": 174,
+   "ops-review": 181
   },
   "edge_lines": [
    {
     "source": "concept-scope",
     "target": "concept-reverse",
-    "line": 172
+    "line": 189
    },
    {
     "source": "concept-reverse",
     "target": "quality-standards",
-    "line": 173
+    "line": 190
    },
    {
     "source": "quality-standards",
     "target": "concept-brief",
-    "line": 174
+    "line": 191
    },
    {
     "source": "concept-brief",
     "target": "concept-glossary",
-    "line": 175
+    "line": 192
    },
    {
     "source": "concept-glossary",
     "target": "design-brand",
-    "line": 176
+    "line": 193
    },
    {
     "source": "design-brand",
     "target": "experience-journeys",
-    "line": 177
+    "line": 194
    },
    {
     "source": "experience-journeys",
     "target": "architecture-datamodel",
-    "line": 178
+    "line": 195
    },
    {
     "source": "architecture-datamodel",
+    "target": "experience-interaction",
+    "line": 196
+   },
+   {
+    "source": "experience-interaction",
     "target": "spec-featuresets",
-    "line": 179
+    "line": 197
    },
    {
     "source": "spec-featuresets",
     "target": "experience-shell",
-    "line": 180
+    "line": 198
    },
    {
     "source": "experience-shell",
     "target": "spec-feature",
-    "line": 181
+    "line": 199
    },
    {
     "source": "spec-feature",
     "target": "architecture-techstack",
-    "line": 182
+    "line": 200
    },
    {
     "source": "architecture-techstack",
     "target": "architecture-system",
-    "line": 183
+    "line": 201
    },
    {
     "source": "architecture-system",
+    "target": "quality-interaction",
+    "line": 202
+   },
+   {
+    "source": "quality-interaction",
     "target": "ops-review",
-    "line": 184
+    "line": 203
    }
   ]
  }

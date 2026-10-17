@@ -29,9 +29,21 @@
    "concept-research",
    "concept-scope",
    "design-brand",
+   "experience-interaction",
    "skaileup"
   ],
-  "readers_n": 9
+  "readers_n": 10
+ },
+ {
+  "id": "c-app_design",
+  "file": "contracts/app_design.md",
+  "lines": 161,
+  "readers": [
+   "experience-interaction",
+   "quality-interaction",
+   "spec-feature"
+  ],
+  "readers_n": 3
  },
  {
   "id": "c-artifact_frontmatter",
@@ -55,7 +67,7 @@
  {
   "id": "c-concept_structure",
   "file": "contracts/concept_structure.md",
-  "lines": 235,
+  "lines": 250,
   "readers": [
    "architecture-datamodel",
    "architecture-system",
@@ -106,10 +118,11 @@
   "lines": 124,
   "readers": [
    "ops-review",
+   "quality-interaction",
    "quality-release",
    "quality-review"
   ],
-  "readers_n": 3
+  "readers_n": 4
  },
  {
   "id": "c-feedback_loop",
@@ -134,6 +147,18 @@
    "ops-review"
   ],
   "readers_n": 3
+ },
+ {
+  "id": "c-interaction_patterns",
+  "file": "contracts/interaction_patterns.md",
+  "lines": 176,
+  "readers": [
+   "experience-interaction",
+   "experience-shell",
+   "ops-review",
+   "quality-interaction"
+  ],
+  "readers_n": 4
  },
  {
   "id": "c-seed_data",
@@ -166,6 +191,17 @@
    "build-implement",
    "build-plan",
    "spec-feature"
+  ],
+  "readers_n": 3
+ },
+ {
+  "id": "c-ui_detection",
+  "file": "contracts/ui_detection.md",
+  "lines": 133,
+  "readers": [
+   "concept-reverse",
+   "experience-interaction",
+   "quality-interaction"
   ],
   "readers_n": 3
  },

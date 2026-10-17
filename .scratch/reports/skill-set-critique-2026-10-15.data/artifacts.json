@@ -61,11 +61,14 @@
    "concept-brief",
    "concept-glossary",
    "experience-behaviors",
+   "experience-interaction",
    "experience-journeys",
+   "ops-review",
+   "quality-interaction",
    "spec-feature",
    "spec-featuresets"
   ],
-  "readers_n": 7,
+  "readers_n": 10,
   "editor_form": "prose (TipTap)",
   "kind": "artifact"
  },
@@ -116,14 +119,16 @@
    "concept-reverse",
    "design-brand",
    "experience-behaviors",
+   "experience-interaction",
    "experience-journeys",
    "experience-shell",
    "mockup-walkthrough",
+   "quality-interaction",
    "quality-review",
    "quality-standards",
    "spec-featuresets"
   ],
-  "readers_n": 16,
+  "readers_n": 18,
   "editor_form": "mixed",
   "kind": "artifact"
  },
@@ -160,6 +165,7 @@
   "readers": [
    "architecture-datamodel",
    "experience-behaviors",
+   "experience-interaction",
    "experience-journeys",
    "experience-shell",
    "mockup-feedback",
@@ -170,7 +176,7 @@
    "spec-feature",
    "spec-featuresets"
   ],
-  "readers_n": 11,
+  "readers_n": 12,
   "editor_form": "code editor",
   "kind": "artifact"
  },
@@ -238,10 +244,11 @@
    "experience-shell",
    "mockup-storybook",
    "mockup-walkthrough",
+   "ops-review",
    "quality-e2e",
    "spec-feature"
   ],
-  "readers_n": 8,
+  "readers_n": 9,
   "editor_form": "prose (TipTap)",
   "kind": "artifact"
  },
@@ -301,6 +308,7 @@
    "build-plan",
    "build-scaffold",
    "experience-behaviors",
+   "experience-interaction",
    "mockup-storybook",
    "ops-review",
    "quality-e2e",
@@ -308,7 +316,7 @@
    "spec-feature",
    "spec-featuresets"
   ],
-  "readers_n": 13,
+  "readers_n": 14,
   "editor_form": "mixed",
   "kind": "artifact"
  },
@@ -319,21 +327,24 @@
    "build-implement",
    "build-plan",
    "quality-e2e",
+   "quality-interaction",
    "quality-release",
    "quality-review"
   ],
-  "writers_n": 5,
+  "writers_n": 6,
   "multi_writer": true,
   "readers": [
    "build-branch",
    "build-implement",
    "build-plan",
+   "experience-interaction",
    "ops-review",
    "quality-e2e",
+   "quality-interaction",
    "quality-release",
    "quality-review"
   ],
-  "readers_n": 7,
+  "readers_n": 9,
   "editor_form": "mixed",
   "kind": "artifact"
  }

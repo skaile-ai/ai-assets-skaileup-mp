@@ -51,6 +51,10 @@ ARTIFACTS = [
     ("a-11_build", "_concept/11_build"),
 ]
 
+# project-root artifacts a skill may write outside the tree (mirrors check.py PROJECT_ROOT_ARTIFACTS, ADR 0015);
+# every other project-root gate (package.json) is a fact about the scaffolded project, not a node's output.
+PROJECT_ROOT_ARTIFACTS = {"APP-DESIGN.md"}
+
 # The writer map: (skill, path, at, quote). `at` is the SKILL.md line that states the write;
 # `quote` is a verbatim substring of that line. path None = writes nothing under _concept/.
 # It is the body-cited cross-check of each skill's frontmatter `metadata.artifacts.produces`.
@@ -62,13 +66,13 @@ WRITES: list[tuple[str, str | None, str, str]] = [
     ("concept-glossary", "_concept/glossary.md", "skills/concept-glossary/SKILL.md:56", "Write `glossary.md`."),
     ("concept-research", "_concept/02_grounding/research/", "skills/concept-research/SKILL.md:31", "Fills `02_grounding/research/`"),
     ("concept-research", "_concept/02_grounding/findings/", "skills/concept-research/SKILL.md:32", "`02_grounding/findings/` with the raw material"),
-    ("concept-reverse", "_concept/02_grounding/findings/", "skills/concept-reverse/SKILL.md:55", "Write the six findings into `02_grounding/findings/`"),
+    ("concept-reverse", "_concept/02_grounding/findings/", "skills/concept-reverse/SKILL.md:56", "Write the seven findings into `02_grounding/findings/`"),
     ("design-brand", "_concept/03_brand/", "skills/design-brand/SKILL.md:31", "Writes `03_brand/`"),
     ("design-brand", "_concept/02_grounding/findings/", "skills/design-brand/SKILL.md:32", "go to `02_grounding/findings/`"),
     ("experience-journeys", "_concept/04_journeys/stories.yaml", "skills/experience-journeys/SKILL.md:73", "**Write `04_journeys/stories.yaml`**"),
     ("spec-featuresets", "_concept/05_features/featuresets.md", "skills/spec-featuresets/SKILL.md:71", "**Write `05_features/featuresets.md`.**"),
     ("experience-behaviors", "_concept/06_behaviors/", "skills/experience-behaviors/SKILL.md:52-53", "`06_behaviors/<featureset>.md`"),
-    ("experience-shell", "_concept/07_screens/shell.md", "skills/experience-shell/SKILL.md:30", "Writes exactly one file: `07_screens/shell.md`"),
+    ("experience-shell", "_concept/07_screens/shell.md", "skills/experience-shell/SKILL.md:32", "Writes exactly one file: `07_screens/shell.md`"),
     ("spec-feature", "_concept/05_features/", "skills/spec-feature/SKILL.md:92-95", "**Write the feature spec** to `05_features/<featureset>/<feature_slug>.md`"),
     ("spec-feature", "_concept/07_screens/", "skills/spec-feature/SKILL.md:109-113", "`07_screens/<feature_slug>/<screen>.md`"),
     ("spec-feature", "_concept/08_dossiers/", "skills/spec-feature/SKILL.md:68-71", "write `08_dossiers/<feature_slug>/index.md`"),
@@ -82,8 +86,9 @@ WRITES: list[tuple[str, str | None, str, str]] = [
     ("architecture-techstack", "_concept/10_blueprint/techstack.md", "skills/architecture-techstack/SKILL.md:99", "`10_blueprint/techstack.md` exists"),
     ("architecture-system", "_concept/10_blueprint/architecture.md", "skills/architecture-system/SKILL.md:67", "**Write `10_blueprint/architecture.md`.**"),
     ("architecture-datamodel", "_concept/10_blueprint/datamodel/", "skills/architecture-datamodel/SKILL.md:26-27", "under `10_blueprint/datamodel/`"),
-    ("build-plan", "_concept/11_build/slices/", "skills/build-plan/SKILL.md:86", "`11_build/slices/<slice_id>/plan.md`"),
-    ("build-plan", "_concept/11_build/acceptance-criteria/", "skills/build-plan/SKILL.md:98", "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`"),
+    ("experience-interaction", "APP-DESIGN.md", "skills/experience-interaction/SKILL.md:74", "**Write `APP-DESIGN.md` after every round**"),
+    ("build-plan", "_concept/11_build/slices/", "skills/build-plan/SKILL.md:94", "`11_build/slices/<slice_id>/plan.md`"),
+    ("build-plan", "_concept/11_build/acceptance-criteria/", "skills/build-plan/SKILL.md:106", "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`"),
     ("build-implement", "_concept/11_build/slices/", "skills/build-implement/SKILL.md:93", "`11_build/slices/<slice_id>/index.md`"),
     ("build-implement", "_concept/11_build/acceptance-criteria/", "skills/build-implement/SKILL.md:80", "update the ledger at `11_build/acceptance-criteria/"),
     ("build-implement", "_concept/11_build/trace.yaml", "skills/build-implement/SKILL.md:75", "write the slice into `11_build/trace.yaml`"),
@@ -91,9 +96,10 @@ WRITES: list[tuple[str, str | None, str, str]] = [
     ("quality-review", "_concept/11_build/acceptance-criteria/", "skills/quality-review/SKILL.md:62", "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`"),
     ("quality-review", "_concept/11_build/reviews/", "skills/quality-review/SKILL.md:73", "to `11_build/reviews/<feature_slug>.yaml`"),
     ("quality-release", "_concept/11_build/release.yaml", "skills/quality-release/SKILL.md:74", "to `11_build/release.yaml`"),
+    ("quality-interaction", "_concept/11_build/interaction.yaml", "skills/quality-interaction/SKILL.md:80", "**Write the verdict** to `_concept/11_build/interaction.yaml`"),
     ("quality-standards", "_concept/02_grounding/standards/", "skills/quality-standards/SKILL.md:30", "`02_grounding/standards/<domain>/<convention>.md`"),
     # no _concept target: the line shows what the skill produces instead
-    ("ops-review", None, "skills/ops-review/SKILL.md:33", "never written to disk"),
+    ("ops-review", None, "skills/ops-review/SKILL.md:35", "never written to disk"),
     ("build-scaffold", None, "skills/build-scaffold/SKILL.md:89", "the app builds and runs"),
     ("build-database", None, "skills/build-database/SKILL.md:85", "the migration has applied"),
     ("build-branch", None, "skills/build-branch/SKILL.md:62", "the branch exists and is checked out"),
@@ -425,7 +431,7 @@ def main() -> int:
         msg = check_citation("writes", f"{rid} ({skill} -> {path})", at, quote)
         if msg:
             failures.append(msg)
-        if path is not None and artifact_of(path) is None:
+        if path is not None and path not in PROJECT_ROOT_ARTIFACTS and artifact_of(path) is None:
             failures.append(f"[writes] {rid}: path {path!r} is under no artifact target")
         writes.append({"id": rid, "skill": skill, "path": path, "artifact": artifact_of(path), "at": at, "quote": quote})
 
@@ -498,7 +504,8 @@ def main() -> int:
                     if any(paths_overlap(wp, pr["path"]) for wp in writes_by_skill.get(up, [])):
                         producer = up
                         break
-                unmet = pr["gate"] == "hard" and producer is None
+                project_gate = not pr["path"].startswith("_concept/") and pr["path"] not in PROJECT_ROOT_ARTIFACTS
+                unmet = pr["gate"] == "hard" and producer is None and not project_gate
                 if unmet:
                     f["unmet_hard"] += 1
                 gates.append({

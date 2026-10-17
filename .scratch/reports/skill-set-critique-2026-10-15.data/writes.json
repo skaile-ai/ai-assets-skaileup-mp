@@ -67,8 +67,8 @@
   "skill": "concept-reverse",
   "path": "_concept/02_grounding/findings/",
   "artifact": "a-02_grounding",
-  "at": "skills/concept-reverse/SKILL.md:55",
-  "quote": "Write the six findings into `02_grounding/findings/`",
+  "at": "skills/concept-reverse/SKILL.md:56",
+  "quote": "Write the seven findings into `02_grounding/findings/`",
   "in_produces": true
  },
  {
@@ -121,7 +121,7 @@
   "skill": "experience-shell",
   "path": "_concept/07_screens/shell.md",
   "artifact": "a-07_screens",
-  "at": "skills/experience-shell/SKILL.md:30",
+  "at": "skills/experience-shell/SKILL.md:32",
   "quote": "Writes exactly one file: `07_screens/shell.md`",
   "in_produces": true
  },
@@ -244,24 +244,33 @@
  },
  {
   "id": "w-28",
-  "skill": "build-plan",
-  "path": "_concept/11_build/slices/",
-  "artifact": "a-11_build",
-  "at": "skills/build-plan/SKILL.md:86",
-  "quote": "`11_build/slices/<slice_id>/plan.md`",
+  "skill": "experience-interaction",
+  "path": "APP-DESIGN.md",
+  "artifact": null,
+  "at": "skills/experience-interaction/SKILL.md:74",
+  "quote": "**Write `APP-DESIGN.md` after every round**",
   "in_produces": true
  },
  {
   "id": "w-29",
   "skill": "build-plan",
-  "path": "_concept/11_build/acceptance-criteria/",
+  "path": "_concept/11_build/slices/",
   "artifact": "a-11_build",
-  "at": "skills/build-plan/SKILL.md:98",
-  "quote": "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`",
+  "at": "skills/build-plan/SKILL.md:94",
+  "quote": "`11_build/slices/<slice_id>/plan.md`",
   "in_produces": true
  },
  {
   "id": "w-30",
+  "skill": "build-plan",
+  "path": "_concept/11_build/acceptance-criteria/",
+  "artifact": "a-11_build",
+  "at": "skills/build-plan/SKILL.md:106",
+  "quote": "`11_build/acceptance-criteria/<featureset>/<feature_slug>.ac.md`",
+  "in_produces": true
+ },
+ {
+  "id": "w-31",
   "skill": "build-implement",
   "path": "_concept/11_build/slices/",
   "artifact": "a-11_build",
@@ -270,7 +279,7 @@
   "in_produces": true
  },
  {
-  "id": "w-31",
+  "id": "w-32",
   "skill": "build-implement",
   "path": "_concept/11_build/acceptance-criteria/",
   "artifact": "a-11_build",
@@ -279,7 +288,7 @@
   "in_produces": true
  },
  {
-  "id": "w-32",
+  "id": "w-33",
   "skill": "build-implement",
   "path": "_concept/11_build/trace.yaml",
   "artifact": "a-11_build",
@@ -288,7 +297,7 @@
   "in_produces": true
  },
  {
-  "id": "w-33",
+  "id": "w-34",
   "skill": "quality-e2e",
   "path": "_concept/11_build/acceptance-criteria/",
   "artifact": "a-11_build",
@@ -297,7 +306,7 @@
   "in_produces": true
  },
  {
-  "id": "w-34",
+  "id": "w-35",
   "skill": "quality-review",
   "path": "_concept/11_build/acceptance-criteria/",
   "artifact": "a-11_build",
@@ -306,7 +315,7 @@
   "in_produces": true
  },
  {
-  "id": "w-35",
+  "id": "w-36",
   "skill": "quality-review",
   "path": "_concept/11_build/reviews/",
   "artifact": "a-11_build",
@@ -315,7 +324,7 @@
   "in_produces": true
  },
  {
-  "id": "w-36",
+  "id": "w-37",
   "skill": "quality-release",
   "path": "_concept/11_build/release.yaml",
   "artifact": "a-11_build",
@@ -324,7 +333,16 @@
   "in_produces": true
  },
  {
-  "id": "w-37",
+  "id": "w-38",
+  "skill": "quality-interaction",
+  "path": "_concept/11_build/interaction.yaml",
+  "artifact": "a-11_build",
+  "at": "skills/quality-interaction/SKILL.md:80",
+  "quote": "**Write the verdict** to `_concept/11_build/interaction.yaml`",
+  "in_produces": true
+ },
+ {
+  "id": "w-39",
   "skill": "quality-standards",
   "path": "_concept/02_grounding/standards/",
   "artifact": "a-02_grounding",
@@ -333,16 +351,16 @@
   "in_produces": true
  },
  {
-  "id": "w-38",
+  "id": "w-40",
   "skill": "ops-review",
   "path": null,
   "artifact": null,
-  "at": "skills/ops-review/SKILL.md:33",
+  "at": "skills/ops-review/SKILL.md:35",
   "quote": "never written to disk",
   "in_produces": false
  },
  {
-  "id": "w-39",
+  "id": "w-41",
   "skill": "build-scaffold",
   "path": null,
   "artifact": null,
@@ -351,7 +369,7 @@
   "in_produces": false
  },
  {
-  "id": "w-40",
+  "id": "w-42",
   "skill": "build-database",
   "path": null,
   "artifact": null,
@@ -360,7 +378,7 @@
   "in_produces": false
  },
  {
-  "id": "w-41",
+  "id": "w-43",
   "skill": "build-branch",
   "path": null,
   "artifact": null,
@@ -369,7 +387,7 @@
   "in_produces": false
  },
  {
-  "id": "w-42",
+  "id": "w-44",
   "skill": "quality-test",
   "path": null,
   "artifact": null,
@@ -378,7 +396,7 @@
   "in_produces": false
  },
  {
-  "id": "w-43",
+  "id": "w-45",
   "skill": "skaileup",
   "path": null,
   "artifact": null,

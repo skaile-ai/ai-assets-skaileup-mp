@@ -382,7 +382,7 @@
   "id": "build-plan",
   "dir": "build-plan",
   "domain": "build",
-  "lines": 110,
+  "lines": 118,
   "steps": 8,
   "description": "Use when a frozen feature spec needs breaking into buildable work — cuts the feature into vertical slices, gives each its blocking edges, and writes one slice dossier per slice. Triggers on 'plan this feature', 'break it into slices', 'what do we build first'.",
   "requires": [
@@ -390,7 +390,8 @@
    "screens",
    "techstack",
    "datamodel",
-   "standards"
+   "standards",
+   "interaction-review"
   ],
   "produces": [
    {
@@ -407,35 +408,41 @@
     "path": "_concept/05_features",
     "gate": "hard",
     "min_entries": 1,
-    "at": "skills/build-plan/SKILL.md:20"
+    "at": "skills/build-plan/SKILL.md:21"
    },
    {
     "path": "_concept/07_screens",
     "gate": "soft",
     "min_entries": 1,
-    "at": "skills/build-plan/SKILL.md:21"
+    "at": "skills/build-plan/SKILL.md:22"
    },
    {
     "path": "_concept/10_blueprint/techstack.md",
     "gate": "soft",
     "min_entries": null,
-    "at": "skills/build-plan/SKILL.md:22"
+    "at": "skills/build-plan/SKILL.md:23"
    },
    {
     "path": "_concept/10_blueprint/datamodel",
     "gate": "soft",
     "min_entries": null,
-    "at": "skills/build-plan/SKILL.md:23"
+    "at": "skills/build-plan/SKILL.md:24"
    },
    {
     "path": "_concept/02_grounding/standards/index.yml",
     "gate": "soft",
     "min_entries": null,
-    "at": "skills/build-plan/SKILL.md:24"
+    "at": "skills/build-plan/SKILL.md:25"
+   },
+   {
+    "path": "_concept/11_build/interaction.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/build-plan/SKILL.md:26"
    }
   ],
   "hard_n": 1,
-  "soft_n": 4,
+  "soft_n": 5,
   "inputs_optional": [],
   "contracts": [
    "c-acceptance_criteria",
@@ -444,7 +451,7 @@
    "c-slice_loop"
   ],
   "contracts_n": 4,
-  "question_steps": 1,
+  "question_steps": 2,
   "glossary_mentions": 1,
   "flows": [
    "appbuilder-mvp",
@@ -790,9 +797,9 @@
   "id": "concept-reverse",
   "dir": "concept-reverse",
   "domain": "concept",
-  "lines": 103,
+  "lines": 118,
   "steps": 6,
-  "description": "Use when a repository already exists and the concept has to be extracted from it rather than designed. Reads the routes, screens, schema, stack, brand and docs, and writes what the code actually says as graded findings the owning skills seed from. Triggers on 'reverse engineer this project', 'extract the concept from this codebase', 'document this existing app'.",
+  "description": "Use when a repository already exists and the concept has to be extracted from it rather than designed. Reads the routes, screens, schema, stack, brand, interaction surfaces and docs, and writes what the code actually says as graded findings the owning skills seed from. Triggers on 'reverse engineer this project', 'extract the concept from this codebase', 'document this existing app'.",
   "requires": [
    "scope"
   ],
@@ -819,10 +826,11 @@
   "contracts": [
    "c-artifact_frontmatter",
    "c-concept_structure",
-   "c-semantic_types"
+   "c-semantic_types",
+   "c-ui_detection"
   ],
-  "contracts_n": 3,
-  "question_steps": 1,
+  "contracts_n": 4,
+  "question_steps": 2,
   "glossary_mentions": 0,
   "flows": [
    "skaileup-concept-reverse"
@@ -1034,6 +1042,83 @@
   ]
  },
  {
+  "id": "experience-interaction",
+  "dir": "experience-interaction",
+  "domain": "experience",
+  "lines": 98,
+  "steps": 8,
+  "description": "Use when the glossary and the data model exist and the app's interaction rules are not written down yet — where information lives, one editor per object, inline vs modal vs page, saving, messages, popups, buttons, search and command palette — or when a code check has proposed changes to them. Decides the rules per object type with the user and writes APP-DESIGN.md. Triggers on 'write the app design', 'APP-DESIGN.md', 'when do we use a modal', 'UI rules for this app', 'interaction decisions'.",
+  "requires": [
+   "glossary",
+   "journeys",
+   "datamodel"
+  ],
+  "produces": [
+   {
+    "id": "app-design",
+    "path": "APP-DESIGN.md"
+   }
+  ],
+  "prereqs": [
+   {
+    "path": "_concept/glossary.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/experience-interaction/SKILL.md:17"
+   },
+   {
+    "path": "_concept/10_blueprint/datamodel/",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/experience-interaction/SKILL.md:18"
+   },
+   {
+    "path": "_concept/04_journeys/stories.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/experience-interaction/SKILL.md:19"
+   },
+   {
+    "path": "_concept/02_grounding/findings/interaction.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/experience-interaction/SKILL.md:20"
+   },
+   {
+    "path": "_concept/11_build/interaction.yaml",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/experience-interaction/SKILL.md:21"
+   },
+   {
+    "path": "APP-DESIGN.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/experience-interaction/SKILL.md:14"
+   }
+  ],
+  "hard_n": 1,
+  "soft_n": 5,
+  "inputs_optional": [],
+  "contracts": [
+   "c-agent_patterns",
+   "c-app_design",
+   "c-interaction_patterns",
+   "c-ui_detection"
+  ],
+  "contracts_n": 4,
+  "question_steps": 2,
+  "glossary_mentions": 7,
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-only",
+   "skaileup-concept-reverse"
+  ],
+  "phase": "conceptualization",
+  "findings_n": 0,
+  "findings": []
+ },
+ {
   "id": "experience-journeys",
   "dir": "experience-journeys",
   "domain": "experience",
@@ -1107,7 +1192,7 @@
   "id": "experience-shell",
   "dir": "experience-shell",
   "domain": "experience",
-  "lines": 83,
+  "lines": 91,
   "steps": 7,
   "description": "Use when the screens are specified (or, on an existing codebase, recorded in the findings) and the app needs its frame — navigation, layout areas, breakpoints, and the patterns every screen reuses. Triggers on 'app shell', 'navigation structure', 'what does the layout look like', 'design the frame'.",
   "requires": [
@@ -1116,7 +1201,8 @@
    "journeys",
    "brand-tokens",
    "screens",
-   "grounding-findings"
+   "grounding-findings",
+   "app-design"
   ],
   "produces": [
    {
@@ -1129,49 +1215,56 @@
     "path": "_concept/brief.md",
     "gate": "hard",
     "min_entries": null,
-    "at": "skills/experience-shell/SKILL.md:20"
+    "at": "skills/experience-shell/SKILL.md:21"
    },
    {
     "path": "_concept/05_features",
     "gate": "hard",
     "min_entries": 1,
-    "at": "skills/experience-shell/SKILL.md:21"
+    "at": "skills/experience-shell/SKILL.md:22"
    },
    {
     "path": "_concept/07_screens",
     "gate": "soft",
     "min_entries": 1,
-    "at": "skills/experience-shell/SKILL.md:17"
+    "at": "skills/experience-shell/SKILL.md:18"
    },
    {
     "path": "_concept/02_grounding/findings",
     "gate": "soft",
     "min_entries": null,
-    "at": "skills/experience-shell/SKILL.md:23"
+    "at": "skills/experience-shell/SKILL.md:24"
    },
    {
     "path": "_concept/04_journeys/stories.yaml",
     "gate": "soft",
     "min_entries": null,
-    "at": "skills/experience-shell/SKILL.md:24"
+    "at": "skills/experience-shell/SKILL.md:25"
    },
    {
     "path": "_concept/03_brand/tokens.json",
     "gate": "soft",
     "min_entries": null,
-    "at": "skills/experience-shell/SKILL.md:25"
+    "at": "skills/experience-shell/SKILL.md:26"
+   },
+   {
+    "path": "APP-DESIGN.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/experience-shell/SKILL.md:27"
    }
   ],
   "hard_n": 2,
-  "soft_n": 4,
+  "soft_n": 5,
   "inputs_optional": [],
   "contracts": [
    "c-artifact_frontmatter",
    "c-concept_structure",
    "c-elements_block",
+   "c-interaction_patterns",
    "c-walkthrough_renderer"
   ],
-  "contracts_n": 4,
+  "contracts_n": 5,
   "question_steps": 1,
   "glossary_mentions": 0,
   "flows": [
@@ -1417,15 +1510,16 @@
   "id": "ops-review",
   "dir": "ops-review",
   "domain": "ops",
-  "lines": 98,
-  "steps": 8,
+  "lines": 108,
+  "steps": 9,
   "description": "Use when _concept/ needs a health check, its cross-references have drifted, or you want to know whether every feature is actually built and shipped. Produces the review verdict and a build-coverage matrix read from the trace, each finding naming the skill that fixes it. Triggers on 'audit the concept', 'check for issues', 'fix the links', 'is every feature done', 'what code belongs to no feature'.",
   "requires": [
    "brief",
    "features",
    "screens",
    "datamodel",
-   "trace"
+   "trace",
+   "app-design"
   ],
   "produces": [],
   "prereqs": [
@@ -1433,35 +1527,41 @@
     "path": "_concept/brief.md",
     "gate": "hard",
     "min_entries": null,
-    "at": "skills/ops-review/SKILL.md:18"
+    "at": "skills/ops-review/SKILL.md:19"
    },
    {
     "path": "_concept/05_features",
     "gate": "soft",
     "min_entries": 1,
-    "at": "skills/ops-review/SKILL.md:19"
+    "at": "skills/ops-review/SKILL.md:20"
    },
    {
     "path": "_concept/11_build/slices",
     "gate": "soft",
     "min_entries": null,
-    "at": "skills/ops-review/SKILL.md:20"
+    "at": "skills/ops-review/SKILL.md:21"
    },
    {
     "path": "_concept/11_build/trace.yaml",
     "gate": "soft",
     "min_entries": null,
-    "at": "skills/ops-review/SKILL.md:21"
+    "at": "skills/ops-review/SKILL.md:22"
    },
    {
     "path": "_concept/10_blueprint/datamodel",
     "gate": "soft",
     "min_entries": null,
-    "at": "skills/ops-review/SKILL.md:22"
+    "at": "skills/ops-review/SKILL.md:23"
+   },
+   {
+    "path": "APP-DESIGN.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/ops-review/SKILL.md:24"
    }
   ],
   "hard_n": 1,
-  "soft_n": 4,
+  "soft_n": 5,
   "inputs_optional": [],
   "contracts": [
    "c-acceptance_criteria",
@@ -1469,11 +1569,12 @@
    "c-concept_structure",
    "c-evaluator",
    "c-feedback_loop",
-   "c-golden_principles"
+   "c-golden_principles",
+   "c-interaction_patterns"
   ],
-  "contracts_n": 6,
+  "contracts_n": 7,
   "question_steps": 0,
-  "glossary_mentions": 2,
+  "glossary_mentions": 3,
   "flows": [
    "appbuilder-standard",
    "skaileup-concept-only",
@@ -1551,6 +1652,56 @@
    "F37",
    "F39"
   ]
+ },
+ {
+  "id": "quality-interaction",
+  "dir": "quality-interaction",
+  "domain": "quality",
+  "lines": 109,
+  "steps": 9,
+  "description": "Use when an app's code exists and its interaction decisions are written down in APP-DESIGN.md — checks the code against them entry by entry and type by type, counts violations and exemplars per rule, and writes the ordered changes that close them. Triggers on 'check the app against APP-DESIGN.md', 'does the UI follow our patterns', 'interaction review', 'where do we still break the rules'.",
+  "requires": [
+   "app-design"
+  ],
+  "produces": [
+   {
+    "id": "interaction-review",
+    "path": "_concept/11_build/interaction.yaml"
+   }
+  ],
+  "prereqs": [
+   {
+    "path": "APP-DESIGN.md",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/quality-interaction/SKILL.md:15"
+   },
+   {
+    "path": "package.json",
+    "gate": "hard",
+    "min_entries": null,
+    "at": "skills/quality-interaction/SKILL.md:16"
+   }
+  ],
+  "hard_n": 2,
+  "soft_n": 0,
+  "inputs_optional": [],
+  "contracts": [
+   "c-app_design",
+   "c-evaluator",
+   "c-interaction_patterns",
+   "c-ui_detection"
+  ],
+  "contracts_n": 4,
+  "question_steps": 2,
+  "glossary_mentions": 1,
+  "flows": [
+   "appbuilder-standard",
+   "skaileup-concept-reverse"
+  ],
+  "phase": "review",
+  "findings_n": 0,
+  "findings": []
  },
  {
   "id": "quality-release",
@@ -1797,7 +1948,7 @@
   "id": "spec-feature",
   "dir": "spec-feature",
   "domain": "spec",
-  "lines": 135,
+  "lines": 140,
   "steps": 9,
   "description": "Use when one feature needs its permanent spec — grills the user, draws the in/out line, then writes the feature spec and every screen it needs. Triggers on 'spec this feature', 'design a new feature', 'lock down acceptance criteria', 'what is in vs out'.",
   "requires": [
@@ -1806,7 +1957,8 @@
    "journeys",
    "brand-tokens",
    "datamodel",
-   "glossary"
+   "glossary",
+   "app-design"
   ],
   "produces": [
    {
@@ -1831,38 +1983,45 @@
     "path": "_concept/01_meta/scope.yaml",
     "gate": "hard",
     "min_entries": null,
-    "at": "skills/spec-feature/SKILL.md:23"
+    "at": "skills/spec-feature/SKILL.md:24"
    },
    {
     "path": "_concept/brief.md",
     "gate": "hard",
     "min_entries": null,
-    "at": "skills/spec-feature/SKILL.md:24"
+    "at": "skills/spec-feature/SKILL.md:25"
    },
    {
     "path": "_concept/glossary.md",
     "gate": "hard",
     "min_entries": null,
-    "at": "skills/spec-feature/SKILL.md:25"
+    "at": "skills/spec-feature/SKILL.md:26"
    },
    {
     "path": "_concept/04_journeys/stories.yaml",
     "gate": "soft",
     "min_entries": null,
-    "at": "skills/spec-feature/SKILL.md:26"
+    "at": "skills/spec-feature/SKILL.md:27"
    },
    {
     "path": "_concept/10_blueprint/datamodel",
     "gate": "soft",
     "min_entries": null,
-    "at": "skills/spec-feature/SKILL.md:27"
+    "at": "skills/spec-feature/SKILL.md:28"
+   },
+   {
+    "path": "APP-DESIGN.md",
+    "gate": "soft",
+    "min_entries": null,
+    "at": "skills/spec-feature/SKILL.md:29"
    }
   ],
   "hard_n": 3,
-  "soft_n": 2,
+  "soft_n": 3,
   "inputs_optional": [],
   "contracts": [
    "c-acceptance_criteria",
+   "c-app_design",
    "c-artifact_frontmatter",
    "c-concept_structure",
    "c-domain_model",
@@ -1870,7 +2029,7 @@
    "c-feedback_loop",
    "c-slice_loop"
   ],
-  "contracts_n": 7,
+  "contracts_n": 8,
   "question_steps": 6,
   "glossary_mentions": 6,
   "flows": [
