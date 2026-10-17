@@ -73,7 +73,8 @@ Siblings, in `references/`:
   skill that writes nothing under `_concept/` says `produces: []`. The only path allowed
   outside `_concept/` is the named project-root artifact `APP-DESIGN.md` (ADR 0015, the
   `PROJECT_ROOT_ARTIFACTS` set in `scripts/check.py`). `scripts/check.py`
-  enforces all three; the host's node done-state read is `host:node-done-from-produced-by`.
+  enforces all three; the host's node done-state read is `host:node-done-from-produces`: a
+  node is done when every non-templated path in the list exists.
 - **A `soft` gate renders nowhere** — it is excluded from `satisfied` and never warned on. If
   its absence changes what the skill does, the step says so; the frontmatter alone tells the
   human nothing.

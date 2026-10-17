@@ -454,12 +454,12 @@ def _check_produces(
     if not isinstance(produces, list):
         rep.error(
             where,
-            "has no `metadata.artifacts.produces` list — it is the declaration {host}'s node "
-            "done-state read has to switch to; write `produces: []` for a skill that writes "
+            "has no `metadata.artifacts.produces` list — {host} reads it to decide when the "
+            "node is done; write `produces: []` for a skill that writes "
             "nothing under `_concept/`" if produces is None else
             f"`metadata.artifacts.produces` is a {type(produces).__name__}, not a list of "
-            "`{ id, path }` entries — {host}'s node done-state read has to switch to it",
-            fact="host:node-done-from-produced-by",
+            "`{ id, path }` entries — {host} reads it to decide when the node is done",
+            fact="host:node-done-from-produces",
             rule="skill-declares-what-it-produces",
         )
         return set()
@@ -473,7 +473,7 @@ def _check_produces(
             rep.error(
                 where,
                 f"{label} must be a map with a string `id` and a string `path`, got {entry!r}",
-                fact="host:node-done-from-produced-by",
+                fact="host:node-done-from-produces",
                 rule="skill-declares-what-it-produces",
             )
             continue

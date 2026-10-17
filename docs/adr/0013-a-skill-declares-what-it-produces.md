@@ -84,3 +84,11 @@ to change eventually either way.
 `check.py`'s `PROJECT_ROOT_ARTIFACTS` — today `APP-DESIGN.md` at the project root, written by
 `experience-interaction`. A host that reads `produces` must join that path to the project
 root, not to `_concept/`.
+
+**Host dependency resolved** (2026-10-18). skaile-forge reads `produces` directly:
+`server/utils/skill-produces.ts` (`isNodeFileComplete`) counts a node as done when every
+non-templated path in its skill's list exists, and joins `APP-DESIGN.md` to the project root.
+`artifact-contract.ts` and its `produced_by` read are gone. The `host_facts.py` row is now
+`host:node-done-from-produces`, anchored on the new read. The change was made on forge's
+`feat/cfc-concept-formats-cutover` branch; the row is correct for forge `main` once that
+branch is merged.
