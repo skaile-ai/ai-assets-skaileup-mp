@@ -465,6 +465,21 @@ def test_skill_whose_every_output_is_not_grown_is_not_held_to_its_own_gates(tmp_
     assert errors(root) == []
 
 
+def test_skill_with_one_output_the_profile_grows_is_held_to_its_gates(tmp_path):
+    """`spec-feature` writes `brief` and screens; the profile still grows `brief`, so it runs."""
+    root = not_grown_repo(tmp_path)
+    set_produces(root, SCREENS + '      - { id: brief, path: "_concept/brief.md" }\n')
+    write_profile(root, "api-service", ["screens"])
+    only(root, "has a `hard` prerequisite on '_concept/07_screens'")
+
+
+def test_skill_that_writes_nothing_is_held_to_its_gates(tmp_path):
+    root = not_grown_repo(tmp_path)
+    set_produces(root, "    produces: []\n")
+    write_profile(root, "api-service", ["screens"])
+    only(root, "has a `hard` prerequisite on '_concept/07_screens'")
+
+
 # -- hard gates need a writer upstream ---------------------------------------
 
 def gate_flow(first: str, second: str) -> dict:

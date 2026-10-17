@@ -96,8 +96,8 @@ which checks their citations before using them.
    exemplars:
      - { rule: P5, ref: "app/b.vue:30-52" }
    changes:
-     - { id: C-1, kind: systemic, title: "…", covers: [V-1], files: [app/a.vue], status: open }
-   coverage: { V-1: C-1, V-2: "accepted: E-1" }   # a change id, or a proposed exception id
+     - { id: C-1, kind: systemic, title: "…", covers: [V-1], files: [app/a.vue], status: open }   # kind: systemic | per-type
+   coverage: { V-1: C-1, V-2: "proposed: E-1" }   # a change id, or a proposed exception id
    proposed_exceptions: [{ id: E-1, entry: BTN-4, reason: "…", covers: [V-2] }]
    questions: [{ id: Q-1, entry: OBJ-3, question: "…", evidence: "app/c.vue:9" }]
    unread: ["app/legacy/**: 40 files, sampled by grep"]

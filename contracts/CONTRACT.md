@@ -8,7 +8,7 @@ metadata:
 
 # shared-contracts
 
-**Do not invoke.** This file is the manifest, not the content: it exists so the thirteen
+**Do not invoke.** This file is the manifest, not the content: it exists so the sixteen
 contract files beside it install as one dir-scoped asset (`.claude/contracts/shared-contracts/`)
 instead of being invisible to discovery.
 

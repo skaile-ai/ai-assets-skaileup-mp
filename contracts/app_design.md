@@ -105,8 +105,8 @@ One bullet per decision — imperative, applicable in a pull request without ope
   its reason.
 - **Status:** an entry is decided unless it carries `[open Qn]`; the question and its
   recommended answer are in § Open. A § Open row stands alone — question, options,
-  recommendation and its reason — without pointing to a run's `questions.md`, because the
-  person who answers it may never see that file; an empty § Open says "No open questions."
+  recommendation and its reason — because the person who answers it may never see the run
+  that raised it; an empty § Open says "No open questions."
   A rule adopted unchanged is decided by adoption and needs no question; `[open Qn]` marks
   an entry that rests on a question asked and not yet answered. Every citation in the file
   passes `contracts/ui_detection.md § Verifying citations`, like any artifact.
@@ -158,7 +158,8 @@ How a reader applies what it reads:
   reasonable maintainer could make the other way — carry `[open Qn]`; the file does not
   present an unconfirmed choice as decided. A default that adopts a rule or records what the
   code does and passes is decided by adoption and carries none. New questions take the next
-  number after the highest `Qn` the file has ever used, § Changelog included; the run's
-  `questions.md` uses the same ids.
+  number after the highest `Qn` the file has ever used, § Changelog included.
+  `quality-interaction`'s verdict lists its open questions under `questions:`, and
+  `experience-interaction` asks them in its next round as new `Qn`.
 - **Every write** adds one § Changelog line and sets `updated:`; `approved:` moves only
   when the user signs the write off.

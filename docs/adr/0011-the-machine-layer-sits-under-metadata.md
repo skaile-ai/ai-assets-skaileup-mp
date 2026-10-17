@@ -74,5 +74,5 @@ recorded in the map's forge-concept register as the successor effort's cheapest 
 
 **Project-root artifacts amended by [ADR 0015](0015-interaction-decisions-live-in-app-design.md)**
 (2026-10-17). A declared or produced path may also be a project-root artifact named in
-`check.py`'s `PROJECT_ROOT_ARTIFACTS` — today `APP-DESIGN.md` alone. Every other path still
-starts with `_concept/`.
+`check.py`'s `PROJECT_ROOT_ARTIFACTS` — today `APP-DESIGN.md` alone. Every other path starts
+with `_concept/` or is a named `PROJECT_ROOT_PREREQUISITES` gate.

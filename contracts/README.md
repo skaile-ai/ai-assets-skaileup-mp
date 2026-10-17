@@ -31,7 +31,7 @@ gates both directions.
 | `agent_patterns.md` | Any skill that asks the user, dispatches a subagent or runs outside a flow — question shape, todo seeding, dispatch and status codes, next-step suggestion, completion summary |
 | `evaluator.md` | `quality-review`, `quality-release` and `ops-review` — the shared adversarial stance, the four-level severity with its blocking boundary, and the three-tier verdict grammar the three verdict artifacts share |
 | `interaction_patterns.md` | `experience-interaction`, `quality-interaction`, `ops-review`, `spec-feature` and `experience-shell` — the P1–P17 rulebook and how findings are recorded |
-| `app_design.md` | The same five plus `build-plan` — the shape of `APP-DESIGN.md`, its entries, and the rules for reading and writing it (one writer: `experience-interaction`) |
+| `app_design.md` | The same five — the shape of `APP-DESIGN.md`, its entries, and the rules for reading and writing it (one writer: `experience-interaction`) |
 | `ui_detection.md` | `concept-reverse` and `quality-interaction` — where screens, editors and finders sit per stack, and the citation check |
 
 ## What is not here

@@ -21,13 +21,14 @@ root, and coding agents and the global skills look for it there.
 
 Two facts stop a straight reuse. This collection never calls the global skills — ADR 0012 lets
 five foreign skills stay global and gate-checked, and these are not among them — so a
-dependence would be an unchecked one. And the global skills coin names: an object class is
+dependence would be an unchecked one. And the global skills coin names: an object type is
 named from the conversation, where this collection reads entity names from the data model and
 the glossary.
 
-The placement is the sharper problem. ADR 0011 requires every declared path to start with
-`_concept/`, and ADR 0013 requires every `produces` path to appear in the tree fence. An
-interaction record at the project root satisfies neither.
+The placement is the sharper problem. ADR 0011 requires every declared path outside
+`PROJECT_ROOT_PREREQUISITES` (`package.json`) to start with `_concept/`, and ADR 0013
+requires every `produces` path to appear in the tree fence. An interaction record at the
+project root satisfies neither.
 
 ## Decision
 
@@ -47,11 +48,12 @@ side by side without a collision. The fork is deliberate: it drifts on its own l
 a change to either side is not a defect in the other.
 
 **One writer.** `experience-interaction` plans interaction and is the only skill that writes
-`APP-DESIGN.md`. `quality-interaction` checks `src/` against it and writes its own verdict,
-`_concept/11_build/interaction.yaml`; it never edits `APP-DESIGN.md`. A contested item goes
+`APP-DESIGN.md`. `quality-interaction` checks the app's source (`src/` or the stack's own
+roots) against it and writes its own verdict, `_concept/11_build/interaction.yaml`; it never
+edits `APP-DESIGN.md`. A contested item goes
 back to `experience-interaction`, which decides.
 
-**Names are read, never coined.** Object classes take their names from `model.json` and
+**Names are read, never coined.** Object types take their names from `model.json` and
 `glossary.md`. Pattern P13 (naming) points at `_concept/glossary.md`; a concept with no term
 goes back to `concept-glossary` (ADR 0014).
 
@@ -80,7 +82,8 @@ for a standing maintenance obligation.
   `concept-reverse`, the census of how the code behaves today) and
   `11_build/interaction.yaml` (written by `quality-interaction`).
 - `CONTEXT.md` gains the terms the planning skill and the check share: App design, Object
-  class, Floorplan, Surface, Representation.
+  type, Floorplan, Surface, Representation.
+- `APP-DESIGN.md` also joins `PROJECT_ROOT_PREREQUISITES`, so skills may gate on it.
 - The five-skill foreign list (ADR 0012) is unchanged; the forked contracts are ordinary
   contract files and obey ADR 0004 — each is read at a step in a body.
 - **Existing projects are not migrated.** A project that already has an `APP-DESIGN.md` from

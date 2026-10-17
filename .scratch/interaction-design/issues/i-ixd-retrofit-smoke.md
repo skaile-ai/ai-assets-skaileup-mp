@@ -10,7 +10,7 @@
 
 - [x] `findings/interaction.md`, `APP-DESIGN.md` and `11_build/interaction.yaml` produced in the temp copy; every `file:line` passes the `ui_detection.md` citation check.
 - [x] Every core type has a floorplan row; every unanswered choice is `[open Qn]` with a § Open row.
-- [x] The verdict has a score, ordered changes and a coverage table that maps every violation to a change or `accepted`.
+- [x] The verdict has a score, ordered changes and a coverage table that maps every violation to a change or a proposed exception.
 - [x] Skill or contract fixes from the run are committed; the resolution lists them; no temp files remain.
 - [x] `python3 scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
 

@@ -182,26 +182,26 @@ like. One per project, decided once and cited by every screen, so the app behave
 thing rather than as the sum of its screens.
 _Avoid_: UX guidelines, style guide, design system (that is visual, not behavioural)
 
-**Object class**:
-A kind of thing users see and act on — an order, a customer, an invoice — named from the
-data model and the glossary, never coined. The unit that app design decides things for:
-each object class has its own place for information, editor and representations.
-_Avoid_: entity (that is the data model's word for the stored thing), resource, model
+**Object type**:
+A kind of thing users see and act on — an order, a customer, an invoice. The unit that app
+design decides things for: each object type has its own place for information, editor and
+representations.
+_Avoid_: object class (the rulebook uses *class* for core/supporting/child/junction/system),
+entity (that is the data model's word for the stored thing), resource, model
 
 **Floorplan**:
-The map of where each object class's information lives in the app, and how the rooms
-connect. Decided before any screen is specified, so a screen is placed rather than invented.
+The map of where each object type's information lives in the app, and how the rooms
+connect.
 _Avoid_: sitemap, navigation tree, IA
 
 **Surface**:
 A place information appears or is edited — a page, a panel, a modal, a popover, an inline
-field. App design assigns each object class's views and edits to surfaces, and a screen
-uses the surface it was assigned.
+field. App design assigns each object type's views and edits to surfaces.
 _Avoid_: container, view, widget
 
 **Representation**:
-One way an object class is shown — a row, a card, a chip, a detail view, a table cell.
-The same object class has several; app design fixes which appears where, so the same thing
+One way an object type is shown — a row, a card, a chip, a detail view, a table cell.
+The same object type has several; app design fixes which appears where, so the same thing
 looks the same wherever it turns up.
 _Avoid_: view, display, layout
 
