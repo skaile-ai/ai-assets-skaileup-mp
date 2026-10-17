@@ -77,7 +77,13 @@ GROUNDING_USER_INPUT = "_grounding/<step>/user_input.json"
 # first segment is a real entry of the artifact tree) or if it is named here. Extend the
 # list deliberately; a project-root path cannot be verified from inside this collection,
 # because whether it exists is a fact about the scaffolded project, not about this repo.
-PROJECT_ROOT_PREREQUISITES = {"package.json"}
+PROJECT_ROOT_PREREQUISITES = {"package.json", "APP-DESIGN.md"}
+
+# The project-root files a skill may declare in `produces` (ADR 0015). Every other `produces`
+# path has to sit under `_concept/` and resolve in the tree; these name an artifact that lives
+# at the project root, the directory holding `_concept/`. A hard gate on one is held to the
+# upstream-writer rule in `_check_gate_writers` (exact match); other project-root gates are not.
+PROJECT_ROOT_ARTIFACTS = {"APP-DESIGN.md"}
 
 # Skills this collection calls but does not ship (migration map, premise 6). Axis is
 # the upstream frontmatter: "user" = disable-model-invocation: true, reachable only by
@@ -439,7 +445,8 @@ def _check_produces(
 
     Returns the ids it declares well-formed. The list is mandatory (`[]` for a skill that
     writes nothing under `_concept/`), each entry names a kebab-case `id` and a `path` that
-    starts with `_concept/` and resolves against the contract's tree (ADR 0013)."""
+    starts with `_concept/` and resolves against the contract's tree (ADR 0013), or names a
+    project-root artifact in PROJECT_ROOT_ARTIFACTS (ADR 0015)."""
     block = _artifacts_block(fm)
     produces = block.get("produces") if block is not None else None
     if not isinstance(produces, list):
@@ -472,8 +479,14 @@ def _check_produces(
             rep.error(where, f"{label} id {ident!r} is not kebab-case — it is the id other skills name in `artifacts.requires`")
         else:
             ids.add(ident)
+        if path in PROJECT_ROOT_ARTIFACTS:
+            continue
         if not path.startswith(ARTIFACT_ROOT + "/"):
-            rep.error(where, f"{label} path {path!r} does not start with {ARTIFACT_ROOT + '/'!r}")
+            rep.error(
+                where,
+                f"{label} path {path!r} does not start with {ARTIFACT_ROOT + '/'!r} and is not one of "
+                f"the named project-root artifacts ({', '.join(sorted(PROJECT_ROOT_ARTIFACTS))})",
+            )
             continue
         segments = [s for s in path[len(ARTIFACT_ROOT) + 1:].split("/") if s]
         if not segments:
@@ -1433,7 +1446,8 @@ def _check_gate_writers(
     that lies on a path from `entry` to the node along `type: flow` edges, the node itself
     excluded — a node later in the run, or on a branch that never reaches it, writes too late.
     A writer's `produces[].path` meets the gate when the two are equal or one is a directory
-    prefix of the other, a placeholder segment matching any one. Paths outside `_concept/`
+    prefix of the other, a placeholder segment matching any one. A project-root artifact named
+    in PROJECT_ROOT_ARTIFACTS is matched by exact path; other paths outside `_concept/`
     (the named project-root gates) are the project's, not a node's, and are not held to this.
     A node unreachable from `entry` is reported by `_check_reachability` and skipped here."""
     entry = flow.get("entry")
@@ -1486,9 +1500,12 @@ def _check_gate_writers(
             if item.get("gate") != "hard":
                 continue
             gate = str(item["path"]).lstrip("/")
-            if not gate.startswith(ARTIFACT_ROOT + "/"):
+            root_artifact = gate in PROJECT_ROOT_ARTIFACTS
+            if not gate.startswith(ARTIFACT_ROOT + "/") and not root_artifact:
                 continue
-            if any(_paths_overlap(gate, path) for path in written):
+            if any(
+                path == gate if root_artifact else _paths_overlap(gate, path) for path in written
+            ):
                 continue
             rep.error(
                 where,

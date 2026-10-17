@@ -70,7 +70,9 @@ Siblings, in `references/`:
   name in `artifacts.requires` (every required id must be produced by some skill), and
   `path` starts with `_concept/` and sits in `concept_structure.md`'s fenced tree — a file, a
   directory with a trailing slash, or a pattern with the tree's `<placeholder>` segments. A
-  skill that writes nothing under `_concept/` says `produces: []`. `scripts/check.py`
+  skill that writes nothing under `_concept/` says `produces: []`. The only path allowed
+  outside `_concept/` is the named project-root artifact `APP-DESIGN.md` (ADR 0015, the
+  `PROJECT_ROOT_ARTIFACTS` set in `scripts/check.py`). `scripts/check.py`
   enforces all three; the host's node done-state read is `host:node-done-from-produced-by`.
 - **A `soft` gate renders nowhere** — it is excluded from `satisfied` and never warned on. If
   its absence changes what the skill does, the step says so; the frontmatter alone tells the

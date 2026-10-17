@@ -6,10 +6,12 @@
 
 **Blocked by:** i-ixd-adr-app-design
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] `produces: [{ id: app-design, path: "APP-DESIGN.md" }]` passes; `path: "NOTES.md"` is an error naming the allowed set.
-- [ ] A hard `APP-DESIGN.md` prerequisite with no upstream writer in a flow yields exactly one gate-writers error; with a writer upstream, none.
-- [ ] Three fixtures in `scripts/test_check.py` in the existing style, failing before the change and passing after it.
-- [ ] `docs/skill-template.md` states the one project-root artifact beside the `produces` block.
-- [ ] `python3 scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+- [x] `produces: [{ id: app-design, path: "APP-DESIGN.md" }]` passes; `path: "NOTES.md"` is an error naming the allowed set.
+- [x] A hard `APP-DESIGN.md` prerequisite with no upstream writer in a flow yields exactly one gate-writers error; with a writer upstream, none.
+- [x] Three fixtures in `scripts/test_check.py` in the existing style, failing before the change and passing after it.
+- [x] `docs/skill-template.md` states the one project-root artifact beside the `produces` block.
+- [x] `python3 scripts/check.py` exits 0 (collection + fixtures, not `--no-tests`); every skill body ≤ 140 lines; pushed run green per the `CLAUDE.md` watch rule.
+
+**Resolution (2026-10-17):** `PROJECT_ROOT_ARTIFACTS = {"APP-DESIGN.md"}` in check.py: accepted as a `produces` path, any other root path errors naming the set; a hard gate on it is matched against upstream `produces` (package.json gates still skipped); APP-DESIGN.md added to project-root prerequisites. Four fixtures (4 of 6 root tests fail with check.py stashed). Template sentence added. check.py green, 168 fixtures.

@@ -327,6 +327,19 @@ def test_produces_path_outside_the_tree(tmp_path):
     only(root, "is not in the tree fenced in `contracts/concept_structure.md`")
 
 
+def test_produces_path_at_the_named_project_root(tmp_path):
+    """`APP-DESIGN.md` is the one artifact that lives at the project root (ADR 0015)."""
+    root = write_repo(tmp_path)
+    set_produces(root, '    produces:\n      - { id: app-design, path: "APP-DESIGN.md" }\n')
+    assert errors(root) == []
+
+
+def test_produces_path_at_the_project_root_that_is_not_named(tmp_path):
+    root = write_repo(tmp_path)
+    set_produces(root, '    produces:\n      - { id: app-design, path: "NOTES.md" }\n')
+    only(root, "is not one of the named project-root artifacts (APP-DESIGN.md)")
+
+
 @pytest.mark.parametrize(
     "path",
     [
@@ -531,6 +544,30 @@ def test_soft_gate_needs_no_upstream_writer(tmp_path):
     root = gate_repo(tmp_path, writes='    produces:\n      - { id: brief, path: "_concept/brief.md" }\n')
     set_gate(root, "spec-feature", "soft")
     write_flow(root, gate_flow("spec-feature", "zeta-producer"))
+    assert errors(root) == []
+
+
+def test_hard_root_artifact_gate_with_no_upstream_writer(tmp_path):
+    """`APP-DESIGN.md` is a project-root artifact: a hard gate on it needs a writer upstream,
+    unlike `package.json`, which is the project's."""
+    root = gate_repo(
+        tmp_path,
+        gate="APP-DESIGN.md",
+        writes='    produces:\n      - { id: brief, path: "_concept/brief.md" }\n',
+    )
+    write_flow(root, gate_flow("zeta-producer", "spec-feature"))
+    only(root, "no upstream node produces it")
+    assert "'APP-DESIGN.md'" in errors(root)[0]
+    assert "node 'b' runs skill 'spec-feature'" in errors(root)[0]
+
+
+def test_hard_root_artifact_gate_with_an_upstream_writer(tmp_path):
+    root = gate_repo(
+        tmp_path,
+        gate="APP-DESIGN.md",
+        writes='    produces:\n      - { id: app-design, path: "APP-DESIGN.md" }\n',
+    )
+    write_flow(root, gate_flow("zeta-producer", "spec-feature"))
     assert errors(root) == []
 
 
