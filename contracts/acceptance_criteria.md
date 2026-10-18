@@ -107,7 +107,8 @@ refers to it by that id.
   `02`, …
 - A criterion `spec-feature` adds that no story holds (grill-derived, or observable only
   through the service layer) takes the same shape with the feature slug as scope,
-  `AC-<feature_slug>-<nn>`, using a slug that is not a story id.
+  `AC-<feature_slug>-<nn>`, using a slug that is not a story id. The slug keeps its hyphens
+  (`AC-rechner-inputs-03`); the id still ends in `-<nn>`, so it parses from the right.
 - `experience-journeys` (step 5) assigns the ids at write time, as an `id:` on each EARS
   criterion in `stories.yaml`; `spec-feature` assigns them for the criteria it adds. No other
   skill coins an id.
