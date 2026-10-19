@@ -1,7 +1,5 @@
 name: ai-assets-skaileup-mp
 description: skaileup skill collection, rebuilt small — concept, spec, mockup, build and quality skills
-publisher: skaile-ai
-version: 0.1.0
 agent-config:
   default:
     agent: claude-code
